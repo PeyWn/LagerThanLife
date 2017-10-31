@@ -14,7 +14,7 @@ void setup_AVR(){
     // Enable A/D converter, enable interrupts for A/D converter
     ADCSRA = (1<<ADEN)|(1<<ADIE);
 
-    //Enable interrupts for UART data recieved
+    //Enable interrupts for UART data received
     UCSRB = (1<<RXCIE);
 
     //Enable global interrupts
