@@ -20,3 +20,9 @@
 
 #User Specific Files
 *.atsuo
+
+
+#Wheel control
+motor/wheel_control/wheel_control.cproj
+motor/wheel_control/wheel_control.atsln
+motor/wheel_control/Debug/*
