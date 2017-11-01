@@ -1,4 +1,5 @@
 ﻿#include <avr/io.h>
+#include "globals.h"
 
 /*
 Switch the MUXes controlling the line sensor to input and output i.
@@ -12,7 +13,7 @@ void mux_select(int i){
     get_8bits(i, bits);
 
     //Set mux control
-    PORTB = (bits[0]<<PB0)|(bits[1]<<PB1)|(bits[1]<<PB1)|(bits[1]<<PB1);
+    PORTB = (PORTB & 0b11110000) | (bits[3]<<PB3)|(bits[2]<<PB2)|(bits[1]<<PB1)|(bits[0]<<PB0);
 }
 
 /*
@@ -20,6 +21,6 @@ Sets the output to the led on the line sensor
 
 state - 1 or 0, on or off
 */
-void set_led(int state){
-    PORTB = (state<<PB4);
+void set_led(bool state){
+    PORTB = (PORTB & 0b11101111) | (state<<PB4);
 }

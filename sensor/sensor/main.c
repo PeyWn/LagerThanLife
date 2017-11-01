@@ -1,6 +1,9 @@
 #include <avr/io.h>
 #include "globals.h"
 
+//TMP include
+#include <util/delay.h>
+
 //Definitions of globals
 int line_center = 0;
 int line_state = 0;
@@ -15,15 +18,18 @@ int adc_value = 0;
 int adc_done = 0; //1 or 0
 
 int main(void)
-{
+{	
     setup_AVR();
 
-    convert_ad(DIST_L);
-
     //MAIN LOOP
-    while(1)
+    while(true)
     {
-        
+		for(int i = 0; i < 11; i++){
+			mux_select(i);
+			set_led(true);
+			_delay_ms(2000);
+			set_led(false);
+		}
     }
 }
 
