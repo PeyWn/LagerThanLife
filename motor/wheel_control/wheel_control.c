@@ -2,7 +2,7 @@
  * wheel_control.c
  *
  * Created: 10/31/2017 1:49:49 PM
- *  Author: jakno732
+ *  Author: jakno732, joael543
  */ 
 
 
@@ -18,12 +18,12 @@ int init_dir_pins(void)
 /* initialize phase correct PWM on pins OC0A and OC0B */
 int init_PWM(void)
 {
-	// TNCT0 - timer 255 max
+	// TCNT0 - timer 255 max
 	// OCR0A - compare value A (PWM)
 	// OCR0B - compare value B (PWM)
 	
 	TCCR0A = 0b11110001;	
-	TCCR0B = 0b00000001;	//no prescaling. nothin 1 since PWM
+	TCCR0B = 0b00000001;	//no pre-scaling. nothing is 1 since PWM
 
 	PORTC |= (1<<PORTC3) | (1<<PORTC4);
 
@@ -42,8 +42,24 @@ int main(void)
 	init_dir_pins();
 	init_PWM();
 	
-    while(1)
+	int counter = 0; 
+	int has_counted = 0; 
+	
+    while(1)  
     {
+		
+		if ( TCNT0 > 200 && !has_counted ){
+			has_counted = 1; 
+			counter += 1; 
+		}
+		else if ( TCNT0 < 200 ){
+			has_counted = 0; 
+		}
+		
+		if ( counter >= 100000 ){
+		
+			TIMSK0 &= ~((1<<OCIE0B)|(1<<OCIE0A));	// disable output compare interrupt
+		}
 		
     }
 	return 0;
