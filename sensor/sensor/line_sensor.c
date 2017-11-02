@@ -59,7 +59,7 @@ line_sensor_state calc_line_state(bool detected[], int sum){
 
     //Set state depending on sum and double_line
     line_sensor_state new_state;
-    if(sum == 0 && double_line){
+    if(sum == 0 || double_line){
         new_state = NONE_DOUBLE;
     }
     else if(sum >= 1 && sum <= 3){
