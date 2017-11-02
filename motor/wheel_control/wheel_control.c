@@ -54,7 +54,7 @@ int init_PWM()
 	return 0;
 }
 
-/*	check if a specified amount of seconds has passed since started counting
+/*	check if a specified amount of seconds has passed since started counting 
 	
 */
 int seconds(unsigned int seconds, unsigned int* period_counter, unsigned int* second_counter, int* has_counted){
