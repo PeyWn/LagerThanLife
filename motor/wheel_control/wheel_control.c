@@ -11,28 +11,39 @@
 
 int init_dir_pins(void)
 {
-	PORTC |=  (1 << PORTC1) | (1 << PORTC0);
+	PORTC |=  (1 << PORTC1) | (0 << PORTC0);
 	return 0;
 }
 
+
+/*set duty percentage of PWM on both wheel sides*/
+int set_PWM(float duty)
+{
+	int uptime = 255 - duty*255; //timer increments to be up
+	OCR0A = uptime;
+	OCR0B = uptime;
+}
+
+
 /* initialize phase correct PWM on pins OC0A and OC0B */
-int init_PWM(void)
+int init_PWM()
 {
 	// TCNT0 - timer 255 max
 	// OCR0A - compare value A (PWM)
 	// OCR0B - compare value B (PWM)
 	
-	TCCR0A = 0b11110001;	
+	TCCR0A = 0b11110001;	//irrelevant bits are read-only
 	TCCR0B = 0b00000001;	//no pre-scaling. nothing is 1 since PWM
 
-	PORTC |= (1<<PORTC3) | (1<<PORTC4);
-
-	OCR0A = 255;	//half low-period (downtime by test) 
-	OCR0B = 255;
+	PORTC |= (1<<PORTC3) | (0<<PORTC4);	// DIR1, DIR2 values
 
 	DDRB |= (1<<DDB3) | (1<<DDB4); // set PB3, PB4 as outputs
 
 	TIMSK0 |= (1<<OCIE0B)|(1<<OCIE0A);	// enable output compare interrupt
+	
+	
+	set_PWM(0);
+	
 	return 0;
 }
 
@@ -64,7 +75,7 @@ int seconds(unsigned int seconds, unsigned int* period_counter, unsigned int* se
 
 // f = 1/T; T=1/f; 16000 cycles > 1s
 int main(void)
-{
+{	
 	init_dir_pins();
 	init_PWM();
 	
@@ -73,11 +84,9 @@ int main(void)
 	int has_counted = 0; 
 	
 	while(!seconds(5, &period_counter, &second_counter, &has_counted));		//wait 5 sec
-	OCR0A = 100;
-	OCR0B = 100;
+	set_PWM(0.5);
 	while(!seconds(2, &period_counter, &second_counter, &has_counted));	//wait 5 sec
-	OCR0A = 255;
-	OCR0B = 255;
+	set_PWM(0);
 
     while(1)  
     {
