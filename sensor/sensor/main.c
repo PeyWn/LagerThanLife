@@ -2,6 +2,8 @@
 #include "globals.h"
 
 //TMP include
+#include <stdio.h>
+
 #define F_CPU 8000000UL
 #include <util/delay.h>
 
@@ -24,14 +26,14 @@ int main(void)
 
     setup_AVR();
 	
-	bool detected[11];
+	volatile bool detected[11];
     //MAIN LOOP
     while(true)
     {
 		for(int i = 0; i < 11; i++){
 			mux_select(i);
 			set_led(true);
-			_delay_ms(1000);
+			_delay_ms(10);
 			adc_value = convert_ad(LINE);
 			
 			if(adc_value > line_threshold[i]) {
@@ -39,9 +41,10 @@ int main(void)
 			} else {
 				detected[i] = false;
 			}
-			_delay_ms(1000);
 			set_led(false);
 		}
+		
+		printf("\n");
 		
 		// update_line_parameters(detected)
     }
