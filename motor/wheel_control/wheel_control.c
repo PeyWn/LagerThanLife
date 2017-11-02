@@ -8,6 +8,13 @@
 
 #include <avr/io.h>
 
+/*
+	todo:
+	. 16MHz/8MHz setup
+	. turn
+	. initial speed 
+	. action on command
+*/
 
 int init_dir_pins(void)
 {
