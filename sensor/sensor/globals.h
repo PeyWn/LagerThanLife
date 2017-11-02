@@ -8,6 +8,9 @@ typedef int bool;
 //Define enum for sources to ad converter
 typedef enum {LINE, DIST_R, DIST_L} ad_source;
 
+//Enum for the state of line detection
+typedef enum {NONE_DOUBLE, SINGLE, CORNER} line_sensor_state;
+
 //Values for last sensor values
 extern int line_center;
 extern int line_state;
