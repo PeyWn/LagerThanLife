@@ -7,7 +7,7 @@
 
 //Definitions of globals
 int line_center = 0;
-int line_state = 0;
+line_sensor_state line_state = 0;
 int ware_seen[2] = {0,0};
 
 int line_value[11];
@@ -20,10 +20,11 @@ volatile bool adc_done = 0; //1 or 0
 
 int main(void)
 {	
+    run_tests();
 
     setup_AVR();
 	
-		bool detected[11];
+	bool detected[11];
     //MAIN LOOP
     while(true)
     {

@@ -13,7 +13,7 @@ typedef enum {NONE_DOUBLE, SINGLE, CORNER} line_sensor_state;
 
 //Values for last sensor values
 extern int line_center;
-extern int line_state;
+extern line_sensor_state line_state;
 extern bool ware_seen[];
 
 //Values for calibration

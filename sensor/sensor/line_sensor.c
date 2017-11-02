@@ -26,25 +26,6 @@ void set_led(bool state){
 }
 
 /*
-Update line sensor parameters line_state and line_sensor based on a
-new sensor reading.
-
-detected - 11 long array signaling wheter line sensor i detects line
-*/
-void update_line_parameters(bool[] detected){
-    int sum;
-
-    //Iterate to calculate sum of detecting sensors
-    for(int i = 0; i < 11; i++){
-        sum += detected[i];
-    }
-
-    //update parameters
-    line_center = calc_line_center(detected, sum);
-    line_state = calc_line_state(detected, sum);
-}
-
-/*
 Calculate new value for amount of lines seen.
 
 detected - 11 long array signaling wheter line sensor i detects line
@@ -52,7 +33,7 @@ sum - amount of sensors detecting a line
 
 return - new value for the state of lines detected
 */
-line_sensor_state calc_line_state(bool[] detected, int sum){
+line_sensor_state calc_line_state(bool detected[], int sum){
     bool double_line = false;
 
     bool detect_found = false; //detecting sensor found
@@ -77,7 +58,7 @@ line_sensor_state calc_line_state(bool[] detected, int sum){
     }
 
     //Set state depending on sum and double_line
-    int new_state;
+    line_sensor_state new_state;
     if(sum == 0 && double_line){
         new_state = NONE_DOUBLE;
     }
@@ -99,8 +80,8 @@ sum - amount of sensors detecting a line
 
 return - new value for the center of line, between +-127
 */
-int calc_line_center(bool[] detected, int sum){
-    float sum_weighted;
+int calc_line_center(bool detected[], int sum){
+    float sum_weighted = 0;
 
     //Iterate to calculate weighted sum of detected
     for(int i = 0; i < 11; i++){
@@ -113,8 +94,27 @@ int calc_line_center(bool[] detected, int sum){
     }
 
     //Make number between +-127
-    int new_line_center = round((127.0/5.0) * (sum_weighted/(float)sum)));
+    int new_line_center = round((127.0/5.0) * (sum_weighted/(float)sum));
 
     //Overwrite old line_center
-    line_center = new_line_center;
+    return new_line_center;
+}
+
+/*
+Update line sensor parameters line_state and line_sensor based on a
+new sensor reading.
+
+detected - 11 long array signaling wheter line sensor i detects line
+*/
+void update_line_parameters(bool detected[]){
+    int sum = 0;
+
+    //Iterate to calculate sum of detecting sensors
+    for(int i = 0; i < 11; i++){
+        sum += detected[i];
+    }
+
+    //update parameters
+    line_center = calc_line_center(detected, sum);
+    line_state = calc_line_state(detected, sum);
 }
