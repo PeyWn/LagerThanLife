@@ -12,7 +12,7 @@ int ware_seen[2] = {0,0};
 
 int line_value[11];
 int floor_value[11];
-int line_threshold[11];
+int line_threshold[11] = {400,400,400,400,400,400,400,400,400,400,400};
 int distance_blocked[2];
 
 int adc_value = 0;
@@ -23,32 +23,26 @@ int main(void)
 
     setup_AVR();
 	
-		mux_select(3);
-		set_led(true);
+		bool detected[11];
     //MAIN LOOP
     while(true)
     {
-			
-		//_delay_ms(1000);
-		
-		adc_value = convert_ad(LINE);
-		
-		
-		
-		//set_led(false);
-		
-		//_delay_ms(1000);
-		
-			
-					
-		/*for(int i = 0; i < 11; i++){
+		for(int i = 0; i < 11; i++){
 			mux_select(i);
 			set_led(true);
-						
-			_delay_ms(2000);
+			_delay_ms(1000);
+			adc_value = convert_ad(LINE);
 			
+			if(adc_value > line_threshold[i]) {
+				detected[i] = true;
+			} else {
+				detected[i] = false;
+			}
+			_delay_ms(1000);
 			set_led(false);
-		}*/
+		}
+		
+		// update_line_parameters(detected)
     }
 }
 
