@@ -1,10 +1,13 @@
 ﻿#include <avr/io.h>
 #include <avr/interrupt.h>
+#include <util/delay.h>
 
 /*
 Setup AVR inputs and outputs, A/D converter and interrupts
 */
 void setup_AVR(){
+	
+	
     // Set directions for input and outputs
     DDRA = (0<<DDA2)|(0<<DDA1)|(0<<DDA0);
     DDRB = (1<<DDB4)|(1<<DDB3)|(1<<DDB2)|(1<<DDB1)|(1<<DDB0);

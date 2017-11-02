@@ -21,6 +21,6 @@ extern int distance_blocked[];
 
 //Variables used for ADC conversion
 extern int adc_value;
-extern bool adc_done;
+extern volatile bool adc_done;
 
 #endif /* GLOBALS_H_ */
