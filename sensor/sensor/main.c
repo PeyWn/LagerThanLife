@@ -6,7 +6,7 @@
 
 //Definitions of globals
 int line_center = 0;
-int line_state = 0;
+line_sensor_state line_state = 0;
 int ware_seen[2] = {0,0};
 
 int line_value[11];
@@ -20,6 +20,8 @@ int adc_done = 0; //1 or 0
 int main(void)
 {	
     setup_AVR();
+
+    run_tests();
 
     //MAIN LOOP
     while(true)
