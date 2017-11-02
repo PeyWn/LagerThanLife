@@ -2,6 +2,7 @@
 #include "globals.h"
 
 //TMP include
+#define F_CPU 8000000UL
 #include <util/delay.h>
 
 //Definitions of globals
@@ -15,23 +16,38 @@ int line_threshold[11];
 int distance_blocked[2];
 
 int adc_value = 0;
-int adc_done = 0; //1 or 0
+volatile bool adc_done = 0; //1 or 0
 
 int main(void)
 {	
-    setup_AVR();
-
     run_tests();
 
+    setup_AVR();
+	
     //MAIN LOOP
     while(true)
     {
-		for(int i = 0; i < 11; i++){
+			
+		//_delay_ms(1000);
+		
+		adc_value = convert_ad(LINE);
+		
+		
+		
+		//set_led(false);
+		
+		//_delay_ms(1000);
+		
+			
+					
+		/*for(int i = 0; i < 11; i++){
 			mux_select(i);
 			set_led(true);
+						
 			_delay_ms(2000);
+			
 			set_led(false);
-		}
+		}*/
     }
 }
 
@@ -44,6 +60,7 @@ ar - array to save "bits" (integer of value 1/0) in
 */
 void get_8bits(int n, int ar[]){
     for(int i = 0; i < 8; i++){
+
         ar[i] = (n >> i) & 1;
     }
 }

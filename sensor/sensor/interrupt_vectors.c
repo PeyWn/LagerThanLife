@@ -5,8 +5,6 @@
 Define interrupt vector for ADC conversion complete.
 */
 ISR(ADC_vect){
-    //TODO implement ISR
-	
 	adc_value = ADC;
     adc_done = true;
 }
