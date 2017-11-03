@@ -8,6 +8,7 @@
 #include "line_sensor.h"
 #include "ad_conversion.h"
 #include "config_sensor.h"
+#include "ware_sensor.h"
 
 //Definitions of globals
 int line_center = 0;
@@ -19,7 +20,7 @@ int floor_value[11];
 
 //TODO implement calibration
 int line_threshold[11] = {400,400,400,400,400,400,400,400,400,400,400};
-int distance_blocked[2];
+int distance_blocked[2] = {100, 100};
 
 int adc_value = 0;
 volatile bool adc_done = 0; //1 or 0
@@ -53,5 +54,8 @@ int main(void)
 		
         //Update line_center and line_sensor
 		update_line_parameters(detected);
+
+        //Read and update ware sensors
+        update_ware_seen();
     }
 }

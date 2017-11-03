@@ -1,6 +1,7 @@
 ﻿#include <stdlib.h>
 #include <math.h>
 #include <avr/io.h>
+#include <avr/interrupt.h>
 #include "globals.h"
 #include "line_sensor.h"
 
@@ -90,6 +91,9 @@ void update_line_parameters(volatile bool detected[]){
     }
 
     //update parameters
+    //turn off interrupts while changing
+    cli();
     line_center = calc_line_center(detected, sum);
     line_state = calc_line_state(detected, sum);
+    sei();
 }
