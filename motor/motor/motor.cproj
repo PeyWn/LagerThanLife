@@ -15,8 +15,7 @@
     <AssemblyName>motor</AssemblyName>
     <Name>motor</Name>
     <RootNamespace>motor</RootNamespace>
-    <ToolchainFlavour>
-    </ToolchainFlavour>
+    <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>

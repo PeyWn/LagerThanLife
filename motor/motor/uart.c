@@ -18,4 +18,6 @@ void USART_Init(unsigned int BAUD_RATE)
 	
 	//IMPORTANT: The Baud Rate must be set after the transmitter is enabled
 	UBRRn = baud;
+	
+	//TODO: Check if settings is correct in function above.  
 }
