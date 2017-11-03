@@ -137,6 +137,15 @@
     <Compile Include="ad_conversion.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="ad_conversion.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="config_sensor.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="line_sensor.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="sensor_tests.c">
       <SubType>compile</SubType>
     </Compile>

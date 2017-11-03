@@ -5,6 +5,9 @@
 #include <util/delay.h>
 
 #include "globals.h"
+#include "line_sensor.h"
+#include "ad_conversion.h"
+#include "config_sensor.h"
 
 //Definitions of globals
 int line_center = 0;

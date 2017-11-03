@@ -1,15 +1,18 @@
 ﻿#include <avr/io.h>
 #include "globals.h"
+#include "config_sensor.h"
 
 void start_ad_conversion(){
-    ADCSRA = (1<<ADEN)|(1<<ADIE)|(1<<ADSC);
+    set_bit(&ADCSRA, ADSC, 1);
 }
 
 void set_ad_source(ad_source src){
     int bits[8];
     get_8bits(src, bits);
-
-    ADMUX = (bits[0] << MUX0)|(bits[1] << MUX1)|(bits[2] << MUX2)|(1<<REFS0);
+    
+    set_bit(&ADMUX, MUX0, bits[0]);
+    set_bit(&ADMUX, MUX1, bits[1]);
+    set_bit(&ADMUX, MUX2, bits[2]);
 }
 
 int convert_ad(ad_source src){   

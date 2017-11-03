@@ -1,11 +1,10 @@
 ﻿/*  
     **** TESTS FOR SENSOR UNIT ****
 */
-
-#include "globals.h"
 #include <assert.h>
 
-#define __ASSERT_USE_STDERR 
+#include "globals.h"
+#include "line_sensor.h"
 
 void run_tests(){
     

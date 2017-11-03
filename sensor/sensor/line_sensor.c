@@ -1,39 +1,27 @@
-﻿#include <avr/io.h>
+﻿#include <stdlib.h>
+#include <math.h>
+#include <avr/io.h>
 #include "globals.h"
+#include "line_sensor.h"
 
-/*
-Switch the MUXes controlling the line sensor to input and output i.
-
-i - the led+phototransistor the MUXes should set+read from,
-    must be between 0 and 10
-*/
 void mux_select(int i){
     //Generate bits from int
     int bits[8];
     get_8bits(i, bits);
 
     //Set mux control
-    PORTB = (PORTB & 0b11110000) | (bits[3]<<PB3)|(bits[2]<<PB2)|(bits[1]<<PB1)|(bits[0]<<PB0);
+    set_bit(&PORTB, PB3, bits[3]);
+    set_bit(&PORTB, PB2, bits[2]);
+    set_bit(&PORTB, PB1, bits[1]);
+    set_bit(&PORTB, PB0, bits[0]);
 }
 
-/*
-Sets the output to the led on the line sensor
 
-state - 1 or 0, on or off
-*/
 void set_led(bool state){
-    PORTB = (PORTB & 0b11101111) | (state<<PB4);
+    set_bit(&PORTB, PB4, state);
 }
 
-/*
-Calculate new value for amount of lines seen.
-
-detected - 11 long array signaling wheter line sensor i detects line
-sum - amount of sensors detecting a line
-
-return - new value for the state of lines detected
-*/
-line_sensor_state calc_line_state(bool detected[], int sum){
+line_sensor_state calc_line_state(volatile bool detected[], int sum){
     bool double_line = false;
 
     bool detect_found = false; //detecting sensor found
@@ -72,15 +60,8 @@ line_sensor_state calc_line_state(bool detected[], int sum){
     return new_state;
 }
 
-/*
-Calculate new value for the cetner of the line.
 
-detected - 11 long array signaling wheter line sensor i detects line
-sum - amount of sensors detecting a line
-
-return - new value for the center of line, between +-127
-*/
-int calc_line_center(bool detected[], int sum){
+int calc_line_center(volatile bool detected[], int sum){
     float sum_weighted = 0;
 
     //Iterate to calculate weighted sum of detected
@@ -100,13 +81,7 @@ int calc_line_center(bool detected[], int sum){
     return new_line_center;
 }
 
-/*
-Update line sensor parameters line_state and line_sensor based on a
-new sensor reading.
-
-detected - 11 long array signaling wheter line sensor i detects line
-*/
-void update_line_parameters(bool detected[]){
+void update_line_parameters(volatile bool detected[]){
     int sum = 0;
 
     //Iterate to calculate sum of detecting sensors
