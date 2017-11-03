@@ -11,3 +11,4 @@ void init_IO(void)
 	PORTD3 = 1; //Set D03 to be output. Tx for UART communication with arm. 
 	PORTD4 = 1; //Set D04 to be output. Used as direction chooser for duplex-UART.  
 }
+
