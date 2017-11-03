@@ -2,22 +2,41 @@
  * uart.c
  *
  * Created: 11/2/2017 10:55:44 AM
- *  Author: jesjo430
+ *  Author: jesjo430, bjohv276
  */ 
 
 #include <stdio.h>
+#include <stdlib.h>
+#include "uart.h"
 
-#define BAUD_RATE = 1000000; 
+#define F_CPU 16000000    // AVR SYS CLOCK FREQUENCY TO 16MHz
+#define BAUD 9600         // DEFINE BAUD RATE
+#define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)    // SET BAUDRATE VALUE FOR UBRR
 
-void USART_Init(unsigned int BAUD_RATE)
+void usart_init(void)
 {
-	UBRRn = 0; //Setting the XCKn port pin as output, enables master mode.
-	XCKn_DDR |= (1<<XCKn); //Set MSPI mode of operation and SPI data mode 0.
-	UCSRnC = (1<<UMSELn1)|(1<<UMSELn0)|(0<<UCPHAn)|(0<<UCPOLn //Enable receiver and transmitter.
-	UCSRnB = (1<<RXENn)|(1<<TXENn //Set baud rate.
-	
-	//IMPORTANT: The Baud Rate must be set after the transmitter is enabled
-	UBRRn = baud;
-	
-	//TODO: Check if settings is correct in function above.  
+  /* Set baud rate */
+  UBRRHn = (unsigned char)(BAUDRATE>>8);
+  UBRRLn = (unsigned char)BAUDRATE;
+
+  /* Enable receiver and transmitter */
+  UCSRnB = (1<<RXENn)|(1<<TXENn);
+
+  /* Set frame format: 8data, 2stop bit */
+  UCSRnC = (1<<USBSn)|(3<<UCSZn0);
 }
+
+
+void usart_transmit( unsigned char data )
+{ 
+  while ( !( UCSRnA & (1<<UDREn)) );    //Wait for empty transmit buffer 
+  UDRn = data;                          //Put data into buffer, sends the data
+}
+
+
+unsigned char uart_recieve (void)
+{
+  while(!(UCSRA) & (1<<RXC));          // wait while data is being received
+  return UDR;                          // return 8-bit data
+}
+
