@@ -1,9 +1,7 @@
 ﻿#ifndef GLOBALS_H_
 #define GLOBALS_H_
 
-typedef int bool;
-#define true 1
-#define false 0
+#include "../../lib/avr_util.h"
 
 //Define enum for sources to ad converter
 typedef enum {LINE, DIST_R, DIST_L} ad_source;
