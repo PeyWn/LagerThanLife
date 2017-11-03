@@ -6,6 +6,7 @@
  */ 
 
 #include <stdio.h>
+#include <avr/io.h>
 #include <stdlib.h>
 #include "uart.h"
 
@@ -16,27 +17,26 @@
 void usart_init(void)
 {
   /* Set baud rate */
-  UBRRHn = (unsigned char)(BAUDRATE>>8);
-  UBRRLn = (unsigned char)BAUDRATE;
+  UBRR1H = (unsigned char)(BAUDRATE>>8);
+  UBRR1L = (unsigned char)BAUDRATE;
 
   /* Enable receiver and transmitter */
-  UCSRnB = (1<<RXENn)|(1<<TXENn);
+  UCSR1B = (1<<RXEN1)|(1<<TXEN1);
 
   /* Set frame format: 8data, 2stop bit */
-  UCSRnC = (1<<USBSn)|(3<<UCSZn0);
+  UCSR1C = (1<<USBS1)|(1<<UCSZ00)|(1<<UCSZ01);
 }
 
 
 void usart_transmit( unsigned char data )
 { 
-  while ( !( UCSRnA & (1<<UDREn)) );    //Wait for empty transmit buffer 
-  UDRn = data;                          //Put data into buffer, sends the data
+  while ( !( UCSR1A & (1<<UDRE1)) );    //Wait for empty transmit buffer 
+  UDR1 = data;                          //Put data into buffer, sends the data
 }
 
 
-unsigned char uart_recieve (void)
+unsigned char usart_recieve (void)
 {
-  while(!(UCSRA) & (1<<RXC));          // wait while data is being received
-  return UDR;                          // return 8-bit data
+  while((!(UCSR0A)) & (1<<RXC0));          // wait while data is being received
+  return UDR1;                          // return 8-bit data
 }
-
