@@ -5,6 +5,11 @@
  *  Author: jakno732
  */
 
+//variables for using timer in testing
+unsigned    int period_counter  = 0;
+unsigned    int second_counter  = 0;
+            int has_counted     = 0;
+
 
  /*
      todo:
@@ -21,81 +26,86 @@
  }
 
 
- /*set duty percentage of PWM on both wheel sides*/
- int set_PWM(float duty)
+ /*set duty percentage of PWM1
+ int set_left_PWM(float duty)
  {
      int uptime = 255 - duty*255; //timer increments to be up
      OCR0A = uptime;
      OCR0B = uptime;
  }
+ 
+ /*set duty percentage of PWM2 (right wheel side)*/
+ int set_right_PWM(float duty)
 
-
- /* initialize phase correct PWM on pins OC0A and OC0B */
- int init_PWM()
+ int init_wheel_control()
  {
-     // TCNT0 - timer 255 max
-     // OCR0A - compare value A (PWM)
-     // OCR0B - compare value B (PWM)
+    /* OLD SETTINGS
+    TCCR0A |=  0b11110001;
+    TCCR0A &= ~0b00000010;
+    TCCR0B = 0b00000001;	//no pre-scaling. nothing is 1 since PWM
+    */
+    
+    //set OC0A and OC0B on compare match when up-counting, clear on down-counting
+    TCCR0A |= 1<<COM0A1 | 1<<COM0A0 
+    TCCR0A |= 1<<COM0B1 | 1<<COM0B0 
 
-     TCCR0A = 0b11110001;	//irrelevant bits are read-only
-     TCCR0B = 0b00000001;	//no pre-scaling. nothing is 1 since PWM
+    //Phase correct PWM
+    TCCR0A &= ~(1<<WGM01)
+    TCCR0A |=   1<<WGM00 
+    TCCR0B &= ~(1<<WGM02)
 
-     PORTC |= (1<<PORTC3) | (0<<PORTC4);	// DIR1, DIR2 values
+    //set PB3, PB4 as output for DIR1 and DIR2
+    DDRB |= (1<<DDB3) | (1<<DDB4);
+    
+    //initial values for DIR1 and DIR2
+    PORTC |=  (1<<PORTC3);
+    PORTC &= ~(1<<PORTC4);
 
-     DDRB |= (1<<DDB3) | (1<<DDB4); // set PB3, PB4 as outputs
+    // enable interupt for compare match A and B on timer TCNT0
+    TIMSK0 |= (1<<OCIE0B)|(1<<OCIE0A);	
 
-     TIMSK0 |= (1<<OCIE0B)|(1<<OCIE0A);	// enable output compare interrupt
+    set_PWM(0); //set both wheel sides to 0
 
-
-     set_PWM(0);
-
-     return 0;
+    return 0;
  }
 
- /*	check if a specified amount of seconds has passed since started counting
-
- */
- int seconds(unsigned int seconds, unsigned int* period_counter, unsigned int* second_counter, int* has_counted){
-     if ( TCNT0 > 200 && !(*has_counted)){
-     *has_counted = 1;
-     *period_counter += 1;
-     }
-     else if ( TCNT0 < 200 ){
-     *has_counted = 0;
-     }
-     if ( *period_counter >= 15770 ){ // 15770Hz is measured in oscilloscope (8Mhz)
-     *second_counter += 1;
-     *period_counter = 0;
-     }
-     if (*second_counter > seconds){
-     *second_counter = 0;
-     return 1;
-     }
-     else
-     {
-     return 0;
-     }
+ int seconds(unsigned int seconds){
+    if ( TCNT0 > 200 && !(has_counted)){
+        has_counted = 1;
+        period_counter += 1;
+    }
+    else if ( TCNT0 < 200 ){
+        has_counted = 0;
+    }
+    if ( period_counter >= 15770 ){ // 15770Hz is measured in oscilloscope (8Mhz)
+        second_counter += 1;
+        period_counter = 0;
+    }
+    if (second_counter > seconds){
+        second_counter = 0;
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
  }
 
 
  // f = 1/T; T=1/f; 16000 cycles > 1s
  int main(void)
  {
-     init_dir_pins();
-     init_PWM();
+    init_dir_pins();
+    init_PWM();
 
-     unsigned int period_counter = 0;
-     unsigned int second_counter = 0;
-     int has_counted = 0;
+    while(!seconds(5));		//wait 5 sec
+    set_PWM(0.5);
+    while(!seconds(2));	//wait 5 sec
+    set_PWM(0);
 
-     while(!seconds(5, &period_counter, &second_counter, &has_counted));		//wait 5 sec
-     set_PWM(0.5);
-     while(!seconds(2, &period_counter, &second_counter, &has_counted));	//wait 5 sec
-     set_PWM(0);
+    while(1)
+    {
 
-     while(1)
-     {
-
-     }
-     return 0;
+    }
+    return 0;
  }

@@ -15,8 +15,7 @@
     <AssemblyName>motor</AssemblyName>
     <Name>motor</Name>
     <RootNamespace>motor</RootNamespace>
-    <ToolchainFlavour>
-    </ToolchainFlavour>
+    <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
@@ -100,6 +99,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="motor.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="wheel_control.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="wheel_control.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
