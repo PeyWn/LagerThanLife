@@ -20,5 +20,11 @@
 void transmit(unsigned char data)
 {
 	DIRECTION_PORT = TRANSMIT;
-	return usart_transmit(data);
+	usart_transmit(data);
+}
+
+unsigned char recieve(void)
+{
+	DIRECTION_PORT = RECIEVE;
+	return usart_transmit();
 }
