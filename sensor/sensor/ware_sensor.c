@@ -20,3 +20,9 @@ void update_ware_seen(){
     ware_seen[1] = new_reading[1];
     sei();
 }
+
+
+void calibrate_waresensor() {
+    distance_blocked[0] = convert_ad(DIST_R);
+    distance_blocked[1] = convert_ad(DIST_L);
+}

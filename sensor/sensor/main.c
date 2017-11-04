@@ -1,7 +1,6 @@
 //#define TEST
 
 #include <avr/io.h>
-
 #include "globals.h"
 #include "line_sensor.h"
 #include "ad_conversion.h"
@@ -22,8 +21,6 @@ int distance_blocked[2] = {100, 100};
 int adc_value = 0;
 volatile bool adc_done = 0; //1 or 0
 
-
-
 int main(void)
 {	
     #ifdef TEST
@@ -34,8 +31,7 @@ int main(void)
 	
     //Array for line sensor values
 	volatile bool detected[11];
-
-
+    
     //MAIN LOOP
     while(true)
     {
