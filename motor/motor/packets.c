@@ -35,3 +35,19 @@ typedef struct
 			   PARAMETER_N,
 			   CHECK_SUM;
 }STATUS_PACKET;
+
+INSTRUCTION_PACKET build_instruction_packet(int *id, int *instruction, int[] *parameters) //CHECK parameters data type
+{
+	  INSTRUCTION_PACKET *ip = (INSTRUCTION_PACKET*)malloc(sizeof(INSTRUCTION_PACKET));
+	  ip->ID = id;
+	  ip->INSTRUCTION = instruction;
+	  
+	  int lenght_counter = 0;
+
+	  for ()
+	  {
+		  //build parameters.
+	  }
+	  
+	  //calculate checksum and length then assign them to struct. 
+}
