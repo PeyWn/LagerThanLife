@@ -36,7 +36,7 @@ typedef struct
 			   CHECK_SUM;
 }STATUS_PACKET;
 
-INSTRUCTION_PACKET build_instruction_packet(int *id, int *instruction, int[] *parameters) //CHECK parameters data type
+INSTRUCTION_PACKET create_instruction_packet(int *id, int *instruction, int[] *parameters) //CHECK parameters data type
 {
 	  INSTRUCTION_PACKET *ip = (INSTRUCTION_PACKET*)malloc(sizeof(INSTRUCTION_PACKET));
 	  ip->ID = id;
@@ -50,4 +50,10 @@ INSTRUCTION_PACKET build_instruction_packet(int *id, int *instruction, int[] *pa
 	  }
 	  
 	  //calculate checksum and length then assign them to struct. 
+}
+
+INSTRUCTION_PACKET set_ip_id(INSTRUCTION_PACKET *ip, int *id)
+{
+	ip->ID = id; //Check pointers handling
+	return ip;   // same. 
 }
