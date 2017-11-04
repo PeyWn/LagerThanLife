@@ -63,7 +63,7 @@ typedef struct
 
 typedef struct
 {
-	static int MODEL_NUMBER_L = 0x0C
+			int MODEL_NUMBER_L = 0x0C
 				MODEL_NUMBER_H = 0x00
 				VERSION_FIRMWARE = nullptr
 				ID = 0x01
