@@ -57,3 +57,9 @@ INSTRUCTION_PACKET set_ip_id(INSTRUCTION_PACKET *ip, int *id)
 	ip->ID = id; //Check pointers handling
 	return ip;   // same. 
 }
+
+INSTRUCTION_PACKET set_instruction_id(INSTRUCTION_PACKET *ip, int *instruction)
+{
+	ip->INSTRUCTION = instruction; //Check pointers handling
+	return ip;   // same.
+}
