@@ -19,12 +19,12 @@
 
 void transmit(unsigned char data)
 {
-	DIRECTION_PORT = TRANSMIT;
+	DIRECTION_PORT = TRANSMIT;		// Half duplex UART demands setting direction. 
 	usart_transmit(data);
 }
 
 unsigned char receive(void)
 {
-	DIRECTION_PORT = RECIEVE;
+	DIRECTION_PORT = RECIEVE;		// Half duplex UART demands setting direction. 
 	return usart_transmit();
 }
