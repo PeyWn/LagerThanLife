@@ -1,12 +1,9 @@
 ﻿#include    "wheel_control.h"
+#include    "stdlib.h"
 
 /* LOKAL CONSTANTS */
-#define     LEFT        0
-#define     RIGHT       1
-#define     FWD         2
-#define     BACKWD      3
 #define     TURN_MAX    0.3f    // turn speed +/-7 => TURN_MAX higher/lower PWM
-
+#define     MOTOR_MAX   1       // physical max setting for PWM 
 
 //variables for using timer in testing
 unsigned    int period_counter  = 0;
@@ -83,6 +80,7 @@ int init_wheel_control(float base_speed)
     arg int dir:
     dir shall be assigned one of the values for direction
     (see CONSTANTS at top of document)                         */
+/*
 void set_dir_pins(int dir)
 {
     switch(dir){
@@ -104,41 +102,93 @@ void set_dir_pins(int dir)
         break;
     }
 }
-/*
-void set_turn_speed(int turn_value){
-    float turn_speed    =  turn_value * TURN_MAX/7
-    float left_speed    =  traversal_status * PWM_duty_ratio;
-    float right_speed   = -traversal_status * PWM_duty_ratio;
-    
-    if (left_speed + turn > 1){
-        
-    }else if(){
-        
-    }else if(){
-        
-    }else if(){
-        
-    }
-}
 */
 
+
+/*  local function:
+    compute and set PWM on pins for PWM based on new turn
+    setting and on current traversal status. Completely
+    copied from design specification.
+    
+    arg int turn_value:
+    new setting for turn speed (see constants at top of
+    document. Positive is left.
+    
+    no returned value:
+    result is setting the OCR0A and OCR0B to correct values
+    as well as setting the pins for DIR1 and DIR2;
+*/
+void set_turn_speed(int turn_value){
+    // PWM speed variables
+    float turn    =  turn_value * TURN_MAX/7;
+    float left    =  traversal_status * PWM_duty_ratio;
+    float right   = -traversal_status * PWM_duty_ratio;
+    
+    if (left + turn > MOTOR_MAX){
+        right = right - (left + turn - MOTOR_MAX);
+        left  = MOTOR_MAX;
+    }else if(left + turn < -MOTOR_MAX){
+        right = right + (left + turn + MOTOR_MAX);
+        left  = -MOTOR_MAX;
+    }else if(right - turn > MOTOR_MAX){
+        left  = left - (right - turn - MOTOR_MAX);
+        right = MOTOR_MAX;
+    }else if(right - turn < -MOTOR_MAX){
+        left  = left + (right - turn + MOTOR_MAX);
+        right = MOTOR_MAX;
+    }else{  // if within limitations just add turn value
+        left = left + turn;
+        right = right - turn;
+    }
+    
+    // set PWM duty
+    OCR0A = abs(left);
+    OCR0B = abs(right);
+    
+    // set direction on left wheel side
+    if(left < 0){
+        PORTC &= ~(1<<PORTC0);
+    }else{
+        PORTC |= 1<<PORTC0;
+    }
+    
+    // set direction on right wheel side
+    if(right > 0){
+        PORTC |= 1<<PORTC1;
+    }else{
+        PORTC &= ~(1<<PORTC1);
+    }
+    
+    // update current turn setting
+    turn_status = turn_value;
+}
+
+/*  function:
+    update traversal status and compute PWM with turn function
+    based on current status.                                    */
+void set_traversal_speed(int trav_value){
+    traversal_status = trav_value;
+    set_turn_speed(turn_status); 
+}
+
+/*
 void set_traversal_speed(int trav_value){
     
     //max(TCNT0)=255
     int downtime = 255 - PWM_duty_ratio*255;
     
     switch(trav_value){
-        case 1:     // set forward speed
+        case FWD:     // set forward speed
             set_dir_pins(FWD);
             OCR0A = downtime;
             OCR0B = downtime;
         break; 
-        case 0:     // set low for 255 timer increments
+        case STOP:     // set low for 255 timer increments
             set_dir_pins(FWD);
             OCR0A = 255;
             OCR0B = 255;
         break;
-        case -1:    // reverse directions, PWM on both
+        case BACKWD:    // reverse directions, PWM on both
             set_dir_pins(BACKWD);
             OCR0A = downtime;
             OCR0B = downtime;
@@ -152,16 +202,11 @@ void set_traversal_speed(int trav_value){
     // store new movement for set_turn_speed computation
     traversal_status = trav_value;  
 }
+*/
  
 void update_wheel_control(){
-    while(!seconds(3));		//wait 5 sec
     set_traversal_speed(1);
-    while(!seconds(2));	//wait 5 sec
-    set_traversal_speed(0);
-    while(!seconds(1));	//wait 5 sec
-    set_traversal_speed(-1);
-    while(!seconds(2));	//wait 5 sec
-    set_traversal_speed(0);
+    //set_turn_speed(3);
 }
  
 void stop_wheel_control(){
