@@ -23,7 +23,7 @@ void transmit(unsigned char data)
 	usart_transmit(data);
 }
 
-unsigned char recieve(void)
+unsigned char receive(void)
 {
 	DIRECTION_PORT = RECIEVE;
 	return usart_transmit();
