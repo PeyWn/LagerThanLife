@@ -2,6 +2,28 @@
 #define LINE_SENSOR_H_
 
 /*
+Calibrate linesensors when all sensors are on a line
+*/
+void calibrate_line();
+
+/*
+Calibrate linesensors when all sensors are not on a line
+*/
+void calibrate_floor();
+
+/*
+Update line_threshold based on line_value and floor_value
+*/
+void update_line_threshold();
+
+/*
+Get linesensor values by converting a/d and writing reading to sensor_res
+
+sensor_res - 11 long array to save the sensor reading value in
+*/
+void get_linesensor_values(int sensor_res[]);
+
+/*
 Switch the MUXes controlling the line sensor to input and output i.
 
 i - the led+phototransistor the MUXes should set+read from,
