@@ -1,7 +1,7 @@
 ﻿#include    "wheel_control.h"
 #include    "math.h"
 
-/* LOKAL CONSTANTS */
+/* lokal constants */
 #define     TURN_MAX    0.7f    // turn speed +/-7 => TURN_MAX higher/lower PWM
 #define     MOTOR_MAX   0.9f    // physical max setting for PWM. Probably bad to ever have 100%
 
@@ -15,16 +15,9 @@ float   PWM_duty_ratio;     // base speed; set with "init_wheel_control"
 int     traversal_status;   // current setting for fwd/backwd movement
 int     turn_status;        // current setting for left/right turn
 
-/*
-     todo:
-     . 16MHz/8MHz setup
-     . turn
-     . initial speed
-     . action on command
- */
-
-/* UTILITY wheel_control.c  --------------------------------------------------------*/
-int seconds(unsigned int seconds){
+/* timer for waiting (8MHz setting) ------------------------------------------------*/
+int seconds(unsigned int seconds)
+{
      if ( TCNT0 > 200 && !(has_counted)){
          has_counted = 1;
          period_counter += 1;
@@ -68,63 +61,42 @@ int init_wheel_control(float base_speed)
     DDRB  |= (1<<DDB4) | (1<<DDB3); //PWM
     DDRC  |= (1<<DDC1) | (1<<DDC0); //DIR1
 
-    // set initial variable values and speed to 0
+    // set initial variable values, speed and turn to 0
     PWM_duty_ratio = base_speed > MOTOR_MAX ? MOTOR_MAX : base_speed;
-    turn_status = 0;
     set_traversal_speed(0);
+    set_turn_speed(0);
     
     return 0;
 }
 
 /*  local function:
-    set pin outputs for DIR1 and DIR2
-    
-    arg int dir:
-    dir shall be assigned one of the values for direction
-    (see CONSTANTS at top of document)                         */
-/*
-void set_dir_pins(int dir)
-{
-    switch(dir){
-        case RIGHT:     // direction tested
-            PORTC |=  (1<<PORTC0);
-            PORTC |=  (1<<PORTC1);
-        break;
-        case LEFT:      // direction tested
-            PORTC &= ~(1<<PORTC0);
-            PORTC &= ~(1<<PORTC1);
-        break;
-        case FWD:       // direction tested
-            PORTC &= ~(1<<PORTC0);
-            PORTC |=  (1<<PORTC1);
-        break;
-        case BACKWD:    // direction tested
-            PORTC |=  (1<<PORTC0);
-            PORTC &= ~(1<<PORTC1);
-        break;
-    }
-}
-*/
-
-
-/*  local function:
     compute and set PWM on pins for PWM based on new turn
     setting and on current traversal status. Completely
-    copied from design specification.
+    copied from design specification. Also sets DIR1 and
+    DIR2 pins. Rotation is based on current traversal speed 
+    such that the robot will maintain same traversal 
+    movement when rotating. The rotation is scaled by the 
+    TURN_MAX constant and restricted by the MOTOR_MAX constant.
     
     arg int turn_value:
     new setting for turn speed (see constants at top of
-    document. Positive is left.
+    document. Positive is left. Use turn_status to keep
+    old value.
+    
+    arg int trav_value:
+    new setting for traversal value. use traversal_satus
+    to keep old value.
     
     no returned value:
     result is setting the OCR0A and OCR0B to correct values
     as well as setting the pins for DIR1 and DIR2;
 */
-void set_turn_speed(int turn_value){
+void set_PWM(int turn_value, int trav_value)
+{
     // PWM speed variables
-    float turn    =  turn_value * TURN_MAX/7;           // turn direciton
-    float left    =  traversal_status * PWM_duty_ratio; // left motors' speed
-    float right   =  traversal_status * PWM_duty_ratio; // right motors' speed
+    float turn    =  turn_value * TURN_MAX/7;       // turn direciton
+    float left    =  trav_value * PWM_duty_ratio;   // left motors' speed
+    float right   =  trav_value * PWM_duty_ratio;   // right motors' speed
     
     // Compensate opposite motor if turn results in too big PWM duty
     if (left + turn > MOTOR_MAX){
@@ -161,51 +133,43 @@ void set_turn_speed(int turn_value){
     }else{
         PORTC |= 1<<PORTC1;
     }
-    
-    // update current turn setting
-    turn_status = turn_value;
 }
 
 /*  function:
-    update traversal status and compute PWM with turn function
-    based on current status.                                    */
-void set_traversal_speed(int trav_value){
+    set a new speed for moving robot forward/backward or stop.
+    Front of robot is based on where sensors are placed
+    (2017-11-05).
+    
+    arg int trav_value :
+    the new traversal value for moving the robot forward and
+    backward. Set only to values:
+    1  - forward
+    0  - stop
+    -1 - backward
+    */
+void set_traversal_speed(int trav_value)
+{
+    set_PWM(turn_status, trav_value); 
     traversal_status = trav_value;
-    set_turn_speed(turn_status); 
 }
 
-/*
-void set_traversal_speed(int trav_value){
+/*  function:
+    set new turning speed for robot rotation. Rotation is
+    based on current traversal speed such that the robot will
+    maintain same traversal movement when rotating. The rotation
+    is scaled by the TURN_MAX constant and restricted by the
+    MOTOR_MAX constant.
     
-    //max(TCNT0)=255
-    int downtime = 255 - PWM_duty_ratio*255;
-    
-    switch(trav_value){
-        case FWD:     // set forward speed
-            set_dir_pins(FWD);
-            OCR0A = downtime;
-            OCR0B = downtime;
-        break; 
-        case STOP:     // set low for 255 timer increments
-            set_dir_pins(FWD);
-            OCR0A = 255;
-            OCR0B = 255;
-        break;
-        case BACKWD:    // reverse directions, PWM on both
-            set_dir_pins(BACKWD);
-            OCR0A = downtime;
-            OCR0B = downtime;
-        break;
-        default:    // stop
-            OCR0A = 255;
-            OCR0B = 255;
-        break;
-    }
-    
-    // store new movement for set_turn_speed computation
-    traversal_status = trav_value;  
-}
+    arg int turn_value:
+    the new turn speed setting. Can be set to any integer 
+    value in the interval +/-7 where positive is right turn
+    and 0 is no turning.
 */
+void set_turn_speed(int turn_value)
+{
+    set_PWM(turn_value, traversal_status);
+    turn_status = turn_value;
+}    
  
 void update_wheel_control(){
     
@@ -220,9 +184,5 @@ void update_wheel_control(){
     // stop
     set_traversal_speed(0);
     set_turn_speed(0);
-}
- 
-void stop_wheel_control(){
-    set_traversal_speed(0);
 }
  
