@@ -1,9 +1,9 @@
 ﻿#include    "wheel_control.h"
-#include    "stdlib.h"
+#include    "math.h"
 
 /* LOKAL CONSTANTS */
-#define     TURN_MAX    0.3f    // turn speed +/-7 => TURN_MAX higher/lower PWM
-#define     MOTOR_MAX   1       // physical max setting for PWM 
+#define     TURN_MAX    0.7f    // turn speed +/-7 => TURN_MAX higher/lower PWM
+#define     MOTOR_MAX   0.9f    // physical max setting for PWM. Probably bad to ever have 100%
 
 //variables for using timer in testing
 unsigned    int period_counter  = 0;
@@ -11,7 +11,7 @@ unsigned    int second_counter  = 0;
             int has_counted     = 0;
             
 //base speed of PWM, only changes when turning or stopping, set in init_wheel_control
-float   PWM_duty_ratio  =   0;      // base speed; set with "init_wheel_control"
+float   PWM_duty_ratio;     // base speed; set with "init_wheel_control"
 int     traversal_status;   // current setting for fwd/backwd movement
 int     turn_status;        // current setting for left/right turn
 
@@ -49,8 +49,6 @@ int seconds(unsigned int seconds){
 
 int init_wheel_control(float base_speed)
 {   
-    PWM_duty_ratio = base_speed; //set both wheel sides to 0
-    
     //set OC0A and OC0B on compare match when up-counting, clear on down-counting
     TCCR0A |= 1<<COM0A1 | 1<<COM0A0 | 1<<COM0B1 | 1<<COM0B0;
     
@@ -70,7 +68,11 @@ int init_wheel_control(float base_speed)
     DDRB  |= (1<<DDB4) | (1<<DDB3); //PWM
     DDRC  |= (1<<DDC1) | (1<<DDC0); //DIR1
 
-    set_traversal_speed(0); // initial speed 0
+    // set initial variable values and speed to 0
+    PWM_duty_ratio = base_speed > MOTOR_MAX ? MOTOR_MAX : base_speed;
+    turn_status = 0;
+    set_traversal_speed(0);
+    
     return 0;
 }
 
@@ -124,6 +126,7 @@ void set_turn_speed(int turn_value){
     float left    =  traversal_status * PWM_duty_ratio;
     float right   = -traversal_status * PWM_duty_ratio;
     
+    // Compensate opposite motor if turn results in too big PWM duty
     if (left + turn > MOTOR_MAX){
         right = right - (left + turn - MOTOR_MAX);
         left  = MOTOR_MAX;
@@ -142,8 +145,8 @@ void set_turn_speed(int turn_value){
     }
     
     // set PWM duty
-    OCR0A = abs(left);
-    OCR0B = abs(right);
+    OCR0A = (int)(255 * ( 1 - fabs(left) ) );
+    OCR0B = (int)(255 * ( 1 - fabs(right)) );
     
     // set direction on left wheel side
     if(left < 0){
@@ -154,9 +157,9 @@ void set_turn_speed(int turn_value){
     
     // set direction on right wheel side
     if(right > 0){
-        PORTC |= 1<<PORTC1;
-    }else{
         PORTC &= ~(1<<PORTC1);
+    }else{
+        PORTC |= 1<<PORTC1;
     }
     
     // update current turn setting
@@ -205,7 +208,13 @@ void set_traversal_speed(int trav_value){
 */
  
 void update_wheel_control(){
-    set_traversal_speed(1);
+    
+    for (int i = -7; i <= 7; i++){
+        while(!seconds(1));
+        set_turn_speed(i);
+    }    
+    while(!seconds(1)); // this row takes very long time
+    set_turn_speed(0);
     //set_turn_speed(3);
 }
  

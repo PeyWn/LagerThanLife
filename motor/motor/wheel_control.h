@@ -18,6 +18,7 @@
     . the set speed for traversal speed
     . it is the duty of PWM
     . turn speed will be based on the current speed
+    . is restricted to be max MOTOR_MAX in wheel_control.c
 */
 int init_wheel_control(float base_speed);
 
