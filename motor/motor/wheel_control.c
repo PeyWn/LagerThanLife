@@ -122,9 +122,9 @@ void set_dir_pins(int dir)
 */
 void set_turn_speed(int turn_value){
     // PWM speed variables
-    float turn    =  turn_value * TURN_MAX/7;
-    float left    =  traversal_status * PWM_duty_ratio;
-    float right   = -traversal_status * PWM_duty_ratio;
+    float turn    =  turn_value * TURN_MAX/7;           // turn direciton
+    float left    =  traversal_status * PWM_duty_ratio; // left motors' speed
+    float right   =  traversal_status * PWM_duty_ratio; // right motors' speed
     
     // Compensate opposite motor if turn results in too big PWM duty
     if (left + turn > MOTOR_MAX){
@@ -150,13 +150,13 @@ void set_turn_speed(int turn_value){
     
     // set direction on left wheel side
     if(left < 0){
-        PORTC &= ~(1<<PORTC0);
-    }else{
         PORTC |= 1<<PORTC0;
+    }else{
+        PORTC &= ~(1<<PORTC0);
     }
     
     // set direction on right wheel side
-    if(right > 0){
+    if(right < 0){
         PORTC &= ~(1<<PORTC1);
     }else{
         PORTC |= 1<<PORTC1;
@@ -209,13 +209,17 @@ void set_traversal_speed(int trav_value){
  
 void update_wheel_control(){
     
-    for (int i = -7; i <= 7; i++){
-        while(!seconds(1));
-        set_turn_speed(i);
-    }    
-    while(!seconds(1)); // this row takes very long time
+    // wait 1 sec before starting
+    while(!seconds(1));
+    
+    // backwd left turn 2 sec
+    set_traversal_speed(-1);
+    set_turn_speed(-2);
+    while(!seconds(2));
+    
+    // stop
+    set_traversal_speed(0);
     set_turn_speed(0);
-    //set_turn_speed(3);
 }
  
 void stop_wheel_control(){
