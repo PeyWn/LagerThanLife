@@ -9,32 +9,7 @@
 #include <avr/io.h>
 #include <stdlib.h>
 #include "packets.h"
-
-typedef struct
-{
-	static int STARTBIT_0 = 0xFF,
-			   STARTBIT_1 = 0xFF;
-		   int ID,
-			   LENGHT,
-			   INSTRUCTION,
-			   PARAMETER_1, //CHECK
-			   //...
-			   PARAMETER_N,
-			   CHECK_SUM;
-}INSTRUCTION_PACKET;
-
-typedef struct
-{
-	static int STARTBIT_0 = 0xFF,
-			   STARTBIT_1 = 0xFF;
-		   int ID,
-			   LENGHT,
-			   ERROR,
-			   PARAMETER_1, //CHECK
-			   //...
-			   PARAMETER_N,
-			   CHECK_SUM;
-}STATUS_PACKET;
+#include "globals.h"
 
 INSTRUCTION_PACKET create_instruction_packet(int *id, int *instruction, int[] *parameters) //CHECK parameters data type
 {
