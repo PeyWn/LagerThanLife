@@ -7,10 +7,6 @@
 
 void init_IO(void)
 {
-	
-	
-	PORTD2 = 0;       //Set D02 to be input. Rx for UART communication with arm.  
-	PORTD3 = 1;       //Set D03 to be output. Tx for UART communication with arm. 
-	PORTD4 = 1;       //Set D04 to be output. Used as direction chooser for duplex-UART.  
-}
+	DDRD |= (1<<DDD4)|(1<<DDD3)&~(1<<DDD2);       //Set IO directions as follows: PORTD4 output, PORTD3 output, PORTD2 input. 
 
+}
