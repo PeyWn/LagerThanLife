@@ -7,12 +7,17 @@
 
 
 #include <avr/io.h>
-#include "uart_arm.h"
+#include "uart.h"
+#include "init_arm.h"
 
 int main(void)
 {
+	init_IO();
+	usart_init();
+	PORTD |= (1<<PORTD4);
+	
 	while(1)
     {
-		transmit(0); 
+		usart_transmit(0b00000000);
     }
 }

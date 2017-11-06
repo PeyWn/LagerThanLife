@@ -48,7 +48,7 @@
         <InterfaceName>JTAG</InterfaceName>
       </ToolOptions>
       <ToolType>com.atmel.avrdbg.tool.atmelice</ToolType>
-      <ToolNumber>J41800005412</ToolNumber>
+      <ToolNumber>J41800005213</ToolNumber>
       <ToolName>Atmel-ICE</ToolName>
     </com_atmel_avrdbg_tool_atmelice>
     <avrtoolinterface>JTAG</avrtoolinterface>
@@ -121,6 +121,9 @@
     <Compile Include="globals.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="init_arm.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="init_arm.h">
       <SubType>compile</SubType>
     </Compile>
@@ -145,11 +148,6 @@
     <Compile Include="uart_arm.h">
       <SubType>compile</SubType>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="init_arm.c">
-      <SubType>compile</SubType>
-    </None>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
