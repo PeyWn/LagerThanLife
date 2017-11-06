@@ -4,8 +4,8 @@
 
 #include <thread>
 #include <iostream>
-#include "server_sockets.h"
-#include "interthreadcom.h"
+#include "../lib/server_sockets.h"
+#include "../lib/interthreadcom.h"
 
 using namespace std;
 
@@ -16,7 +16,7 @@ InterThreadCom* thread_com;
 */
 void comm_mod_loop()
 {
-    CommunicationModule* com_module = new CommunicationModule(thread_com);
+    ServerSockets* com_module = new ServerSockets(thread_com);
     com_module->main_loop();
 }
 
