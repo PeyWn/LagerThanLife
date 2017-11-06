@@ -11,8 +11,6 @@
 #include "uart_arm.h"
 #include "uart.h"
 
-#define F_CPU 16000000				 // System clock frequency
-#define BAUD 9600					 // Baud rate
 #define RECIEVE 0					 // Definition used when setting half duplex UART direction. 
 #define TRANSMIT 1					 // Definition used when setting half duplex UART direction.
 #define DIRECTION_PORT = PORTD	     // Direction port D4 on AVR.
