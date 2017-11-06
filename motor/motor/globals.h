@@ -6,14 +6,12 @@
 typedef struct
 {
     static int STARTBIT_0 = 0xFF,
-	       STARTBIT_1 = 0xFF;
-	   int ID,
-	       LENGHT,
-	       INSTRUCTION,
-	       PARAMETER_1, //CHECK
-	       //...
-	       PARAMETER_N,
-	       CHECK_SUM;
+			   STARTBIT_1 = 0xFF;
+		   int ID,
+			   LENGHT,
+			   INSTRUCTION,
+			   PARAMETERS[100],
+			   CHECK_SUM;
 }INSTRUCTION_PACKET;
 
 typedef struct
@@ -21,12 +19,12 @@ typedef struct
     static int STARTBIT_0 = 0xFF,
                STARTBIT_1 = 0xFF;
            int ID,
-	       LENGHT,
+			   LENGHT,
                ERROR,
       	       PARAMETER_1, //CHECK
        	       //...
-  	       PARAMETER_N,
-  	       CHECK_SUM;
+  			   PARAMETER_N,
+  			   CHECK_SUM;
 }STATUS_PACKET;
 
 #endif /* GLOBALS_H_ */

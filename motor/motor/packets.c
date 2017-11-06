@@ -11,20 +11,23 @@
 #include "packets.h"
 #include "globals.h"
 
+#define number_of_elem(x)  (sizeof(x) / sizeof((x)[0]))
+
 INSTRUCTION_PACKET create_instruction_packet(int *id, int *instruction, int[] *parameters) //CHECK parameters data type
 {
 	INSTRUCTION_PACKET ip; 
 	ip->ID = id;
 	ip->INSTRUCTION = instruction;
 	  
-	int lenght_counter = 0;
-
-	for ()
+	int i = 0;
+	
+	for (parameters)
 	  {
-		//build parameters.
+		ip->PARAMETERS[i] = parameters[i];
+		i++; 
 	  }
 	  
-	  //calculate checksum and length then assign them to struct. 
+	ip->LENGHT=number_of_elem(parameters)+2; //Length variable calculated through # of parameters + 2.  
 }
 
 INSTRUCTION_PACKET set_ip_id(INSTRUCTION_PACKET *ip, int *id)
