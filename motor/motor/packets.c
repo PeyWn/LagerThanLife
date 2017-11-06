@@ -13,15 +13,15 @@
 
 INSTRUCTION_PACKET create_instruction_packet(int *id, int *instruction, int[] *parameters) //CHECK parameters data type
 {
-  INSTRUCTION_PACKET *ip = (INSTRUCTION_PACKET*)malloc(sizeof(INSTRUCTION_PACKET)); //Maybe not malloc. Ckeck sensor/globals.h + main.c
-	  ip->ID = id;
-	  ip->INSTRUCTION = instruction;
+	INSTRUCTION_PACKET ip; 
+	ip->ID = id;
+	ip->INSTRUCTION = instruction;
 	  
-	  int lenght_counter = 0;
+	int lenght_counter = 0;
 
-	  for ()
+	for ()
 	  {
-		  //build parameters.
+		//build parameters.
 	  }
 	  
 	  //calculate checksum and length then assign them to struct. 
