@@ -38,7 +38,7 @@ typedef struct
 
 INSTRUCTION_PACKET create_instruction_packet(int *id, int *instruction, int[] *parameters) //CHECK parameters data type
 {
-	  INSTRUCTION_PACKET *ip = (INSTRUCTION_PACKET*)malloc(sizeof(INSTRUCTION_PACKET));
+  INSTRUCTION_PACKET *ip = (INSTRUCTION_PACKET*)malloc(sizeof(INSTRUCTION_PACKET)); //Maybe not malloc. Ckeck sensor/globals.h + main.c
 	  ip->ID = id;
 	  ip->INSTRUCTION = instruction;
 	  
