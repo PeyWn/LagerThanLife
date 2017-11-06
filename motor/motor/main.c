@@ -7,12 +7,12 @@
 
 
 #include <avr/io.h>
+#include "uart_arm.h"
 
 int main(void)
 {
 	while(1)
     {
-        //TODO:: Please write your application code 
+		transmit(0); 
     }
-	
 }

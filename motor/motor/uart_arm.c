@@ -13,7 +13,7 @@
 
 #define RECIEVE 0					 // Definition used when setting half duplex UART direction. 
 #define TRANSMIT 1					 // Definition used when setting half duplex UART direction.
-#define DIRECTION_PORT = PORTD	     // Direction port D4 on AVR.
+#define DIRECTION_PORT PORTD	     // Direction port D4 on AVR.
 
 void transmit(unsigned char data)
 {	
@@ -24,7 +24,7 @@ void transmit(unsigned char data)
 unsigned char receive(void)
 {
 	set_direction_port(RECIEVE);
-	return usart_transmit();
+	return usart_recieve();
 }
 
 void set_direction_port(int dir)

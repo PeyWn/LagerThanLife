@@ -5,9 +5,9 @@
 
 typedef struct
 {
-    static int STARTBIT_0 = 0xFF,
-			   STARTBIT_1 = 0xFF;
-		   int ID,
+		   int STARTBIT_0,
+			   STARTBIT_1,
+			   ID,
 			   LENGHT,
 			   INSTRUCTION,
 			   PARAMETERS[100],
@@ -16,9 +16,9 @@ typedef struct
 
 typedef struct
 {
-    static int STARTBIT_0 = 0xFF,
-               STARTBIT_1 = 0xFF;
-           int ID,
+           int STARTBIT_0,
+               STARTBIT_1,
+               ID,
 			   LENGHT,
                ERROR,
       	       PARAMETER_1, //CHECK
