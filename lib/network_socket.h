@@ -1,15 +1,17 @@
-#ifndef NETWORK_SOCKETS_H
-#define NETWORK_SOCKETS_H
+#ifndef NETWORK_SOCKET_H
+#define NETWORK_SOCKET_H
 
 #include "string"
 #include "interthreadcom.h"
 
 const int PORT = 6000;
+//string hostname2 = ;
+//char hostname[12] = {1, 9, 2, '.', 1, 6, 8, '.', 0, '.', 6, 0};
 const char DELIMITER = '#';
 
 using namespace std;
 
-class NetworkSockets {
+class NetworkSocket {
     
     public:
         int sockfd;
@@ -44,4 +46,4 @@ class NetworkSockets {
     };
 
 
-#endif // NETWORK_SOCKETS_H
+#endif // NETWORK_SOCKET_H

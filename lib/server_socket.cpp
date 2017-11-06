@@ -1,9 +1,10 @@
 #include <unistd.h>
 #include <netdb.h> 
 #include <fcntl.h>
-#include "server_sockets.h"
 
-ServerSockets::ServerSockets(InterThreadCom* inter_thread_com) {
+#include "server_socket.h"
+
+ServerSocket::ServerSocket(InterThreadCom* inter_thread_com) {
     thread_com = inter_thread_com;
 
     socklen_t clilen;
@@ -19,12 +20,15 @@ ServerSockets::ServerSockets(InterThreadCom* inter_thread_com) {
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     serv_addr.sin_port = htons(PORT);
+
     if (bind(sockfd_init, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
         throw invalid_argument("ERROR on binding, probably bad PORT\n");
     }
+
     listen(sockfd_init,5);
     clilen = sizeof(cli_addr);
     newsockfd_init = accept(sockfd_init, (struct sockaddr *) &cli_addr, &clilen);
+
     if (newsockfd_init < 0) {
         throw invalid_argument("ERROR on accept\n");
     }
