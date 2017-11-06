@@ -11,6 +11,9 @@ using namespace std;
 
 InterThreadCom* thread_com;
 
+/*
+    Function for thread com_child. Starts the main loop in CommunicationModule.
+*/
 void comm_mod_loop()
 {
     CommunicationModule* com_module = new CommunicationModule(thread_com);
