@@ -6,7 +6,9 @@ when debuggee is running". Then crash.
 solved by closing those memory-windows quickly. However,
 clicking "watch2" results in the same crash.
 ---------------------------------------------------------------
-
+PROBLEM - C
+abs()s from stdlib.h is not for float. Use fabs() from  math.h
+instead.
 ---------------------------------------------------------------
 
 ---------------------------------------------------------------
