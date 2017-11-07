@@ -11,9 +11,19 @@
 #include "uart_arm.h"
 #include "uart.h"
 
-#define RECIEVE 0					 // Definition used when setting half duplex UART direction. 
-#define TRANSMIT 1					 // Definition used when setting half duplex UART direction.
 #define DIRECTION_PORT PORTD	     // Direction port D4 on AVR.
+
+void set_direction_port(int dir)
+{
+    if (dir == TRANSMIT)
+    {
+        DIRECTION_PORT |= (1<<PORTD4);		// Shift 1 4 steps into PORTD.
+    }
+    else if (dir == RECEIVE)
+    {
+        DIRECTION_PORT &= ~(1<<PORTD4);		// Set bit 4 in PORTD to 0.
+    }
+}
 
 void transmit(unsigned char data)
 {	
@@ -23,18 +33,8 @@ void transmit(unsigned char data)
 
 unsigned char receive(void)
 {
-	set_direction_port(RECIEVE);
-	return usart_recieve();
-}
-
-void set_direction_port(int dir)
-{
-	if (dir == TRANSMIT) 
-	{
-		DIRECTION_PORT |= (1<<PORTD4);		// Shift 1 4 steps into PORTD. 
-	}
-	else if (dir == RECIEVE)
-	{
-		DIRECTION_PORT &= ~(1<<PORTD4);		// Set bit 4 in PORTD to 0. 
-	}
+    while((!(UCSR0A)) & (1<<TXC1));   // wait for complete transmission
+	set_direction_port(RECEIVE);
+	return usart_receive();
+    
 }

@@ -5,4 +5,4 @@ void usart_init(void);
 void usart_transmit( unsigned char data );
 
 /* Function to receive data */
-unsigned char usart_recieve(void); 
+unsigned char usart_receive(void); 
