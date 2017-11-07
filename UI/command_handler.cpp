@@ -1,9 +1,11 @@
 #include <sstream>
 #include <iostream>
 #include <string>
-#include "CommandHandler.h"
+#include "command_handler.h"
 
-CommandHandler::CommandHandler(){}
+CommandHandler::CommandHandler(InterThreadCom* com){
+    robot_com = com;
+}
 
 /*
 Try to execute given command, return false if can not be done
@@ -16,7 +18,6 @@ bool CommandHandler::try_command(string line){
     //Load first word into cmd
     ss >> cmd;
 
-    //cout << "command: " << cmd <<endl;
     auto cmd_info = acc_cmd.find(cmd);
 
     if(cmd_info == acc_cmd.end()){
@@ -29,7 +30,7 @@ bool CommandHandler::try_command(string line){
 
         if(
             cmd == "get" ||
-            cmd == "setome"
+            cmd == "sethome"
         ){
             int n;
             ss >> n;
@@ -58,7 +59,5 @@ Send the given string to the network module for communication to the robot
 msg - the string to be sent
 */
 void CommandHandler::send_msg(string msg){
-    //TODO implement this
-    //for now, just print
-    cout << "To Robot: " << msg << endl;
+    robot_com->write_to_queue(msg, 1);
 }

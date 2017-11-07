@@ -1,5 +1,6 @@
+#include <cstring>
 #include <unistd.h>
-#include <netdb.h> 
+#include <netdb.h>
 #include <fcntl.h>
 
 #include "server_socket.h"

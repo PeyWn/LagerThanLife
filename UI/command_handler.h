@@ -1,9 +1,11 @@
 #include <map>
+#include "../lib/interthreadcom.h"
 
 using namespace std;
 
 class CommandHandler{
 private:
+    InterThreadCom* robot_com;
 
     /*
     First is name of command; second (booleans) is if command
@@ -43,6 +45,6 @@ private:
 
     void send_msg(string msg);
 public:
-    CommandHandler();
+    CommandHandler(InterThreadCom* com);
     bool try_command(string cmd);
 };

@@ -1,5 +1,6 @@
+#include <cstring>
 #include <sstream>
-#include <netdb.h> 
+#include <netdb.h>
 #include <unistd.h>
 #include "network_socket.h"
 
@@ -20,7 +21,7 @@ string NetworkSocket::socket_read() {
     string msg = buffer;
 
     if ((n == -1 && errno == EAGAIN) || n == 0) {       //Nothing to be read
-        return "";   
+        return "";
 
     } else if (n < 0 ) {
         printf("ERROR reading from socket\n");
@@ -58,7 +59,7 @@ void NetworkSocket::main_loop()
                 break;
             }
         }
-    
+
         msg_read = socket_read();
 
        if (msg_read != "") {

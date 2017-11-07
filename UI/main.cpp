@@ -1,6 +1,6 @@
 #include <thread>
 #include <iostream>
-//#include "CommandHandler.h"
+#include "command_handler.h"
 #include "../lib/client_socket.h"
 #include "../lib/interthreadcom.h"
 
@@ -29,31 +29,26 @@ void read_msg() {
 }
 
 int main(){
-    //CommandHandler cmd_handler;
-
     thread_com = new InterThreadCom();
-    thread com_child(comm_mod_loop); // Create a new thread to handle communication
+    CommandHandler cmd_handler(thread_com);
 
-    thread read_child(read_msg); // Create a new thread to handle print to console
+    // Create a new thread to handle communication
+    //thread com_child(comm_mod_loop);
 
-    string msg_write;
+    // Create a new thread to handle print to console
+    thread read_child(read_msg);
+
     //Main Loop
     while(true){
-        /*cout << "> ";
+        cout << "> ";
 
         string cmd;
-        cin >> cmd;
+        getline(cin, cmd);
 
         bool cmd_accepted = cmd_handler.try_command(cmd);
 
         if(!cmd_accepted){
             cout << COMMAND_ERROR << endl;
         }
-        */
-        cout << "Enter a message: ";
-        getline(cin, msg_write);
-        thread_com->write_to_queue(msg_write, 1);
-
-
     }
 }
