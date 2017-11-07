@@ -1,6 +1,5 @@
 /**
-    Implementation of CommunicationModule
-    Handles communication with CentralModule and server side of socket communication
+    Implementation of clientside of socket communication
 */
 
 #ifndef CLIENT_SOCKET_H

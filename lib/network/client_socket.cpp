@@ -19,9 +19,7 @@ ClientSocket::ClientSocket(InterThreadCom* inter_thread_com) {
         throw invalid_argument("ERROR opening socket\n");
     }
 
-    string temp = "localhost";
-
-    server = gethostbyname(temp.c_str());  // hostname takes char *hostname
+    server = gethostbyname(hostname.c_str());  // argument type for gethostbyname is char*
     if (server == NULL) {
         throw invalid_argument("ERROR, host not found\n");
     }

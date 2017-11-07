@@ -4,6 +4,10 @@
 #include <unistd.h>
 #include "network_socket.h"
 
+void NetworkSocket::close_socket() {
+    close(sockfd);
+}
+
 
 int NetworkSocket::socket_write(string msg) {
     if (write(sockfd, (msg + DELIMITER).c_str(), strlen(msg.c_str()) + 1) < 0) {

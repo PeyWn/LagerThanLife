@@ -1,21 +1,30 @@
+/*
+    Abstract class for functions that both client sockets and server sockets use
+*/
 #ifndef NETWORK_SOCKET_H
 #define NETWORK_SOCKET_H
 
 #include "string"
 #include "interthreadcom.h"
 
-const int PORT = 6000;
-//string hostname2 = ;
-//char hostname[12] = {1, 9, 2, '.', 1, 6, 8, '.', 0, '.', 6, 0};
-const char DELIMITER = '#';
+
 
 using namespace std;
 
 class NetworkSocket {
     
     public:
+        const int PORT = 6000;
+        string hostname = "localhost";
+
         int sockfd;
         InterThreadCom* thread_com;
+        const char DELIMITER = '#';
+        
+        /*
+            Closes and terminates socket properly
+        */
+        void close_socket();
 
         /*
             The main loop that will check for new messages and relay them
