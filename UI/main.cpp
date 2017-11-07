@@ -22,7 +22,7 @@ void read_msg() {
     while(true) {
         msg_read = thread_com->read_from_queue(2);
         if (msg_read != "") {
-            cout << msg_read << "\n";
+            cout << endl << msg_read << endl << ">";
         }
     }
 
@@ -33,7 +33,7 @@ int main(){
     CommandHandler cmd_handler(thread_com);
 
     // Create a new thread to handle communication
-    //thread com_child(comm_mod_loop);
+    thread com_child(comm_mod_loop);
 
     // Create a new thread to handle print to console
     thread read_child(read_msg);

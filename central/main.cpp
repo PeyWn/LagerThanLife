@@ -4,8 +4,8 @@
 
 #include <thread>
 #include <iostream>
-#include "../lib/server_socket.h"
-#include "../lib/interthreadcom.h"
+#include "../lib/network/server_socket.h"
+#include "../lib/network/interthreadcom.h"
 
 using namespace std;
 

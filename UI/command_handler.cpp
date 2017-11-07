@@ -42,8 +42,6 @@ bool CommandHandler::try_command(string line){
 
             cmd.append(" ");
             cmd.append(to_string(n));
-
-            send_msg(cmd);
         }
         //TODO implement rest of commands with parameters
     }
