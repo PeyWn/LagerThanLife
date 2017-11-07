@@ -1,6 +1,5 @@
 /**
-    Implementation of CommunicationModule
-    Handles communication with CentralModule and server side of socket communication
+    Implementation of serverside of socket communication
 */
 
 #ifndef SERVER_SOCKET_H
@@ -15,6 +14,8 @@ class ServerSocket: public NetworkSocket {
 
 public:
     ServerSocket(InterThreadCom* inter_thread_com);
+
+    new_connection();
 };
 
 #endif // SERVER_SOCKET_H

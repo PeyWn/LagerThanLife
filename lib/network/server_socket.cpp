@@ -9,7 +9,7 @@ ServerSocket::ServerSocket(InterThreadCom* inter_thread_com) {
     thread_com = inter_thread_com;
 
     socklen_t clilen;
-    int sockfd_init, newsockfd_init;
+    int sockfd_init;
     struct sockaddr_in serv_addr, cli_addr;
 
     sockfd_init = socket(AF_INET, SOCK_STREAM, 0);
@@ -26,6 +26,15 @@ ServerSocket::ServerSocket(InterThreadCom* inter_thread_com) {
         throw invalid_argument("ERROR on binding, probably bad PORT\n");
     }
 
+    new_connection();
+
+    //close(sockfd_init);
+
+}
+
+ServerSocket::new_connection() {
+    int newsockfd_init;
+
     listen(sockfd_init,5);
     clilen = sizeof(cli_addr);
     newsockfd_init = accept(sockfd_init, (struct sockaddr *) &cli_addr, &clilen);
@@ -40,6 +49,4 @@ ServerSocket::ServerSocket(InterThreadCom* inter_thread_com) {
     }
 
     sockfd = newsockfd_init;
-    close(sockfd_init);
-
 }

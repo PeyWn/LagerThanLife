@@ -19,7 +19,6 @@ class InterThreadCom {
 private:
     mutex mtx_queue1, mtx_queue2;
     queue<string> queue1, queue2;
-    enum com_ways {from_socket, to_socket};
 
 public:
     InterThreadCom();

@@ -7,14 +7,9 @@
 using namespace std;
 
 const string COMMAND_ERROR = "ERROR! There was an error executing your command.";
-InterThreadCom* thread_com;
 
-// Function for thread com_child
-void comm_mod_loop()
-{
-    ClientSocket* com_module = new ClientSocket(thread_com);
-    com_module->main_loop();
-}
+InterThreadCom* thread_com;
+ClientSocket* com_module;
 
 // Function for thread read_child
 void read_msg() {
@@ -25,7 +20,6 @@ void read_msg() {
             cout << endl << msg_read << endl << ">";
         }
     }
-
 }
 
 int main(){
@@ -33,7 +27,9 @@ int main(){
     CommandHandler cmd_handler(thread_com);
 
     // Create a new thread to handle communication
-    thread com_child(comm_mod_loop);
+    com_module = new ClientSocket(thread_com);
+    //thread com_child(comm_mod_loop);
+    thread com_child([](){com_module->main_loop();});
 
     // Create a new thread to handle print to console
     thread read_child(read_msg);
