@@ -16,32 +16,31 @@
 
 void usart_init(void)
 {
-	 /* Activates USART0 and USART1. */
-	  PRR0 &= ~(0<<PRUSART0)&~(0<<PRUSART1);
-  
-	/* Set baud rate. */
-	UBRR1H = (unsigned char)(BAUDRATE>>8);
-	 UBRR1L = (unsigned char)BAUDRATE;
+	/* Set baud rate to 1M @ 2Mb/s. */
+	UBRR1L = 0;
+	UBRR1H = 0;
+	
+	/* Set Double asynchronous speed */
+	UCSR1A |= (1<<U2X1);
+	
+	/* 0b00000011: asynchronous[00], no parity [00], 1 stop-bit [0], 8 data bits [11], Rising XCKn edge [0] */
+	UCSR1C = 0b00000110;
 
-	 /* Enable receiver and transmitter. */
-	UCSR1B = (1<<RXEN1)|(1<<TXEN1);
-
-	/* Set frame format: 8data, 1stop bit. Activate asynchronous UART. */ 
-	UCSR1C |= (1<<USBS1)|(1<<UCSZ00)|(1<<UCSZ01)|(1<<UMSEL11)|(1<<UMSEL10);
-	UCSR1C &= ~(1<<USBS0)&~(1<<UCSZ02);
+	/* Enable receiver and transmitter on USART1, also interrupt flags. */
+	UCSR1B |= (1<<RXEN1)|(1<<TXEN1)|(1<<RXCIE1)|(1<<TXCIE1)|(1<<UDRIE1);
 }
 
 
 /* Writes input data to transmit buffer. */
 void usart_transmit( unsigned char data )
 { 
-	while (!(UCSR1A&(1<<UDRE1)));    //Wait for empty transmit buffer 
-	UDR1 = data;                     //Put data into buffer, sends the data
+	while (!(UCSR1A&(1<<UDRE1))){}    //Wait for empty transmit buffer 
+	UDR1 = data;                      //Put data into buffer, sends the data
 }
 
 
 unsigned char usart_recieve (void)
 {
 	while((!(UCSR0A)) & (1<<RXC0));          // wait while data is being received
-	return UDR1;                          // return 8-bit data
+	return UDR1;                             // return 8-bit data
 }
