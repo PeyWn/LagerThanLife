@@ -1,8 +1,8 @@
 #include <thread>
 #include <iostream>
 #include "command_handler.h"
-#include "../lib/client_socket.h"
-#include "../lib/interthreadcom.h"
+#include "../lib/network/client_socket.h"
+#include "../lib/network/interthreadcom.h"
 
 using namespace std;
 

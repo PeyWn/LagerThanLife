@@ -1,5 +1,5 @@
 #include <map>
-#include "../lib/interthreadcom.h"
+#include "../lib/network/interthreadcom.h"
 
 using namespace std;
 
