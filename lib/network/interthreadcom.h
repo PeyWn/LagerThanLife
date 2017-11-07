@@ -1,8 +1,8 @@
 /**
     InterThreadCom used for communication between CentralModule and CommunicationModule
     Each queue is a one way communication having each mutex lock.
-    Queue 1 is used for communication from CentralModule to CommunicationModule
-    Queue 2 is used for communication from CommunicationModule to CentralModule
+    Queue 1 is used for communication from a module to socket
+    Queue 2 is used for communication from socket to a module
 */
 
 #ifndef INTERTHREADCOM_H
@@ -19,6 +19,7 @@ class InterThreadCom {
 private:
     mutex mtx_queue1, mtx_queue2;
     queue<string> queue1, queue2;
+    enum com_ways {from_socket, to_socket};
 
 public:
     InterThreadCom();

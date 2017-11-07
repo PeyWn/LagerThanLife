@@ -1,9 +1,11 @@
 #include <map>
+#include "../lib/network/interthreadcom.h"
 
 using namespace std;
 
 class CommandHandler{
 private:
+    InterThreadCom* robot_com; //Module to use to send messages to robot
 
     /*
     First is name of command; second (booleans) is if command
@@ -41,8 +43,26 @@ private:
         {"sethome", true}
     };
 
+    /*
+    Send a message to the robot using robot_com
+
+    msg - the string to be sent
+    */
     void send_msg(string msg);
 public:
-    CommandHandler();
+    /*
+    Construct a CommandHandler Objext
+
+    com - pointer to InterThreadCom module to use to send messages to robot
+    */
+    CommandHandler(InterThreadCom* com);
+
+    /*
+    try to execute given string as a command. Return if it worked
+
+    cmd - the string as a command to try to use (example "stop", "get 3")
+
+    return - if the command could be executed succesfully
+    */
     bool try_command(string cmd);
 };

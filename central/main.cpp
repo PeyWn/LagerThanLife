@@ -4,8 +4,8 @@
 
 #include <thread>
 #include <iostream>
-#include "server_sockets.h"
-#include "interthreadcom.h"
+#include "../lib/network/server_socket.h"
+#include "../lib/network/interthreadcom.h"
 
 using namespace std;
 
@@ -16,7 +16,7 @@ InterThreadCom* thread_com;
 */
 void comm_mod_loop()
 {
-    CommunicationModule* com_module = new CommunicationModule(thread_com);
+    ServerSocket* com_module = new ServerSocket(thread_com);
     com_module->main_loop();
 }
 
@@ -24,7 +24,7 @@ int main() {
 
     thread_com = new InterThreadCom();  // Create a new InterThreadCom used for communication with CommunicationModule
 
-    thread com_child (comm_mod_loop);   // Spawn a new thread that calls on function comm_mod_loop
+    thread com_child(comm_mod_loop);   // Spawn a new thread that calls on function comm_mod_loop
 
     string msg_read;
     while(true) {
