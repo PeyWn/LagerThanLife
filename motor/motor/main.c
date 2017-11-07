@@ -18,6 +18,6 @@ int main(void)
 	
 	while(1)
     {
-		usart_transmit(0b00000000);
+		usart_transmit(0b00010000);
     }
 }
