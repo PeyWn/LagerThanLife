@@ -12,13 +12,11 @@
 #include "string"
 #include <queue>
 
-using namespace std;
-
 class InterThreadCom {
 
 private:
-    mutex mtx_queue1, mtx_queue2;
-    queue<string> queue1, queue2;
+    std::mutex mtx_queue1, mtx_queue2;
+    std::queue<std::string> queue1, queue2;
 
 public:
     InterThreadCom();
@@ -29,7 +27,7 @@ public:
         string msg - Message that is to be pushed to the queue.
         int queue - specify writing to queue1 or queue2
     */
-    void write_to_queue(string msg, int queue);
+    void write_to_queue(std::string msg, int queue);
 
     /*
         Reads a message and removes it from a queue
@@ -38,7 +36,7 @@ public:
 
         Returns a string with the read message
     */
-    string read_from_queue(int queue);
+    std::string read_from_queue(int queue);
 
 };
 

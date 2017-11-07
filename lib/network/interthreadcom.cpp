@@ -1,5 +1,7 @@
 #include "interthreadcom.h"
 
+using namespace std;
+
 InterThreadCom::InterThreadCom() {}
 
 void InterThreadCom::write_to_queue(string msg, int queue) {

@@ -7,24 +7,15 @@
 #include "string"
 #include "interthreadcom.h"
 
-
-
-using namespace std;
-
 class NetworkSocket {
     
     public:
         const int PORT = 6000;
-        string hostname = "localhost";
+        std::string hostname = "192.168.11.160";
 
         int sockfd;
         InterThreadCom* thread_com;
         const char DELIMITER = '#';
-        
-        /*
-            Closes and terminates socket properly
-        */
-        void close_socket();
 
         /*
             The main loop that will check for new messages and relay them
@@ -38,19 +29,19 @@ class NetworkSocket {
             
             Returns 0 if success, else -1
         */
-        int socket_write(string msg);
+        int socket_write(std::string msg);
     
         /*
             Reads a message from the socket and returns this message as a string
         */
-        string socket_read();
+        std::string socket_read();
     
         /*
             Split up a message using the delimiter and relay each word to CentralModule
     
             string msg_read - The message read that is to be splitted and relayed
         */
-        void interpret_message(string msg_read);
+        void interpret_message(std::string msg_read);
     
     };
 

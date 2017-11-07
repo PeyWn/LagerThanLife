@@ -4,6 +4,8 @@
 #include "../lib/network/client_socket.h"
 #include "../lib/network/interthreadcom.h"
 
+#include <signal.h>
+
 using namespace std;
 
 const string COMMAND_ERROR = "ERROR! There was an error executing your command.";

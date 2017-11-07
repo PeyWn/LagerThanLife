@@ -3,10 +3,9 @@
 #include <netdb.h>
 #include <unistd.h>
 #include "network_socket.h"
+#include <iostream>
 
-void NetworkSocket::close_socket() {
-    close(sockfd);
-}
+using namespace std;
 
 
 int NetworkSocket::socket_write(string msg) {
@@ -29,7 +28,7 @@ string NetworkSocket::socket_read() {
 
     } else if (n < 0 ) {
         printf("ERROR reading from socket\n");
-        return "";
+        return "-1";
 
     }
     return msg;
@@ -51,24 +50,27 @@ void NetworkSocket::main_loop()
 {
     string msg_read = "";
     string msg_write = "";
-    bool running = true;
-    while(running == true) {
+
+    while(true) {
 
         //Read from queue 1 (from a module) and relay this info with socket_write
         msg_write = thread_com->read_from_queue(1);
 
         if (msg_write != "") {
             if (socket_write(msg_write) < 0) {
-                running = false;
                 break;
             }
         }
 
         msg_read = socket_read();
 
-       if (msg_read != "") {
+        if (msg_read != "") {
+            if (msg_read == "-1") {
+                break;
+            }
             interpret_message(msg_read);
         }
     }
+
 
 }

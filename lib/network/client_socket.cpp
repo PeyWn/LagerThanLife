@@ -10,9 +10,9 @@ using namespace std;
 ClientSocket::ClientSocket(InterThreadCom* inter_thread_com) {
     thread_com = inter_thread_com;
 
+    struct hostent *server;
     int sockfd_init;
     struct sockaddr_in serv_addr;
-    struct hostent *server;
 
     sockfd_init = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd_init < 0) {
@@ -29,7 +29,7 @@ ClientSocket::ClientSocket(InterThreadCom* inter_thread_com) {
     bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(PORT);
 
-    if (connect(sockfd_init,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) {
+    if (connect(sockfd_init,(struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
         throw invalid_argument("ERROR connecting\n");
     }
 
@@ -39,4 +39,6 @@ ClientSocket::ClientSocket(InterThreadCom* inter_thread_com) {
     }
 
     sockfd = sockfd_init;
+
 }
+

@@ -10,21 +10,30 @@
 using namespace std;
 
 InterThreadCom* thread_com;
+ServerSocket* com_module;
+
+void check_new_connections() {
+    while(true) {
+        com_module->new_connection();
+    }
+
+}
 
 /*
     Function for thread com_child. Starts the main loop in CommunicationModule.
 */
 void comm_mod_loop()
 {
-    ServerSocket* com_module = new ServerSocket(thread_com);
     com_module->main_loop();
 }
 
 int main() {
 
     thread_com = new InterThreadCom();  // Create a new InterThreadCom used for communication with CommunicationModule
+    com_module = new ServerSocket(thread_com);
 
     thread com_child(comm_mod_loop);   // Spawn a new thread that calls on function comm_mod_loop
+    thread com_child_new(check_new_connections);
 
     string msg_read;
     while(true) {
@@ -33,7 +42,6 @@ int main() {
             cout << "Msg: " << msg_read << "\n";
 
             thread_com->write_to_queue("I got the message thank you", 1);
-            thread_com->write_to_queue("thank you again", 1);
         }
 
     }
