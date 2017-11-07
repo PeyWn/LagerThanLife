@@ -16,11 +16,6 @@ class NetworkSocket {
         int sockfd;
         InterThreadCom* thread_com;
         const char DELIMITER = '#';
-        
-        /*
-            Closes and terminates socket properly
-        */
-        void close_socket();
 
         /*
             The main loop that will check for new messages and relay them
