@@ -5,7 +5,6 @@
 #include <iostream>
 #include <thread>
 
-
 #include "server_socket.h"
 
 ServerSocket::ServerSocket(InterThreadCom* inter_thread_com) {
@@ -21,9 +20,10 @@ ServerSocket::ServerSocket(InterThreadCom* inter_thread_com) {
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     serv_addr.sin_port = htons(PORT);
 
-    socklen_t kek = sizeof(serv_addr);
-    int temp = 0;
-    if (bind(sockfd_init, (struct sockaddr *) &serv_addr, kek) < temp) {
+    int on = 1;
+    setsockopt (sockfd_init, SOL_SOCKET, SO_REUSEADDR, &on, sizeof (on));
+
+    if (bind(sockfd_init, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
         throw std::invalid_argument("ERROR on binding, probably PORT in use\n");
     }
 
@@ -50,4 +50,11 @@ void ServerSocket::new_connection() {
     sockfd = newsockfd_init;
     std::cout << "New connection made" << std::endl;
 
+}
+
+
+void ServerSocket::main_loop() {
+    while(true) {
+        write_read_interpret();
+    }
 }

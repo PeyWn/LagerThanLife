@@ -16,7 +16,6 @@ void check_new_connections() {
     while(true) {
         com_module->new_connection();
     }
-
 }
 
 /*
@@ -43,10 +42,8 @@ int main() {
 
             thread_com->write_to_queue("I got the message thank you", 1);
         }
-
     }
 
-    // com_child.join();
 
     return 0;
 }

@@ -7,7 +7,6 @@
 
 using namespace std;
 
-
 int NetworkSocket::socket_write(string msg) {
     if (write(sockfd, (msg + DELIMITER).c_str(), strlen(msg.c_str()) + 1) < 0) {
         printf("ERROR writing to socket\n");
@@ -46,31 +45,27 @@ void NetworkSocket::interpret_message(string msg_read) {
 }
 
 
-void NetworkSocket::main_loop()
-{
+int NetworkSocket::write_read_interpret() {
     string msg_read = "";
     string msg_write = "";
 
-    while(true) {
+    //Read from queue 1 (from a module) and relay this info with socket_write
+    msg_write = thread_com->read_from_queue(1);
 
-        //Read from queue 1 (from a module) and relay this info with socket_write
-        msg_write = thread_com->read_from_queue(1);
-
-        if (msg_write != "") {
-            if (socket_write(msg_write) < 0) {
-                break;
-            }
-        }
-
-        msg_read = socket_read();
-
-        if (msg_read != "") {
-            if (msg_read == "-1") {
-                break;
-            }
-            interpret_message(msg_read);
+    if (msg_write != "") {
+        if (socket_write(msg_write) < 0) {
+            return -1;
         }
     }
 
+    msg_read = socket_read();
 
+    if (msg_read != "") {
+        if (msg_read == "-1") {
+            return -1;
+        }
+        interpret_message(msg_read);
+    }
+
+    return 0;
 }

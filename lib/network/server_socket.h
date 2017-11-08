@@ -21,6 +21,8 @@ public:
     ServerSocket(InterThreadCom* inter_thread_com);
 
     void new_connection();
+
+    void main_loop();
 };
 
 #endif // SERVER_SOCKET_H

@@ -11,16 +11,16 @@ class NetworkSocket {
     
     public:
         const int PORT = 6000;
-        std::string hostname = "192.168.11.160";
+        std::string hostname = "localhost";
 
         int sockfd;
         InterThreadCom* thread_com;
         const char DELIMITER = '#';
 
         /*
-            The main loop that will check for new messages and relay them
+            Writes, reads and interprets the messages that has been read
         */
-        void main_loop();
+        int write_read_interpret();
 
         /*
             Writes the input message to the socket
