@@ -6,4 +6,4 @@
  */ 
 
 /* Initializes input and output, sets direction of IO ports. */ 
-void init_IO(void);
+void init_IO();

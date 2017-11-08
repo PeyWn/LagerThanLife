@@ -28,13 +28,13 @@ void set_direction_port(int dir)
 void transmit(unsigned char data)
 {	
 	set_direction_port(TRANSMIT);
-	usart_transmit(data);
+	usart_transmit(data); 
+	UCSR1A |= (1<<TXC1); 
 }
 
 unsigned char receive(void)
 {
-    while((!(UCSR0A)) & (1<<TXC1));   // wait for complete transmission
-	set_direction_port(RECEIVE);
+    while(!((UCSR1A)) & (1<<TXC1));   // wait for complete transmission
+	set_direction_port(RECEIVE); 
 	return usart_receive();
-    
 }

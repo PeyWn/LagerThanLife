@@ -10,24 +10,32 @@
 #include <stdlib.h>
 #include "uart.h"
 
-#define F_CPU 16000000    // AVR SYS CLOCK FREQUENCY TO 16MHz
-#define BAUD 1000000         // DEFINE BAUD RATE 1M Baud
-#define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)    // SET BAUDRATE VALUE FOR UBRR
+#define F_CPU 16000000    // Avr system clock @ 16Mhz. 
 
-void usart_init(void)
+void usart_init(int baudrate)
 {
-	/* Set baud rate to 1M @ max 2Mb/s. */
-	UBRR1L = 0;
-	UBRR1H = 0;
+	/* Calculate baud according to formula given in data sheet. */ 
+	int baud = (((F_CPU)/(baudrate*16))-1);
 	
-	/* Set Double asynchronous speed */
-	UCSR1A |= (1<<U2X1);
+	baud = 0; //HACK: CHANGED TO CALCULATED VALUE. 
 	
-	/* 0b00000011: asynchronous[00], no parity [00], 1 stop-bit [0], 8 data bits [11], Rising XCKn edge [0] */
-	UCSR1C = 0b00000110;
-
+	/* Set baud rate to 1M @ max 1Mb/s. */
+	UBRR1H |= (unsigned char)(baud>>8);
+	UBRR1L |= (unsigned char)baud;
+	
+	/* Disable double asynchronous speed */
+	UCSR1A &= ~(1<<U2X1);
+	
+	UCSR1A |= (1<<U2X1); //HACK: CHANGED TO REACH 100khz AKA THE RIGHT FREQUENCY. 
+	
 	/* Enable receiver and transmitter on USART1, also interrupt flags. */
 	UCSR1B |= (1<<RXCIE1)|(1<<TXCIE1)|(1<<UDRIE1)|(1<<RXEN1)|(1<<TXEN1);
+	
+	/* 0b00000011: asynchronous[00], no parity [00], 1 stop-bit [0], 8 data bits [11], Rising XCKn edge [0] */
+	UCSR1C |= (3<<UCSZ10);
+
+	/* Enable global interrupt */ 
+	//SREG |= (1<<7);
 }
 
 

@@ -1,5 +1,5 @@
 /*This function initializes the USART in Asynchronous Normal mode.*/
-void usart_init(void);
+void usart_init(int baud);
 
 /* Function to send data */
 void usart_transmit( unsigned char data );

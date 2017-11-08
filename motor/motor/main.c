@@ -47,6 +47,7 @@ void test_read_ID(){
     transmit(0x03); // Parameter 1: address to read at
     transmit(0x01); // Parameter 2: bytes of data to read
     transmit( ~(18 + 0x04 + 0x02 + 0x03 + 0x01) ); // checksum
+
 }
 
 
@@ -75,12 +76,12 @@ void test_ping(){
 int main(void)
 {
 	init_IO();
-	usart_init();
+	usart_init(1000000);
     
     /* test if data is received*/
     while(1){
-       test_read_ID();
-       test_receive_ID();
+       test_turn_on_LED();
+	   test_receive_ID();
     }    
 
 }
