@@ -5,6 +5,7 @@
  *  Author: jakno732
  */ 
 
+
 #include <avr/io.h>
 #include "uart.h"
 #include "init_arm.h"
@@ -15,12 +16,21 @@
 void test_turn_on_LED(){
     transmit(0xFF);
     transmit(0xFF);
+<<<<<<< HEAD
     transmit(8); //ID = FE.
+=======
+    transmit(0xFE); //ID = FE.
+>>>>>>> parent of 6fd476a... Show anders Commit
     transmit(0x04); //LENGTH = 4.
     transmit(0x03); //Instruction = write.
     transmit(0x19); //Parameter 1 --> Control table address = 0x19 => LED.
     transmit(0x01); //Parameter 2 --> data = 1 to be written. TURN ON
+<<<<<<< HEAD
     transmit( ~(8 + 0x04 + 0x03 + 0x19 + 0x01) ); //CHECKSUM
+=======
+    transmit( ~(18 + 0x04 + 0x03 + 0x19 + 0x01) ); //CHECKSUM
+    //transmit(0x00);
+>>>>>>> parent of 6fd476a... Show anders Commit
 }
 
 /* turn off led */
@@ -48,8 +58,10 @@ void test_read_ID(){
 
 }
 
+
 /* receive ID from status packet (broadcast receives no status packets) */
 char test_receive_ID(){
+<<<<<<< HEAD
 	char id = 0;
     id += receive();                // 0xFF
     id += receive();                // 0xFF
@@ -57,6 +69,14 @@ char test_receive_ID(){
     id += receive();                // 0x03 - length
     id += receive();                // 0x00 - error
     id += receive();                // checksum
+=======
+    receive();                // 0xFF
+    receive();                // 0xFF
+    char id =receive();                // 18   - ID, not read from address)
+    receive();                // 0x03 - length
+    receive();                // 0x00 - error
+    receive();                // checksum
+>>>>>>> parent of 6fd476a... Show anders Commit
     return id;
 }
 
@@ -117,8 +137,16 @@ int main(void)
 	    
     /* test if data is received*/
     while(1){
+<<<<<<< HEAD
 		test_turn();
 		volatile char id = test_receive_ID();
 	}    
+=======
+		test_turn_off_LED();
+		for (int i = 0; i<11512; i++);
+		test_turn_on_LED();
+		for (int i = 0; i<11512; i++);
+    }    
+>>>>>>> parent of 6fd476a... Show anders Commit
 
 }
