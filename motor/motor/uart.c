@@ -28,7 +28,11 @@ void usart_init(int baudrate)
 	
 	/* Enable receiver and transmitter on USART1, also interrupt flags. */
 <<<<<<< HEAD
+<<<<<<< HEAD
 	UCSR1B |= (1<<RXEN1)|(1<<TXEN1);
+=======
+	UCSR1B |= (1<<RXCIE1)|(1<<TXCIE1)|(1<<UDRIE1)|(1<<RXEN1)|(1<<TXEN1);
+>>>>>>> parent of 6fd476a... Show anders Commit
 =======
 	UCSR1B |= (1<<RXCIE1)|(1<<TXCIE1)|(1<<UDRIE1)|(1<<RXEN1)|(1<<TXEN1);
 >>>>>>> parent of 6fd476a... Show anders Commit
@@ -47,8 +51,12 @@ void usart_transmit( unsigned char data )
 	while (!(UCSR1A&(1<<UDRE1)));		 //Wait for empty transmit buffer.
 	UDR1 = data;						 //Put data into buffer, sends the data
 <<<<<<< HEAD
+<<<<<<< HEAD
 	while (!(UCSR1A&(1<<TXC1)));		 //Wait for empty transmit register
 	UCSR1A |= (1<<TXC1);				 //clear transmit register empty flag by setting TXC1. 
+=======
+	
+>>>>>>> parent of 6fd476a... Show anders Commit
 =======
 	
 >>>>>>> parent of 6fd476a... Show anders Commit
@@ -58,10 +66,13 @@ void usart_transmit( unsigned char data )
 unsigned char usart_receive (void)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	while((!(UCSR1A)) & (1<<RXC1));          // wait for data to be received in receiver buffer
 	char data = UDR1;                             // return 8-bit data
 	return data;
 =======
+=======
+>>>>>>> parent of 6fd476a... Show anders Commit
     //while(!UDR1);   //wait if there is no data
 	while((!(UCSR1A)) & (1<<RXC1));          // wait while data is being received
 	return UDR1;                             // return 8-bit data
