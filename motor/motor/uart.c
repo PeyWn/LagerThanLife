@@ -27,7 +27,7 @@ void usart_init(int baudrate)
 	UCSR1A &= ~(1<<U2X1);
 	
 	/* Enable receiver and transmitter on USART1, also interrupt flags. */
-	UCSR1B |= (1<<RXCIE1)|(1<<TXCIE1)/(1<<UDRIE1)|(1<<RXEN1)|(1<<TXEN1);
+	UCSR1B |= (1<<RXEN1)|(1<<TXEN1);
 	
 	/* 0b00000011: asynchronous[00], no parity [00], 1 stop-bit [0], 8 data bits [11], Rising XCKn edge [0] */
 	UCSR1C |= (3<<UCSZ10);
@@ -42,11 +42,14 @@ void usart_transmit( unsigned char data )
 { 
 	while (!(UCSR1A&(1<<UDRE1)));			//Wait for empty transmit buffer.
 	UDR1 = data;						 //Put data into buffer, sends the data
+	while (!(UCSR1A&(1<<TXC1)));
+	UCSR1A |= (1<<TXC1); 	
 }
 
 
 unsigned char usart_receive (void)
 {
 	while((!(UCSR1A)) & (1<<RXC1));          // wait while data is being received
+	
 	return UDR1;                             // return 8-bit data
 }

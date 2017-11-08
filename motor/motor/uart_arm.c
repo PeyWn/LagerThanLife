@@ -33,7 +33,6 @@ void transmit(unsigned char data)
 
 unsigned char receive(void)
 {
-    while(!((UCSR1A)) & (1<<TXC1));   // wait for complete transmission
 	set_direction_port(RECEIVE); 
 	return usart_receive();
 }

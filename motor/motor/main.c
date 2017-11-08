@@ -69,6 +69,22 @@ void test_ping(){
     transmit( ~(18 + 0x02 + 0x01) ); // checksum
 }
 
+void test_turn(){
+    transmit(0xFF);
+    transmit(0xFF);
+    transmit(18); //ID - 18 is motor, 0xFE is broadcast
+    transmit(0x07); //LENGTH = 4.
+    transmit(0x03); //Instruction = write.
+    transmit(0x1E); //Parameter 1 --> Control table address = 0x19 => LED.
+    transmit(0x00); //Parameter 2 --> data = 0 to be written. TURN OFF
+	transmit(0x02);
+	transmit(0x00);
+	transmit(0x02);
+	SREG &= ~(1<<7);
+    transmit(0xD3); //CHECKSUM
+	SREG |= (1<<7);
+}
+
 int main(void)
 {
 	init_IO();
@@ -78,6 +94,7 @@ int main(void)
     while(1){
 		test_turn_off_LED();
 		test_receive_ID();
+		for (int i = 0; i<1109; i++);
 	}    
 
 }
