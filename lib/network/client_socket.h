@@ -16,7 +16,7 @@ class ClientSocket: public NetworkSocket {
 public:
     ClientSocket(InterThreadCom* inter_thread_com);
 
-    int new_connection();
+    bool new_connection();
 
     void main_loop();
 private:

@@ -51,6 +51,7 @@ int NetworkSocket::write_read_interpret() {
 
     if (msg_write != "") {
         if (socket_write(msg_write) < 0) {
+            cout << "ERROR1" << endl;
             return -1;
         }
     }
@@ -59,6 +60,9 @@ int NetworkSocket::write_read_interpret() {
 
     if (msg_read != "") {
         if (msg_read == "-1") {
+            //thread_com->write_to_queue(msg_write, 1);   //Readd message to the module
+            
+            cout << "ERROR2" << endl;
             return -1;
         }
         interpret_message(msg_read);

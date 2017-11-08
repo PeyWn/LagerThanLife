@@ -37,11 +37,13 @@ class NetworkSocket {
 
     protected:
         const int PORT = 6000;
-        std::string hostname = "192.168.43.245";
+        std::string hostname = "172.20.10.7";
 
         int sockfd;
         InterThreadCom* thread_com;
         const char DELIMITER = '#';
+
+        volatile bool connected;
 };
 
 
