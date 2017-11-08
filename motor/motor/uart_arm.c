@@ -32,7 +32,7 @@ void transmit(unsigned char data)
 }
 
 unsigned char receive(void)
-{
+{	
 	set_direction_port(RECEIVE); 
 	return usart_receive();
 }

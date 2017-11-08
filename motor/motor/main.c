@@ -15,24 +15,24 @@
 void test_turn_on_LED(){
     transmit(0xFF);
     transmit(0xFF);
-    transmit(18); //ID = FE.
+    transmit(8); //ID = FE.
     transmit(0x04); //LENGTH = 4.
     transmit(0x03); //Instruction = write.
     transmit(0x19); //Parameter 1 --> Control table address = 0x19 => LED.
     transmit(0x01); //Parameter 2 --> data = 1 to be written. TURN ON
-    transmit( ~(18 + 0x04 + 0x03 + 0x19 + 0x01) ); //CHECKSUM
+    transmit( ~(8 + 0x04 + 0x03 + 0x19 + 0x01) ); //CHECKSUM
 }
 
 /* turn off led */
 void test_turn_off_LED(){
     transmit(0xFF);
     transmit(0xFF);
-    transmit(18); //ID - 18 is motor, 0xFE is broadcast
+    transmit(0xFE); //ID - 18 is motor, 0xFE is broadcast
     transmit(0x04); //LENGTH = 4.
     transmit(0x03); //Instruction = write.
     transmit(0x19); //Parameter 1 --> Control table address = 0x19 => LED.
     transmit(0x00); //Parameter 2 --> data = 0 to be written. TURN OFF
-    transmit( ~(18 + 0x04 + 0x03 + 0x19 + 0x00) ); //CHECKSUM
+    transmit( ~(0xFE + 0x04 + 0x03 + 0x19 + 0x00) ); //CHECKSUM
 }
 
 /* read ID - "return ID!" */
@@ -50,12 +50,13 @@ void test_read_ID(){
 
 /* receive ID from status packet (broadcast receives no status packets) */
 char test_receive_ID(){
-    receive();                // 0xFF
-    receive();                // 0xFF
-    char id =receive();       // 18   - ID, not read from address)
-    receive();                // 0x03 - length
-    receive();                // 0x00 - error
-    receive();                // checksum
+	char id = 0;
+    id += receive();                // 0xFF
+    id += receive();                // 0xFF
+    id += receive();       // 18   - ID, not read from address)
+    id += receive();                // 0x03 - length
+    id += receive();                // 0x00 - error
+    id += receive();                // checksum
     return id;
 }
 
@@ -81,20 +82,43 @@ void test_turn(){
 	transmit(0x00);
 	transmit(0x02);
 	SREG &= ~(1<<7);
-    transmit(0xD3); //CHECKSUM
+    transmit( ~(18+7+3+ 0x1E +0+2+0+2) ); //CHECKSUM
+	set_direction_port(RECEIVE); 
 	SREG |= (1<<7);
+}
+
+void test_set_return_status_level(){
+    transmit(0xFF);
+    transmit(0xFF);
+    transmit(8); //ID = FE.
+    transmit(0x04); //LENGTH = 4.
+    transmit(0x03); //Instruction = write.
+    transmit(0x10); //Parameter 1 --> Control table address = 0x19 => LED.
+    transmit(0x02); //Parameter 2 --> data = 1 to be written. TURN ON
+    transmit( ~(8 + 0x04 + 0x03 + 0x10 + 0x02) ); //CHECKSUM
+}
+
+void test_set_baud(){
+    transmit(0xFF);
+    transmit(0xFF);
+    transmit(18); //ID = FE.
+    transmit(0x04); //LENGTH = 4.
+    transmit(0x03); //Instruction = write.
+    transmit(0x04); //Parameter 1 --> Control table address = 0x19 => LED.
+    transmit(0x01); //Parameter 2 --> data = 1 to be written. TURN ON
+    transmit( ~(18 + 0x04 + 0x03 + 0x01 + 0x01) ); //CHECKSUM
 }
 
 int main(void)
 {
 	init_IO();
 	usart_init(1000000);
-    
+	
+	    
     /* test if data is received*/
     while(1){
-		test_turn_off_LED();
-		test_receive_ID();
-		for (int i = 0; i<1109; i++);
+		test_turn();
+		volatile char id = test_receive_ID();
 	}    
 
 }
