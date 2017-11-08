@@ -127,6 +127,9 @@
     <Compile Include="init_arm.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="interrupt_vectors.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>

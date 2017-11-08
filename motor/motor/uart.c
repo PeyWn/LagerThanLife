@@ -26,8 +26,6 @@ void usart_init(int baudrate)
 	/* Disable double asynchronous speed */
 	UCSR1A &= ~(1<<U2X1);
 	
-	UCSR1A |= (1<<U2X1); //HACK: CHANGED TO REACH 100khz AKA THE RIGHT FREQUENCY. 
-	
 	/* Enable receiver and transmitter on USART1, also interrupt flags. */
 	UCSR1B |= (1<<RXCIE1)|(1<<TXCIE1)|(1<<UDRIE1)|(1<<RXEN1)|(1<<TXEN1);
 	
@@ -35,16 +33,16 @@ void usart_init(int baudrate)
 	UCSR1C |= (3<<UCSZ10);
 
 	/* Enable global interrupt */ 
-	//SREG |= (1<<7);
+	SREG |= (1<<7);
 }
 
 
 /* Writes input data to transmit buffer. */
 void usart_transmit( unsigned char data )
 { 
-	while (!(UCSR1A&(1<<UDRE1)));    //Wait for empty transmit buffer.
-	UDR1 = data;                      //Put data into buffer, sends the data
-	UCSR1A |= (1<<TXC1); //Reset transmit done flag. 
+	while (!(UCSR1A&(1<<UDRE1)));			//Wait for empty transmit buffer.
+	UDR1 = data;						 //Put data into buffer, sends the data
+	
 }
 
 

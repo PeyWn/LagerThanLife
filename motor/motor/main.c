@@ -16,7 +16,7 @@
 void test_turn_on_LED(){
     transmit(0xFF);
     transmit(0xFF);
-    transmit(18); //ID = FE.
+    transmit(0xFE); //ID = FE.
     transmit(0x04); //LENGTH = 4.
     transmit(0x03); //Instruction = write.
     transmit(0x19); //Parameter 1 --> Control table address = 0x19 => LED.
@@ -55,10 +55,9 @@ void test_read_ID(){
 char test_receive_ID(){
     receive();                // 0xFF
     receive();                // 0xFF
-    receive();                // 18   - ID, not read from address)
+    char id =receive();                // 18   - ID, not read from address)
     receive();                // 0x03 - length
     receive();                // 0x00 - error
-    char id = receive();      // 18   - ID read from address
     receive();                // checksum
     return id;
 }
@@ -80,8 +79,10 @@ int main(void)
     
     /* test if data is received*/
     while(1){
-       test_turn_off_LED();
-	   test_receive_ID();
+		test_turn_off_LED();
+		for (int i = 0; i<11512; i++);
+		test_turn_on_LED();
+		for (int i = 0; i<11512; i++);
     }    
 
 }
