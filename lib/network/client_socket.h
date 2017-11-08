@@ -13,13 +13,15 @@
 using namespace std;
 
 class ClientSocket: public NetworkSocket {
-
 public:
     ClientSocket(InterThreadCom* inter_thread_com);
 
     int new_connection();
 
     void main_loop();
+private:
+    const string disconnect_msg = "Disconnected";
+    const string connected_msg = "Connected";
 };
 
 #endif // CLIENT_SOCKETS_H

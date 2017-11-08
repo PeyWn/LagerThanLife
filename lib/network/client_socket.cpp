@@ -11,7 +11,7 @@ using namespace std;
 ClientSocket::ClientSocket(InterThreadCom* inter_thread_com) {
     thread_com = inter_thread_com;
 
-    if(new_connection() < 0) {
+    if(new_connection() == -1) {
         throw invalid_argument("ERROR connecting");
     }
 }
@@ -52,11 +52,12 @@ int ClientSocket::new_connection() {
 void ClientSocket::main_loop() {
     while(true) {
         if(write_read_interpret() < 0) {
+            thread_com->write_to_queue(disconnect_msg,2);
+            write_read_interpret(); //Extra to print disconnect_msg
             while(new_connection() < 0) {
-                cout << "Tries to reconnect..." << endl;
+
             }
-            cout << "Connected" << endl;
+            thread_com->write_to_queue(connected_msg,2);
         }
     }
 }
-
