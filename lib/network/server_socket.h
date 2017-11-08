@@ -5,11 +5,10 @@
 #ifndef SERVER_SOCKET_H
 #define SERVER_SOCKET_H
 
-#include "interthreadcom.h"
-#include "network_socket.h"
-
 #include <netdb.h>
 #include <unistd.h>
+#include "interthreadcom.h"
+#include "network_socket.h"
 
 class ServerSocket: public NetworkSocket {
 
@@ -20,8 +19,16 @@ public:
 
     ServerSocket(InterThreadCom* inter_thread_com);
 
-    void new_connection();
+    /*
+        Listens for a new connection to the socket
+        and update sockfd to the last connected
+    */
+    bool new_connection();
 
+    /*
+        Main loop for server_socket. Read, writes and interpret
+        messages using function write_read_interpret.
+    */
     void main_loop();
 };
 
