@@ -3,6 +3,7 @@
 #include <fcntl.h>
 #include <cstring>
 #include <iostream>
+#include <signal.h>
 
 #include "client_socket.h"
 
@@ -11,7 +12,7 @@ using namespace std;
 ClientSocket::ClientSocket(InterThreadCom* inter_thread_com) {
     thread_com = inter_thread_com;
 
-    new_connection();
+    connected = new_connection();
 }
 
 bool ClientSocket::new_connection() {
@@ -39,20 +40,26 @@ bool ClientSocket::new_connection() {
         return false;
     }
 
+	signal(SIGPIPE, SIG_IGN);
+
+int val = 1;
+setsockopt(sockfd_init, SOL_SOCKET, SO_KEEPALIVE, &val, sizeof(val));
+
     // Setting flag on socket on non-blocking mode
     if(fcntl(sockfd_init, F_SETFL, fcntl(sockfd_init, F_GETFL) | O_NONBLOCK) < 0) {
         return false;
     }
 
     sockfd = sockfd_init;
-    connected = true;
     return true;
 }
 
 void ClientSocket::main_loop() {
     while(true) {
+
         if(connected) {
             if(write_read_interpret() < 0) {
+		cout << "Disconnected" << endl;
                 connected = false;
             }
         }
