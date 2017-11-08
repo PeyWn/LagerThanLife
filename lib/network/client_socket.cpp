@@ -11,24 +11,22 @@ using namespace std;
 ClientSocket::ClientSocket(InterThreadCom* inter_thread_com) {
     thread_com = inter_thread_com;
 
-    if(new_connection() == -1) {
-        throw invalid_argument("ERROR connecting");
-    }
+    new_connection();
 }
 
-int ClientSocket::new_connection() {
+bool ClientSocket::new_connection() {
     struct hostent *server;
     int sockfd_init;
     struct sockaddr_in serv_addr;
 
     sockfd_init = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd_init < 0) {
-        return -1;
+        return false;
     }
 
     server = gethostbyname(hostname.c_str());  // argument type for gethostbyname is char*
     if (server == NULL) {
-        return -1;
+        return false;
     }
 
     bzero((char *) &serv_addr, sizeof(serv_addr));
@@ -37,27 +35,26 @@ int ClientSocket::new_connection() {
     serv_addr.sin_port = htons(PORT);
 
     if (connect(sockfd_init,(struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-        return -1;
+        cout << "Connection failed" << endl;
+        return false;
     }
 
     // Setting flag on socket on non-blocking mode
     if(fcntl(sockfd_init, F_SETFL, fcntl(sockfd_init, F_GETFL) | O_NONBLOCK) < 0) {
-        return -1;
+        return false;
     }
 
     sockfd = sockfd_init;
-    return 0;
+    connected = true;
+    return true;
 }
 
 void ClientSocket::main_loop() {
     while(true) {
-        if(write_read_interpret() < 0) {
-            thread_com->write_to_queue(disconnect_msg,2);
-            write_read_interpret(); //Extra to print disconnect_msg
-            while(new_connection() < 0) {
-
+        if(connected) {
+            if(write_read_interpret() < 0) {
+                connected = false;
             }
-            thread_com->write_to_queue(connected_msg,2);
         }
     }
 }

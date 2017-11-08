@@ -42,6 +42,8 @@ class NetworkSocket {
         int sockfd;
         InterThreadCom* thread_com;
         const char DELIMITER = '#';
+
+        volatile bool connected;
 };
 
 
