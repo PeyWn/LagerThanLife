@@ -15,13 +15,13 @@
 void usart_init(int baudrate)
 {
 	/* Calculate baud according to formula given in data sheet. */ 
-	int baud = (((F_CPU)/(baudrate*16))-1);
+	int baud = (((F_CPU)/(baudrate*16UL))-1);
 	
 	baud = 0; //HACK: CHANGED TO CALCULATED VALUE. 
 	
 	/* Set baud rate to 1M @ max 1Mb/s. */
-	UBRR1H |= (unsigned char)(baud>>8);
-	UBRR1L |= (unsigned char)baud;
+	UBRR1H = (unsigned char)(baud>>8);
+	UBRR1L = (unsigned char)baud;
 	
 	/* Disable double asynchronous speed */
 	UCSR1A &= ~(1<<U2X1);
@@ -42,8 +42,9 @@ void usart_init(int baudrate)
 /* Writes input data to transmit buffer. */
 void usart_transmit( unsigned char data )
 { 
-	while (!(UCSR1A&(1<<UDRE1)));    //Wait for empty transmit buffer 
+	while (!(UCSR1A&(1<<UDRE1)));    //Wait for empty transmit buffer.
 	UDR1 = data;                      //Put data into buffer, sends the data
+	UCSR1A |= (1<<TXC1); //Reset transmit done flag. 
 }
 
 

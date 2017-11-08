@@ -80,7 +80,7 @@ int main(void)
     
     /* test if data is received*/
     while(1){
-       test_turn_on_LED();
+       test_turn_off_LED();
 	   test_receive_ID();
     }    
 

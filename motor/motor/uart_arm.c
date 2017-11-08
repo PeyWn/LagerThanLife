@@ -28,8 +28,8 @@ void set_direction_port(int dir)
 void transmit(unsigned char data)
 {	
 	set_direction_port(TRANSMIT);
+	UCSR1A |= (1<<TXC1); //Reset transmit done flag. 
 	usart_transmit(data); 
-	UCSR1A |= (1<<TXC1); 
 }
 
 unsigned char receive(void)
