@@ -15,21 +15,23 @@ bool NetworkSocket::socket_write(string msg) {
 }
 
 
-string NetworkSocket::socket_read() {
+bool NetworkSocket::socket_read(string* msg) {
     char buffer[256];
     bzero(buffer,256); // Clearing buffer before reading into it
     int n = read(sockfd, buffer, 255);
-    string msg = buffer;
+    *msg = buffer;
 
     // Nothing to be read
     if ((n == -1 && errno == EAGAIN) || n == 0) {
-        return "";
+	*msg = "";
+        return false;
 
     } else if (n < 0) {
-        return "false";
+	*msg = "";
+        return false;
 
     }
-    return msg;
+    return true;
 }
 
 
@@ -45,7 +47,7 @@ void NetworkSocket::interpret_message(string msg_read) {
 
 
 bool NetworkSocket::write_read_interpret() {
-    string msg_read = "";
+    string* msg_read;
     string msg_write = "";
 
     //Read from the module and relay this msg with socket_write
@@ -56,13 +58,15 @@ bool NetworkSocket::write_read_interpret() {
         }
     }
 
-    msg_read = socket_read();
 
-    if (msg_read == "false") {
+	
+
+    if (socket_read(msg_read) == false) {
         return false;
+    }
 
-    } else if(msg_read != "") {
-        interpret_message(msg_read);
+    if(*msg_read != "") {
+        interpret_message(*msg_read);
     }
 
     return true;

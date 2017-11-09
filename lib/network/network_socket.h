@@ -11,7 +11,7 @@ class NetworkSocket {
     protected:
         const char DELIMITER = '#';
         const int PORT = 6000;
-        std::string hostname = "localhost";
+        std::string hostname = "172.20.10.7";
 
         int sockfd;
         InterThreadCom* thread_com;
@@ -37,10 +37,13 @@ class NetworkSocket {
         bool socket_write(std::string msg);
 
         /*
-            Reads a message from the socket and returns thismessage as
-            a string
+            Reads a message from the socket.
+
+            msg - pointer to the string that read msg shall be read to
+
+            Returns true if success, else false
         */
-        std::string socket_read();
+        bool socket_read(std::string* msg);
 
         /*
             Split up a message using the delimiter and relay each word
