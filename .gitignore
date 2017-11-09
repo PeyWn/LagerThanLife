@@ -23,3 +23,6 @@
 
 #ignore gcc builds
 *.out
+
+#mac directory files
+*.DS_Store
