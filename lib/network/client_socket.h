@@ -14,14 +14,12 @@ using namespace std;
 
 class ClientSocket: public NetworkSocket {
 public:
-    bool connected;
-    
     ClientSocket(InterThreadCom* inter_thread_com);
 
     /*
-        Starts a new socket connection to the server
+        Getter for variable connected
     */
-    bool new_connection();
+    bool is_connected();
 
     /*
         Main loop for server_socket. Read, writes and interpret
@@ -31,8 +29,17 @@ public:
     void main_loop();
     
 private:
+    bool connected;
+
     const string disconnect_msg = "Disconnected!";
     const string connected_msg = "Connected!";
+
+    /*
+        Starts a new socket connection to the server
+        
+        Returns true if success, else false
+    */
+    bool new_connection();
 };
 
 #endif // CLIENT_SOCKETS_H

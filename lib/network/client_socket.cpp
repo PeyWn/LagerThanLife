@@ -12,7 +12,7 @@ using namespace std;
 ClientSocket::ClientSocket(InterThreadCom* inter_thread_com) {
     thread_com = inter_thread_com;
 
-    new_connection();
+    connected = new_connection();
 }
 
 bool ClientSocket::new_connection() {
@@ -28,6 +28,7 @@ bool ClientSocket::new_connection() {
     // Argument type for gethostbyname is char*
     server = gethostbyname(hostname.c_str());
     if (server == NULL) {
+        close(sockfd_init);
         return false;
     }
 
@@ -37,6 +38,7 @@ bool ClientSocket::new_connection() {
     serv_addr.sin_port = htons(PORT);
 
     if (connect(sockfd_init,(struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
+        close(sockfd_init);
         return false;
     }
 
@@ -56,10 +58,16 @@ bool ClientSocket::new_connection() {
 void ClientSocket::main_loop() {
     while(true) {
 
-        if(write_read_interpret() == false) {
-            connected = false;
-            thread_com->write_to_queue(disconnect_msg, 2);
+        if (connected == true) {
+            if(write_read_interpret() == false) {
+                connected = false;
+                
+            }
+        }
 
+
+        if(connected == false) {
+            thread_com->write_to_queue(disconnect_msg, 2);
             while(new_connection() == false) {
             }
             thread_com->write_to_queue(connected_msg, 2);
@@ -68,3 +76,9 @@ void ClientSocket::main_loop() {
         
     }
 }
+
+bool ClientSocket::is_connected() {
+    return connected;
+}
+
+
