@@ -4,7 +4,7 @@ using namespace std;
 
 InterThreadCom::InterThreadCom() {}
 
-queue* InterThreadCom::get_queue(QueueDirection qd){
+queue<string>* InterThreadCom::get_queue(QueueDirection qd){
     if(qd == TO_SOCKET){
         return &queue_to_socket;
     } else {
@@ -23,17 +23,17 @@ mutex* InterThreadCom::get_mutex(QueueDirection qd) {
 
 
 void InterThreadCom::write_to_queue(string msg, QueueDirection direction) {
-    queue* q = getQueue(direction);
-    mutex* mtx = getMutex(direction);
+    queue<string>* q = get_queue(direction);
+    mutex* mtx = get_mutex(direction);
 
     mtx->lock();
-    q.push(msg);
+    q->push(msg);
     mtx->unlock();
 }
 
 string InterThreadCom::read_from_queue(QueueDirection direction) {
-    queue* q = getQueue(direction);
-    mutex* mtx = getMutex(direction);
+    queue<string>* q = get_queue(direction);
+    mutex* mtx = get_mutex(direction);
     string msg = "";
 
     mtx->lock();

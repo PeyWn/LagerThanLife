@@ -29,7 +29,7 @@ public:
 
         Returns a pointer to the queue
     */
-    queue* get_queue(QueueDirection qd);
+    std::queue<std::string>* get_queue(QueueDirection qd);
 
     /*
         Gets a mutex with given queue direction
@@ -38,7 +38,7 @@ public:
 
         Returns a pointer to the mutex
     */
-    mutex* get_mutex(QueueDirection qd);
+    std::mutex* get_mutex(QueueDirection qd);
 
     /*
         Writes a message containing a string to a queue.
