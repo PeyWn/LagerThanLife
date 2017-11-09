@@ -12,14 +12,16 @@
 #include <queue>
 #include "string"
 
+enum QueueDirection {TO_SOCKET, FROM_SOCKET};
 
 class InterThreadCom {
 
 private:
-    std::mutex mtx_queue1, mtx_queue2;
-    std::queue<std::string> queue1, queue2;
+    std::mutex mtx_to_socket, mtx_from_socket;
+    std::queue<std::string> queue_to_socket, queue_from_socket;
 
 public:
+
     InterThreadCom();
 
     /*
@@ -28,7 +30,7 @@ public:
         string msg - Message that is to be pushed to the queue.
         int queue - specify writing to queue1 or queue2
     */
-    void write_to_queue(std::string msg, int queue);
+    void write_to_queue(std::string msg, QueueDirection direction);
 
     /*
         Reads a message and removes it from a queue
@@ -37,7 +39,7 @@ public:
 
         Returns a string with the read message
     */
-    std::string read_from_queue(int queue);
+    std::string read_from_queue(QueueDirection direction);
 
 };
 

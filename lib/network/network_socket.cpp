@@ -41,7 +41,7 @@ void NetworkSocket::interpret_message(string msg_read) {
 
     while (getline(iss, word, DELIMITER)) {
         // Writes each message to queue 2, from socket to a module
-        thread_com->write_to_queue(word, 2);
+        thread_com->write_to_queue(word, FROM_SOCKET);
     }
 }
 
@@ -51,7 +51,7 @@ bool NetworkSocket::write_read_interpret() {
     string msg_write = "";
 
     //Read from the module and relay this msg with socket_write
-    msg_write = thread_com->read_from_queue(1);
+    msg_write = thread_com->read_from_queue(TO_SOCKET);
     if (msg_write != "") {
         if (socket_write(msg_write) == false) {
             return false;

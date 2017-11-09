@@ -67,10 +67,10 @@ void ClientSocket::main_loop() {
 
 
         if(connected == false) {
-            thread_com->write_to_queue(disconnect_msg, 2);
+            thread_com->write_to_queue(disconnect_msg, FROM_SOCKET);
             while(new_connection() == false) {
             }
-            thread_com->write_to_queue(connected_msg, 2);
+            thread_com->write_to_queue(connected_msg, FROM_SOCKET);
             
         }
         

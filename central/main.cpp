@@ -36,7 +36,7 @@ int main() {
 
     string msg_read;
     while(true) {
-        msg_read = thread_com->read_from_queue(2);
+        msg_read = thread_com->read_from_queue(FROM_SOCKET);
         if (msg_read != "") {
             cout << "Msg: " << msg_read << "\n";
         }

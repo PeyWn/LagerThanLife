@@ -4,43 +4,43 @@ using namespace std;
 
 InterThreadCom::InterThreadCom() {}
 
-void InterThreadCom::write_to_queue(string msg, int queue) {
-    if (queue == 1) {
-        mtx_queue1.lock();
-        queue1.push(msg);
-        mtx_queue1.unlock();
+void InterThreadCom::write_to_queue(string msg, QueueDirection direction) {
+    if (direction == TO_SOCKET) {
+        mtx_to_socket.lock();
+        queue_to_socket.push(msg);
+        mtx_to_socket.unlock();
     }
 
-    else if (queue == 2) {
-        mtx_queue2.lock();
-        queue2.push(msg);
-        mtx_queue2.unlock();
+    else if (direction == FROM_SOCKET) {
+        mtx_from_socket.lock();
+        queue_from_socket.push(msg);
+        mtx_from_socket.unlock();
     }
 }
 
-string InterThreadCom::read_from_queue(int queue) {
+string InterThreadCom::read_from_queue(QueueDirection direction) {
     string msg = "";
 
-    if (queue == 1) {
-        mtx_queue1.lock();
+    if (direction == TO_SOCKET) {
+        mtx_to_socket.lock();
         
-        if(!queue1.empty()) {
-            msg = queue1.front();
-            queue1.pop();
+        if(!queue_to_socket.empty()) {
+            msg = queue_to_socket.front();
+            queue_to_socket.pop();
         }
 
-        mtx_queue1.unlock();
+        mtx_to_socket.unlock();
     }
 
-    else if (queue == 2) {
-        mtx_queue2.lock();
+    else if (direction == FROM_SOCKET) {
+        mtx_from_socket.lock();
 
-        if(!queue2.empty()) {
-            msg = queue2.front();
-            queue2.pop();
+        if(!queue_from_socket.empty()) {
+            msg = queue_from_socket.front();
+            queue_from_socket.pop();
         }
 
-        mtx_queue2.unlock();
+        mtx_from_socket.unlock();
     }
 
     return msg;

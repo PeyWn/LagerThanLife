@@ -17,7 +17,7 @@ ClientSocket* com_module;
 void read_msg() {
     string msg_read;
     while(true) {
-        msg_read = thread_com->read_from_queue(2);
+        msg_read = thread_com->read_from_queue(FROM_SOCKET);
         if (msg_read != "") {
             cout << endl << msg_read << endl << ">";
         }
