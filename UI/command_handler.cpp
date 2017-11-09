@@ -57,5 +57,5 @@ Send the given string to the network module for communication to the robot
 msg - the string to be sent
 */
 void CommandHandler::send_msg(string msg){
-    robot_com->write_to_queue(msg, 1);
+    robot_com->write_to_queue(msg, TO_SOCKET);
 }
