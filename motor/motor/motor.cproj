@@ -38,11 +38,11 @@
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
-    <avrtool>com.atmel.avrdbg.tool.simulator</avrtool>
+    <avrtool>com.atmel.avrdbg.tool.atmelice</avrtool>
     <com_atmel_avrdbg_tool_atmelice>
       <ToolOptions>
         <InterfaceProperties>
-          <JtagDbgClock>0</JtagDbgClock>
+          <JtagDbgClock>200000</JtagDbgClock>
           <IspClock>125000</IspClock>
         </InterfaceProperties>
         <InterfaceName>JTAG</InterfaceName>

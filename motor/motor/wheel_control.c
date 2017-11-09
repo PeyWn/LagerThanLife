@@ -174,10 +174,16 @@ void update_wheel_control(){
     /* wait 1 sec before starting */
     while(!seconds(1));
     
-    /* backwd left turn 2 sec */
+    /* backwd left turn 2 sec   */
     set_traversal_speed(-1);
     set_turn_speed(-2);
     while(!seconds(2));
+    
+    /* fwd right turn 2 sec     */
+    set_traversal_speed(1);
+    set_turn_speed(2);
+    while(!seconds(2));
+    
     
     /* stop */
     set_traversal_speed(0);
