@@ -16,9 +16,9 @@ bool NetworkSocket::socket_write(string msg) {
 
 
 bool NetworkSocket::socket_read(string* msg) {
-    char buffer[256];
-    bzero(buffer,256); // Clearing buffer before reading into it
-    int n = read(sockfd, buffer, 255);
+    char buffer[1024];
+    bzero(buffer,1024); // Clearing buffer before reading into it
+    int n = read(sockfd, buffer, 1023);
     *msg = buffer;
 
     // Nothing to be read
