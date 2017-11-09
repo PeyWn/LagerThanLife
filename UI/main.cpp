@@ -1,8 +1,7 @@
 #include <thread>
 #include <iostream>
 #include "command_handler.h"
-#include "../lib/network/client_socket.h"
-#include "../lib/network/interthreadcom.h"
+#include "client_socket.h"
 
 #include <signal.h>
 

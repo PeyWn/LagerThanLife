@@ -4,7 +4,7 @@
 
 #include <thread>
 #include <iostream>
-#include "../lib/network/server_socket.h"
+#include "server_socket.h"
 #include "../lib/network/interthreadcom.h"
 
 using namespace std;

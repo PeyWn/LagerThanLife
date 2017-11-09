@@ -7,8 +7,8 @@
 
 #include <unistd.h>
 #include <netdb.h>
-#include "interthreadcom.h"
-#include "network_socket.h"
+#include "../lib/network/interthreadcom.h"
+#include "../lib/network/network_socket.h"
 
 using namespace std;
 
