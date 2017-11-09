@@ -49,8 +49,5 @@ int main(){
             cout << COMMAND_ERROR << endl;
         }
 
-        if(cmd == "reconnect") {
-            com_module->new_connection();
-        }
     }
 }

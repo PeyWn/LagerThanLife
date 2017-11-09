@@ -22,12 +22,12 @@ bool NetworkSocket::socket_read(string* msg) {
     *msg = buffer;
 
     // Nothing to be read
-    if ((n == -1 && errno == EAGAIN) || n == 0) {
-	*msg = "";
-        return false;
+    if ((n == -1 && errno == EAGAIN)) {
+	    *msg = "";
+        return true;
 
-    } else if (n < 0) {
-	*msg = "";
+    } else if (n <= 0) { // n == 0 if socket has no connection
+	    *msg = "";
         return false;
 
     }
@@ -58,8 +58,6 @@ bool NetworkSocket::write_read_interpret() {
         }
     }
 
-
-	
 
     if (socket_read(&msg_read) == false) {
         return false;
