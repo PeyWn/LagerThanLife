@@ -7,15 +7,11 @@
 
 using namespace std;
 
-int NetworkSocket::socket_write(string msg) {
-	int n;
-n = write(sockfd, (msg + DELIMITER).c_str(), strlen(msg.c_str()) + 1);
-    if (n < 0) {
-	cout << "Written length:" << n << endl;
-        return -1;
+bool NetworkSocket::socket_write(string msg) {
+    if (write(sockfd, (msg + DELIMITER).c_str(), strlen(msg.c_str()) + 1) < 0) {
+        return false;
     }
-	cout << "Written length:" << n << endl;
-    return 0;
+    return true;
 }
 
 
@@ -25,11 +21,12 @@ string NetworkSocket::socket_read() {
     int n = read(sockfd, buffer, 255);
     string msg = buffer;
 
-    if ((n == -1 && errno == EAGAIN) || n == 0) {       //Nothing to be read
+    // Nothing to be read
+    if ((n == -1 && errno == EAGAIN) || n == 0) {
         return "";
 
     } else if (n < 0) {
-        return "-1";
+        return "false";
 
     }
     return msg;
@@ -41,33 +38,32 @@ void NetworkSocket::interpret_message(string msg_read) {
     istringstream iss(msg_read);
 
     while (getline(iss, word, DELIMITER)) {
-        thread_com->write_to_queue(word, 2);    // Relay message by writing to queue 2 - from socket to a module
+        // Writes each message to queue 2, from socket to a module
+        thread_com->write_to_queue(word, 2);
     }
 }
 
 
-int NetworkSocket::write_read_interpret() {
-	
+bool NetworkSocket::write_read_interpret() {
     string msg_read = "";
     string msg_write = "";
 
-    //Read from queue 1 (from a module) and relay this info with socket_write
+    //Read from the module and relay this msg with socket_write
     msg_write = thread_com->read_from_queue(1);
     if (msg_write != "") {
-        if (socket_write(msg_write) < 0) {
-            return -1;
+        if (socket_write(msg_write) == false) {
+            return false;
         }
     }
 
     msg_read = socket_read();
 
-    if (msg_read != "") {
-        if (msg_read == "-1") {
-            //thread_com->write_to_queue(msg_write, 1);   //Readd message to the module
-            return -1;
-        }
+    if (msg_read == "false") {
+        return false;
+
+    } else if(msg_read != "") {
         interpret_message(msg_read);
     }
 
-    return 0;
+    return true;
 }

@@ -25,7 +25,8 @@ bool ClientSocket::new_connection() {
         return false;
     }
 
-    server = gethostbyname(hostname.c_str());  // argument type for gethostbyname is char*
+    // Argument type for gethostbyname is char*
+    server = gethostbyname(hostname.c_str());
     if (server == NULL) {
         return false;
     }
@@ -40,10 +41,8 @@ bool ClientSocket::new_connection() {
         return false;
     }
 
+    // Signal SIGPIPE will be ignored and handled manually
 	signal(SIGPIPE, SIG_IGN);
-
-int val = 1;
-setsockopt(sockfd_init, SOL_SOCKET, SO_KEEPALIVE, &val, sizeof(val));
 
     // Setting flag on socket on non-blocking mode
     if(fcntl(sockfd_init, F_SETFL, fcntl(sockfd_init, F_GETFL) | O_NONBLOCK) < 0) {
@@ -51,6 +50,7 @@ setsockopt(sockfd_init, SOL_SOCKET, SO_KEEPALIVE, &val, sizeof(val));
     }
 
     sockfd = sockfd_init;
+    connected = true;
     return true;
 }
 
@@ -58,8 +58,8 @@ void ClientSocket::main_loop() {
     while(true) {
 
         if(connected) {
-            if(write_read_interpret() < 0) {
-		cout << "Disconnected" << endl;
+            if(write_read_interpret() == false) {
+		    cout << "Disconnected" << endl;
                 connected = false;
             }
         }

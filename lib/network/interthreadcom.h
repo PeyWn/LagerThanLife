@@ -1,5 +1,5 @@
 /**
-    InterThreadCom used for communication between CentralModule and CommunicationModule
+    InterThreadCom used for communication between a module and CommunicationModule
     Each queue is a one way communication having each mutex lock.
     Queue 1 is used for communication from a module to socket
     Queue 2 is used for communication from socket to a module
@@ -9,8 +9,9 @@
 #define INTERTHREADCOM_H
 
 #include <mutex>
-#include "string"
 #include <queue>
+#include "string"
+
 
 class InterThreadCom {
 
@@ -32,7 +33,7 @@ public:
     /*
         Reads a message and removes it from a queue
 
-        int queue - speicify reading from queue1 or queue2
+        int queue - speicify reading from queue 1 or queue 2
 
         Returns a string with the read message
     */

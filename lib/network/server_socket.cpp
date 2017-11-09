@@ -20,36 +20,40 @@ ServerSocket::ServerSocket(InterThreadCom* inter_thread_com) {
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     serv_addr.sin_port = htons(PORT);
 
+    // Setting socket port reuseable
     int on = 1;
     setsockopt (sockfd_init, SOL_SOCKET, SO_REUSEADDR, &on, sizeof (on));
 
     if (bind(sockfd_init, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-        throw std::invalid_argument("ERROR on binding, probably PORT in use\n");
+        throw std::invalid_argument("ERROR on binding, probably bad PORT\n");
     }
 
-    new_connection();
+    if (new_connection() == false) {
+        throw std::invalid_argument("Error setting up connection");
+    }
 
 }
 
-void ServerSocket::new_connection() {
-    std::cout << "Listening for new connection" << std::endl;
+bool ServerSocket::new_connection() {
+    std::cout << "Listening for new connection..." << std::endl;
     
     listen(sockfd_init,5);
     clilen = sizeof(cli_addr);
     newsockfd_init = accept(sockfd_init, (struct sockaddr *) &cli_addr, &clilen);
 
-    if (newsockfd_init < 0) {
-        throw std::invalid_argument("ERROR on accept\n");
+    if(newsockfd_init < 0) {
+        return false;
     }
 
     // Setting flag on socket on non-blocking mode
-    if(fcntl(newsockfd_init, F_SETFL, fcntl(newsockfd_init, F_GETFL) | O_NONBLOCK) < 0) {
-        throw std::invalid_argument("ERROR on setting O_NONBLOCK\n");
+    if(fcntl(sockfd_init, F_SETFL, fcntl(sockfd_init, F_GETFL) | O_NONBLOCK) < 0) {
+        return false;
     }
 
     sockfd = newsockfd_init;
-    std::cout << "New connection made" << std::endl;
 
+    std::cout << "Connected" << std::endl;
+    return true;
 }
 
 
