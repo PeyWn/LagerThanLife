@@ -58,27 +58,22 @@ bool ClientSocket::new_connection() {
 void ClientSocket::main_loop() {
     while(true) {
 
-        if (connected == true) {
+        if (connected) {
             if(write_read_interpret() == false) {
                 connected = false;
-                
             }
         }
-
-
-        if(connected == false) {
+        else{
             thread_com->write_to_queue(disconnect_msg, FROM_SOCKET);
             while(new_connection() == false) {
             }
             thread_com->write_to_queue(connected_msg, FROM_SOCKET);
-            
+
         }
-        
+
     }
 }
 
 bool ClientSocket::is_connected() {
     return connected;
 }
-
-
