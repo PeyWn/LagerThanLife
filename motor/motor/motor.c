@@ -11,12 +11,10 @@
 
 int main(void)
 {
-    
-    init_wheel_control(0.3);
-    
-    //set_traversal_speed(1);
-    
-    update_wheel_control();
+    /*
+    init_wheel_control(0.3);    
+    update_wheel_control();     // test routine 
+    */
 
     while(1)
     {
