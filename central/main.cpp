@@ -27,19 +27,20 @@ void check_new_connections() {
 */
 void comm_mod_loop()
 {
+    com_module = new ServerSocket(thread_com);
+
+    // Spawn a new thread that calls on check_new_connections
+    thread com_child_new(check_new_connections);
+
     com_module->main_loop();
 }
 
 int main() {
-
     // Create a new InterThreadCom used for communication with CommunicationModule
-    thread_com = new InterThreadCom();  
+    thread_com = new InterThreadCom();
 
-    com_module = new ServerSocket(thread_com);
-
-    // Spawn a new threads
+    // Spawn a new thread that calls on comm_mod_loop
     thread com_child(comm_mod_loop);
-    thread com_child_new(check_new_connections);
 
     string msg_read;
     while(true) {

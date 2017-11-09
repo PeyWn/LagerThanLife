@@ -35,7 +35,8 @@ ServerSocket::ServerSocket(InterThreadCom* inter_thread_com) {
 }
 
 bool ServerSocket::new_connection() {
-    std::cout << "Listening for new connection..." << std::endl;
+    thread_com->write_to_queue("Listening for new connection...", FROM_SOCKET);
+    //std::cout << "Listening for new connection..." << std::endl;
     
     listen(sockfd_init,5);
     clilen = sizeof(cli_addr);
@@ -52,7 +53,8 @@ bool ServerSocket::new_connection() {
 
     sockfd = newsockfd_init;
 
-    std::cout << "Connected" << std::endl;
+    //std::cout << "Connected" << std::endl;
+    thread_com->write_to_queue("Connected", FROM_SOCKET);
     return true;
 }
 
