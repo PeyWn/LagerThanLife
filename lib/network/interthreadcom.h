@@ -1,8 +1,6 @@
 /**
     InterThreadCom used for communication between a module and CommunicationModule
     Each queue is a one way communication having each mutex lock.
-    Queue 1 is used for communication from a module to socket
-    Queue 2 is used for communication from socket to a module
 */
 
 #ifndef INTERTHREADCOM_H
@@ -25,17 +23,35 @@ public:
     InterThreadCom();
 
     /*
+        Gets a queue with given queue direction
+
+        qd - queue direction of the queue
+
+        Returns a pointer to the queue
+    */
+    queue* get_queue(QueueDirection qd);
+
+    /*
+        Gets a mutex with given queue direction
+
+        qd - queue direction of the mutex
+
+        Returns a pointer to the mutex
+    */
+    mutex* get_mutex(QueueDirection qd);
+
+    /*
         Writes a message containing a string to a queue.
 
         string msg - Message that is to be pushed to the queue.
-        int queue - specify writing to queue1 or queue2
+        direction - specify writing to socket or from socket
     */
     void write_to_queue(std::string msg, QueueDirection direction);
 
     /*
         Reads a message and removes it from a queue
 
-        int queue - speicify reading from queue 1 or queue 2
+        direction - specifying reading to socket or from socket
 
         Returns a string with the read message
     */

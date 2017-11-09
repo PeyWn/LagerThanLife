@@ -12,6 +12,10 @@ using namespace std;
 InterThreadCom* thread_com;
 ServerSocket* com_module;
 
+/*
+    Function for com_child_new. Checks for new socket connection
+    and makes the last connected current connection.
+*/
 void check_new_connections() {
     while(true) {
         com_module->new_connection();
@@ -28,10 +32,13 @@ void comm_mod_loop()
 
 int main() {
 
-    thread_com = new InterThreadCom();  // Create a new InterThreadCom used for communication with CommunicationModule
+    // Create a new InterThreadCom used for communication with CommunicationModule
+    thread_com = new InterThreadCom();  
+
     com_module = new ServerSocket(thread_com);
 
-    thread com_child(comm_mod_loop);   // Spawn a new thread that calls on function comm_mod_loop
+    // Spawn a new threads
+    thread com_child(comm_mod_loop);
     thread com_child_new(check_new_connections);
 
     string msg_read;
@@ -41,7 +48,6 @@ int main() {
             cout << "Msg: " << msg_read << "\n";
         }
     }
-
 
     return 0;
 }

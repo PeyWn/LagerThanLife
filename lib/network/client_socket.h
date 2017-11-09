@@ -24,7 +24,7 @@ public:
     /*
         Main loop for server_socket. Read, writes and interpret
         messages using function write_read_interpret. Sets
-        connected to false if this fails.
+        variable connected to false if this fails.
     */
     void main_loop();
     
