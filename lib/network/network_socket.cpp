@@ -24,7 +24,7 @@ bool NetworkSocket::socket_read(string* msg) {
     // Nothing to be read
     if ((n == -1 && errno == EAGAIN) || n == 0) {
 	*msg = "";
-        return false;
+        return true;
 
     } else if (n < 0) {
 	*msg = "";

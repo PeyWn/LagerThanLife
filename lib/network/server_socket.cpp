@@ -46,7 +46,7 @@ bool ServerSocket::new_connection() {
     }
 
     // Setting flag on socket on non-blocking mode
-    if(fcntl(sockfd_init, F_SETFL, fcntl(sockfd_init, F_GETFL) | O_NONBLOCK) < 0) {
+    if(fcntl(newsockfd_init, F_SETFL, fcntl(sockfd_init, F_GETFL) | O_NONBLOCK) < 0) {
         return false;
     }
 
