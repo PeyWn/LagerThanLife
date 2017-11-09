@@ -23,4 +23,4 @@ typedef char CHECKSUM;
 #define GOAL_POSITION 0x1E 
 #define MOVING_SPEED 0x20
 
-#define GLOBAL_SERVO_SPEED 0xA0   
+#define GLOBAL_SERVO_SPEED 0x30   

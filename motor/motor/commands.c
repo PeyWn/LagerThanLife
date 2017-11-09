@@ -17,7 +17,7 @@ void transmit_startbits()
 	transmit(0xFF); 	
 }
  
-void move_singel(int id, int pos, int speed) 
+void move_singel(int id, int pos, int speed, char mode) 
 {
 	char posH = pos >> 8;  
 	char posL =  pos & 0xFF;
@@ -28,22 +28,34 @@ void move_singel(int id, int pos, int speed)
 	transmit_startbits();
 	transmit((char)id);
 	transmit(0x07); //Length
-	transmit(WRITE_DATA);
+	transmit(mode);
 	transmit(GOAL_POSITION);
 	transmit((char)posL);
 	transmit((char)posH);
 	transmit((char)speedL);
 	transmit((char)speedH);
-	transmit( ~(id + 7 + WRITE_DATA + GOAL_POSITION + posL + posH + speedL +speedH) );
+	transmit( ~(id + 7 + mode + GOAL_POSITION + posL + posH + speedL +speedH) );
 }
 
-void move_double(int id, int pos, int speed) 
+void send_action()
+{
+	transmit_startbits();
+	transmit(0xFE);
+	transmit(0x02);
+	transmit(ACTION);
+	transmit(0xFA);
+}
+
+void move_double(int id1, int id2, int pos, int speed) 
 {
 	char posH = pos >> 8;
 	char posL =  pos & 0xFF;
-	
 	char speedH = speed >> 8;
 	char speedL = speed & 0xFF;
+	move_singel(id1, pos, speed, REG_WRITE);
 	
+	char mirror_pos = 0x03FF-pos; 
+	move_singel(id2, mirror_pos, speed, REG_WRITE);
 	
+	send_action(); 
 }
