@@ -9,6 +9,8 @@
 #include "uart.h"
 #include "init_arm.h"
 #include "uart_arm.h"
+#include "globals.h"
+#include <avr/delay.h>
 
 
 /* turn on led */
@@ -88,17 +90,9 @@ int main(void)
 	init_IO();
 	usart_init(1000000);
     
-	
-    /* test if data is received*/
-	test_turn_on_LED(18);
-	char id = test_receive_ID();
-	if (id == 18){
-		test_turn_off_LED(18);
-	}
-	    
 	while (1)
 	{
-		
+		move_singel(18, 0x200, GLOBAL_SERVO_SPEED);
 	}
 
 }
