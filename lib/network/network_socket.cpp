@@ -53,13 +53,13 @@ bool NetworkSocket::write_read_interpret() {
     //Read from the module and relay this msg with socket_write
     msg_write = thread_com->read_from_queue(TO_SOCKET);
     if (msg_write != "") {
-        if (socket_write(msg_write) == false) {
+        if (!socket_write(msg_write)) {
             return false;
         }
     }
 
 
-    if (socket_read(&msg_read) == false) {
+    if (!socket_read(&msg_read)) {
         return false;
     }
 

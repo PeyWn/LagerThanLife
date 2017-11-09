@@ -59,12 +59,12 @@ void ClientSocket::main_loop() {
     while(true) {
 
         if (connected) {
-            if(write_read_interpret() == false) {
+            if(!write_read_interpret()) {
                 connected = false;
             }
         } else {
             thread_com->write_to_queue(disconnect_msg, FROM_SOCKET);
-            while(new_connection() == false) {
+            while(!new_connection()) {
             }
             thread_com->write_to_queue(connected_msg, FROM_SOCKET);
         }

@@ -28,7 +28,7 @@ ServerSocket::ServerSocket(InterThreadCom* inter_thread_com) {
         throw std::invalid_argument("ERROR on binding, probably bad PORT\n");
     }
 
-    if (new_connection() == false) {
+    if (!new_connection()) {
         throw std::invalid_argument("Error setting up connection");
     }
 
