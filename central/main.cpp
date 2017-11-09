@@ -16,7 +16,6 @@ void check_new_connections() {
     while(true) {
         com_module->new_connection();
     }
-
 }
 
 /*
@@ -40,13 +39,9 @@ int main() {
         msg_read = thread_com->read_from_queue(2);
         if (msg_read != "") {
             cout << "Msg: " << msg_read << "\n";
-
-            thread_com->write_to_queue("I got the message thank you", 1);
         }
-
     }
 
-    // com_child.join();
 
     return 0;
 }

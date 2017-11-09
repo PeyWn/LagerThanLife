@@ -2,6 +2,8 @@
 #include <netdb.h>
 #include <fcntl.h>
 #include <cstring>
+#include <iostream>
+#include <signal.h>
 
 #include "client_socket.h"
 
@@ -10,18 +12,22 @@ using namespace std;
 ClientSocket::ClientSocket(InterThreadCom* inter_thread_com) {
     thread_com = inter_thread_com;
 
+    connected = new_connection();
+}
+
+bool ClientSocket::new_connection() {
     struct hostent *server;
     int sockfd_init;
     struct sockaddr_in serv_addr;
 
     sockfd_init = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd_init < 0) {
-        throw invalid_argument("ERROR opening socket\n");
+        return false;
     }
 
     server = gethostbyname(hostname.c_str());  // argument type for gethostbyname is char*
     if (server == NULL) {
-        throw invalid_argument("ERROR, host not found\n");
+        return false;
     }
 
     bzero((char *) &serv_addr, sizeof(serv_addr));
@@ -30,15 +36,32 @@ ClientSocket::ClientSocket(InterThreadCom* inter_thread_com) {
     serv_addr.sin_port = htons(PORT);
 
     if (connect(sockfd_init,(struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-        throw invalid_argument("ERROR connecting\n");
+        cout << "Connection failed" << endl;
+        return false;
     }
+
+	signal(SIGPIPE, SIG_IGN);
+
+int val = 1;
+setsockopt(sockfd_init, SOL_SOCKET, SO_KEEPALIVE, &val, sizeof(val));
 
     // Setting flag on socket on non-blocking mode
     if(fcntl(sockfd_init, F_SETFL, fcntl(sockfd_init, F_GETFL) | O_NONBLOCK) < 0) {
-        throw invalid_argument("ERROR on setting O_NONBLOCK\n");
+        return false;
     }
 
     sockfd = sockfd_init;
-
+    return true;
 }
 
+void ClientSocket::main_loop() {
+    while(true) {
+
+        if(connected) {
+            if(write_read_interpret() < 0) {
+		cout << "Disconnected" << endl;
+                connected = false;
+            }
+        }
+    }
+}
