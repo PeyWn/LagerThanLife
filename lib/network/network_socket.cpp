@@ -47,7 +47,7 @@ void NetworkSocket::interpret_message(string msg_read) {
 
 
 bool NetworkSocket::write_read_interpret() {
-    string* msg_read;
+    string msg_read;
     string msg_write = "";
 
     //Read from the module and relay this msg with socket_write
@@ -61,12 +61,12 @@ bool NetworkSocket::write_read_interpret() {
 
 	
 
-    if (socket_read(msg_read) == false) {
+    if (socket_read(&msg_read) == false) {
         return false;
     }
 
-    if(*msg_read != "") {
-        interpret_message(*msg_read);
+    if(msg_read != "") {
+        interpret_message(msg_read);
     }
 
     return true;
