@@ -15,7 +15,20 @@ float   PWM_duty_ratio;     // base speed; set with "init_wheel_control"
 int     traversal_status;   // current setting for fwd/backwd movement
 int     turn_status;        // current setting for left/right turn
 
-/* timer for waiting (8MHz setting) ------------------------------------------------*/
+/*--------------------locally used functions----------------------*/
+
+/* timer for waiting (set for 16MHz 8-bit timer with 8x clock divide)
+   starts counting seconds from 0 when called upon. It must
+   be called once every timer-period in order to update. It
+   is reset if called and the amount of seconds has passed.
+    
+   arg int seconds:
+   amount of seconds to wait.
+   
+   return (int bool):
+   return true if the amount of seconds has passed since
+   first call to funtion, false otherwise.
+*/
 int seconds(unsigned int seconds)
 {
      if ( TCNT0 > 200 && !(has_counted)){
@@ -25,7 +38,11 @@ int seconds(unsigned int seconds)
      else if ( TCNT0 < 200 ){
          has_counted = 0;
      }
-     if ( period_counter >= 15770 ){ // 15770Hz is measured in oscilloscope (8Mhz)
+     
+     /* 15.770kHz is measured in oscilloscope           (8Mhz) 
+        16Mhz and timer-clock-divide 8 => approx 4kHz   (16MHz)
+     */
+     if ( period_counter >= 4000 ){ 
          second_counter += 1;
          period_counter = 0;
      }
@@ -38,38 +55,8 @@ int seconds(unsigned int seconds)
          return 0;
      }
 }
-/*----------------------------------------------------------------------------------*/
 
-int init_wheel_control(float base_speed)
-{   
-    /* set OC0A and OC0B on compare match when up-counting, clear on down-counting */ 
-    TCCR0A |= 1<<COM0A1 | 1<<COM0A0 | 1<<COM0B1 | 1<<COM0B0;
-    
-    /* Phase correct PWM */ 
-    TCCR0A |=     1<<WGM00;
-    TCCR0A &=   ~(1<<WGM01);
-    TCCR0B &=   ~(1<<WGM02);
-    
-    /* clk source, no prescaling for 8Mhz. (divide by 2 for 16Mhz) */
-    TCCR0B |=   1<<CS00;
-    TCCR0B &= ~(1<<CS02 |1<<CS01);
-
-    /* enable interupt for compare match A and B on timer TCNT0 */
-    TIMSK0 |= (1<<OCIE0B)|(1<<OCIE0A);
-    
-    /* set PB3, PB4 as output for PB4, PB5, PC1, PC0 */
-    DDRB  |= (1<<DDB4) | (1<<DDB3); //PWM
-    DDRC  |= (1<<DDC1) | (1<<DDC0); //DIR1
-
-    /* set initial variable values, speed and turn to 0 */
-    PWM_duty_ratio = base_speed > MOTOR_MAX ? MOTOR_MAX : base_speed;
-    set_traversal_speed(0);
-    set_turn_speed(0);
-    
-    return 0;
-}
-
-/*  local function:
+/*  Set PWM function:
     compute and set PWM on pins for PWM based on new turn
     setting and on current traversal status. Completely
     copied from design specification. Also sets DIR1 and
@@ -136,37 +123,46 @@ void set_PWM(int turn_value, int trav_value)
         PORTC |= 1<<PORTC1;
     }
 }
+/*----------------------------------------------------------------*/
 
-/*  function:
-    set a new speed for moving robot forward/backward or stop.
-    Front of robot is based on where sensors are placed
-    (2017-11-05).
+/*---------------------publicly used functions--------------------*/
+
+int init_wheel_control(float base_speed)
+{   
+    /* set OC0A and OC0B on compare match when up-counting, clear on down-counting */ 
+    TCCR0A |= 1<<COM0A1 | 1<<COM0A0 | 1<<COM0B1 | 1<<COM0B0;
     
-    arg int trav_value :
-    the new traversal value for moving the robot forward and
-    backward. Set only to values:
-    1  - forward
-    0  - stop
-    -1 - backward
-    */
+    /* Phase correct PWM */ 
+    TCCR0A |=     1<<WGM00;
+    TCCR0A &=   ~(1<<WGM01);
+    TCCR0B &=   ~(1<<WGM02);
+    
+    /* clk source, no prescaling for 8Mhz. (divide by 8 for 16MHz -> 2 MHz) */
+    TCCR0B &= ~(1<<CS00);
+    TCCR0B |=  (1<<CS01);
+    TCCR0B &= ~(1<<CS02);
+
+    /* enable interupt for compare match A and B on timer TCNT0 */
+    TIMSK0 |= (1<<OCIE0B)|(1<<OCIE0A);
+    
+    /* set PB3, PB4 as output for PB4, PB5, PC1, PC0 */
+    DDRB  |= (1<<DDB4) | (1<<DDB3); //PWM
+    DDRC  |= (1<<DDC1) | (1<<DDC0); //DIR1
+
+    /* set initial variable values, speed and turn to 0 */
+    PWM_duty_ratio = base_speed > MOTOR_MAX ? MOTOR_MAX : base_speed;
+    set_traversal_speed(0);
+    set_turn_speed(0);
+    
+    return 0;
+}
+
 void set_traversal_speed(int trav_value)
 {
     set_PWM(turn_status, trav_value); 
     traversal_status = trav_value;
 }
 
-/*  function:
-    set new turning speed for robot rotation. Rotation is
-    based on current traversal speed such that the robot will
-    maintain same traversal movement when rotating. The rotation
-    is scaled by the TURN_MAX constant and restricted by the
-    MOTOR_MAX constant.
-    
-    arg int turn_value:
-    the new turn speed setting. Can be set to any integer 
-    value in the interval +/-7 where positive is right turn
-    and 0 is no turning.
-*/
 void set_turn_speed(int turn_value)
 {
     set_PWM(turn_value, traversal_status);

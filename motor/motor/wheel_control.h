@@ -22,19 +22,6 @@
                                                                     */
 int init_wheel_control(float base_speed);
 
-/*  function:
-    set new turning speed for robot rotation. Rotation is
-    based on current traversal speed such that the robot will
-    maintain same traversal movement when rotating. The rotation
-    is scaled by the TURN_MAX constant and restricted by the
-    MOTOR_MAX constant.
-    
-    arg int turn_value:
-    the new turn speed setting. Can be set to any integer 
-    value in the interval +/-7 where positive is right turn
-    and 0 is no turning.
-                                                                    */
-void set_turn_speed(int turn_value);
 
 /*  function:
     set a new speed for moving robot forward/backward or stop.
@@ -49,6 +36,22 @@ void set_turn_speed(int turn_value);
     -1 - backward
                                                                     */
 void set_traversal_speed(int trav_value);
+
+
+/*  function:
+    set new turning speed for robot rotation. Rotation is
+    based on current traversal speed such that the robot will
+    maintain same traversal movement when rotating. The rotation
+    is scaled by the TURN_MAX constant and restricted by the
+    MOTOR_MAX constant.
+    
+    arg int turn_value:
+    the new turn speed setting. Can be set to any integer 
+    value in the interval +/-7 where positive is right turn
+    and 0 is no turning.
+                                                                    */
+void set_turn_speed(int turn_value);
+
 
 /*  the "main-loop" of wheel control. Only used for testing so far. 
     intended use: call from the real main-loop of motor-unit.       
