@@ -67,11 +67,11 @@ void move_single_axis(int id, int pos, int speed, char mode)
 {
 	if (mode == REG_WRITE)
 	{
-		write_long(id, GOAL_POSITION, pos, speed, REG_WRITE);
+		write_long(id, GOAL_POSITION_ADDRESS, pos, speed, REG_WRITE);
 	}
 	else if (mode == WRITE_DATA)
 	{
-		write_long(id, GOAL_POSITION, pos, speed, WRITE_DATA);
+		write_long(id, GOAL_POSITION_ADDRESS, pos, speed, WRITE_DATA);
 	}
 }
 
@@ -100,7 +100,7 @@ void torque_enable(int id)
 	transmit((char)id);
 	transmit(0x04); //Length
 	transmit(WRITE_DATA);
-	transmit(TORQUE_ENABLE);
+	transmit(TORQUE_ENABLE_ADDRESS);
 	transmit(1);
-	transmit( ~(id + 4 + WRITE_DATA + TORQUE_ENABLE + 1) );
+	transmit( ~(id + 4 + WRITE_DATA + TORQUE_ENABLE_ADDRESS + 1) );
 }

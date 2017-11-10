@@ -22,10 +22,13 @@ int main(void)
 	init_IO();
 	usart_init(1000000);
     
+	torque_enable(0xFE);
+	
+	move_double_axis(4, 5, 0x200, GLOBAL_SERVO_SPEED);
+	
 	while (1)
 	{
-		move_double_axis(4, 5, 0x200, GLOBAL_SERVO_SPEED);
-		torque_enable(0xFE);
+		
 	}
 
 }
