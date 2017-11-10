@@ -16,6 +16,5 @@ ISR(USART_RXC_vect){
     //TODO implement ISR
 	
 	volatile uint8_t data_read = UDR; 
-	distance_blocked[0] = 500;
 	
 }

@@ -7,6 +7,10 @@ void setup_AVR(){
     // Set directions for input and outputs
     DDRA = (0<<DDA2)|(0<<DDA1)|(0<<DDA0);
     DDRB = (1<<DDB4)|(1<<DDB3)|(1<<DDB2)|(1<<DDB1)|(1<<DDB0);
+	
+	//set rx to input, set tx to output
+	DDRD = (0<<DDD0)|(1<<DDD1);
+	
 
     // Set A/D reference Vcc
     ADMUX = (1<<REFS0);
@@ -14,11 +18,12 @@ void setup_AVR(){
     ADCSRA = (1<<ADEN)|(1<<ADIE);
 
     //Enable interrupts for UART data received
-    UCSRB = (1<<RXCIE);
+    //UCSRB = (1<<RXCIE);
 
-	//Set UART baudrate and activate Tx/Rx
+	//Set UART baudrate, activates Tx/Rx, activates interrupts for UART data recieved
+	//TODO: change UBRRL to 103 when ext clk (16MHz) is used
 	UBRRL = 0b00110011;
-	UCSRB = (1<<RXEN)|(1<<TXEN); 
+	UCSRB = (1<<RXEN)|(1<<TXEN)|(1<<RXCIE); 
 
     //Enable global interrupts
     sei();
