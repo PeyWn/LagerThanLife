@@ -6,6 +6,7 @@
 #include <iostream>
 #include "server_socket.h"
 #include "../lib/network/interthreadcom.h"
+#include "uart_handler.h"
 
 using namespace std;
 
@@ -42,12 +43,21 @@ int main() {
     // Spawn a new thread that calls on comm_mod_loop
     thread com_child(comm_mod_loop);
 
+    //Set up uart
+    UARTHandler uart("/dev/ttyUSB0");
+
     string msg_read;
     while(true) {
+        //Netwrok read
         msg_read = thread_com->read_from_queue(FROM_SOCKET);
         if (msg_read != "") {
             cout << "Msg: " << msg_read << "\n";
         }
+
+        //UART
+        //Send test message
+        uart.send_msg(129);
+        usleep(100000);
     }
 
     return 0;
