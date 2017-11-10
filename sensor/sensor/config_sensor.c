@@ -16,6 +16,11 @@ void setup_AVR(){
     //Enable interrupts for UART data received
     UCSRB = (1<<RXCIE);
 
+	//Set UART baudrate and activate Tx/Rx
+	UBRRL = 0b00110011;
+	UCSRB = (1<<RXEN)|(1<<TXEN); 
+
     //Enable global interrupts
     sei();
+	
 }
