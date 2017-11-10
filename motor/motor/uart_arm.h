@@ -16,3 +16,5 @@ unsigned char receive(void);
 
 /* Set value for UART direction on PIN for half-duplex control of robot arm */
 void set_direction_port(int dir);
+
+void flush_UDR(); 

@@ -1,16 +1,19 @@
+/*
+ * globals.h
+ *
+ * Created: 11/8/2017 8:37:16 PM
+ *  Author: jesjo430
+ */ 
+
 #include "../../lib/avr_util.h"
 
 #define F_CPU 16000000 // Avr system clock @ 16Mhz. 
 #define DIRECTION_PORT PORTD // Direction port D4 on AVR.
 
+#define NUMBER_OF_MOTORS 8; 
+
 #define RECEIVE 0 // Definition used when setting half duplex UART direction.
 #define TRANSMIT 1 // Definition used when setting half duplex UART direction.
-
-typedef char ID;
-typedef char LENGTH;
-typedef char INSTRUCTION;
-typedef char PARAMETER;
-typedef char CHECKSUM; 
 
 #define PING 0x01
 #define READ_DATE 0x02
@@ -20,7 +23,13 @@ typedef char CHECKSUM;
 #define RESET 0x06
 #define SYNC_WRITE 0x07
 
-#define GOAL_POSITION 0x1E 
-#define MOVING_SPEED 0x20
+#define GOAL_POSITION_ADDRESS 0x1E 
+#define MOVING_SPEED_ADDRESS 0x20
+#define TORQUE_ENABLE_ADDRESS 0x18
 
-#define GLOBAL_SERVO_SPEED 0x30   
+#define GLOBAL_SERVO_SPEED 0x30
+
+extern int id4; 
+extern int len4; 
+extern int error4;
+extern int param4; 

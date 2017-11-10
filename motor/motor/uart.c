@@ -9,8 +9,7 @@
 #include <avr/io.h>
 #include <stdlib.h>
 #include "uart.h"
-
-#define F_CPU 16000000    // Avr system clock @ 16Mhz. 
+#include "globals.h" 
 
 void usart_init(int baudrate)
 {
@@ -51,7 +50,6 @@ unsigned char usart_receive (void)
 {
 	
 	while(!(UCSR1A & (1<<RXC1)));          // wait for data to be received in receiver buffer
-	//while(1);
 	volatile char data = UDR1;                             // return 8-bit data
 	return data;
 }
