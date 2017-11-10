@@ -1,3 +1,10 @@
+/*
+ * globals.h
+ *
+ * Created: 11/8/2017 8:37:16 PM
+ *  Author: jesjo430
+ */ 
+
 #include "../../lib/avr_util.h"
 
 #define F_CPU 16000000 // Avr system clock @ 16Mhz. 
