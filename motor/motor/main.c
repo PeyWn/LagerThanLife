@@ -15,20 +15,22 @@
 #include "uart_arm.h"
 
 #include "transmission.h"
+#include "receive.h"
 
 
 int main(void)
 {
 	init_IO();
 	usart_init(1000000);
-    
-	torque_enable(0xFE);
-	
-	move_double_axis(4, 5, 0x200, GLOBAL_SERVO_SPEED);
 	
 	while (1)
 	{
+		torque_enable(0xFE);
+		receive_status_packet(); 
+	
+		move_double_axis(4, 5, 0x200, GLOBAL_SERVO_SPEED);
 		
+		move_single_axis(6, 0x1ff, GLOBAL_SERVO_SPEED, WRITE_DATA);
 	}
 
 }

@@ -9,8 +9,7 @@
 #include <avr/io.h>
 #include <stdlib.h>
 #include "uart.h"
-
-#define F_CPU 16000000    // Avr system clock @ 16Mhz. 
+#include "globals.h" 
 
 void usart_init(int baudrate)
 {
