@@ -56,8 +56,14 @@ int main() {
 
         //UART
         //Send test message
-        uart.send_msg(129);
-        usleep(100000);
+        uart.send_msg(13);
+
+        uart_msg buffer[255];
+        while(!uart.read_msg(buffer)){
+
+        }
+
+        cout << "Read:" << (int)buffer[0] << endl;
     }
 
     return 0;

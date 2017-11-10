@@ -25,16 +25,19 @@ UARTHandler::UARTHandler(string interface){
 }
 
 void UARTHandler::send_msg(int msg){
+    //Cast to 8 bit data
     uart_msg to_send = (uart_msg) msg;
 
-    cout << "msg:" << msg << endl;
-
-    if(uart_fd != -1){
-        int bytes_written = write(uart_fd, &to_send, 1);
-        cout << bytes_written << "bytes written." << endl;
-    }
+    //Send
+    int bytes_written = write(uart_fd, &to_send, 1);
 }
 
-int UARTHandler::read_msg(){
+bool UARTHandler::read_msg(uart_msg buffer[]){
+    int read_bytes = read(uart_fd, (void*)buffer, 255);
 
+    if(read_bytes < 1){
+        //read failed or nothing
+        return false;
+    }
+    return true;
 }
