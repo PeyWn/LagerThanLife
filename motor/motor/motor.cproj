@@ -112,6 +112,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="receive.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="receive.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="transmission.c">
       <SubType>compile</SubType>
     </Compile>

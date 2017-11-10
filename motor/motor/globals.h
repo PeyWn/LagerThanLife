@@ -13,11 +13,6 @@
 #define RECEIVE 0 // Definition used when setting half duplex UART direction.
 #define TRANSMIT 1 // Definition used when setting half duplex UART direction.
 
-typedef char ID;
-typedef char LENGTH;
-typedef char INSTRUCTION;
-typedef char PARAMETER;
-typedef char CHECKSUM; 
 
 #define PING 0x01
 #define READ_DATE 0x02

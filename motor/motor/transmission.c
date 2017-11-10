@@ -9,7 +9,6 @@
 #include <string.h>
 #include "uart_arm.h"
 #include "globals.h"
-#include <avr/delay.h>
  
 void transmit_startbits()
 {
