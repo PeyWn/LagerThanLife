@@ -10,7 +10,6 @@ void setup_AVR(){
 	
 	//set rx to input, set tx to output
 	DDRD = (0<<DDD0)|(1<<DDD1);
-	
 
     // Set A/D reference Vcc
     ADMUX = (1<<REFS0);

@@ -17,4 +17,6 @@ ISR(USART_RXC_vect){
 	
 	volatile uint8_t data_read = UDR; 
 	
+	UDR = 99;
+	
 }
