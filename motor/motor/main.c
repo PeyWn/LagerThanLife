@@ -6,12 +6,15 @@
  */ 
 
 #include <avr/io.h>
-#include "uart.h"
-#include "init_arm.h"
-#include "uart_arm.h"
-#include "globals.h"
 #include <avr/delay.h>
-#include "commands.h"
+
+#include "globals.h"
+#include "init_arm.h"
+
+#include "uart.h"
+#include "uart_arm.h"
+
+#include "transmission.h"
 
 
 int main(void)
@@ -21,9 +24,8 @@ int main(void)
     
 	while (1)
 	{
-		//move_double(2, 3, 0x200, GLOBAL_SERVO_SPEED);
-		move_double(4, 5, 0x200, GLOBAL_SERVO_SPEED);
-		//move_singel(18, 0x200, GLOBAL_SERVO_SPEED, WRITE_DATA);
+		move_double_axis(4, 5, 0x200, GLOBAL_SERVO_SPEED);
+		torque_enable(0xFE);
 	}
 
 }

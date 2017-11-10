@@ -112,10 +112,10 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="commands.c">
+    <Compile Include="transmission.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="commands.h">
+    <Compile Include="transmission.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="control_table.c">
