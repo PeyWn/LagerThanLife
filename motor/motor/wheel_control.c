@@ -81,7 +81,7 @@ int seconds(unsigned int seconds)
 void set_PWM(int turn_value, int trav_value)
 {
     /* PWM speed variables */
-    float turn    =  turn_value * TURN_MAX/7;       // turn direciton
+    float turn    =  turn_value * TURN_MAX/7;       // turn direction
     float left    =  trav_value * PWM_duty_ratio;   // left motors' speed
     float right   =  trav_value * PWM_duty_ratio;   // right motors' speed
     
@@ -101,23 +101,23 @@ void set_PWM(int turn_value, int trav_value)
     }
     /* if within limitations just add turn value */
     else{  
-        left = left + turn;
+        left = left   + turn;
         right = right - turn;
     }
     
     /* set PWM duty */
-    OCR0A = (int)(255 * ( 1 - fabs(left) ) );
-    OCR0B = (int)(255 * ( 1 - fabs(right)) );
+    OCR0A = (int)(255 * ( 1 - fabs(right) ) );
+    OCR0B = (int)(255 * ( 1 - fabs(left)) );
     
-    /* set direction on left wheel side */
-    if(left < 0){
+    /* set direction on right wheel side */
+    if(right < 0){
         PORTC |= 1<<PORTC0;
     }else{
         PORTC &= ~(1<<PORTC0);
     }
     
-    /* set direction on right wheel side */
-    if(right < 0){
+    /* set direction on left wheel side */
+    if(left < 0){
         PORTC &= ~(1<<PORTC1);
     }else{
         PORTC |= 1<<PORTC1;
@@ -172,28 +172,53 @@ void set_turn_speed(int turn_value)
 void update_wheel_control(){
     
     /* wait 1 sec before starting */
-    /*
+    
     while(!seconds(1));
-    */
     
-    /* backwd left turn 2 sec   */
-    /*
-    set_traversal_speed(-1);
-    set_turn_speed(-2);
+    
+    /* right turn 2 sec   */
+    
+    set_traversal_speed(0);
+    set_turn_speed(4);
     while(!seconds(2));
-    */
     
-    /* fwd right turn 2 sec     */
-    /*
+    
+    /* left turn 2 sec     */
+    
+    set_traversal_speed(0);
+    set_turn_speed(-4);
+    while(!seconds(2));
+    
+    /* fwd right turn 2 sec   */
+        
     set_traversal_speed(1);
-    set_turn_speed(2);
+    set_turn_speed(4);
     while(!seconds(2));
-    */
+        
+        
+    /* backward right turn 2 sec     */
+        
+    set_traversal_speed(-1);
+    set_turn_speed(4);
+    while(!seconds(2));
+    
+    /* fwd left turn 2 sec   */
+        
+    set_traversal_speed(1);
+    set_turn_speed(-4);
+    while(!seconds(2));
+        
+        
+    /* backward left turn 2 sec     */
+        
+    set_traversal_speed(-1);
+    set_turn_speed(-4);
+    while(!seconds(2));
     
     /* stop */
-    /*
+    
     set_traversal_speed(0);
     set_turn_speed(0);
-    */
+    
 }
  
