@@ -27,6 +27,8 @@ void set_direction_port(int dir)
 
 void transmit(unsigned char data)
 {	
+	/* on next reveive, don't read old receive bytes,  flush before transmit*/
+	flush_UDR();	
 	set_direction_port(TRANSMIT);
 	usart_transmit(data); 
 }
@@ -35,4 +37,11 @@ unsigned char receive(void)
 {	
 	set_direction_port(RECEIVE); 
 	return usart_receive();
+}
+
+void flush_UDR()
+{
+	volatile char x;
+	while((UCSR1A & (1<<RXC1)))
+		x = UDR1;	
 }

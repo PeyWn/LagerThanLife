@@ -50,7 +50,6 @@ unsigned char usart_receive (void)
 {
 	
 	while(!(UCSR1A & (1<<RXC1)));          // wait for data to be received in receiver buffer
-	//while(1);
 	volatile char data = UDR1;                             // return 8-bit data
 	return data;
 }

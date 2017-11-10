@@ -26,11 +26,18 @@ int main(void)
 	while (1)
 	{
 		torque_enable(0xFE);
-		receive_status_packet(); 
+		//torque_enable(7);
+		//receive_status_packet(); 
 	
-		move_double_axis(4, 5, 0x200, GLOBAL_SERVO_SPEED);
-		
-		move_single_axis(6, 0x1ff, GLOBAL_SERVO_SPEED, WRITE_DATA);
+		//move_double_axis(4, 5, 0x200, GLOBAL_SERVO_SPEED);
+		//torque_enable(6);
+		//receive_status_packet(); 
+		move_double_axis(2, 3, 0x200, GLOBAL_SERVO_SPEED);		
+		//receive_status_packet(); 	
+			
+		//move_single_axis(6, 0x1ff, GLOBAL_SERVO_SPEED, WRITE_DATA);
+		//receive_status_packet();
+		 
 	}
 
 }

@@ -6,28 +6,21 @@
  */ 
 
 #include <stdio.h>
-#include "globals.h"
+//#include "globals.h"
 #include "uart_arm.h"
 
-int id4;
-int len4;
-int error4;
-int param4;
+volatile int x;
+volatile int id4;
+volatile int len4;
+volatile int error4;
+volatile int param4;  
 
 void receive_status_packet()
 {
 	/* Start bits 0xFF 0xFF, which is ignored */
-	receive();
-	receive();
-	volatile id4 = receive();
-	len4 = receive();
+	x = receive();
+	x = receive();
+	id4 = receive();
 	error4 = receive();
-	param4 = receive();
-	
-	for (int i = 1; i < len4; i++)
-	{
-		receive();
-	}
-	receive();
+	volatile int y;
 }
-
