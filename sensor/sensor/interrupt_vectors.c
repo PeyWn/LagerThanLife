@@ -13,10 +13,7 @@ ISR(ADC_vect){
 Define interrupt vector for UART data received.
 */
 ISR(USART_RXC_vect){
-    //TODO implement ISR
+	volatile uint8_t data_read = UDR;
 	
-	volatile uint8_t data_read = UDR; 
-	
-	UDR = 99;
-	
+	UDR = data_read;
 }

@@ -16,12 +16,9 @@ void setup_AVR(){
     // Enable A/D converter, enable interrupts for A/D converter
     ADCSRA = (1<<ADEN)|(1<<ADIE);
 
-    //Enable interrupts for UART data received
-    //UCSRB = (1<<RXCIE);
-
 	//Set UART baudrate, activates Tx/Rx, activates interrupts for UART data recieved
 	//TODO: change UBRRL to 103 when ext clk (16MHz) is used
-	UBRRL = 0b00110011;
+	UBRRL = 0x67; //103
 	UCSRB = (1<<RXEN)|(1<<TXEN)|(1<<RXCIE); 
 
     //Enable global interrupts
