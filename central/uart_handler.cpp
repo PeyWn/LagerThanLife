@@ -20,6 +20,7 @@ UARTHandler::UARTHandler(string interface){
 	options.c_cflag = B9600 | CS8 | CLOCAL | CREAD; //Baudrate of 9600
 	options.c_oflag = 0;
 	options.c_lflag = 0;
+	options.c_iflag = IGNPAR;
 	tcflush(uart_fd, TCIFLUSH);
 	tcsetattr(uart_fd, TCSANOW, &options);
 }
@@ -33,7 +34,7 @@ void UARTHandler::send_msg(int msg){
 }
 
 bool UARTHandler::read_msg(uart_msg buffer[]){
-    int read_bytes = read(uart_fd, (void*)buffer, 255);
+    int read_bytes = read(uart_fd, (void*)buffer, 1);
 
     if(read_bytes < 1){
         //read failed or nothing
