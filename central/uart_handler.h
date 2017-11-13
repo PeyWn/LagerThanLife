@@ -8,5 +8,5 @@ private:
 public:
     UARTHandler(string interface);
     void send_msg(int msg);
-    bool read_msg(uart_msg buffer[]);
+    int read_msg();
 };
