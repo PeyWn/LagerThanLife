@@ -17,7 +17,6 @@ void setup_AVR(){
     ADCSRA = (1<<ADEN)|(1<<ADIE)|(1<<ADPS1);
 
 	//Set UART baudrate, activates Tx/Rx, activates interrupts for UART data recieved
-	//TODO: change UBRRL to 103 when ext clk (16MHz) is used
 	UBRRL = 0x67; //103
 	UCSRB = (1<<RXEN)|(1<<TXEN)|(1<<RXCIE); 
 
