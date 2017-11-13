@@ -43,9 +43,6 @@ int main() {
     // Spawn a new thread that calls on comm_mod_loop
     thread com_child(comm_mod_loop);
 
-    //Set up uart
-    UARTHandler uart("/dev/ttyUSB0");
-
     string msg_read;
     while(true) {
         //Netwrok read
@@ -54,13 +51,6 @@ int main() {
             cout << "Msg: " << msg_read << "\n";
         }
 
-        //UART
-        //Send test message
-        for(int i = 0; i < 255; i++){
-            uart.send_msg(i);
-
-            cout << "Read:" << uart.read_msg() << endl;
-        }
     }
 
     return 0;

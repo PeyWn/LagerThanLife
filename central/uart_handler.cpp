@@ -10,7 +10,7 @@ UARTHandler::UARTHandler(string interface){
 
     if (uart_fd == -1)
 	{
-		throw std::invalid_argument("ERROR creating uart connection for interface: " + interface + "\n");
+		throw invalid_argument("ERROR creating uart connection for interface: " + interface + "\n");
 	}
 
     //Set up UART option with termios
