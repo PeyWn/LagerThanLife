@@ -11,7 +11,7 @@ void setup_AVR(){
     // Set A/D reference Vcc
     ADMUX = (1<<REFS0);
     // Enable A/D converter, enable interrupts for A/D converter
-    ADCSRA = (1<<ADEN)|(1<<ADIE);
+    ADCSRA = (1<<ADEN)|(1<<ADIE)|(1<<ADPS1);
 
     //Enable interrupts for UART data received
     UCSRB = (1<<RXCIE);

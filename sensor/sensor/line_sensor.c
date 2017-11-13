@@ -7,7 +7,7 @@
 #include "line_sensor.h"
 #include "ad_conversion.h"
 
-#define F_CPU 8000000UL //TODO set correct clock
+#define F_CPU 16000000UL
 #include <util/delay.h>
 
 const int LED_DELAY = 10; //delay for led to turn on in us
