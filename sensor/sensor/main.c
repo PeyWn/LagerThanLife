@@ -35,7 +35,6 @@ int main(void)
     //MAIN LOOP
     while(true)
     {
-
         int sensor_values[11];
 
         get_linesensor_values(sensor_values);
