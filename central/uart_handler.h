@@ -1,3 +1,6 @@
+#ifndef UART_HANDLER_H
+#define UART_HANDLER_H
+
 using namespace std;
 
 typedef char uart_msg;
@@ -30,3 +33,5 @@ public:
     */
     int read_msg();
 };
+
+#endif /* UART_HANDLER_H */

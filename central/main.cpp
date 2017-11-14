@@ -4,16 +4,23 @@
 
 #include <thread>
 #include <iostream>
+#include <string>
 #include "server_socket.h"
 #include "../lib/network/interthreadcom.h"
 #include "uart_handler.h"
+#include "motor_com.h"
 
 using namespace std;
+
+const string MOTOR_INTERFACE = "ttyUSB0";
 
 InterThreadCom* thread_com;
 ServerSocket* com_module;
 
+MotorCom mator(MOTOR_INTERFACE);
+
 /*
+
     Function for com_child_new. Checks for new socket connection
     and makes the last connected current connection.
 */
