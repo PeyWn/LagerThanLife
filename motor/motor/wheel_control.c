@@ -127,6 +127,14 @@ void set_PWM(int turn_value, int trav_value)
 
 /*---------------------publicly used functions--------------------*/
 
+int get_turn_status(){
+	return turn_status;
+}
+
+int get_traversal_status(){
+	return traversal_status; 
+}
+
 int init_wheel_control(float base_speed)
 {   
     /* set OC0A and OC0B on compare match when up-counting, clear on down-counting */ 

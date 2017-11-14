@@ -9,6 +9,19 @@
 #define WHEEL_CONTROL_H_
 #include <avr/io.h>
 
+
+/*	getter for turn speed. Returns a value in the interval +/-7 where 
+	positive is right turn and 0 is no turning						*/
+int get_turn_status()
+
+
+/*	getter for traversal speed. return values: 
+	1 - (robot is driving forwards)
+	0 - (robot idle)
+	-1 - (robot is driving backwards)			*/
+int get_traversal_status();
+
+
 /*  initial setup for wheel control when AVR-unit is started
     . sets registers that need to be set
     . enables PWM pins
