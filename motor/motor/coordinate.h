@@ -11,4 +11,4 @@ Ty: Target y
 Returns a list "servo" of length 3 which contains servo A, B, C angles.
 
  */
-double calculate_angels(int len_AB, int len_BC, int len_CT, double T_angle, int Tx, int Ty);
+double calculate_angels();
