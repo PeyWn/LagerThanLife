@@ -10,12 +10,12 @@
 #include <avr/io.h>
 
 
-/*	getter for turn speed. Returns a value in the interval +/-7 where 
+/*	Getter for turn speed. Returns a value in the interval +/-7 where 
 	positive is right turn and 0 is no turning						*/
 int get_turn_status()
 
 
-/*	getter for traversal speed. return values: 
+/*	Getter for traversal speed. return values: 
 	1 - (robot is driving forwards)
 	0 - (robot idle)
 	-1 - (robot is driving backwards)			*/

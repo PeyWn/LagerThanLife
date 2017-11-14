@@ -13,19 +13,27 @@ ISR(USART0_RX_vect){
 	switch(id) {
 
 		case 0b0000:
-			//set id and parameter for sending back status 
+			/*	data_write consists of 8 bits where bit 7-4 is 
+				status_id (ID) and 3-0 is parameter_ID (parameter) */
 			int status_id; 
 			int status_parameter; 
+			volatile uint8_t data_write; 
 		
 			if (parameter == 0b0001){
-				//sends turn speed
-				//UDR0 = turn_status;
+				//read turn speed and write to UART
+							
 				status_id = 0b0010;
+				
+				if (read_turn_status() == 0){ status_parameter = 0000; }
+				else if (read_turn_status() == 1){ status_parameter = 0001; }
+				else if (read_turn_status == -1){ status_parameter = 0010; }
+				
+				data_write = ( status_id >> 4 ) + status_parameter; 
 				
 			}
 			else if (parameter == 0b0010){
 				//sends driving speed
-				//UDR0 = traversal_status; 
+				//TODO: som ovanför
 			}
 			else if (parameter == 0b1111){
 				//begär armstatus
