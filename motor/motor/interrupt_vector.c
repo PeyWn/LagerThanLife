@@ -21,6 +21,7 @@ ISR(USART0_RX_vect){
 		
 			if (parameter == 0b0001){
 				//read turn speed and write to UART
+				//TODO: test
 							
 				status_id = 0b0010;
 				
