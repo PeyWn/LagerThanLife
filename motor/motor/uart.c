@@ -41,7 +41,7 @@ void usart_transmit( unsigned char data )
 { 
 	while (!(UCSR1A&(1<<UDRE1)));		 //Wait for empty transmit buffer.
 	UDR1 = data;						 //Put data into buffer, sends the data
-	while (!(UCSR1A&(1<<TXC1)));		 //Wait for empty transmit register (adds delay after sent byte)
+	while (!(UCSR1A&(1<<TXC1)));	 //Wait for empty transmit register (adds delay after sent byte)
 	UCSR1A |= (1<<TXC1);				 //clear transmit register empty flag by setting TXC1. 
 }
 

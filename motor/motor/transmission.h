@@ -18,3 +18,4 @@ void move_single_axis(int id, int pos, int speed, char mode);
 void send_action();
 void move_double_axis(int id1, int id2, int pos, int speed);
 void torque_enable(int id);
+void update_error_var(int id);

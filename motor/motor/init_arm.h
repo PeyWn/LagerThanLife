@@ -9,3 +9,5 @@
 void init_IO();
 
 void set_limits(void);
+
+void set_torque(void);

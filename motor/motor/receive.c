@@ -9,19 +9,19 @@
 #include "uart_arm.h"
 #include "globals.h"
 
-int error1;
-int error2;
-int error3;
-int error4;
-int error5;
-int error6;
-int error7;
-int error8;
+volatile int error1;
+volatile int error2;
+volatile int error3;
+volatile int error4;
+volatile int error5;
+volatile int error6;
+volatile int error7;
+volatile int error8;
 
 void receive_status_packet()
 {
 	/* Start bits 0xFF 0xFF, which is ignored */
-	int x = receive();
+	volatile int x = receive();
 	x = receive();
 	int id = receive();
 	int error = receive();

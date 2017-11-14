@@ -24,25 +24,20 @@ int main(void)
 	usart_init(1000000);
 	set_limits(); 
 	
+	
 		while (1)
 		{
-			torque_enable(0xFE);
-			
-			move_single_axis(1, 0x3ff , GLOBAL_SERVO_SPEED, WRITE_DATA);
-			receive_status_packet();
-			
-			move_single_axis(1, 0x0 , GLOBAL_SERVO_SPEED, WRITE_DATA);
-			receive_status_packet();
-		
-			//move_double_axis(2, 3, 0x200, GLOBAL_SERVO_SPEED);
-			//receive_status_packet();
-		
-			//move_double_axis(4, 5, 0x3FF, GLOBAL_SERVO_SPEED);
-			//receive_status_packet(); 
-				
-			//move_single_axis(6, 0x100, GLOBAL_SERVO_SPEED, WRITE_DATA);
-			//receive_status_packet();
+			update_error_var(2);
 			
 			//torque_enable(0xFE);
+			//set_torque();
+			
+			//move_single_axis(1, 0x1ff , GLOBAL_SERVO_SPEED, WRITE_DATA);
+			
+			//move_single_axis(6, 0x200, GLOBAL_SERVO_SPEED, WRITE_DATA);
+			
+			//move_double_axis(2, 3, 0x1FF, GLOBAL_SERVO_SPEED);
+			
+			//move_double_axis(4, 5, 0x1FF, GLOBAL_SERVO_SPEED);
 		}
 }

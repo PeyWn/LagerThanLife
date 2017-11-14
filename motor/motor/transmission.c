@@ -7,8 +7,10 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <avr/delay.h>
 #include "uart_arm.h"
 #include "globals.h"
+#include "receive.h"
  
 void transmit_startbytes()
 {
@@ -29,16 +31,16 @@ void write_byte(int id, int address, int byte, int mode)
 
 void write_word(int id, int address, int word, int mode)
 {
-	char wordH = word >> 8;
 	char wordL =  word & 0xFF;
-	
+	char wordH = word >> 8;
+
 	transmit_startbytes();
 	transmit((char)id);
 	transmit(0x05); //Number of parameters + 2 = LENGHT.
 	transmit(mode);
 	transmit(address);
 	transmit(wordL);
-	transmit(wordL);
+	transmit(wordH);
 	transmit( ~(id + 4 + mode + address + wordH + wordL) );
 }
 
@@ -74,13 +76,13 @@ void move_single_axis(int id, int pos, int speed, char mode)
 	}
 }
 
-void send_action()
+void send_action(int id)
 {
 	transmit_startbytes();
-	transmit(0xFE);
+	transmit(id);
 	transmit(0x02);
 	transmit(ACTION);
-	transmit(0xFA);
+	transmit(~(id+2+ACTION));
 }
 
 void move_double_axis(int id1, int id2, int pos, int speed) 
@@ -90,7 +92,8 @@ void move_double_axis(int id1, int id2, int pos, int speed)
 	char mirror_pos = 0x03FF-pos; 
 	move_single_axis(id2, mirror_pos, speed, REG_WRITE);
 	
-	send_action(); 
+	send_action(id1);
+	send_action(id2); 
 }
 
 void torque_enable(int id) 
@@ -102,4 +105,14 @@ void torque_enable(int id)
 	transmit(TORQUE_ENABLE_ADDRESS);
 	transmit(1);
 	transmit( ~(id + 4 + WRITE_DATA + TORQUE_ENABLE_ADDRESS + 1) );
+}
+
+void update_error_var(int id)
+{
+	transmit_startbytes();
+	transmit(id);
+	transmit(2);
+	transmit(1);
+	transmit((char)~(id+2+1));
+	receive_status_packet();
 }

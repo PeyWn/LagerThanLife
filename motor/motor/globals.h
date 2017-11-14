@@ -28,32 +28,35 @@
 #define TORQUE_ENABLE_ADDRESS 0x18
 #define CW_ANGLE_LIMIT_ADDRESS 0x06
 #define CCW_ANGLE_LIMIT_ADDRESS 0x08
-#define MAX_TORQUE_ADDRESS 0x14
+#define MAX_TORQUE_ADDRESS 0x22
 
-#define GLOBAL_SERVO_SPEED 0x30
+#define GLOBAL_SERVO_SPEED 0x2f
+#define GLOBAL_TORQUE_LIMIT 0x3ff
 
-extern int error1;
-extern int error2;
-extern int error3;
-extern int error4;
-extern int error5;
-extern int error6;
-extern int error7;
-extern int error8;
+volatile extern int error1;
+volatile extern int error2;
+volatile extern int error3;
+volatile extern int error4;
+volatile extern int error5;
+volatile extern int error6;
+volatile extern int error7;
+volatile extern int error8;
 
 #define CW_LIMIT_1 0x0
 #define CCW_LIMIT_1 0x3ff
+
 #define CW_LIMIT_2 0x0
 #define CCW_LIMIT_2 0x3ff
 #define CW_LIMIT_3 (0x3ff-CCW_LIMIT_2)
 #define CCW_LIMIT_3 (0x3ff-CW_LIMIT_2)
-#define CW_LIMIT_4 0x0
-#define CCW_LIMIT_4 0x3ff
+
+#define CW_LIMIT_4 0x0DF
+#define CCW_LIMIT_4 0x3A0
 #define CW_LIMIT_5 (0x3ff-CCW_LIMIT_4)
 #define CCW_LIMIT_5 (0x3ff-CW_LIMIT_4)
-#define CW_LIMIT_6 0x0
-#define CCW_LIMIT_6 0x3ff
+#define CW_LIMIT_6 0xC0
+#define CCW_LIMIT_6 0x2ff
 #define CW_LIMIT_7 0x0
 #define CCW_LIMIT_7 0x3ff
 #define CW_LIMIT_8 0x0
-#define CCW_LIMIT_8 0x3ff
+#define CCW_LIMIT_8 0x1ff
