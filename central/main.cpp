@@ -12,7 +12,7 @@
 
 using namespace std;
 
-const string SENSOR_INTERFACE = "ttyUSB0";
+const string SENSOR_INTERFACE = "/dev/ttyUSB0";
 
 InterThreadCom* thread_com;
 ServerSocket* com_module;
