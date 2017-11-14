@@ -10,7 +10,7 @@
 #include "uart_arm.h"
 #include "globals.h"
  
-void transmit_startbits()
+void transmit_startbytes()
 {
 	transmit(0xFF);
 	transmit(0xFF); 	
@@ -18,7 +18,7 @@ void transmit_startbits()
 
 void write_byte(int id, int address, int byte, int mode)
 {
-	transmit_startbits();
+	transmit_startbytes();
 	transmit((char)id);
 	transmit(0x04); //Number of parameters + 2 = LENGHT.
 	transmit(mode);
@@ -32,7 +32,7 @@ void write_word(int id, int address, int word, int mode)
 	char wordH = word >> 8;
 	char wordL =  word & 0xFF;
 	
-	transmit_startbits();
+	transmit_startbytes();
 	transmit((char)id);
 	transmit(0x05); //Number of parameters + 2 = LENGHT.
 	transmit(mode);
@@ -50,7 +50,7 @@ void write_long(int id, int address, int word1, int word2, int mode)
 	char word2H = word2 >> 8;
 	char word2L = word2 & 0xFF;
 	
-	transmit_startbits();
+	transmit_startbytes();
 	transmit((char)id);
 	transmit(0x07); //Length
 	transmit(mode);
@@ -76,7 +76,7 @@ void move_single_axis(int id, int pos, int speed, char mode)
 
 void send_action()
 {
-	transmit_startbits();
+	transmit_startbytes();
 	transmit(0xFE);
 	transmit(0x02);
 	transmit(ACTION);
@@ -95,7 +95,7 @@ void move_double_axis(int id1, int id2, int pos, int speed)
 
 void torque_enable(int id) 
 {
-	transmit_startbits();
+	transmit_startbytes();
 	transmit((char)id);
 	transmit(0x04); //Length
 	transmit(WRITE_DATA);

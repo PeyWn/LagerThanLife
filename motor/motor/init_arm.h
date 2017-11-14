@@ -7,3 +7,5 @@
 
 /* Initializes input and output, sets direction of IO ports. */ 
 void init_IO();
+
+void set_limits(void);

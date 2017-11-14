@@ -27,7 +27,7 @@ void set_direction_port(int dir)
 
 void transmit(unsigned char data)
 {	
-	/* on next reveive, don't read old receive bytes,  flush before transmit*/
+	/* on next receive, don't read old receive bytes,  flush before transmit*/
 	flush_UDR();	
 	set_direction_port(TRANSMIT);
 	usart_transmit(data); 

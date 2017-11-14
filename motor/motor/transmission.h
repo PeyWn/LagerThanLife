@@ -10,7 +10,7 @@
 #include "uart_arm.h"
 #include "globals.h"
 
-void transmit_startbits();
+void transmit_startbytes();
 void write_byte(int id, int address, int byte, int mode);
 void write_word(int id, int address, int word, int mode);
 void write_long(int id, int address, int word1, int word2, int mode);
