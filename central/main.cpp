@@ -17,7 +17,7 @@ const string MOTOR_INTERFACE = "ttyUSB0";
 InterThreadCom* thread_com;
 ServerSocket* com_module;
 
-MotorCom mator(MOTOR_INTERFACE);
+MotorCom motor(MOTOR_INTERFACE);
 
 /*
 
@@ -58,6 +58,9 @@ int main() {
             cout << "Msg: " << msg_read << "\n";
         }
 
+        //Motor com testing
+        motor.drive(FORWARD);
+        cout << "Drive status: " << motor.get_drive_status() << endl;
     }
 
     return 0;

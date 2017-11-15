@@ -3,7 +3,7 @@
 
 MotorCom::MotorCom(string motor_interface) : com(motor_interface) {}
 
-DRIVE_STATUS MotorCom::getDriveStatus(){
+DRIVE_STATUS MotorCom::get_drive_status(){
     com.send_msg(GET_DRIVE_STATUS);
 
     int status = com.read_msg();
@@ -11,7 +11,7 @@ DRIVE_STATUS MotorCom::getDriveStatus(){
     return static_cast<DRIVE_STATUS>(status);
 }
 
-pair<TURN_STATUS, int> MotorCom::getTurnStatus(){
+pair<TURN_STATUS, int> MotorCom::get_turn_status(){
     com.send_msg(GET_TURN_STATUS);
 
     int status = com.read_msg();
@@ -39,7 +39,7 @@ pair<TURN_STATUS, int> MotorCom::getTurnStatus(){
     return make_pair(direction, speed);
 }
 
-bool MotorCom::armActive(){
+bool MotorCom::arm_active(){
     com.send_msg(GET_ARM_STATUS);
 
     int status = com.read_msg();
@@ -81,13 +81,44 @@ void MotorCom::turn(TURN_STATUS direction, int speed){
     com.send_msg(msg);
 }
 
-void MotorCom::setArmSpeed(int speed){
+void MotorCom::set_arm_speed(int speed){
     if(speed < 0 || speed > 15){
         throw invalid_argument("Speed not withing bounds.");
     }
 
     int msg = CONFIGURE_ARM;
     msg += speed;
+
+    com.send_msg(msg);
+}
+
+void MotorCom::perform_arm_macro(ARM_MACRO move){
+    int msg = ARM_PERFROM_MACRO;
+    msg += move;
+
+    com.send_msg(msg);
+}
+
+void MotorCom::control_claw(bool close){
+    int msg = CONTROL_CLAW;
+
+    if(!close){
+        msg += 1;
+    }
+
+    com.send_msg(msg);
+}
+
+void MotorCom::move_arm(ARM_DIRECTION direction){
+    int msg = MANUAL_ARM_CONTROL;
+    msg += direction;
+
+    com.send_msg(msg);
+}
+
+void MotorCom::stop_arm(ARM_DIRECTION direction){
+    int msg = MANUAL_ARM_CONTROL;
+    msg += direction + 1;
 
     com.send_msg(msg);
 }
