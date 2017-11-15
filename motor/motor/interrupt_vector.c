@@ -7,6 +7,7 @@ Define interrupt vector for UART data received.
 TODO: clean up code
 */
 ISR(USART0_RX_vect){
+	
 	volatile uint8_t data_read = UDR0;
 	volatile uint8_t id = data_read >> 4; 
 	volatile uint8_t parameter = data_read & 0b0F; 
@@ -18,6 +19,9 @@ ISR(USART0_RX_vect){
 		case 0b0000:
 			/*	data_write consists of 8 bits where bit 7-4 is 
 				status_id (ID) and bit 3-0 is parameter_ID (parameter) */
+				
+			//TODO: test
+			
 			volatile uint8_t status_id = 0; 
 			volatile uint8_t status_parameter = 0; 
 			volatile uint8_t data_write; 
@@ -45,7 +49,6 @@ ISR(USART0_RX_vect){
 		
 			else if (parameter == 0b0010){
 				//read driving direction and write to UART
-				//TODO: test
 				
 				status_id = 0b0001;
 				
@@ -66,6 +69,8 @@ ISR(USART0_RX_vect){
 			break; 
 		
 		case 0b0001  :
+			//TODO: test
+		
 			if (parameter == 0b0000){
 				//robot idle
 				set_traversal_speed(0);
@@ -82,7 +87,8 @@ ISR(USART0_RX_vect){
 			break;
 		
 		case 0b0010  :
-
+			//TODO: test
+		
 			/* 	check if we want to go right of left where dir = 0 is right 
 				and dir = 1 is left 										*/
 			int dir = parameter >> 3;
