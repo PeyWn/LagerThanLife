@@ -29,8 +29,10 @@ int main(void)
 	
 	while (1)
 	{
-		
-		calculate_angles((3/2 * PI), 6, 6, servo);
+		double x = 20;
+		double y = 5;
+		double ct = 0;
+		calculate_angles(ct, x, y, servo);
 		
 		/*
 		torque_enable(0xFE);
