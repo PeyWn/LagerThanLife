@@ -30,18 +30,11 @@ int main(void)
 	
 		while (1)
 		{
-			move_single_axis(8, 0x1ff, GLOBAL_SERVO_SPEED, WRITE_DATA);
-			move_single_axis(8, 0x000, GLOBAL_SERVO_SPEED, WRITE_DATA);
-			move_single_axis(7, 0x000, GLOBAL_SERVO_SPEED, WRITE_DATA);
-			move_single_axis(7, 0x3ff, GLOBAL_SERVO_SPEED, WRITE_DATA);
-			move_single_axis(6, 0x100, GLOBAL_SERVO_SPEED, WRITE_DATA);
-			move_single_axis(6, 0x200, GLOBAL_SERVO_SPEED, WRITE_DATA);
-			move_double_axis(4, 5, 0x200, GLOBAL_SERVO_SPEED);
-			move_double_axis(4, 5, 0x100, GLOBAL_SERVO_SPEED);
-			move_double_axis(2, 3, 0x200, GLOBAL_SERVO_SPEED);
-			move_double_axis(2, 3, 0x100, GLOBAL_SERVO_SPEED);
-			move_single_axis(1, 0x000, GLOBAL_SERVO_SPEED, WRITE_DATA);
-			move_single_axis(1, 0x3ff, GLOBAL_SERVO_SPEED, WRITE_DATA);
-			
+			go_home_pos(); 
+			go_pos_front();
+			grab();
+			go_home_pos();
+			go_pos_front();
+			release();
 		}
 }

@@ -35,6 +35,9 @@
 #define LED_ADDRESS 0x19
 
 #define GLOBAL_SERVO_SPEED 0x2f
+#define SPEED_1 0x1f
+#define SPEED_2 0x3f
+#define SPEED_3 0x4f
 #define GLOBAL_TORQUE_LIMIT 0x3FF
 
 volatile extern int error1;
