@@ -25,3 +25,5 @@ void go_release_front(void);
 void go_pickup_standard(void);
 void grab(void);
 void release(void);
+void pickup_standard_front(void);
+void putdown_standard_front(void);

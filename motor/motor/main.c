@@ -30,11 +30,8 @@ int main(void)
 	
 		while (1)
 		{
-			go_home_pos(); 
-			go_pos_front();
-			grab();
-			go_home_pos();
-			go_pos_front();
 			release();
+			pickup_standard_front();
+			putdown_standard_front();
 		}
 }
