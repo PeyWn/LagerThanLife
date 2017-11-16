@@ -12,7 +12,7 @@
 
 using namespace std;
 
-const string MOTOR_INTERFACE = "ttyUSB0";
+const string MOTOR_INTERFACE = "/dev/ttyUSB0";
 
 InterThreadCom* thread_com;
 ServerSocket* com_module;
@@ -59,8 +59,9 @@ int main() {
         }
 
         //Motor com testing
-        motor.drive(FORWARD);
-        cout << "Drive status: " << motor.get_drive_status() << endl;
+        motor.turn(RIGHT, 7);
+	auto status = motor.get_turn_status();
+        cout << "Turn status: " << status.first << " " << status.second << endl;
     }
 
     return 0;

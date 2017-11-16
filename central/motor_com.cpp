@@ -1,5 +1,6 @@
 #include "motor_com.h"
 #include <stdexcept>
+#include <iostream>
 
 MotorCom::MotorCom(string motor_interface) : com(motor_interface) {}
 
@@ -13,6 +14,7 @@ DRIVE_STATUS MotorCom::get_drive_status(){
 
 pair<TURN_STATUS, int> MotorCom::get_turn_status(){
     com.send_msg(GET_TURN_STATUS);
+    cout << "Sent" << endl;
 
     int status = com.read_msg();
     status &= 0x0F; //Mask out lower 4 bits
@@ -67,7 +69,7 @@ void MotorCom::turn(TURN_STATUS direction, int speed){
         //None
         parameter = 0;
     }
-    else if(direction = RIGHT){
+    else if(direction == RIGHT){
         //Right
         parameter = speed;
     }
