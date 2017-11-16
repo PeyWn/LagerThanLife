@@ -45,12 +45,24 @@ void set_limits(void)
 
 void set_torque(void)
 {
-	write_word(1, MAX_TORQUE_ADDRESS, GLOBAL_TORQUE_LIMIT, WRITE_DATA);
-	write_word(2, MAX_TORQUE_ADDRESS, GLOBAL_TORQUE_LIMIT, WRITE_DATA);
-	write_word(3, MAX_TORQUE_ADDRESS, GLOBAL_TORQUE_LIMIT, WRITE_DATA);
-	write_word(4, MAX_TORQUE_ADDRESS, GLOBAL_TORQUE_LIMIT, WRITE_DATA);
-	write_word(5, MAX_TORQUE_ADDRESS, GLOBAL_TORQUE_LIMIT, WRITE_DATA);
-	write_word(6, MAX_TORQUE_ADDRESS, GLOBAL_TORQUE_LIMIT, WRITE_DATA);
-	write_word(7, MAX_TORQUE_ADDRESS, GLOBAL_TORQUE_LIMIT, WRITE_DATA);
-	write_word(8, MAX_TORQUE_ADDRESS, GLOBAL_TORQUE_LIMIT, WRITE_DATA);
+	for (int i = 1; i <= NUMBER_OF_MOTORS; i++)
+	{
+		write_word(i, MAX_TORQUE_ADDRESS, GLOBAL_TORQUE_LIMIT, WRITE_DATA);
+	}
+}
+
+void set_status_return_level(void)
+{
+	for (int i = 1; i <= NUMBER_OF_MOTORS; i++)
+	{
+		write_byte(i, STATUS_RETURN_LEVEL_ADDRESS, 2, WRITE_DATA);
+	}
+}
+
+void set_return_delay_time(void)
+{
+	for (int i = 1; i <= NUMBER_OF_MOTORS; i++)
+	{
+		write_byte(i, RETURN_DELAY_TIME_ADDRESS, 5, WRITE_DATA);
+	}
 }

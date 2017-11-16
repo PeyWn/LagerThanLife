@@ -24,6 +24,7 @@ void receive_status_packet()
 	volatile int x = receive();
 	x = receive();
 	int id = receive();
+	x = receive();
 	int error = receive();
 	
 	switch(id) {

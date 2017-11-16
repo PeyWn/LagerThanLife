@@ -43,5 +43,5 @@ void flush_UDR()
 {
 	volatile char x;
 	while((UCSR1A & (1<<RXC1)))
-		x = UDR1;	
+		x = UDR1;
 }
