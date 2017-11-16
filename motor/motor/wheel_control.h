@@ -12,7 +12,7 @@
 
 /*	Getter for turn speed. Returns a value in the interval +/-7 where 
 	positive is right turn and 0 is no turning						*/
-int get_turn_status()
+int get_turn_status();
 
 
 /*	Getter for traversal speed. return values: 

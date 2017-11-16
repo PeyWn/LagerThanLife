@@ -4,10 +4,10 @@
 
 int main(void)
 {
-    /*
-    init_wheel_control(0.3);    
-    update_wheel_control();     // test routine 
-    */
+    
+   // init_wheel_control(0.3);    
+   // update_wheel_control();     // test routine 
+
 	
 	//Conf UART
 	
@@ -18,6 +18,7 @@ int main(void)
 	
 	//Set UART baudrate, activates Tx/Rx, activates interrupts for UART data recieved
 	UCSR0B = (1<<RXEN0)|(1<<TXEN0)|(1<<RXCIE0);
+	
 	
 	//Enable global interrupts
 	sei();
