@@ -112,7 +112,8 @@ void go_home_pos(void)
 {
 	move_double_axis(2, 3, 0x280, SPEED_4);
 	move_single_axis(1, 0x1ff, SPEED_2, WRITE_DATA);
-	move_double_axis(4, 5, 0x250, SPEED_2);
+	move_double_axis(4, 5, 0x250, SPEED_3);
+	_delay_ms(8000);
 	move_single_axis(6, 0xC0, SPEED_2, WRITE_DATA);
 	move_single_axis(7, 0x1ff, SPEED_2, WRITE_DATA);
 }
@@ -120,20 +121,20 @@ void go_home_pos(void)
 void go_pos_front(void)
 {
 	move_single_axis(1, 0x1ff, SPEED_2, WRITE_DATA);
-	move_double_axis(4, 5, 0x160, SPEED_3);
+	move_double_axis(4, 5, 0x155, SPEED_3);
 	move_single_axis(6, 0x100, SPEED_2, WRITE_DATA);
 	move_single_axis(7, 0x1ff, SPEED_2, WRITE_DATA);
-	move_double_axis(2, 3, 0x148, SPEED_2);
+	move_double_axis(2, 3, 0x148, SPEED_4);
 }
 
 void grab(void)
 {
-	move_single_axis(8, 0xf8, SPEED_4, WRITE_DATA);
+	move_single_axis(8, 0xf8, SPEED_MAX, WRITE_DATA);
 }
 
 void release(void)
 {
-	move_single_axis(8, 0x1ff, SPEED_4, WRITE_DATA);
+	move_single_axis(8, 0x1ff, SPEED_MAX, WRITE_DATA);
 }
 
 void go_pickup_standard(void)
@@ -151,17 +152,15 @@ void go_release_front(void)
 void pickup_standard_front(void)
 {
 	go_pos_front();
-	_delay_ms(50000);
+	_delay_ms(33000);
 	grab();
-	_delay_ms(21000);
 	go_home_pos();
 }
 
 void putdown_standard_front(void)
 {
 	go_pos_front();
-	_delay_ms(50000);
+	_delay_ms(32000);
 	release();
-	_delay_ms(21000);
 	go_home_pos();
 }

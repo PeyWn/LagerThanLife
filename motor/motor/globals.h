@@ -40,6 +40,7 @@
 #define SPEED_3 0x3f
 #define SPEED_4 0x4f
 #define SPEED_5 0x5f
+#define SPEED_MAX 0x3ff
 
 #define GLOBAL_TORQUE_LIMIT 0x3FF
 

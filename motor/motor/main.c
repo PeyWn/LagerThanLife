@@ -30,7 +30,7 @@ int main(void)
 	
 		while (1)
 		{
-			release();
+			//release();
 			pickup_standard_front();
 			putdown_standard_front();
 		}
