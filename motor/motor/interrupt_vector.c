@@ -51,7 +51,7 @@ ISR(USART0_RX_vect){
 				
 				if (get_traversal_status() == 0){ status_parameter = 0b0000; } // idle
 				else if (get_traversal_status() == 1){ status_parameter = 0b0001; } //forwards
-				else if (get_traversal_status == -1){ status_parameter = 0b0010; } //backwards
+				else if (get_traversal_status() == -1){ status_parameter = 0b0010; } //backwards
 				
 				data_write = ( status_id << 4 ) + status_parameter; //eller & status_parameter ? 
 				UDR0 = data_write; 

@@ -149,9 +149,6 @@ int init_wheel_control(float base_speed)
     TCCR0B &= ~(1<<CS00);
     TCCR0B |=  (1<<CS01);
     TCCR0B &= ~(1<<CS02);
-
-    /* enable interupt for compare match A and B on timer TCNT0 */
-    TIMSK0 |= (1<<OCIE0B)|(1<<OCIE0A);
     
     /* set PB3, PB4 as output for PB4, PB5, PC1, PC0 */
     DDRB  |= (1<<DDB4) | (1<<DDB3); //PWM
