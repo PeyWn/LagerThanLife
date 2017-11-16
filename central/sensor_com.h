@@ -24,18 +24,53 @@ private:
         CALIBRATE_FLOOR = 6
     };
 public:
+
+    /*
+    Create a new sensor com object that talks to the given interface.
+
+    sensor_interface - the uart interface to use for
+                        communication with the sensor unit.
+    */
     SensorCom(string sensor_interface);
 
+    /*
+    Get the position of the line under the line sensor from the sensor unit.
+
+    return - The position of the line, between -127 (right) and 127 (left).
+    */
     int getLineCenter();
 
+    /*
+    Get the line state registered by the sensor unit.
+
+    return - the current line state.
+    */
     LINE_STATE getLineState();
 
+    /*
+    Get if the ware sensors register wares in front of them.
+
+    return - a pair of booleans that tell wheter the ware sensors
+            detect a ware in front of them. The first value is the right sensor
+            and the second one the left sensor.
+    */
     pair<bool, bool> getWareSeen();
 
+    /*
+    Tell the sensor unit to calibrate the ware sensors.
+    */
     void calibrateWare();
 
+    /*
+    Tell the sensor unit to calibrate the line sensor
+    as if the robot is on a line.
+    */
     void calibrateLine();
 
+    /*
+    Tell the sensor unit to calibrate the line sensor
+    as if the robot is not on a line (on the floor).
+    */
     void calibrateFloor();
 };
 

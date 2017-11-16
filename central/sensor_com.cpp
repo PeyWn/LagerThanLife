@@ -6,6 +6,7 @@ int SensorCom::getLineCenter(){
     com.send_msg(GET_LINE_CENTER);
     signed char center = com.read_msg();
 
+    //Fix to get a signed number
     return (int)center;
 }
 

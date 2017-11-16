@@ -56,13 +56,6 @@ int main() {
         if (msg_read != "") {
             cout << "Msg: " << msg_read << "\n";
         }
-
-        //Test for sensor communication
-        cout << "Line State: " << sensor.getLineState() << endl;
-        cout << "Line center: " << sensor.getLineCenter() << endl;
-        pair<bool, bool> seen = sensor.getWareSeen();
-        cout << "Ware Seen: " << seen.first << " " << seen.second << endl;
-        usleep(500000);
     }
 
     return 0;
