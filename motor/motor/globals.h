@@ -34,10 +34,12 @@
 #define RETURN_DELAY_TIME_ADDRESS 0x05
 #define LED_ADDRESS 0x19
 
+#defien SPEED_0 0x0f
 #define SPEED_1 0x1f
 #define SPEED_2 0x2f
 #define SPEED_3 0x3f
 #define SPEED_4 0x4f
+#define SPEED_5 0x5f
 
 #define GLOBAL_TORQUE_LIMIT 0x3FF
 
