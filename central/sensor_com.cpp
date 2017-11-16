@@ -4,9 +4,9 @@ SensorCom::SensorCom(string sensor_interface) : com(sensor_interface) {}
 
 int SensorCom::getLineCenter(){
     com.send_msg(GET_LINE_CENTER);
-    int center = com.read_msg();
+    signed char center = com.read_msg();
 
-    return center;
+    return (int)center;
 }
 
 LINE_STATE SensorCom::getLineState(){

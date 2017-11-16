@@ -62,7 +62,7 @@ int main() {
         cout << "Line center: " << sensor.getLineCenter() << endl;
         pair<bool, bool> seen = sensor.getWareSeen();
         cout << "Ware Seen: " << seen.first << " " << seen.second << endl;
-        usleep(10000);
+        usleep(500000);
     }
 
     return 0;
