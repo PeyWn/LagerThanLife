@@ -35,7 +35,7 @@ void UARTHandler::send_msg(int msg){
 
 int UARTHandler::read_msg(){
     uart_msg buffer[1];
-    int read_bytes;
+    int read_bytes = 0;
 
     while(read_bytes < 1){ //read failed or nothing
         read_bytes = read(uart_fd, (void*)buffer, 1);

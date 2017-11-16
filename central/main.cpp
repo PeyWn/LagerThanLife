@@ -1,17 +1,23 @@
 /**
     Main file for CentralModule
 */
-
 #include <thread>
 #include <iostream>
+#include <iostream>
+
 #include "server_socket.h"
 #include "../lib/network/interthreadcom.h"
 #include "uart_handler.h"
+#include "sensor_com.h"
 
 using namespace std;
 
+const string SENSOR_INTERFACE = "/dev/ttyUSB0";
+
 InterThreadCom* thread_com;
 ServerSocket* com_module;
+
+SensorCom sensor(SENSOR_INTERFACE);
 
 /*
     Function for com_child_new. Checks for new socket connection
@@ -50,7 +56,6 @@ int main() {
         if (msg_read != "") {
             cout << "Msg: " << msg_read << "\n";
         }
-
     }
 
     return 0;
