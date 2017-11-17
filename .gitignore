@@ -19,4 +19,14 @@
 *.srec
 
 #User Specific Files
+<<<<<<< HEAD
 *.atsuo
+=======
+*.atsuo
+
+#ignore gcc builds
+*.out
+
+#mac directory files
+*.DS_Store
+>>>>>>> origin/master
