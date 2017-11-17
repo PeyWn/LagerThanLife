@@ -19,8 +19,9 @@ const string MOTOR_INTERFACE = "/dev/ttyUSB1";
 InterThreadCom* thread_com;
 ServerSocket* com_module;
 
-MotorCom motor(MOTOR_INTERFACE);
-SensorCom sensor(SENSOR_INTERFACE);
+MotorCom 		motor(MOTOR_INTERFACE);
+SensorCom 		sensor(SENSOR_INTERFACE);
+ControlSystem	control(&sensor, &motor);	//control system for line following
 
 /*
 
@@ -60,6 +61,9 @@ int main() {
         if (msg_read != "") {
             cout << "Msg: " << msg_read << "\n";
         }
+
+		//TODO: check for driving state before sampling
+		control->run(); //follow line if conditions are correct...
     }
 
     return 0;
