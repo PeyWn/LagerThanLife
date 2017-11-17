@@ -1,4 +1,5 @@
 ﻿#include <avr/interrupt.h>
+#include "transmission.h"
 
 
 /*
@@ -40,7 +41,7 @@ ISR(USART0_RX_vect){
 					status_parameter = (-(rotation_speed) + 7 );
 				}
 				
-				data_write = ( status_id << 4 ) + status_parameter; //eller & status_parameter ? 
+				data_write = ( status_id << 4 ) + status_parameter;
 				UDR0 = data_write;
 			}
 		
@@ -53,7 +54,7 @@ ISR(USART0_RX_vect){
 				else if (get_traversal_status() == 1){ status_parameter = 0b0001; } //forwards
 				else if (get_traversal_status() == -1){ status_parameter = 0b0010; } //backwards
 				
-				data_write = ( status_id << 4 ) + status_parameter; //eller & status_parameter ? 
+				data_write = ( status_id << 4 ) + status_parameter;
 				UDR0 = data_write; 
 				
 			}
@@ -92,38 +93,71 @@ ISR(USART0_RX_vect){
 				set_turn_speed(parameter); 
 			}
 			else if (dir == 1){
-				int left_turn_speed =  -(( parameter & 0b0111 ) + 0b0001); //== parameter -8 kanske
+				int left_turn_speed =  -(( parameter & 0b0111 ) + 0b0001);
 				set_turn_speed(left_turn_speed);
 			}
 			
 			break;
 		
 		case 0b1100  :
-			
-			//sätt motorhastighet för arm
-			
+			//Set motor speed for arm
+			//TODO implement
+
 			break; 
 		
 		case 0b1101  :
-			
-			// fråga om armen arbetar
-			
+			// control claw
+            if(parameter == 0){
+                grab();
+            }
+            else{
+                release();
+            }
+
 			break; 
-		
 		case 0b1110  :
-			
 			// macro arm
-			
+            if(parameter == 0){
+                //Stop all engines
+                //TODO implement
+
+            }
+            else if(parameter == 1){
+                //Go to home position
+                go_home_pos();
+            }
+            else if(parameter == 2){
+                //Pickup ware
+                pickup_standard_front();
+            }
+            else{
+                //Put down ware
+                putdown_standard_front();
+            }
 			break;
 		
 		case 0b1111  :
-			
 			//rotering av arm
+            //TODO implement
 			
 			break; 
-		
 		default: 
 			break;
 	}
 	
+}
+
+ISR(USART1_RX_vect)
+{
+
+}
+
+ISR(USART1_TX_vect)
+{
+    
+}
+
+ISR(USART1_UDRE_vect)
+{
+
 }

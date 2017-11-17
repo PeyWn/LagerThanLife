@@ -1,15 +1,22 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "wheel_control.h"
+#include "init_arm.h"
+#include "uart.h"
 
 int main(void)
 {
-    init_wheel_control(0.3);  
+    init_wheel_control(0.3);
+
+
 
 	//Conf UART
 
 	//set rx to input, set tx to output
 	DDRD = (0<<DDD0)|(1<<DDD1);
+
+    init_IO();
+    usart_init(0);
 
 	UBRR0L = 0x67; //BAUDRATE 103
 
@@ -21,7 +28,7 @@ int main(void)
 
     while(1)
     {
-
+        
     }
     return 0;
 }
