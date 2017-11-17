@@ -137,18 +137,6 @@ void release(void)
 	move_single_axis(8, 0x1ff, SPEED_MAX, WRITE_DATA);
 }
 
-void go_pickup_standard(void)
-{
-	go_pos_front();
-	grab();
-}
-
-void go_release_front(void)
-{
-	go_pos_front();
-	release();
-}
-
 void pickup_standard_front(void)
 {
 	go_pos_front();

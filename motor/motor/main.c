@@ -4,19 +4,6 @@
 
 int main(void)
 {
-<<<<<<< HEAD
-    /*
-    init_wheel_control(0.3);
-    update_wheel_control();     // test routine
-    */
-
-	//Conf UART
-
-=======
-    init_wheel_control(0.3);  
-
-	//Conf UART
->>>>>>> origin/motor_com
 	//set rx to input, set tx to output
 	DDRD = (0<<DDD0)|(1<<DDD1);
 
@@ -27,15 +14,11 @@ int main(void)
 
 	//Enable global interrupts
 	sei();
-<<<<<<< HEAD
 
-
-=======
 	
->>>>>>> origin/motor_com
     while(1)
     {
-
+		
     }
     return 0;
 }
