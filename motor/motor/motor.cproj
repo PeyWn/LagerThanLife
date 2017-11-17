@@ -38,19 +38,13 @@
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
-<<<<<<< HEAD
     <AsfVersion>3.1.3</AsfVersion>
-=======
->>>>>>> origin/master
     <avrtool>com.atmel.avrdbg.tool.atmelice</avrtool>
     <com_atmel_avrdbg_tool_atmelice>
       <ToolOptions>
         <InterfaceProperties>
           <JtagDbgClock>200000</JtagDbgClock>
-<<<<<<< HEAD
-=======
           <IspClock>125000</IspClock>
->>>>>>> origin/master
         </InterfaceProperties>
         <InterfaceName>JTAG</InterfaceName>
       </ToolOptions>
@@ -60,7 +54,6 @@
     </com_atmel_avrdbg_tool_atmelice>
     <avrtoolinterface>JTAG</avrtoolinterface>
     <com_atmel_avrdbg_tool_simulator>
-<<<<<<< HEAD
       <ToolOptions xmlns="">
         <InterfaceProperties>
         </InterfaceProperties>
@@ -71,17 +64,6 @@
       <ToolNumber xmlns="">
       </ToolNumber>
       <ToolName xmlns="">Simulator</ToolName>
-=======
-      <ToolOptions>
-        <InterfaceProperties>
-        </InterfaceProperties>
-        <InterfaceName>JTAG</InterfaceName>
-      </ToolOptions>
-      <ToolType>com.atmel.avrdbg.tool.simulator</ToolType>
-      <ToolNumber>
-      </ToolNumber>
-      <ToolName>Simulator</ToolName>
->>>>>>> origin/master
     </com_atmel_avrdbg_tool_simulator>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -143,7 +125,6 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="receive.c">
       <SubType>compile</SubType>
     </Compile>
@@ -172,15 +153,13 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="interrupt_vectors.c">
-=======
-    <Compile Include="interrupt_vector.c">
->>>>>>> origin/master
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="interrupt_vector.c">
+      <SubType>compile</SubType>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-<<<<<<< HEAD
     <Compile Include="packets.c">
       <SubType>compile</SubType>
     </Compile>
@@ -197,14 +176,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="uart_arm.h">
-=======
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="wheel_control.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="wheel_control.h">
->>>>>>> origin/master
-      <SubType>compile</SubType>
-    </Compile>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
