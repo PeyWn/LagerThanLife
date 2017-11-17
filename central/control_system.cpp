@@ -1,32 +1,9 @@
-/*-----------------in main-------------------*/
+#include "control_system.h"
 
-if(line_state == 1 && central_state == DRIVING)
-	follow_line(&sensor, &motor);
-
-/*----------------in control_system.c--------*/
-
-#include <ctime>
-
-bool initialized = false;
-double line_pos;	    // line position (right => negative)
-double old_line_pos; 	// old position for delta error
-
-double p_error;		// proportional error
-double i_error;		// integrating error
-double d_error;		// delta error for derivating term
-
-const double
-	K_p = 1,		// idea is for 1 to be max correction of 7 in turn setting
-	K_i = 0,
-	K_d = 0;
-
-clock_t last_sample_time;	 	// time since last sampling
-
-const float sample_time = 30;	// time between runs (sampling => new turn value)
-const int 	max_turn 	= 7;
-
-/* get a value between -7 and +7 from lineposition exactly error*/
-line_pos;
+ControlSystem::ControlSystem(SensorCom * Sensor, MotorCom * Motor){
+	sensor = Sensor;
+	motor  = motor;
+}
 
 /* check sampling time and set initialize flag*/
 bool is_sampling_time(){
@@ -49,10 +26,13 @@ double normalize(double val){
 /* the real control_system regulation */
 int turn_value(){
 	// round off to closest integer
-	return (int)round(-(K_p*p_error + K_i*i_error + K_d*d_error), 0);
+	return (int)round(-(K_P*p_error + K_I*i_error + K_D*d_error), 0);
 }
 
-double update_error(){
+/*	local function:
+	the heart of the control-system, computes the error variables
+	for the P-, I-, D- parameters.									*/
+double sample_line_position(){
 	/* negative error for line is to the right
 	   => positive correction, which is positive
 	   turn  									 */
@@ -70,10 +50,18 @@ double update_error(){
 	d_error = line_pos - old_line_pos;
 }
 
-/* sample and run control_system if time is up */
-bool follow_line(struct *sensor, struct *motor){
-	/* return false if not run */
+/* 	sample and run control_system if time is up
+	return false */
+bool run(SensorCom *sensor, MotorCom *motor){
+
+	/* return false if it's not sampling time */
 	if(!is_sampling_time)
+		return false;
+
+	sensor->getLineState();
+	sensor->getLineCenter();
+
+	if(line_state == 1 && central_state == DRIVING)
 		return false;
 
 	update_error();
