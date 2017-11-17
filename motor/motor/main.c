@@ -1,37 +1,34 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "wheel_control.h"
-#include "globals.h"
-#include "transmission.h"
 #include "init_arm.h"
-#include "uart_arm.h"
-#include "coordinate.h"
+#include "uart.h"
 
 int main(void)
 {
-	init_IO();
-	usart_init(1000000);
+    init_wheel_control(0.3);
 
-	double servo[3];
-	volatile double x = 25;
-	volatile double y = 17;
-	double ct = 5.323254219;
-	int succes;
-	
 
-	
+
+	//Conf UART
+
+	//set rx to input, set tx to output
+	DDRD = (0<<DDD0)|(1<<DDD1);
+
+    init_IO();
+    usart_init(0);
+
+	UBRR0L = 0x67; //BAUDRATE 103
+
+	//Set UART baudrate, activates Tx/Rx, activates interrupts for UART data recieved
+	UCSR0B = (1<<RXEN0)|(1<<TXEN0)|(1<<RXCIE0);
+
+	//Enable global interrupts
+	sei();
+
     while(1)
     {
-		for (int i = 0; i < 100; i++)
-		{
-			y = y+1; 
-
-			succes = calculate_angles(ct, x, y, servo);
-		
-			move_double_axis(2, 3, servo[0], SPEED_0);
-			move_double_axis(4, 5, servo[1], SPEED_0);
-			move_single_axis(6, servo[2], SPEED_0, WRITE_DATA); 
-		}
+        
     }
     return 0;
 }

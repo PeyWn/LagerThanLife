@@ -22,7 +22,7 @@ enum TURN_STATUS {
 
 enum ARM_MACRO{
     STOP_ALL = 0,
-    GO_GOME = 1,
+    GO_HOME = 1,
     PICK_UP = 2,
     PUT_DOWN = 3
 };
