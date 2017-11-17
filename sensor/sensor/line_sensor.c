@@ -1,8 +1,48 @@
 ﻿#include <stdlib.h>
 #include <math.h>
 #include <avr/io.h>
+#include <avr/interrupt.h>
+#include <math.h>
 #include "globals.h"
 #include "line_sensor.h"
+#include "ad_conversion.h"
+
+#define F_CPU 16000000UL
+#include <util/delay.h>
+
+const int LED_DELAY = 10; //delay for led to turn on in us
+
+
+void calibrate_line() {
+    get_linesensor_values(line_value);
+    update_line_threshold();
+}
+
+
+void calibrate_floor() {
+    get_linesensor_values(floor_value);
+    update_line_threshold();
+}
+
+void update_line_threshold() {
+    for(int i = 0; i < 11; i++) {
+        line_threshold[i] = round((line_value[i] - floor_value[i])/2.0);
+    }
+}
+
+
+void get_linesensor_values(int sensor_res[]) {
+		for(int i = 0; i < 11; i++){
+    		mux_select(i);
+    		set_led(true);
+    		_delay_us(LED_DELAY);
+    		
+    		sensor_res[i] = convert_ad(LINE);
+
+    		set_led(false);
+		}
+}
+
 
 void mux_select(int i){
     //Generate bits from int
@@ -90,6 +130,9 @@ void update_line_parameters(volatile bool detected[]){
     }
 
     //update parameters
+    //turn off interrupts while changing
+    cli();
     line_center = calc_line_center(detected, sum);
     line_state = calc_line_state(detected, sum);
+    sei();
 }

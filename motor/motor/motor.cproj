@@ -43,6 +43,8 @@
     <com_atmel_avrdbg_tool_atmelice>
       <ToolOptions>
         <InterfaceProperties>
+          <JtagDbgClock>200000</JtagDbgClock>
+          <IspClock>125000</IspClock>
         </InterfaceProperties>
         <InterfaceName>JTAG</InterfaceName>
       </ToolOptions>
@@ -158,6 +160,9 @@
     <Compile Include="interrupt_vectors.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="interrupt_vector.c">
+      <SubType>compile</SubType>
+	 </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
@@ -179,6 +184,12 @@
     <Compile Include="uart_arm.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="wheel_control.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="wheel_control.h">
+	<SubType>compile</SubType>
+	</Compile>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

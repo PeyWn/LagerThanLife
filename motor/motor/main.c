@@ -1,53 +1,43 @@
-﻿/*
- * main.c
- *
- * Created: 11/8/2017 8:37:16 PM
- *  Author: jesjo430
- */ 
-
 #include <avr/io.h>
-#include <avr/delay.h>
+#include <avr/interrupt.h>
+#include "wheel_control.h"
 
 #include "globals.h"
 #include "init_arm.h"
 #include "coordinate.h"
 
-#include "uart.h"
-#include "uart_arm.h"
-
-#include "transmission.h"
-#include "receive.h"
-
-#define PI 3.1415 
-
 int main(void)
 {
-	init_IO();
-	usart_init(1000000);
+    /*
+    init_wheel_control(0.3);
+    update_wheel_control();     // test routine
+    */
+
+	//Conf UART
+
+	//set rx to input, set tx to output
+	DDRD = (0<<DDD0)|(1<<DDD1);
+
+	UBRR0L = 0x67; //BAUDRATE 103
+
+	//Set UART baudrate, activates Tx/Rx, activates interrupts for UART data recieved
+	UCSR0B = (1<<RXEN0)|(1<<TXEN0)|(1<<RXCIE0);
+
+	//Enable global interrupts
+	sei();
 	
-	double servo[3];
-	
-	while (1)
-	{
+	/*
+		const double PI 3.1415
+		double servo[3];
 		double x = 25;
 		double y = 17;
 		double ct = 5.323254219;
 		int succes = calculate_angles(ct, x, y, servo);
-		
-		/*
-		torque_enable(0xFE);
-		//torque_enable(7);
-		//receive_status_packet(); 
+	*/
 	
-		//move_double_axis(4, 5, 0x200, GLOBAL_SERVO_SPEED);
-		//torque_enable(6);
-		//receive_status_packet(); 
-		move_double_axis(2, 3, 0x200, GLOBAL_SERVO_SPEED);		
-		//receive_status_packet(); 	
-			
-		//move_single_axis(6, 0x1ff, GLOBAL_SERVO_SPEED, WRITE_DATA);
-		//receive_status_packet();
-		*/
-	}
+    while(1)
+    {
 
+    }
+    return 0;
 }
