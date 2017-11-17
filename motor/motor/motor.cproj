@@ -137,12 +137,7 @@
     <Compile Include="transmission.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="control_table.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="control_table.h">
-      <SubType>compile</SubType>
-    </Compile>
+ 
     <Compile Include="globals.h">
       <SubType>compile</SubType>
     </Compile>
@@ -155,17 +150,15 @@
     <Compile Include="interrupt_vectors.c">
       <SubType>compile</SubType>
     </Compile>
+	  
     <Compile Include="interrupt_vector.c">
       <SubType>compile</SubType>
+	</Compile>
+		
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="packets.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="packets.h">
-      <SubType>compile</SubType>
-    </Compile>
+
     <Compile Include="uart.c">
       <SubType>compile</SubType>
     </Compile>
@@ -182,6 +175,8 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="wheel_control.h">
+	  <SubType>compile</SubType>
+	</Compile>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
