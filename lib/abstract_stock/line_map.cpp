@@ -1,5 +1,4 @@
 #include "line_map.h"
-//using namespace std;
 
 LineMap::LineMap(string desc){
 

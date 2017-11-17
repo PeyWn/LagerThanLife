@@ -7,6 +7,7 @@
 
 using namespace std;
 
+//Forward devlare to fix reflexive dependency issue
 class Line;
 
 class LineNode{
@@ -18,9 +19,11 @@ public:
 	int get_angle(Line* start_line, Line* end_line);
 	int get_degree();
 	bool is_leaf();
+	int get_id();
+	static double euc_dist(LineNode* n1, LineNode* n2);
 
+	LineNode(double x_in, double y_in, int id_in); //TODO move constructor down to private
 private:
-	LineNode(double x, double y);
     int id;
 	double x;
 	double y;

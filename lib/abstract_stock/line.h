@@ -10,16 +10,15 @@ class Line{
 	friend class LineMap; //LineMap is friend of Line
 
 public:
-	Line(LineNode* n1, LineNode* n2);
 
   	LineNode* get_node(int i);
-	double get_lenght();
+	double get_length();
 
+	Line(LineNode* n1_in, LineNode* n2_in); //TODO move constructor down to private
 private:
 	LineNode* n1;
 	LineNode* n2;
 	double length;
-	double euc_dist(LineNode* n1, LineNode* n2);
 };
 
 #endif /* LINE_H */
