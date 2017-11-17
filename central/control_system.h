@@ -24,10 +24,10 @@ private:
 	clock_t last_sample_time;	// time since last sampling
 
 	//---------------private constants-------------------------
-	const float  SAMPLE_TIME = 30;			// time [ms] between samplings
-	const int 	 MAX_TURN 	 = 7;			// maximum turn-setting
+	const float  SAMPLE_TIME = 50;			// time [ms] between samplings
+	const int    MAX_TURN 	 = 7;			// maximum turn-setting
 	const int    MAX_I_ERROR = MAX_TURN;	// integral anti-windup constant
-	const int	 SENSOR_MAX  = 127;
+	const int    SENSOR_MAX  = 127;
 
 	/* idea is for 1 to be max correction of 7 in turn setting */
 	const double	K_P = 1,

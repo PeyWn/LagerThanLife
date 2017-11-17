@@ -12,9 +12,12 @@ ControlSystem::ControlSystem(SensorCom * Sensor, MotorCom * Motor){
 bool ControlSystem::is_sampling_time(){
 	if(initialized){
 		clock_t current_time = clock();
-		double diff_ms = last_sample_time - current_time;
-		diff_ms = diff_ms/CLOCKS_PER_SEC*1000;
-		return ( diff_ms >= SAMPLE_TIME ) ? true : false;
+		double diff_ms = (current_time - last_sample_time) / CLOCKS_PER_SEC * 1000;
+		if(diff_ms >= SAMPLE_TIME){
+		    last_sample_time = current_time;
+		    return true;
+		}
+		return false;
 	}
 	else{
 		last_sample_time 	= clock();
@@ -78,10 +81,8 @@ bool ControlSystem::run(){
 	/* return false if it's not sampling time */
 	if( !is_sampling_time() )
 		return false;
-
+	cout<<"sampling time!"<<endl;
 	line_state = sensor->getLineState();
-
-	std::cout << line_state << std::endl;
 	
 	/* return false if not correct states */
 	if(line_state != SINGLE)
@@ -90,4 +91,6 @@ bool ControlSystem::run(){
 	sample_line_position();
 	int turn_speed = turn_value();
 	set_turn_speed(turn_speed);
+	motor->drive(FORWARD);
+	cout<<"set turn speed!"<<endl;
 }
