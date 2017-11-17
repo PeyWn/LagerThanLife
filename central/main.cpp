@@ -63,7 +63,7 @@ int main() {
         }
 
 		//TODO: check for driving state before sampling
-		control->run(); //follow line if conditions are correct...
+        control.run(); //follow line if conditions are correct...
     }
 
     return 0;

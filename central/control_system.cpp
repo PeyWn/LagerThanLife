@@ -11,7 +11,7 @@ ControlSystem::ControlSystem(SensorCom * Sensor, MotorCom * Motor){
 bool ControlSystem::is_sampling_time(){
 	if(initialized){
 		clock_t current_time = clock();
-		return (current_time - last_sample_time) >= SAMPLE_TIME ? true : false;
+		return ( (current_time - last_sample_time) >= SAMPLE_TIME ) ? true : false;
 	}
 	else{
 		last_sample_time 	= clock();
@@ -43,14 +43,14 @@ double ControlSystem::sample_line_position(){
 	   => positive correction, which is positive
 	   turn  									 */
 	old_line_pos = line_pos;
-	line_pos     = MAX_TURN * sensor->get_line_position() / SENSOR_MAX; //+7,-7
+	line_pos     = MAX_TURN * sensor->getLineCenter() / SENSOR_MAX; //+7,-7
 
 	/* PROPORTIONAL TERM */
 	p_error = line_pos;
 
 	/* INTEGRATING TERM */
 	i_error = i_error + line_pos;
-	double i_error_saturated = normalize(i_error)*MAX_I_ERROR
+	double i_error_saturated = normalize(i_error)*MAX_I_ERROR;
 	i_error = (fabs(i_error) > MAX_I_ERROR) ? i_error_saturated : i_error;
 
 	/* DERIVATING TERM */
@@ -60,11 +60,12 @@ double ControlSystem::sample_line_position(){
 void ControlSystem::set_turn_speed(int turn_speed){
 	int dir = normalize(turn_speed);
 	int spd = fabs(turn_speed);
-
-	dir = 	(dir >  0) ? RIGHT : (dir == 0) ? NONE  : LEFT;
+	TURN_STATUS turn = NONE;
+	
+	turn    = (dir >  0) ? RIGHT : (dir == 0) ? NONE  : LEFT;
 
 	/* send a command to motor-unit */
-	motor->turn(dir, spd);
+	motor->turn(turn, spd);
 }
 
 /* 	sample and run control_system if time is up
@@ -73,7 +74,7 @@ bool ControlSystem::run(){
 	return false;
 
 	/* return false if it's not sampling time */
-	if(!is_sampling_time)
+	if( !is_sampling_time() )
 		return false;
 
 	line_state = sensor->getLineState();

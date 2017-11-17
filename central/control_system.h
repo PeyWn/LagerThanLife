@@ -11,13 +11,13 @@ private:
 	SensorCom * sensor;
 	MotorCom  * motor;
 
-	int 	line_state;
-	int 	line_pos;	    	// line position (right => negative)
-	double 	old_line_pos; 		// old position for delta error
+        LINE_STATE  line_state;
+	int 	    line_pos;	    	// line position (right => negative)
+	double 	    old_line_pos;       // old position for delta error
 
-	double 	p_error;			// proportional error
-	double 	i_error;			// integrating error
-	double 	d_error;			// delta error for derivating term
+	double 	p_error;		// proportional error
+	double 	i_error;		// integrating error
+	double 	d_error;		// delta error for derivating term
 
 	clock_t last_sample_time;	// time since last sampling
 
@@ -49,7 +49,7 @@ private:
 	int 	turn_value();
 
 	/* send command to set turn-speed in motor-unit */
-	void 	turn();
+	void 	set_turn_speed(int turn_speed);
 
 public:
 
