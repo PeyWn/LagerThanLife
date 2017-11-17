@@ -1,7 +1,6 @@
 /**
     Main file for CentralModule
 */
-
 #include <thread>
 #include <iostream>
 #include <string>
@@ -9,15 +8,18 @@
 #include "../lib/network/interthreadcom.h"
 #include "uart_handler.h"
 #include "motor_com.h"
+#include "sensor_com.h"
 
 using namespace std;
 
+const string SENSOR_INTERFACE = "/dev/ttyUSB1";
 const string MOTOR_INTERFACE = "/dev/ttyUSB0";
 
 InterThreadCom* thread_com;
 ServerSocket* com_module;
 
 MotorCom motor(MOTOR_INTERFACE);
+SensorCom sensor(SENSOR_INTERFACE);
 
 /*
 
@@ -60,7 +62,7 @@ int main() {
 
         //Motor com testing
         motor.turn(RIGHT, 7);
-	auto status = motor.get_turn_status();
+		auto status = motor.get_turn_status();
         cout << "Turn status: " << status.first << " " << status.second << endl;
     }
 

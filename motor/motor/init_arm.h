@@ -1,0 +1,17 @@
+/*
+ * init_arm.h
+ *
+ * Created: 2017-11-04 17:23:08
+ *  Author: Jesper
+ */ 
+
+/* Initializes input and output, sets direction of IO ports. */ 
+void init_IO();
+
+void set_limits(void);
+
+void set_torque(void);
+
+void set_status_return_level(void);
+
+void set_return_delay_time(void);
