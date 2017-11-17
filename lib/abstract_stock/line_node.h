@@ -1,25 +1,29 @@
-#include <string.h>
-#include <iostream>  
-using namespace std;  
+#ifndef LINE_NODE_H
+#define LINE_NODE_H
 
-class LineNode{  
-	friend class LineMap; 
-	
-public:  
+#include <string>
+#include <iostream>
+#include "line.h"
+using namespace std;
 
-	//constructor in here somehow
-	
-    pair<double x, double y> get_coords();
-	int get_angle(Line* start_line, end_line Line*); 
+class LineNode{
+	friend class LineMap; //LineMap is friend of LineNode
+
+public:
+
+  	pair<double, double > get_coords();
+	int get_angle(Line* start_line, Line* end_line);
 	int get_degree();
-	bool is_leaf(); 
-	
-private:  
-    int id; 
+	bool is_leaf();
+
+private:
+	LineNode(double x, double y);
+    int id;
 	double x;
 	double y;
-	vector<Line*>;
-	int degree; 
-	
-	void add_line(Line);
-};  
+	vector<Line*> lines;
+	int degree;
+
+	void add_line(Line line);
+};
+#endif /* LINE_NODE_H */
