@@ -57,7 +57,37 @@ int main() {
         //Netwrok read
         msg_read = thread_com->read_from_queue(FROM_SOCKET);
         if (msg_read != "") {
-            cout << "Msg: " << msg_read << "\n";
+            // cout << "Msg: " << msg_read << "\n";  //prints the recieved Msg
+
+            switch(msg) {
+                default: {
+                    break;
+                }
+                case fwd: {
+                    motor.drive(FORWARD);
+                    break;
+                }
+                case stop: {
+                    motor.drive(IDLE);
+                    break;
+                }
+                case right: {
+                    const int TURN_SPEED = 3; //TODO: implement variation of turn speed
+                    motor.turn(RIGHT, TURN_SPEED);
+                    break;
+                }
+                case left: {
+                    const int TURN_SPEED = 3; //TODO: implement variation of turn speed
+                    motor.turn(LEFT, TURN_SPEED);
+                    break;
+                }
+                case noturn: {
+                    motor.turn(NONE);
+                    break;
+                }
+
+            }
+
         }
     }
 
