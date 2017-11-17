@@ -35,12 +35,12 @@
 #define ID_ADDRESS 0x03
 #define PRES_POS_ADDRESS 0x24
 
-#define SPEED_0 0x0f
-#define SPEED_1 0x1f
-#define SPEED_2 0x2f
-#define SPEED_3 0x3f
-#define SPEED_4 0x4f
-#define SPEED_5 0x5f
+#define SPEED_0 0x3f
+#define SPEED_1 0x4f
+#define SPEED_2 0x5f
+#define SPEED_3 0x6f
+#define SPEED_4 0x7f
+#define SPEED_5 0x8f
 #define SPEED_MAX 0x3ff
 
 #define GLOBAL_TORQUE_LIMIT 0x3FF
