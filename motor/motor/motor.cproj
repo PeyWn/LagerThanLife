@@ -4,21 +4,21 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>6.2</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8.C</ToolchainName>
-    <ProjectGuid>{ec834521-42e5-4934-b3bd-3d9be192966f}</ProjectGuid>
-    <avrdevice>ATmega16</avrdevice>
+    <ProjectGuid>{0657dc9a-35a5-474f-9796-73ce990098a8}</ProjectGuid>
+    <avrdevice>ATmega1284P</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
     <OutputType>Executable</OutputType>
     <Language>C</Language>
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>sensor</AssemblyName>
-    <Name>sensor</Name>
-    <RootNamespace>sensor</RootNamespace>
+    <AssemblyName>motor</AssemblyName>
+    <Name>motor</Name>
+    <RootNamespace>motor</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
-    <CacheFlash>false</CacheFlash>
+    <CacheFlash>true</CacheFlash>
     <ProgFlashFromRam>true</ProgFlashFromRam>
     <RamSnippetAddress>0x20000000</RamSnippetAddress>
     <UncachedRange />
@@ -39,6 +39,19 @@
       </framework-data>
     </AsfFrameworkConfig>
     <avrtool>com.atmel.avrdbg.tool.atmelice</avrtool>
+    <com_atmel_avrdbg_tool_atmelice>
+      <ToolOptions>
+        <InterfaceProperties>
+          <JtagDbgClock>200000</JtagDbgClock>
+          <IspClock>125000</IspClock>
+        </InterfaceProperties>
+        <InterfaceName>JTAG</InterfaceName>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.atmelice</ToolType>
+      <ToolNumber>J41800005213</ToolNumber>
+      <ToolName>Atmel-ICE</ToolName>
+    </com_atmel_avrdbg_tool_atmelice>
+    <avrtoolinterface>JTAG</avrtoolinterface>
     <com_atmel_avrdbg_tool_simulator>
       <ToolOptions>
         <InterfaceProperties>
@@ -50,33 +63,11 @@
       </ToolNumber>
       <ToolName>Simulator</ToolName>
     </com_atmel_avrdbg_tool_simulator>
-    <avrtoolinterface>JTAG</avrtoolinterface>
-    <com_atmel_avrdbg_tool_atmelice>
-      <ToolOptions>
-        <InterfaceProperties>
-          <JtagDbgClock>200000</JtagDbgClock>
-        </InterfaceProperties>
-        <InterfaceName>JTAG</InterfaceName>
-      </ToolOptions>
-      <ToolType>com.atmel.avrdbg.tool.atmelice</ToolType>
-      <ToolNumber>J41800005213</ToolNumber>
-      <ToolName>Atmel-ICE</ToolName>
-    </com_atmel_avrdbg_tool_atmelice>
-    <com_atmel_avrdbg_tool_avrdragon>
-      <ToolOptions>
-        <InterfaceProperties>
-          <JtagDbgClock>200000</JtagDbgClock>
-        </InterfaceProperties>
-        <InterfaceName>JTAG</InterfaceName>
-      </ToolOptions>
-      <ToolType>com.atmel.avrdbg.tool.avrdragon</ToolType>
-      <ToolNumber>00A200026048</ToolNumber>
-      <ToolName>AVR Dragon</ToolName>
-    </com_atmel_avrdbg_tool_avrdragon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
       <AvrGcc>
+        <avrgcc.common.optimization.RelaxBranches>True</avrgcc.common.optimization.RelaxBranches>
         <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
         <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
         <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
@@ -98,17 +89,13 @@
             <Value>libm</Value>
           </ListValues>
         </avrgcc.linker.libraries.Libraries>
-        <avrgcc.linker.libraries.LibrarySearchPaths>
-          <ListValues>
-            <Value>H:\repos\lagerthanlife\lib</Value>
-          </ListValues>
-        </avrgcc.linker.libraries.LibrarySearchPaths>
       </AvrGcc>
     </ToolchainSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <ToolchainSettings>
       <AvrGcc>
+        <avrgcc.common.optimization.RelaxBranches>True</avrgcc.common.optimization.RelaxBranches>
         <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
         <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
         <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
@@ -136,48 +123,16 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\lib\avr_util.c">
-      <SubType>compile</SubType>
-      <Link>avr_util.c</Link>
-    </Compile>
-    <Compile Include="..\..\lib\avr_util.h">
-      <SubType>compile</SubType>
-      <Link>avr_util.h</Link>
-    </Compile>
-    <Compile Include="ad_conversion.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="ad_conversion.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="config_sensor.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="line_sensor.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="sensor_tests.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="config_sensor.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="globals.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="interrupt_vectors.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="line_sensor.c">
+    <Compile Include="interrupt_vector.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="ware_sensor.c">
+    <Compile Include="wheel_control.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="ware_sensor.h">
+    <Compile Include="wheel_control.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
