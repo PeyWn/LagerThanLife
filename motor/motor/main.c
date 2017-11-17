@@ -5,9 +5,6 @@
 #include "transmission.h"
 #include "init_arm.h"
 #include "uart_arm.h"
-
-#include "globals.h"
-#include "init_arm.h"
 #include "coordinate.h"
 
 int main(void)
@@ -15,7 +12,6 @@ int main(void)
 	init_IO();
 	usart_init(1000000);
 
-	const double PI = 3.1415;
 	double servo[3];
 	volatile double x = 25;
 	volatile double y = 17;

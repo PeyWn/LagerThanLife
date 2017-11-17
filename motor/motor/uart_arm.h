@@ -5,16 +5,17 @@
  *  Author: Jesper
  */ 
 
-#define RECEIVE 0					 // Definition used when setting half duplex UART direction.
-#define TRANSMIT 1					 // Definition used when setting half duplex UART direction.
+#define RECEIVE 0	// Definition used when setting half duplex UART direction.
+#define TRANSMIT 1	// Definition used when setting half duplex UART direction.
 
-/* Half duplex UART transmitter. Takes char (data) and sends via uart.c implementation, void*/
-void transmit(unsigned char data);
-
-/* Half duplex UART receiver. Takes no argument but returns char */ 
-unsigned char receive(void);
-
-/* Set value for UART direction on PIN for half-duplex control of robot arm */
+/* Changes the output on direction port to int dir, used for half-duplex uart */
 void set_direction_port(int dir);
 
+/* UART transmitter. Changes direction port to transmit and sends char (data) via USART1 */
+void transmit(unsigned char data);
+
+/* UART receiver. Changes direction port to receive and returns received char */ 
+unsigned char receive(void);
+
+/* Reads data register of receive to release receive flag of uart transmit */ 
 void flush_UDR(); 
