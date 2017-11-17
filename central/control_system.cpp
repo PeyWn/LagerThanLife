@@ -1,16 +1,17 @@
 #include "control_system.h"
 #include "sensor_com.h"
+#include <cmath>
 
 ControlSystem::ControlSystem(SensorCom * Sensor, MotorCom * Motor){
 	sensor = Sensor;
-	motor  = motor;
+	motor  = Motor;
 }
 
 /* check sampling time and set initialize flag*/
 bool ControlSystem::is_sampling_time(){
 	if(initialized){
 		clock_t current_time = clock();
-		return (current_time - last_sample_time) >= sample_time ? true : false;
+		return (current_time - last_sample_time) >= SAMPLE_TIME ? true : false;
 	}
 	else{
 		last_sample_time 	= clock();
@@ -21,14 +22,14 @@ bool ControlSystem::is_sampling_time(){
 
 /* normalize a double-value to be 0, -1 or +1 */
 double ControlSystem::normalize(double val){
-	double result = val == 0 ? 0 : val/abs(val);
+	double result = val == 0 ? 0 : val/fabs(val);
 	return result;
 }
 
 /* the real control_system regulation */
 int ControlSystem::turn_value(){
 	// round off to closest integer
-	return (int)round(-(K_P*p_error + K_I*i_error + K_D*d_error), 0);
+	return (int)round(-(K_P*p_error + K_I*i_error + K_D*d_error));
 }
 
 /*	local function:
@@ -49,7 +50,8 @@ double ControlSystem::sample_line_position(){
 
 	/* INTEGRATING TERM */
 	i_error = i_error + line_pos;
-	i_error = (abs(i_error) > MAX_I_ERROR) ? old_i_error : i_error;
+	double i_error_saturated = normalize(i_error)*MAX_I_ERROR
+	i_error = (fabs(i_error) > MAX_I_ERROR) ? i_error_saturated : i_error;
 
 	/* DERIVATING TERM */
 	d_error = line_pos - old_line_pos;
@@ -57,7 +59,7 @@ double ControlSystem::sample_line_position(){
 
 void ControlSystem::set_turn_speed(int turn_speed){
 	int dir = normalize(turn_speed);
-	int spd = abs(turn_speed);
+	int spd = fabs(turn_speed);
 
 	dir = 	(dir >  0) ? RIGHT : (dir == 0) ? NONE  : LEFT;
 
@@ -67,7 +69,7 @@ void ControlSystem::set_turn_speed(int turn_speed){
 
 /* 	sample and run control_system if time is up
 	return false */
-bool ControlSystem::run(SensorCom *sensor, MotorCom *motor){
+bool ControlSystem::run(){
 	return false;
 
 	/* return false if it's not sampling time */

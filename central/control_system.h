@@ -8,6 +8,9 @@
 class ControlSystem{
 private:
 
+	SensorCom * sensor;
+	MotorCom  * motor;
+
 	int 	line_state;
 	int 	line_pos;	    	// line position (right => negative)
 	double 	old_line_pos; 		// old position for delta error
