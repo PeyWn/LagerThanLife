@@ -5,7 +5,6 @@
  *  Author: jesjo430
  */ 
 
-#include "../../lib/avr_util.h"
 #include <util/delay.h>
 
 #define F_CPU 16000000 // Avr system clock @ 16Mhz. 
@@ -17,7 +16,7 @@
 #define TRANSMIT 1 // Definition used when setting half duplex UART direction.
 
 #define PING 0x01
-#define READ_DATE 0x02
+#define READ_DATA 0x02
 #define WRITE_DATA 0x03
 #define REG_WRITE 0x04
 #define ACTION 0x05
@@ -33,6 +32,8 @@
 #define STATUS_RETURN_LEVEL_ADDRESS 0x10
 #define RETURN_DELAY_TIME_ADDRESS 0x05
 #define LED_ADDRESS 0x19
+#define ID_ADDRESS 0x03
+#define PRES_POS_ADDRESS 0x24
 
 #define SPEED_0 0x0f
 #define SPEED_1 0x1f
@@ -52,6 +53,8 @@ volatile extern int error5;
 volatile extern int error6;
 volatile extern int error7;
 volatile extern int error8;
+
+volatile extern int is_working;
 
 #define CW_LIMIT_1 0x0
 #define CCW_LIMIT_1 0x3ff

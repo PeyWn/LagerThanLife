@@ -11,6 +11,8 @@
 #include "uart_arm.h"
 #include "globals.h"
 #include "receive.h"
+
+volatile int is_working; 
  
 void transmit_startbytes()
 {
@@ -28,6 +30,25 @@ void write_byte(int id, int address, int byte, int mode)
 	transmit(byte);
 	transmit( ~(id + 4 + mode + address + byte) );
 	receive_status_packet();
+}
+
+char read_byte(int id, int address)
+{
+	transmit_startbytes();
+	transmit(id);
+	transmit(0x03); //Number of parameters + 2 = LENGHT.
+	transmit(READ_DATA);
+	transmit(address);
+	transmit( ~(id + 3 + READ_DATA + address) );
+	return receive_status_packet();
+}
+
+int read_word(int id, int address)
+{
+	volatile char data1 = read_byte(id, address);
+	volatile char data2 = read_byte(id, address+1);
+	
+	return ((((short)data1)<<8) | data2); 
 }
 
 void write_word(int id, int address, int word, int mode)
@@ -98,6 +119,14 @@ void torque_enable(int id)
 	write_byte(id, TORQUE_ENABLE_ADDRESS, 1, WRITE_DATA);
 }
 
+void torque_disable(int id)
+{
+	for (int i = 1; i<=NUMBER_OF_MOTORS; i++)
+	{
+		write_byte(i, TORQUE_ENABLE_ADDRESS, 0, WRITE_DATA);
+	}
+}
+
 void update_error_var(int id)
 {
 	transmit_startbytes();
@@ -139,16 +168,25 @@ void release(void)
 
 void pickup_standard_front(void)
 {
+	is_working = 1;
 	go_pos_front();
 	_delay_ms(33000);
 	grab();
 	go_home_pos();
+	is_working = 0; 
 }
 
 void putdown_standard_front(void)
 {
+	is_working = 1; 
 	go_pos_front();
 	_delay_ms(32000);
 	release();
 	go_home_pos();
+	is_working = 0;
+}
+
+void emergency_stop(void)
+{
+	torque_disable(0xFE);
 }

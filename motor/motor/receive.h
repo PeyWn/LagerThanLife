@@ -5,4 +5,4 @@
  *  Author: jesjo430
  */ 
 
-void receive_status_packet();
+char receive_status_packet();
