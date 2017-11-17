@@ -3,6 +3,7 @@
 */
 #include <thread>
 #include <iostream>
+<<<<<<< HEAD
 #include <iostream>
 
 #include "server_socket.h"
@@ -13,13 +14,29 @@
 using namespace std;
 
 const string SENSOR_INTERFACE = "/dev/ttyUSB0";
+=======
+#include <string>
+#include "server_socket.h"
+#include "../lib/network/interthreadcom.h"
+#include "uart_handler.h"
+#include "motor_com.h"
+
+using namespace std;
+
+const string MOTOR_INTERFACE = "/dev/ttyUSB0";
+>>>>>>> origin/motor_com
 
 InterThreadCom* thread_com;
 ServerSocket* com_module;
 
+<<<<<<< HEAD
 SensorCom sensor(SENSOR_INTERFACE);
+=======
+MotorCom motor(MOTOR_INTERFACE);
+>>>>>>> origin/motor_com
 
 /*
+
     Function for com_child_new. Checks for new socket connection
     and makes the last connected current connection.
 */
@@ -56,6 +73,14 @@ int main() {
         if (msg_read != "") {
             cout << "Msg: " << msg_read << "\n";
         }
+<<<<<<< HEAD
+=======
+
+        //Motor com testing
+        motor.turn(RIGHT, 7);
+	auto status = motor.get_turn_status();
+        cout << "Turn status: " << status.first << " " << status.second << endl;
+>>>>>>> origin/motor_com
     }
 
     return 0;

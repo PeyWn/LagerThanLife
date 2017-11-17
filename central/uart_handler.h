@@ -1,8 +1,11 @@
 #ifndef UART_HANDLER_H
 #define UART_HANDLER_H
 
+<<<<<<< HEAD
 #include <string>
 
+=======
+>>>>>>> origin/motor_com
 using namespace std;
 
 typedef char uart_msg;

@@ -127,6 +127,14 @@ void set_PWM(int turn_value, int trav_value)
 
 /*---------------------publicly used functions--------------------*/
 
+int get_turn_status(){
+	return turn_status;
+}
+
+int get_traversal_status(){
+	return traversal_status; 
+}
+
 int init_wheel_control(float base_speed)
 {   
     /* set OC0A and OC0B on compare match when up-counting, clear on down-counting */ 
@@ -141,9 +149,6 @@ int init_wheel_control(float base_speed)
     TCCR0B &= ~(1<<CS00);
     TCCR0B |=  (1<<CS01);
     TCCR0B &= ~(1<<CS02);
-
-    /* enable interupt for compare match A and B on timer TCNT0 */
-    TIMSK0 |= (1<<OCIE0B)|(1<<OCIE0A);
     
     /* set PB3, PB4 as output for PB4, PB5, PC1, PC0 */
     DDRB  |= (1<<DDB4) | (1<<DDB3); //PWM
@@ -220,5 +225,6 @@ void update_wheel_control(){
     set_traversal_speed(0);
     set_turn_speed(0);
     
+
 }
  
