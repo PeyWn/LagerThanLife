@@ -3,8 +3,11 @@
 
 #include <string>
 #include <iostream>
-#include "line.h"
+#include <vector>
+
 using namespace std;
+
+class Line;
 
 class LineNode{
 	friend class LineMap; //LineMap is friend of LineNode
@@ -24,6 +27,6 @@ private:
 	vector<Line*> lines;
 	int degree;
 
-	void add_line(Line line);
+	void add_line(Line* line);
 };
 #endif /* LINE_NODE_H */

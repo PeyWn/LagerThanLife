@@ -21,6 +21,6 @@ bool LineNode::is_leaf(){
 
 }
 
-void LineNode::add_line(Line line){
+void LineNode::add_line(Line* line){
 
 }
