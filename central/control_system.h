@@ -5,6 +5,8 @@
 #include "sensor_com.h"
 #include "motor_com.h"
 
+using namespace std;
+
 class ControlSystem{
 private:
 

@@ -1,5 +1,6 @@
 #include "control_system.h"
 #include "sensor_com.h"
+#include <iostream>
 #include <cmath>
 
 ControlSystem::ControlSystem(SensorCom * Sensor, MotorCom * Motor){
@@ -11,7 +12,9 @@ ControlSystem::ControlSystem(SensorCom * Sensor, MotorCom * Motor){
 bool ControlSystem::is_sampling_time(){
 	if(initialized){
 		clock_t current_time = clock();
-		return ( (current_time - last_sample_time) >= SAMPLE_TIME ) ? true : false;
+		double diff_ms = last_sample_time - current_time;
+		diff_ms = diff_ms/CLOCKS_PER_SEC*1000;
+		return ( diff_ms >= SAMPLE_TIME ) ? true : false;
 	}
 	else{
 		last_sample_time 	= clock();
@@ -71,7 +74,6 @@ void ControlSystem::set_turn_speed(int turn_speed){
 /* 	sample and run control_system if time is up
 	return false */
 bool ControlSystem::run(){
-	return false;
 
 	/* return false if it's not sampling time */
 	if( !is_sampling_time() )
@@ -79,6 +81,8 @@ bool ControlSystem::run(){
 
 	line_state = sensor->getLineState();
 
+	std::cout << line_state << std::endl;
+	
 	/* return false if not correct states */
 	if(line_state != SINGLE)
 		return false;
