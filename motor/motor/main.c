@@ -3,16 +3,13 @@
  *
  * Created: 11/8/2017 8:37:16 PM
  *  Author: jesjo430
- */ 
+ */
 
 #include <avr/io.h>
 #include <util/delay.h>
 
 #include "globals.h"
 #include "init_arm.h"
-
-#include "uart.h"
-#include "uart_arm.h"
 
 #include "transmission.h"
 #include "receive.h"
@@ -27,7 +24,7 @@ int main(void)
 	//set_limits();
 	//set_torque();
 	//torque_enable(0xFE);
-	
+
 		while (1)
 		{
 			//release();
