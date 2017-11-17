@@ -7,7 +7,7 @@ ControlSystem::ControlSystem(SensorCom * Sensor, MotorCom * Motor){
 }
 
 /* check sampling time and set initialize flag*/
-bool is_sampling_time(){
+bool ControlSystem::is_sampling_time(){
 	if(initialized){
 		clock_t current_time = clock();
 		return (current_time - last_sample_time) >= sample_time ? true : false;
@@ -20,13 +20,13 @@ bool is_sampling_time(){
 }
 
 /* normalize a double-value to be 0, -1 or +1 */
-double normalize(double val){
+double ControlSystem::normalize(double val){
 	double result = val == 0 ? 0 : val/abs(val);
 	return result;
 }
 
 /* the real control_system regulation */
-int turn_value(){
+int ControlSystem::turn_value(){
 	// round off to closest integer
 	return (int)round(-(K_P*p_error + K_I*i_error + K_D*d_error), 0);
 }
@@ -37,7 +37,7 @@ int turn_value(){
 
 	max-saturation for i_error
 		*/
-double sample_line_position(){
+double ControlSystem::sample_line_position(){
 	/* negative error for line is to the right
 	   => positive correction, which is positive
 	   turn  									 */
@@ -55,7 +55,7 @@ double sample_line_position(){
 	d_error = line_pos - old_line_pos;
 }
 
-void set_turn_speed(int turn_speed){
+void ControlSystem::set_turn_speed(int turn_speed){
 	int dir = normalize(turn_speed);
 	int spd = abs(turn_speed);
 
@@ -67,7 +67,7 @@ void set_turn_speed(int turn_speed){
 
 /* 	sample and run control_system if time is up
 	return false */
-bool run(SensorCom *sensor, MotorCom *motor){
+bool ControlSystem::run(SensorCom *sensor, MotorCom *motor){
 	return false;
 
 	/* return false if it's not sampling time */
