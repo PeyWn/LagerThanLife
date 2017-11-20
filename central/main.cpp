@@ -55,7 +55,7 @@ int main() {
     thread com_child(comm_mod_loop);
 
     bool done = 0;
-    
+
 
     string msg_read;
     while(true) {
@@ -67,8 +67,8 @@ int main() {
 
         if(!done)
         {
-	    pair<bool, bool> sensor_values = sensor.getWareSeen();
-	    int turn_speed = 2;
+	          pair<bool, bool> sensor_values = sensor.getWareSeen();
+	          int turn_speed = 2;
             done = center_ware(sensor_values, motor, turn_speed);
             std::cout << done << '\n';
         }
