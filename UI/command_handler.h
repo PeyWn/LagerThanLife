@@ -37,7 +37,7 @@ private:
         {"closeclaw", false},
         {"opengclaw", false},
         {"rotclaw", false},
-        {"stop", false},
+        {"estop", false},
         {"fwd", false},
         {"lager", true},
         {"sethome", true},
