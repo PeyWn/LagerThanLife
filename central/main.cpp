@@ -63,7 +63,7 @@ int main() {
         }
 
         bool done = center_ware;
-        while(!done)
+        if(!done)
         {
             done = center_ware
             std::cout << done << '\n';
