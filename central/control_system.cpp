@@ -32,10 +32,22 @@ double ControlSystem::normalize(double val){
 	return result;
 }
 
+/* limit value val to saturate at magnitude(val) = max_val */
+double ControlSystem::saturate(double val, double max){
+	if(abs(val) > max){
+		return max * normalize(val);
+	}
+	else{
+		return val;
+	}
+}
+
 /* the real control_system regulation */
 int ControlSystem::turn_value(){
 	// round off to closest integer
-	return (int)round(-(K_P*p_error + K_I*i_error + K_D*d_error));
+	int turn_value = (int)round(-(K_P*p_error + K_I*i_error + K_D*d_error));
+	turn_value = (int)saturate(turn_value, MAX_TURN);
+	return turn_value;
 }
 
 /*	local function:
@@ -67,7 +79,7 @@ void ControlSystem::set_turn_speed(int turn_speed){
 	int dir = normalize(turn_speed);
 	int spd = fabs(turn_speed);
 	TURN_STATUS turn = NONE;
-	
+
 	turn    = (dir >  0) ? RIGHT : (dir == 0) ? NONE  : LEFT;
 
 	/* send a command to motor-unit */
@@ -85,17 +97,17 @@ bool ControlSystem::run(){
 
 	cout<<"sampling time!"<<endl;
 	line_state = sensor->getLineState();
-	
+
 	/* return false if not correct states */
 	if(line_state != SINGLE){
 	    set_turn_speed(0);
-	    motor->drive(IDLE); // remove for real system
+	    motor->drive(IDLE); // for testing, remove this line
 	    return false;
 	}
 
 	sample_line_position();
 	int turn_speed = turn_value();
 	set_turn_speed(turn_speed);
-	motor->drive(FORWARD);
+	motor->drive(FORWARD); // for testing, remove this line
 	cout<<"set turn speed!"<<endl;
 }

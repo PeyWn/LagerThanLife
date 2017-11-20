@@ -30,7 +30,7 @@ private:
 	const int    SENSOR_MAX  = 127;
 
 	/* idea is for 1 to be max correction of 7 in turn setting */
-	const double	K_P = 1,
+	const double	K_P = 4,
 				 	K_I = 0,
 					K_D = 0;
 
@@ -46,6 +46,9 @@ private:
 
 	/* return +/- 1 as direction of arg double val */
 	double 	normalize(double val);
+
+	/* limit value val to saturate at magnitude(val) = max_val */
+	double ControlSystem::saturate(double val, double max);
 
 	/* the real control_system regulation */
 	int 	turn_value();
