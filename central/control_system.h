@@ -48,7 +48,7 @@ private:
 	double 	normalize(double val);
 
 	/* limit value val to saturate at magnitude(val) = max_val */
-	double ControlSystem::saturate(double val, double max);
+	double  saturate(double val, double max);
 
 	/* the real control_system regulation */
 	int 	turn_value();
