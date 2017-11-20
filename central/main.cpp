@@ -78,7 +78,7 @@ void get_route(){
 }
 
 void handle_msg(string msg) {
-    const int TURN_SPEED = 3; //TODO: implement variation of turn speed
+    //const int TURN_SPEED = 3; //TODO: implement variation of turn speed
     int line_center;
     LINE_STATE line_state;
     pair<bool, bool> ware_seen;
@@ -179,7 +179,8 @@ void handle_msg(string msg) {
     5. sethome [id] : implement when abstract stock is made
 
     see table 6.2 for the following command
-    get [id] implement when abstract stock is made
+    12. get [id] implement when abstract stock is made
+    29. turnspeed [int]
 
     */
 

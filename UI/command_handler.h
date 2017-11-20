@@ -13,7 +13,7 @@ private:
     */
     const map<string, bool> acc_cmd = {
         {"fwd", false},
-        {"stop", false},
+        {"drivestop", false},
         {"right", false},
         {"left", false},
         {"noturn", false},
@@ -36,15 +36,15 @@ private:
         {"closeclaw", false},
         {"closeclaw", false},
         {"opengclaw", false},
-        {"rotclaw", false},
         {"estop", false},
         {"fwd", false},
         {"lager", true},
         {"sethome", true},
         {"calware", false},
         {"calline", false},
-        {"calfloor", false}
-        {"armhome", false}
+        {"calfloor", false},
+        {"armhome", false},
+        {"turnspeed", true}
     };
 
     /*
