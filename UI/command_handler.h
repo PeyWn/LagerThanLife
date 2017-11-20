@@ -44,6 +44,7 @@ private:
         {"calware", false},
         {"calline", false},
         {"calfloor", false}
+        {"armhome", false}
     };
 
     /*

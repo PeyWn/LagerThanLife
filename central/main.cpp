@@ -100,6 +100,9 @@ void handle_msg(string msg) {
         else if (msg == "armleft") {
             motor.move_arm(CCW);
         }
+        else if (msg == "armhome") {
+            motor.perform_arm_macro(GO_HOME);
+        }
         else if (msg == "armstop") {
             motor.perform_arm_macro(STOP_ALL);
         }
