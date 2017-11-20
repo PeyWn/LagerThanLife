@@ -3,12 +3,8 @@
 #include <iostream>
 #include <cmath>
 
-ControlSystem::ControlSystem(SensorCom * Sensor, MotorCom * Motor){
-	sensor = Sensor;
-	motor  = Motor;
-}
+/*-----PRIVATE FUNCTIONS------------------------------------------------------------------------*/
 
-/* check sampling time and set initialize flag*/
 bool ControlSystem::is_sampling_time(){
 	if(initialized){
 		clock_t current_time = clock();
@@ -26,23 +22,6 @@ bool ControlSystem::is_sampling_time(){
 	}
 }
 
-/* normalize a double-value to be 0, -1 or +1 */
-double ControlSystem::normalize(double val){
-	double result = val == 0 ? 0 : val/fabs(val);
-	return result;
-}
-
-/* limit value val to saturate at magnitude(val) = max_val */
-double ControlSystem::saturate(double val, double max){
-	if(abs(val) > max){
-		return max * normalize(val);
-	}
-	else{
-		return val;
-	}
-}
-
-/* the real control_system regulation */
 int ControlSystem::turn_value(){
 	// round off to closest integer
 	int turn_value = (int)round(-(K_P*p_error + K_I*i_error + K_D*d_error));
@@ -50,13 +29,7 @@ int ControlSystem::turn_value(){
 	return turn_value;
 }
 
-/*	local function:
-	the heart of the control-system, computes the error variables
-	for the P-, I-, D- parameters.
-
-	max-saturation for i_error
-		*/
-double ControlSystem::sample_line_position(){
+void ControlSystem::sample_line_position(){
 	/* negative error for line is to the right
 	   => positive correction, which is positive
 	   turn  									 */
@@ -86,14 +59,33 @@ void ControlSystem::set_turn_speed(int turn_speed){
 	motor->turn(turn, spd);
 }
 
-/* 	sample and run control_system if time is up
-	return false */
+double ControlSystem::normalize(double val){
+	double result = val == 0 ? 0 : val/fabs(val);
+	return result;
+}
+
+double ControlSystem::saturate(double val, double max){
+	if(abs(val) > max){
+		return max * normalize(val);
+	}
+	else{
+		return val;
+	}
+}
+
+/*-----PUBLIC FUNCTIONS-------------------------------------------------------------------------*/
+
+ControlSystem::ControlSystem(SensorCom * Sensor, MotorCom * Motor){
+	sensor = Sensor;
+	motor  = Motor;
+}
+
 bool ControlSystem::run(){
 
 	/* return false if it's not sampling time */
-        if( !is_sampling_time() ){
-	    return false;
-        }
+    if( !is_sampling_time() ){
+        return false;
+    }
 
 	line_state = sensor->getLineState();
 
