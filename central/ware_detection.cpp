@@ -6,7 +6,7 @@
 
 int center_ware(pair<bool, bool> sensor, MotorCom wheels, int turn_speed)
 {
-    int delay_time = 10000; // Used to determine time turning
+    int delay_time = 1000000; // Used to determine time turning
     if (!(sensor.first && sensor.second))
     {
         wheels.drive(FORWARD);
