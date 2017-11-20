@@ -67,7 +67,9 @@ int main() {
 
         if(!done)
         {
-            done = center_ware
+	    pair<bool, bool> sensor_values = sensor.getWareSeen();
+	    int turn_speed = 2;
+            done = center_ware(sensor_values, motor, turn_speed);
             std::cout << done << '\n';
         }
 
