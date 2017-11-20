@@ -2,7 +2,7 @@
 #define LINE_MAP_H
 
 #include <string>
-#include <queue>
+#include <stack>
 #include <iostream>
 #include <vector>
 
@@ -20,7 +20,7 @@ public:
 	int get_node_c();
 	int get_line_c();
 	string make_string();
-	queue<Line*> get_path(int i1, int i2);
+	stack<Line*> get_path(int i1, int i2);
 
 	LineNode* get_node(int i);
 private:

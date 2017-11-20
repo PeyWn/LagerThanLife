@@ -2,6 +2,8 @@
 #include <sstream>
 #include <iostream>
 #include <functional>
+//#include <queue>
+#include <set>
 
 #include "line_map.h"
 
@@ -110,7 +112,7 @@ string LineMap::make_string(){
     return ss.str();
 }
 
-queue<Line*> LineMap::get_path(int i1, int i2){
+stack<Line*> LineMap::get_path(int i1, int i2){
     int node_c = get_node_c();
 
     if(i1 >= node_c || i2 >= node_c || i1 == i2){
@@ -120,19 +122,11 @@ queue<Line*> LineMap::get_path(int i1, int i2){
     }
 
     //Dijkstras algorithm
-    vector<int> prev(node_c,0); //Id of previous node
-    vector<int> cost(node_c,0); //Cost for every node
+    vector<Line*> prev(node_c, nullptr); //Id of previous node
+    vector<double> cost(node_c, -1); //Cost for every node
     vector<bool> visited(node_c, false); //Whether the node has been visited
 
-    //Function for ordering priority queue
-    function<bool(LineNode*, LineNode*)> compare =
-        [&](LineNode* n1, LineNode* n2){
-            return cost.at(n1->id) > cost.at(n2->id);
-        };
-
-    priority_queue<LineNode*,
-                vector<LineNode*>,
-                function<bool(LineNode*, LineNode*)> > que(compare);
+    set<pair<double, LineNode*> > que;
 
     //First search node
     LineNode* start = get_node(i1);
@@ -140,11 +134,10 @@ queue<Line*> LineMap::get_path(int i1, int i2){
 
     //loop until end node hit
     while(cur->id != i2){
-
         //look at all neighbors
         LineNode* new_neighbor;
         int neighbor_id;
-        double newDist;
+        double newCost;
         for(Line* neighbor_line : cur->lines){
             //Find out which endpoint is neighbor
             if(neighbor_line->n1->id == cur->id){
@@ -154,16 +147,50 @@ queue<Line*> LineMap::get_path(int i1, int i2){
                 new_neighbor = neighbor_line->n1;
             }
 
-            newDist = cost.at(new_neighbor->id);
+            neighbor_id = new_neighbor->id;
+            newCost = cost.at(cur->id) + neighbor_line->length;
 
-            //See if we want to update neighbor
-            
+            if(!visited.at(neighbor_id)){
+                if(cost.at(neighbor_id) == -1){
+                    cost.at(neighbor_id) = newCost;
+                    prev.at(neighbor_id) = neighbor_line;
+
+                    que.insert(make_pair(newCost, new_neighbor));
+                }
+                else if(cost.at(neighbor_id) > newCost){
+                    que.erase(make_pair(cost.at(neighbor_id), new_neighbor));
+                    cost.at(neighbor_id) = newCost;
+                    prev.at(neighbor_id) = neighbor_line;
+
+                    que.insert(make_pair(newCost, new_neighbor));
+                }
+            }
         }
 
         //Update current node
-        cur = que.top();
-        que.pop();
+        visited.at(cur->id) = true;
+
+        cur = que.begin()->second;
+        que.erase(que.begin());
     }
+
+    //Backtrack and create stack wiht lines
+    stack<Line*> path;
+    int cur_id = i2;
+    Line* back_line;
+    while(cur_id != i1){
+        back_line = prev.at(cur_id);
+        path.push(back_line);
+
+        if(back_line->n1->id == cur_id){
+            cur_id = back_line->n2->id;
+        }
+        else{
+            cur_id = back_line->n1->id;
+        }
+    }
+
+    return path;
 }
 
 LineNode* LineMap::get_node(int i){
