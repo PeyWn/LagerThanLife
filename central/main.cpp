@@ -9,6 +9,7 @@
 #include "motor_com.h"
 #include "sensor_com.h"
 #include <iostream>
+#include "ware_detection.h"
 
 using namespace std;
 
@@ -61,10 +62,19 @@ int main() {
             cout << "Msg: " << msg_read << "\n";
         }
 
+        bool done = center_ware;
+        while(!done)
+        {
+            done = center_ware
+            std::cout << done << '\n';
+        }
+
+
+
         //Motor com testing
-        motor.turn(RIGHT, 7);
-	auto status = motor.get_turn_status();
-        cout << "Turn status: " << status.first << " " << status.second << endl;
+        //motor.turn(RIGHT, 7);
+	      //auto status = motor.get_turn_status();
+        //cout << "Turn status: " << status.first << " " << status.second << endl;
     }
 
     return 0;
