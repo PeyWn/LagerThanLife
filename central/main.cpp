@@ -16,6 +16,8 @@ using namespace std;
 const string SENSOR_INTERFACE = "/dev/ttyUSB0";
 const string MOTOR_INTERFACE = "/dev/ttyUSB1";
 
+const int turn_speed = 3;
+
 InterThreadCom* thread_com;
 ServerSocket* com_module;
 
