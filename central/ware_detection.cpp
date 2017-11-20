@@ -14,12 +14,13 @@ int center_ware(pair<bool, bool> sensor, MotorCom wheels, int turn_speed)
         {
             wheels.turn(LEFT, turn_speed);
         }
-        else if (!(sensor.second))
+        else if (sensor.second)
         {
             wheels.turn(RIGHT, turn_speed);
         }
         usleep(delay_time);
         wheels.drive(IDLE);
+        wheels.turn(NONE, turn_speed);
         return 0;
     }
     return 1;
