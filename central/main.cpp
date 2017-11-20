@@ -54,6 +54,9 @@ int main() {
     // Spawn a new thread that calls on comm_mod_loop
     thread com_child(comm_mod_loop);
 
+    bool done = 0;
+    
+
     string msg_read;
     while(true) {
         //Netwrok read
@@ -62,7 +65,6 @@ int main() {
             cout << "Msg: " << msg_read << "\n";
         }
 
-        bool done = center_ware;
         if(!done)
         {
             done = center_ware
