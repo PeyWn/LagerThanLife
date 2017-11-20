@@ -21,7 +21,7 @@ ServerSocket* com_module;
 
 MotorCom 		motor(MOTOR_INTERFACE);
 SensorCom 		sensor(SENSOR_INTERFACE);
-ControlSystem	control(&sensor, &motor);	//control system for line following
+ControlSystem	line_follow(&sensor, &motor);	//control system for line following
 
 /*
 
@@ -63,7 +63,7 @@ int main() {
         }
 
 		//TODO: check for driving state before sampling
-        control.run(); //follow line if conditions are correct...
+        line_follow.run(); //follow line if conditions are correct...
     }
 
     return 0;
