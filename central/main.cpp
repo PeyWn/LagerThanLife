@@ -74,13 +74,13 @@ int main() {
   }
 
   cin >> input;
-	if(cin >> " ")
+	if(input == "")
 	    {
 	    pair<bool, bool> sensor_values = sensor.getWareSeen();
 	    cout << sensor_values.first << ' ' << sensor_values.second << endl;
 	    //done = center_ware(sensor_values, motor, turn_speed);
 	    std::cout << done << endl;
-      cin >> "read";
+      input = "read";
 	    }
 
         //Motor com testing
