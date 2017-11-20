@@ -30,7 +30,7 @@ private:
 	const int    SENSOR_MAX  = 127;
 
 	/* idea is for 1 to be max correction of 7 in turn setting */
-	const double	K_P = 4,
+	const double	K_P = 1,
 				 	K_I = 0,
 					K_D = 0;
 

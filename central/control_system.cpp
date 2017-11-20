@@ -95,19 +95,16 @@ bool ControlSystem::run(){
 	    return false;
         }
 
-	cout<<"sampling time!"<<endl;
 	line_state = sensor->getLineState();
 
 	/* return false if not correct states */
 	if(line_state != SINGLE){
 	    set_turn_speed(0);
-	    motor->drive(IDLE); // for testing, remove this line
 	    return false;
 	}
 
 	sample_line_position();
 	int turn_speed = turn_value();
 	set_turn_speed(turn_speed);
-	motor->drive(FORWARD); // for testing, remove this line
 	cout<<"set turn speed!"<<endl;
 }
