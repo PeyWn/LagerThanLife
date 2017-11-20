@@ -54,9 +54,9 @@ void get_sensors(){
     pair<bool, bool> ware_seen = sensor.getWareSeen();
 
     cout << "line center: " << line_center << endl;
-    cout << "line_state: " << line state << endl;
-    cout << "ware 0: " << ware_seen[0] << endl;
-    cout << "ware 1: " << ware_seen[1] << endl;
+    cout << "line_state: " << line_state << endl;
+    cout << "ware 0: " << ware_seen.first << endl;
+    cout << "ware 1: " << ware_seen.second << endl;
 }
 
 /*
@@ -76,132 +76,105 @@ void get_route(){
 }
 
 void handle_msg(string msg) {
-    switch(msg) {
-        default: {
-            break;
-        }
-        case fwd: {
+
+        if ( msg == "fwd" ) {
             motor.drive(FORWARD);
-            break;
         }
-        case stop: {
+        else if (msg == "stop") {
             motor.drive(IDLE);
-            break;
         }
-        case right: {
+        else if (msg == "right") {
             const int TURN_SPEED = 3; //TODO: implement variation of turn speed
             motor.turn(RIGHT, TURN_SPEED);
-            break;
         }
-        case left: {
+        else if (msg == "left") {
             const int TURN_SPEED = 3; //TODO: implement variation of turn speed
             motor.turn(LEFT, TURN_SPEED);
-            break;
         }
-        case noturn: {
-            motor.turn(NONE);
-            break;
-        }
-        case armright: {
-            motor.move_arm(CW);
-            break;
-        }
-        case armleft: {
-            motor.move_arm(CCW);
-            break;
-        }
-        case armstop: {
+        else if (msg == "noturn") {
             motor.perform_arm_macro(STOP_ALL);
-            break;
         }
-        case pickup: {
+        else if (msg == "armright") {
+            motor.move_arm(CW);
+        }
+        else if (msg == "armleft") {
+            motor.move_arm(CCW);
+        }
+        else if (msg == "armstop") {
+            motor.perform_arm_macro(STOP_ALL);
+        }
+        else if (msg == "pickup") {
             motor.perform_arm_macro(PICK_UP);
-            break;
         }
-        case putdown: {
+        else if (msg == "putdown") {
             motor.perform_arm_macro(PUT_DOWN);
-            break;
         }
         // case get [id] ??
 
-        case getsensors: {
+        else if (msg == "getsensors") {
             get_sensors();
-            break;
         }
-        case getpos: {
+        else if (msg == "getpos") {
             get_pos();
-            break;
         }
-        case getroute: {
+        else if (msg == "getroute") {
             get_route();
-            break;
         }
-        case updateall: {
+        else if (msg == "updateall") {
             get_sensors();
             get_pos();
             get_route();
-            break;
         }
-        case auto: {
-            //behövs denna?
-            break;
+        else if (msg ==  "auto") {
+            //TODO: implement
         }
-        case manual: {
-            //behövs denna?
-            break;
+        else if (msg == "manual") {
+            //TODO: implement
         }
-        case armfwd: {
+        else if (msg == "armfwd") {
             motor.move_arm(AWAY);
-            break;
         }
-        case armback: {
+        else if (msg == "armback") {
             motor.move_arm(TOWARDS);
-            break;
         }
-        case armup: {
+        else if (msg == "armup") {
             motor.move_arm(UP);
-            break;
         }
-        case armdown: {
+        else if (msg == "armdown") {
             motor.move_arm(DOWN);
-            break;
         }
-        case closeclaw: {
-            control_claw(true);
-            break;
+        else if (msg == "closeclaw") {
+            motor.control_claw(true);
         }
-        case openclaw: {
-            control_claw(false);
-            break;
+        else if (msg == "openclaw") {
+            motor.control_claw(false);
         }
-        case rotgrip: {
+        else if (msg == "rotclaw") {
             //how?
-            break;
         }
-        case estop: {
+        else if (msg == "estop") {
             motor.perform_arm_macro(STOP_ALL);
             motor.drive(IDLE);
             //more ???
-            break;
         }
-        case calware: {
+        else if (msg == "calware") {
             sensor.calibrateWare();
-            break;
         }
-        case calline: {
+        else if (msg == "calline") {
             sensor.calibrateLine();
-            break;
         }
-        case calfloor: {
+        else if (msg == "calfloor") {
             sensor.calibrateFloor();
-            break;
         }
+        else {
+            // do nothing
+        }
+
         //case empty [id] : implement when abstract stock is made
         //case refill [id] : implement when abstract stock is made
         //case lager [filnamn] : implement when abstract stock is made
         //case sethome [id] : implement when abstract stock is made
         //case showdata
-    }
 
 }
 
@@ -219,7 +192,7 @@ int main() {
         msg_read = thread_com->read_from_queue(FROM_SOCKET);
         if (msg_read != "") {
             // cout << "Msg: " << msg_read << "\n";  //prints the recieved Msg
-            handle_msg(msg);
+            handle_msg(msg_read);
         }
     }
 
