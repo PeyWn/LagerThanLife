@@ -56,9 +56,6 @@ int main() {
     // Spawn a new thread that calls on comm_mod_loop
     thread com_child(comm_mod_loop);
 
-    bool done = 0;
-
-
     string msg_read;
     while(true) {
         //Netwrok read
@@ -67,14 +64,10 @@ int main() {
             cout << "Msg: " << msg_read << "\n";
         }
 
-        if(!done)
-        {
-	          pair<bool, bool> sensor_values = sensor.getWareSeen();
-	          int turn_speed = 2;
-            done = center_ware(sensor_values, motor, turn_speed);
-            std::cout << done << '\n';
-        }
 
+	      pair<bool, bool> sensor_values = sensor.getWareSeen();
+        done = center_ware(sensor_values, motor, turn_speed);
+        std::cout << done << '\n';
 
 
         //Motor com testing
