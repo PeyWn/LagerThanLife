@@ -17,6 +17,7 @@ const string SENSOR_INTERFACE = "/dev/ttyUSB0";
 const string MOTOR_INTERFACE = "/dev/ttyUSB1";
 
 const int turn_speed = 3;
+int done = 0; 
 
 InterThreadCom* thread_com;
 ServerSocket* com_module;
@@ -64,11 +65,13 @@ int main() {
             cout << "Msg: " << msg_read << "\n";
         }
 
-
-	      pair<bool, bool> sensor_values = sensor.getWareSeen();
-        done = center_ware(sensor_values, motor, turn_speed);
-        std::cout << done << '\n';
-
+	if(!done)
+	    {
+	    pair<bool, bool> sensor_values = sensor.getWareSeen();
+	    cout << sensor_values.first << ' ' << sensor_values.second << endl;
+	    //done = center_ware(sensor_values, motor, turn_speed);
+	    std::cout << done << endl;
+	    }
 
         //Motor com testing
         //motor.turn(RIGHT, 7);
