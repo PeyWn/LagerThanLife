@@ -1,3 +1,10 @@
+/*
+
+    **********  TEST FILE FOR ABSTRACT STOCK CLASS **********
+
+*/
+
+
 #include "line_map.h"
 #include "line.h"
 #include "line_node.h"
@@ -10,8 +17,8 @@ int main(){
     LineNode n2(-7,-2, 2);
     LineNode n3(-15, 5, 3);
     LineNode n4(-7,23, 4);
-
     Line l1(&n0, &n1);
+
     Line l2(&n0, &n2);
     Line l3(&n0, &n3);
     Line l4(&n0, &n4);

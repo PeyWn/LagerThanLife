@@ -10,10 +10,28 @@ class Line{
 	friend class LineMap; //LineMap is friend of Line
 
 public:
+	/*
+	Get end node 0 or 1.
 
+	i - 0 or 1, the end node to get a pointer to.
+
+	return - the end node of given index
+	*/
   	LineNode* get_node(int i);
+
+	/*
+	Get the length of the line. The euclidean distance between the endnodes.
+
+	return - the length of the line
+	*/
 	double get_length();
 
+	/*
+	Create a new Line with the given endnodes.
+
+	n1_in - the first endnodes
+	n2_in - the second endnode
+	*/
 	Line(LineNode* n1_in, LineNode* n2_in); //TODO move constructor down to private
 private:
 	LineNode* n1;
