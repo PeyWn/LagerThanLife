@@ -13,7 +13,14 @@ using namespace std;
 class LineMap{
 
 public:
+	/*
+	Create a new LineMap based on the given string. Sets up all nodes and lines.
+	*/
 	LineMap(string desc);
+
+	/*
+
+	*/
 	~LineMap();
 
 	pair<double, double> max_size();

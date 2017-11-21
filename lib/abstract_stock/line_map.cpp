@@ -2,7 +2,6 @@
 #include <sstream>
 #include <iostream>
 #include <functional>
-//#include <queue>
 #include <set>
 
 #include "line_map.h"
@@ -13,7 +12,6 @@ LineMap::LineMap(string desc){
     ss << desc;
 
     //Tell stringstream to throw eof, fial and bad exceptions
-
     ss.exceptions(stringstream::failbit
                 | stringstream::eofbit
                 | stringstream::badbit);
@@ -50,7 +48,15 @@ LineMap::LineMap(string desc){
 }
 
 LineMap::~LineMap(){
+    //Unallocate Lines
+    for(Line* line : lines){
+        delete line;
+    }
 
+    //Unallocate LineNodes
+    for(LineNode* node : nodes){
+        delete node;
+    }
 }
 
 pair<double, double> LineMap::max_size(){
