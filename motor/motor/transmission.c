@@ -11,6 +11,8 @@
 #include "uart_arm.h"
 #include "globals.h"
 #include "receive.h"
+
+volatile int IS_STOP;
  
 void transmit_startbytes()
 {
@@ -29,7 +31,7 @@ char read_byte(int id, int address)
 	return receive_status_packet();
 }
 
-void write_byte(int id, int address, int byte, int mode)
+char write_byte(int id, int address, int byte, int mode)
 {
 	transmit_startbytes();
 	transmit((char)id);
@@ -38,7 +40,7 @@ void write_byte(int id, int address, int byte, int mode)
 	transmit(address);
 	transmit(byte);
 	transmit( ~(id + 4 + mode + address + byte) ); //Checksum
-	receive_status_packet();
+	return receive_status_packet();
 }
 
 int read_word(int id, int address)
@@ -188,4 +190,21 @@ void putdown_standard_front(void)
 void emergency_stop(void)
 {
 	torque_disable_all(0xFE);
+}
+
+int step_towards_pos(int id, int pos, int speed)
+{
+	if(!IS_STOP)
+	{
+		volatile int cur_pos = read_word(id, GOAL_POSITION_ADDRESS);
+		if(pos != cur_pos)
+		{
+			write_word(id, GOAL_POSITION_ADDRESS, cur_pos+1, WRITE_DATA);			
+		}
+		else
+		{
+			return 1;
+		}
+	}
+	return 0; 
 }
