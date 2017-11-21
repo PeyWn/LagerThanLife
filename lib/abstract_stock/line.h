@@ -26,14 +26,15 @@ public:
 	*/
 	double get_length();
 
+private:
 	/*
 	Create a new Line with the given endnodes.
 
 	n1_in - the first endnodes
 	n2_in - the second endnode
 	*/
-	Line(LineNode* n1_in, LineNode* n2_in); //TODO move constructor down to private
-private:
+	Line(LineNode* n1_in, LineNode* n2_in);
+
 	LineNode* n1;
 	LineNode* n2;
 	double length;
