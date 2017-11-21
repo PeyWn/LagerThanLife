@@ -11,8 +11,6 @@
 #include "uart_arm.h"
 #include "globals.h"
 #include "receive.h"
-
-volatile int is_working; 
  
 void transmit_startbytes()
 {
@@ -169,22 +167,22 @@ void release(void)
 
 void pickup_standard_front(void)
 {
-	is_working = 1;
+	IS_WORKING = 1;
 	go_pos_front();
 	_delay_ms(33000); //Wait for arm to reach to object
 	grab();
 	go_home_pos();
-	is_working = 0; 
+	IS_WORKING = 0; 
 }
 
 void putdown_standard_front(void)
 {
-	is_working = 1; 
+	IS_WORKING = 1; 
 	go_pos_front();
 	_delay_ms(32000); //Wait for arm to reach to object 
 	release();
 	go_home_pos();
-	is_working = 0;
+	IS_WORKING = 0;
 }
 
 void emergency_stop(void)
