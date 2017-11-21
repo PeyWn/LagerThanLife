@@ -199,7 +199,7 @@ int step_towards_pos(int id, int pos, int speed)
 		volatile int cur_pos = read_word(id, GOAL_POSITION_ADDRESS);
 		if(pos != cur_pos)
 		{
-			write_word(id, GOAL_POSITION_ADDRESS, cur_pos+1, WRITE_DATA);			
+			move_single_axis(id, cur_pos+1, speed, WRITE_DATA);		
 		}
 		else
 		{
