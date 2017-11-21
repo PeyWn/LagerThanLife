@@ -94,7 +94,7 @@ void handle_command_parameter(string msg_with_parameter, string& command, string
 
     pos = ((msg_with_parameter.find(delimiter)) != string::npos);
 
-    if (pos != npos){
+    if (pos != string::npos){
         command = msg_with_parameter.substr(0, pos);
         msg_with_parameter.erase(0, pos + delimiter.length());
         parameter = msg_with_parameter;
@@ -106,7 +106,7 @@ void handle_command_parameter(string msg_with_parameter, string& command, string
 
 /*
     Handles messages recieved from network
-    TODO: break out handle_msg() and its help-functions to a new class file  
+    TODO: break out handle_msg() and its help-functions to a new class file
 */
 void handle_msg(string msg) {
 
@@ -127,13 +127,13 @@ void handle_msg(string msg) {
         motor.drive(IDLE);
     }
     else if (command == "right") {
-        motor.turn(RIGHT, TURN_SPEED);
+        motor.turn(RIGHT, turn_speed);
     }
     else if (command == "left") {
-        motor.turn(LEFT, TURN_SPEED);
+        motor.turn(LEFT, turn_speed);
     }
     else if (command == "noturn") {
-        motor.turn(NONE, TURN_SPEED);
+        motor.turn(NONE, turn_speed);
     }
     else if (command == "armright") {
         motor.move_arm(CW);
