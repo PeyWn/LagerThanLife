@@ -3,6 +3,8 @@
 #include "wheel_control.h"
 #include "init_arm.h"
 #include "uart.h"
+#include "globals.h"
+#include "coordinate.h"
 
 int main(void)
 {
@@ -26,9 +28,24 @@ int main(void)
 	//Enable global interrupts
 	sei();
 
+	volatile double CT_angle = 5.323254219;
+	volatile double Tx = 20;
+	volatile double Ty = 20;
+	volatile double servo[3];
+	
+	int test = calculate_angles(CT_angle, Tx, Ty, &servo);
+	
+	if(test){
+		move_double_axis(2,3,(char)servo[0], 0x0F);
+		
+		/*move_double_axis(2,3,(char)servo[0], 0x0F);
+		move_double_axis(4,5,(char)servo[1], 0x0F);
+		move_single_axis(6, (char)servo[2], 0x0F, WRITE_DATA);
+		*/	
+	}
+	
     while(1)
     {
-        
     }
     return 0;
 }

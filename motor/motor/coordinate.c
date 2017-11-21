@@ -46,25 +46,29 @@ int calculate_angles(double CT_angle, double Tx, double Ty, double servo[3]){
 void convert_angles(double servo[3]){
 	
 	volatile double test1 = servo[0]; 
-	servo[0] = rad_to_dec(servo[0], 256);
+	servo[0] = 1023 - rad_to_dec(servo[0], 256);
 	volatile double test2 = servo[0];
 	
 	if(servo[0] < 256){
-		return servo[0] = 256;
+		servo[0] = 256;
+		return 0;
 	}
 	else if(servo[0] > 765){
-		return servo[0] = 765;
+		servo[0] = 765;
+		return 0;
 	}
 	
 	volatile double test3 = servo[1]; 
-	servo[1] = rad_to_dec(servo[1], 256);
+	servo[1] = 1023 - rad_to_dec(servo[1], 256);
 	volatile double test4 = servo[1]; 
 	
 	if(servo[1] < 256){
-		return servo[1] = 256;
+		servo[1] = 256;
+		return 0;
 	}
 	else if(servo[1] > 765){
-		return servo[1] = 765;
+		servo[1] = 765;
+		return 0;
 	}
 	
 	volatile double test5 = servo[2]; 
@@ -72,10 +76,12 @@ void convert_angles(double servo[3]){
 	volatile double test6 = servo[2]; 
 	
 	if(servo[2] < 256){
-			return servo[2] = 256;
-		}
+		servo[2] = 256;
+		return 0;
+	}
 	else if(servo[2] > 765){
-		return servo[2] = 765;
+		servo[2] = 765;
+		return 0;
 	}
 }
 
