@@ -72,3 +72,6 @@ void putdown_standard_front(void);
 
 /* Disables torque of all servos */  
 void emergency_stop(void);
+
+/* Changes goal position of servo with given id to pos + 1 */ 
+int step_towards_pos(int id, int pos, int speed);

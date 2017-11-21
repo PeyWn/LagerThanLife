@@ -13,9 +13,7 @@ int main(void)
 		
     while(1)
     {
-		
-		
-		
+		while(!step_towards_pos(1, 0x1ff, 0xf0));
     }
 	
     return 0;
