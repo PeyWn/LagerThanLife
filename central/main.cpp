@@ -77,114 +77,153 @@ void get_route(){
     //TODO: implement when abstract stock is made
 }
 
+/*
+    Split up commands that has a parameter
+*/
+void handle_command_parameter(string msg_with_parameter, string& command, string& parameter){
+
+    /*
+
+        **WARNING**
+        untested code
+
+    */
+
+    string delimiter = " ";
+    size_t pos = 0;
+
+    pos = ((msg_with_parameter.find(delimiter)) != string::npos);
+
+    if (pos != npos){
+        command = msg_with_parameter.substr(0, pos);
+        msg_with_parameter.erase(0, pos + delimiter.length());
+        parameter = msg_with_parameter;
+    }
+    else {
+        command = msg_with_parameter;
+    }
+}
+
+/*
+    Handles messages recieved from network
+    TODO: break out handle_msg() and its help-functions to a new class file  
+*/
 void handle_msg(string msg) {
-    //const int TURN_SPEED = 3; //TODO: implement variation of turn speed
+
+    int turn_speed = 3; // 3 by default
     int line_center;
     LINE_STATE line_state;
     pair<bool, bool> ware_seen;
+    string command;
+    string parameter;
 
-    if ( msg == "fwd" ) {
+    //TODO test this function
+    handle_command_parameter(msg, command, parameter);
+
+    if ( command == "fwd" ) {
         motor.drive(FORWARD);
     }
-    else if (msg == "drivestop") {
+    else if (command == "drivestop") {
         motor.drive(IDLE);
     }
-    else if (msg == "right") {
+    else if (command == "right") {
         motor.turn(RIGHT, TURN_SPEED);
     }
-    else if (msg == "left") {
+    else if (command == "left") {
         motor.turn(LEFT, TURN_SPEED);
     }
-    else if (msg == "noturn") {
+    else if (command == "noturn") {
         motor.turn(NONE, TURN_SPEED);
     }
-    else if (msg == "armright") {
+    else if (command == "armright") {
         motor.move_arm(CW);
     }
-    else if (msg == "armleft") {
+    else if (command == "armleft") {
         motor.move_arm(CCW);
     }
-    else if (msg == "armhome") {
+    else if (command == "armhome") {
         motor.perform_arm_macro(GO_HOME);
     }
-    else if (msg == "armstop") {
+    else if (command == "armstop") {
         motor.perform_arm_macro(STOP_ALL);
     }
-    else if (msg == "pickup") {
+    else if (command == "pickup") {
         motor.perform_arm_macro(PICK_UP);
     }
-    else if (msg == "putdown") {
+    else if (command == "putdown") {
         motor.perform_arm_macro(PUT_DOWN);
     }
-    else if (msg == "getsensors") {
+    else if (command == "get") {
+        // TODO call for get(parameter) fn
+    }
+    else if (command == "getsensors") {
         get_sensors(line_center, line_state, ware_seen);
     }
-    else if (msg == "getpos") {
+    else if (command == "getpos") {
         get_pos();
     }
-    else if (msg == "getroute") {
+    else if (command == "getroute") {
         get_route();
     }
-    else if (msg == "updateall") {
+    else if (command == "updateall") {
         get_sensors(line_center, line_state, ware_seen);
         get_pos();
         get_route();
     }
-    else if (msg ==  "auto") {
+    else if (command ==  "auto") {
         //TODO: implement
     }
-    else if (msg == "manual") {
+    else if (command == "manual") {
         //TODO: implement
     }
-    else if (msg == "armfwd") {
+    else if (command == "armfwd") {
         motor.move_arm(AWAY);
     }
-    else if (msg == "armback") {
+    else if (command == "armback") {
         motor.move_arm(TOWARDS);
     }
-    else if (msg == "armup") {
+    else if (command == "armup") {
         motor.move_arm(UP);
     }
-    else if (msg == "armdown") {
+    else if (command == "armdown") {
         motor.move_arm(DOWN);
     }
-    else if (msg == "closeclaw") {
+    else if (command == "closeclaw") {
         motor.control_claw(true);
     }
-    else if (msg == "openclaw") {
+    else if (command == "openclaw") {
         motor.control_claw(false);
     }
-    else if (msg == "estop") {
+    else if (command == "estop") {
         motor.perform_arm_macro(STOP_ALL);
         motor.drive(IDLE);
         //TODO: more ???
     }
-    else if (msg == "calware") {
+    else if (command == "calware") {
         sensor.calibrateWare();
     }
-    else if (msg == "calline") {
+    else if (command == "calline") {
         sensor.calibrateLine();
     }
-    else if (msg == "calfloor") {
+    else if (command == "calfloor") {
         sensor.calibrateFloor();
     }
-
-    /*
-    TODO: when abstract stock is done, implement the following commands:
-    See table 6.3 in technical doc. for a desciption
-
-    1. empty [id] : implement when abstract stock is made
-    2. refill [id] : implement when abstract stock is made
-    4. lager [filnamn] : implement when abstract stock is made
-    5. sethome [id] : implement when abstract stock is made
-
-    see table 6.2 for the following command
-    12. get [id] implement when abstract stock is made
-    29. turnspeed [int]
-
-    */
-
-    else if (msg == "showdata") {
+    else if (command == "turnspeed") {
+        turn_speed = stoi(parameter);
+    }
+    else if (command == "empty") {
+        // TODO call set stock(parameter) as empty
+    }
+    else if (command == "refill") {
+        // TODO call set stock(parameter) as full
+    }
+    else if (command == "lager") {
+        // TODO send parameter to abst stock to interpet lagerfile
+    }
+    else if (command == "sethome") {
+        // TODO set parameter as home node in abst stock
+    }
+    else if (command == "showdata") {
         string to_user_interface = to_string(line_center) + " " +  to_string(line_state) +
                                     " " + to_string(ware_seen.first) + " " +
                                     to_string(ware_seen.second);
@@ -199,6 +238,7 @@ void handle_msg(string msg) {
 
 
 int main() {
+
     // Create a new InterThreadCom used for communication with CommunicationModule
     thread_com = new InterThreadCom();
 
