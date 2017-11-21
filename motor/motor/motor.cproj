@@ -124,6 +124,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="commands.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="coordinate.c">
       <SubType>compile</SubType>
     </Compile>
