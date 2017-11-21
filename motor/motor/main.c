@@ -36,7 +36,7 @@ int main(void)
 	int test = calculate_angles(CT_angle, Tx, Ty, &servo);
 	
 	if(test){
-		move_double_axis(2,3,(char)servo[0], 0x0F);
+		move_double_axis(2,3,round(servo[0]), 0x0F);
 		
 		/*move_double_axis(2,3,(char)servo[0], 0x0F);
 		move_double_axis(4,5,(char)servo[1], 0x0F);
