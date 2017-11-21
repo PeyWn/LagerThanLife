@@ -27,6 +27,7 @@ void release_ware()
 
 void stop_all()
 {
+	
 	emergency_stop(); 
 }
 
