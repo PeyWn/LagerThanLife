@@ -82,19 +82,12 @@ void get_route(){
 */
 void handle_command_parameter(string msg_with_parameter, string& command, string& parameter){
 
-    /*
-
-        **WARNING**
-        untested code
-
-    */
-
     string delimiter = " ";
     size_t pos = 0;
 
-    pos = ((msg_with_parameter.find(delimiter)) != string::npos);
+    pos = msg_with_parameter.substr(0,msg_with_parameter.find_first_of(" ")).length();
 
-    if (pos != string::npos){
+    if (pos > 0){
         command = msg_with_parameter.substr(0, pos);
         msg_with_parameter.erase(0, pos + delimiter.length());
         parameter = msg_with_parameter;
@@ -102,6 +95,7 @@ void handle_command_parameter(string msg_with_parameter, string& command, string
     else {
         command = msg_with_parameter;
     }
+
 }
 
 /*
