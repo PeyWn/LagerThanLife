@@ -2,12 +2,12 @@
 #include <math.h>
 #include "coordinate.h"
 
-volatile const double len_AB = 15;
+volatile const double len_AB = 15.5;
 volatile const double len_BC = 15;
-volatile const double len_CT = 15;
+volatile const double len_CT = 15.5;
 
 volatile const int Ax = 0;
-volatile const int Ay = 17;
+volatile const int Ay = 21;
 
 volatile const double PI = 3.141593;
 
@@ -46,7 +46,7 @@ int calculate_angles(double CT_angle, double Tx, double Ty, double servo[3]){
 void convert_angles(double servo[3]){
 	
 	volatile double test1 = servo[0]; 
-	servo[0] = 1023 - rad_to_dec(servo[0], 256);
+	servo[0] = rad_to_dec(servo[0], 256);
 	volatile double test2 = servo[0];
 	
 	if(servo[0] < 256){
@@ -59,7 +59,7 @@ void convert_angles(double servo[3]){
 	}
 	
 	volatile double test3 = servo[1]; 
-	servo[1] = 1023 - rad_to_dec(servo[1], 256);
+	servo[1] = rad_to_dec(servo[1], 256);
 	volatile double test4 = servo[1]; 
 	
 	if(servo[1] < 256){
