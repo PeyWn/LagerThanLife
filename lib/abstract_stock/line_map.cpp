@@ -146,12 +146,7 @@ stack<Line*> LineMap::get_path(int i1, int i2){
         double newCost;
         for(Line* neighbor_line : cur->lines){
             //Find out which endpoint is neighbor
-            if(neighbor_line->n1->id == cur->id){
-                new_neighbor = neighbor_line->n2;
-            }
-            else{
-                new_neighbor = neighbor_line->n1;
-            }
+            new_neighbor = neighbor_line->get_opposite(cur->id);
 
             neighbor_id = new_neighbor->id;
             newCost = cost.at(cur->id) + neighbor_line->length;
@@ -188,12 +183,7 @@ stack<Line*> LineMap::get_path(int i1, int i2){
         back_line = prev.at(cur_id);
         path.push(back_line);
 
-        if(back_line->n1->id == cur_id){
-            cur_id = back_line->n2->id;
-        }
-        else{
-            cur_id = back_line->n1->id;
-        }
+        cur_id = back_line->get_opposite(cur_id)->id;
     }
 
     return path;

@@ -2,8 +2,8 @@
 #include <cmath>
 #include <stdexcept>
 #include <math.h>
-#include "line.h"
 
+#include "line.h"
 LineNode::LineNode(double x_in, double y_in, int id_in) : x(x_in), y(y_in), id(id_in) {}
 
 int LineNode::get_id(){
@@ -30,7 +30,7 @@ int LineNode::get_angle(Line* start_line, Line* end_line){
 
     int self_found = 0;
 
-    //Find which nodes are not ourself
+    //Find which nodes are not yourself
     for(int i = 0; i < 2; i++){
         if(start_line->get_node(i)->get_id() == id){
             self_found++;

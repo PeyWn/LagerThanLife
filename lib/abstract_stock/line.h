@@ -26,6 +26,14 @@ public:
 	*/
 	double get_length();
 
+	/*
+	Get the node opposite of the given index.
+
+	i - index of one of the lines start nodes
+
+	return - the other end node of the line. 
+	*/
+	LineNode* get_opposite(int i);
 private:
 	/*
 	Create a new Line with the given endnodes.
