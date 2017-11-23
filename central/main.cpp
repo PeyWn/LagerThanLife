@@ -1,18 +1,31 @@
 /**
     Main file for CentralModule
 */
-
 #include <thread>
+#include <string>
 #include <iostream>
 #include "server_socket.h"
 #include "../lib/network/interthreadcom.h"
+#include "uart_handler.h"
+#include "motor_com.h"
+#include "sensor_com.h"
+#include "control_system.h"
 
 using namespace std;
+
+const string SENSOR_INTERFACE = "/dev/ttyUSB0";
+const string MOTOR_INTERFACE = "/dev/ttyUSB1";
 
 InterThreadCom* thread_com;
 ServerSocket* com_module;
 
+MotorCom 		motor(MOTOR_INTERFACE);
+SensorCom 		sensor(SENSOR_INTERFACE);
+ControlSystem	line_follow(&sensor, &motor);	//control system for line following
+
+
 /*
+
     Function for com_child_new. Checks for new socket connection
     and makes the last connected current connection.
 */
@@ -44,10 +57,21 @@ int main() {
 
     string msg_read;
     while(true) {
+        //Netwrok read
         msg_read = thread_com->read_from_queue(FROM_SOCKET);
         if (msg_read != "") {
             cout << "Msg: " << msg_read << "\n";
         }
+
+	// control system testing
+	line_follow.run();
+	
+        // Motor com testing
+	/*
+	motor.turn(RIGHT, 7);
+	auto status = motor.get_turn_status();
+        cout << "Turn status: " << status.first << " " << status.second << endl;
+	*/
     }
 
     return 0;

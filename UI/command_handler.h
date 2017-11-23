@@ -40,7 +40,10 @@ private:
         {"stop", false},
         {"fwd", false},
         {"lager", true},
-        {"sethome", true}
+        {"sethome", true},        
+        {"caldetec", false},
+        {"calline", false},
+        {"calfloor", false}
     };
 
     /*
