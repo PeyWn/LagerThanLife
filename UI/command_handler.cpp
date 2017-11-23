@@ -30,7 +30,8 @@ bool CommandHandler::try_command(string line){
 
         if(
             cmd == "get" ||
-            cmd == "sethome"
+            cmd == "sethome" ||
+            cmd == "turnspeed"
         ){
             int n;
             ss >> n;
