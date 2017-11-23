@@ -63,7 +63,7 @@ int main() {
         }
 
 		//TODO: check for driving state before sampling
-        line_follow.run(); //follow line if conditions are correct...
+        // line_follow.run();
     }
 
     return 0;
