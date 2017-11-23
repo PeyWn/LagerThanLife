@@ -2,7 +2,6 @@
 #define UART_HANDLER_H
 
 #include <string>
-
 using namespace std;
 
 typedef char uart_msg;

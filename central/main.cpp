@@ -2,7 +2,6 @@
     Main file for CentralModule
 */
 #include <thread>
-#include <iostream>
 #include <string>
 #include "server_socket.h"
 #include "../lib/network/interthreadcom.h"
@@ -22,6 +21,7 @@ ServerSocket* com_module;
 MotorCom 		motor(MOTOR_INTERFACE);
 SensorCom 		sensor(SENSOR_INTERFACE);
 ControlSystem	line_follow(&sensor, &motor);	//control system for line following
+
 
 /*
 
@@ -62,8 +62,10 @@ int main() {
             cout << "Msg: " << msg_read << "\n";
         }
 
-		//TODO: check for driving state before sampling
-        // line_follow.run();
+        //Motor com testing
+        motor.turn(RIGHT, 7);
+	auto status = motor.get_turn_status();
+        cout << "Turn status: " << status.first << " " << status.second << endl;
     }
 
     return 0;

@@ -11,11 +11,24 @@
 #include "uart_arm.h"
 #include "globals.h"
 #include "receive.h"
+
+volatile int is_working; 
  
 void transmit_startbytes()
 {
 	transmit(0xFF);
 	transmit(0xFF); 	
+}
+
+char read_byte(int id, int address)
+{
+	transmit_startbytes();
+	transmit(id);
+	transmit(0x03); //Number of parameters + 2 = LENGHT.
+	transmit(READ_DATA);
+	transmit(address);
+	transmit( ~(id + 3 + READ_DATA + address) ); //Checksum
+	return receive_status_packet();
 }
 
 void write_byte(int id, int address, int byte, int mode)
@@ -26,12 +39,21 @@ void write_byte(int id, int address, int byte, int mode)
 	transmit(mode);
 	transmit(address);
 	transmit(byte);
-	transmit( ~(id + 4 + mode + address + byte) );
+	transmit( ~(id + 4 + mode + address + byte) ); //Checksum
 	receive_status_packet();
+}
+
+int read_word(int id, int address)
+{
+	volatile char data1 = read_byte(id, address);
+	volatile char data2 = read_byte(id, address+1);
+	
+	return ((((short)data1)<<8) | data2); //Smash bytes together to one word. 
 }
 
 void write_word(int id, int address, int word, int mode)
 {
+	/* Split word into two bytes */ 
 	char wordL =  word & 0xFF;
 	char wordH = word >> 8;
 
@@ -42,28 +64,28 @@ void write_word(int id, int address, int word, int mode)
 	transmit(address);
 	transmit(wordL);
 	transmit(wordH);
-	transmit( ~(id + 4 + mode + address + wordH + wordL) );
+	transmit( ~(id + 4 + mode + address + wordH + wordL) ); //Checksum
 	receive_status_packet();
 }
 
 void write_long(int id, int address, int word1, int word2, int mode)
 {
+	/* Split words into bytes */ 
 	char word1H = word1 >> 8;
 	char word1L =  word1 & 0xFF;
-	
 	char word2H = word2 >> 8;
 	char word2L = word2 & 0xFF;
 	
 	transmit_startbytes();
 	transmit((char)id);
-	transmit(0x07); //Length
+	transmit(0x07); //Length = number of parameters + 2. 
 	transmit(mode);
 	transmit(address);
 	transmit(word1L);
 	transmit(word1H);
 	transmit(word2L);
 	transmit(word2H);
-	transmit( ~(id + 7 + mode + address + word1L + word1H + word2L + word2H) );
+	transmit( ~(id + 7 + mode + address + word1L + word1H + word2L + word2H) ); //Checksum
 	receive_status_packet();
 }
  
@@ -76,9 +98,9 @@ void send_action(int id)
 {
 	transmit_startbytes();
 	transmit(id);
-	transmit(0x02);
+	transmit(0x02); // Length = number of parameters + 2. 
 	transmit(ACTION);
-	transmit(~(id+2+ACTION));
+	transmit(~(id+2+ACTION)); //Checksum
 }
 
 void move_double_axis(int id1, int id2, int pos, int speed) 
@@ -86,7 +108,7 @@ void move_double_axis(int id1, int id2, int pos, int speed)
 	move_single_axis(id1, pos, speed, REG_WRITE);
 	_delay_ms(500);
 	
-	long mirror_pos = 0x03FF-pos; 
+	long mirror_pos = 0x03FF-pos; //Double axis's partner servo pos. 
 	move_single_axis(id2, mirror_pos, speed, REG_WRITE);
 	_delay_ms(500);
 	
@@ -98,13 +120,21 @@ void torque_enable(int id)
 	write_byte(id, TORQUE_ENABLE_ADDRESS, 1, WRITE_DATA);
 }
 
+void torque_disable_all(int id)
+{
+	for (int i = 1; i<=NUMBER_OF_MOTORS; i++)
+	{
+		write_byte(i, TORQUE_ENABLE_ADDRESS, 0, WRITE_DATA);
+	}
+}
+
 void update_error_var(int id)
 {
 	transmit_startbytes();
 	transmit(id);
-	transmit(2);
+	transmit(2); // Length = number of parameters + 2
 	transmit(1);
-	transmit((char)~(id+2+1));
+	transmit((char)~(id+2+1)); // Checksum
 	receive_status_packet();
 }
 
@@ -113,7 +143,7 @@ void go_home_pos(void)
 	move_double_axis(2, 3, 0x280, SPEED_4);
 	move_single_axis(1, 0x1ff, SPEED_2, WRITE_DATA);
 	move_double_axis(4, 5, 0x250, SPEED_3);
-	_delay_ms(8000);
+	_delay_ms(8000); //Wait with next servos to avoid crashing into platform. 
 	move_single_axis(6, 0xC0, SPEED_2, WRITE_DATA);
 	move_single_axis(7, 0x1ff, SPEED_2, WRITE_DATA);
 }
@@ -137,30 +167,27 @@ void release(void)
 	move_single_axis(8, 0x1ff, SPEED_MAX, WRITE_DATA);
 }
 
-void go_pickup_standard(void)
-{
-	go_pos_front();
-	grab();
-}
-
-void go_release_front(void)
-{
-	go_pos_front();
-	release();
-}
-
 void pickup_standard_front(void)
 {
+	is_working = 1;
 	go_pos_front();
-	_delay_ms(33000);
+	_delay_ms(33000); //Wait for arm to reach to object
 	grab();
 	go_home_pos();
+	is_working = 0; 
 }
 
 void putdown_standard_front(void)
 {
+	is_working = 1; 
 	go_pos_front();
-	_delay_ms(32000);
+	_delay_ms(32000); //Wait for arm to reach to object 
 	release();
 	go_home_pos();
+	is_working = 0;
+}
+
+void emergency_stop(void)
+{
+	torque_disable_all(0xFE);
 }

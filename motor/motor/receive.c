@@ -9,6 +9,7 @@
 #include "uart_arm.h"
 #include "globals.h"
 
+/* Error values for every servo */ 
 volatile int error1;
 volatile int error2;
 volatile int error3;
@@ -18,14 +19,19 @@ volatile int error6;
 volatile int error7;
 volatile int error8;
 
-void receive_status_packet()
+char receive_status_packet()
 {
 	/* Start bits 0xFF 0xFF, which is ignored */
 	volatile int x = receive();
 	x = receive();
+	
 	int id = receive();
+	
+	/* Length wich is ignored */ 
 	x = receive();
-	int error = receive();
+	
+	volatile int error = receive();
+	volatile int data = receive();
 	
 	switch(id) {
 		case 1:
@@ -63,4 +69,5 @@ void receive_status_packet()
 		default:
 		break;
 	}
+	return data; 
 }

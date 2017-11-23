@@ -35,21 +35,19 @@ void usart_init(int baudrate)
 	SREG |= (1<<7);
 }
 
-
-/* Writes input data to transmit buffer. */
 void usart_transmit( unsigned char data )
 { 
-	while (!(UCSR1A&(1<<UDRE1)));		 //Wait for empty transmit buffer.
-	UDR1 = data;						 //Put data into buffer, sends the data
-	while (!(UCSR1A&(1<<TXC1)));	 //Wait for empty transmit register (adds delay after sent byte)
-	UCSR1A |= (1<<TXC1);				 //clear transmit register empty flag by setting TXC1. 
+	while (!(UCSR1A&(1<<UDRE1)));  //Wait for empty transmit buffer.
+	UDR1 = data;				   //Put data into buffer, sends the data
+	while (!(UCSR1A&(1<<TXC1)));   //Wait for empty transmit register (adds delay after sent byte)
+	UCSR1A |= (1<<TXC1);		   //clear transmit register empty flag by setting TXC1. 
 }
 
 
 unsigned char usart_receive (void)
 {
 	
-	while(!(UCSR1A & (1<<RXC1)));          // wait for data to be received in receiver buffer
-	volatile char data = UDR1;                             // return 8-bit data
+	while(!(UCSR1A & (1<<RXC1)));  // wait for data to be received in receiver buffer
+	volatile char data = UDR1;
 	return data;
 }
