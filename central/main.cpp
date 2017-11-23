@@ -3,6 +3,7 @@
 */
 #include <thread>
 #include <string>
+#include <iostream>
 #include "server_socket.h"
 #include "../lib/network/interthreadcom.h"
 #include "uart_handler.h"
@@ -62,10 +63,15 @@ int main() {
             cout << "Msg: " << msg_read << "\n";
         }
 
-        //Motor com testing
-        motor.turn(RIGHT, 7);
+	// control system testing
+	line_follow.run();
+	
+        // Motor com testing
+	/*
+	motor.turn(RIGHT, 7);
 	auto status = motor.get_turn_status();
         cout << "Turn status: " << status.first << " " << status.second << endl;
+	*/
     }
 
     return 0;
