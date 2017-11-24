@@ -59,7 +59,7 @@ bool CommandHandler::try_command(string line){
             }
 
             lager = text_file_handler.read_text_file(n);
-            cmd.append(lager); 
+            cmd.append(lager);
 
         }
     }

@@ -6,7 +6,8 @@ TextFileHandler::TextFileHandler(){}
 
 string TextFileHandler::read_text_file(string filename){
 
-    string str,strTotal;
+    string str;
+    string strTotal = " ";
     string myfile = ("../maps/" + filename);
     ifstream in;
 
@@ -14,7 +15,7 @@ string TextFileHandler::read_text_file(string filename){
     getline(in,str);
 
     while ( in ) {
-       strTotal += str;
+       strTotal += str + " ";
        getline(in,str);
     }
 
