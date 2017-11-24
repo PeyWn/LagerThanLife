@@ -3,9 +3,9 @@
     **********  TEST FILE FOR ABSTRACT STOCK CLASS **********
 
 */
-#include "line_map.h"
-#include "line.h"
-#include "line_node.h"
+#include "../abstract_stock/line_map.h"
+#include "../abstract_stock/line.h"
+#include "../abstract_stock/line_node.h"
 #include <string>
 #include <stack>
 
