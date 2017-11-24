@@ -3,9 +3,9 @@
 #include "coordinate.h"
 
 //The length between points
-volatile const double len_AB = 15.5;
+volatile const double len_AB = 15;
 volatile const double len_BC = 15;
-volatile const double len_CT = 15.5;
+volatile const double len_CT = 15;
 
 volatile const int Ax = 0;    //Servo 2&3 possition in the coordinate system
 volatile const int Ay = 21;
@@ -23,7 +23,7 @@ int calculate_angles(double CT_angle, double Tx, double Ty, double servo[3]){
     volatile double len_AC = sqrt( (pow((Cx-Ax), 2) + pow((Cy-Ay), 2)) );
     volatile double AC_angle = atan( (Cy-Ay)/(Cx-Ax) );
 
-    volatile double sp = (len_AB + len_BC + len_AC)/2; //semiparameter for surface
+    volatile double sp = ((len_AB + len_BC + len_AC)*(0.5)); //semiparameter for surface
 	
 	if(sp < len_AB || sp < len_BC || sp < len_AC){
 		return 0; 
@@ -50,49 +50,52 @@ int calculate_angles(double CT_angle, double Tx, double Ty, double servo[3]){
 int convert_angles(double servo[3]){
 	
 	volatile double test1 = servo[0]; 
-	servo[0] = rad_to_dec(servo[0], 256);
+	servo[0] = rad_to_dec(servo[0], 170);
 	volatile double test2 = servo[0];
 	
-	if(servo[0] < 256){
-		servo[0] = 256;
+	if(servo[0] < 170){
+		servo[0] = 170;
 		return 0;
 	}
-	else if(servo[0] > 765){
-		servo[0] = 765;
+	else if(servo[0] > 853){
+		servo[0] = 853;
 		return 0;
 	}
 	
 	volatile double test3 = servo[1]; 
-	servo[1] = rad_to_dec(servo[1], 256);
+	servo[1] = rad_to_dec(servo[1], 170);
 	volatile double test4 = servo[1]; 
 	
-	if(servo[1] < 256){
-		servo[1] = 256;
+	if(servo[1] < 170){
+		servo[1] = 170;
 		return 0;
 	}
-	else if(servo[1] > 765){
-		servo[1] = 765;
+	else if(servo[1] > 853){
+		servo[1] = 853;
 		return 0;
 	}
 	
 	volatile double test5 = servo[2]; 
-	servo[2] = 1023 - rad_to_dec(servo[2], 256);
+	servo[2] = 1023 - rad_to_dec(servo[2], 170);
 	volatile double test6 = servo[2]; 
 	
-	if(servo[2] < 256){
-		servo[2] = 256;
+	if(servo[2] < 170){
+		servo[2] = 170;
 		return 0;
 	}
-	else if(servo[2] > 765){
-		servo[2] = 765;
+	else if(servo[2] > 853){
+		servo[2] = 853;
 		return 0;
 	}
 	return 1;
 }
 
-double rad_to_dec(double rad, int offcet){
+double rad_to_dec(double rad, int offset){
 	if(rad < 0){
 		rad = (2*PI) + rad;
 	}
-	return (rad*1023)/((5/3)*PI) + offcet;
+	else if(rad > 2*PI){
+		rad = (2*PI) - rad;
+	}
+	return (rad*1228)/(2*PI) + offset;
 }

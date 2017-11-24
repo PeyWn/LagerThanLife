@@ -28,27 +28,59 @@ int main(void)
 	//Enable global interrupts
 	sei();
 
-	volatile double CT_angle = 5.323254219;
-	volatile double Tx = 25;    // target Y for claw
-	volatile double Ty = 5;    // target X for claw
+	volatile double CT_angle = 0; //5.323254219;
+	volatile double Tx;    // target Y for claw
+	volatile double Ty;    // target X for claw
 	volatile double servo[3];   
 	
-	int test = calculate_angles(CT_angle, Tx, Ty, &servo);
+	volatile int test;
+	volatile int angle_a;
+	volatile int angle_b;
+	volatile int angle_c; 
+	
+	Tx = 20;
+	Ty = 20;
+	test = calculate_angles(CT_angle, Tx, Ty, &servo);
+	angle_a = round(servo[0]);
+	angle_b = round(servo[1]);
+	angle_c = round(servo[2]);
 	
 	if(test){
         //torque_enable(0xFE); // OBS!!! Base-servo starts turning...
-        volatile int angle_a = round(servo[0]);
-        volatile int angle_b = round(servo[1]); 
-        volatile int angle_c = round(servo[2]);
         move_double_axis(4, 5, angle_b, 0x0F);
 		move_double_axis(2, 3, angle_a, 0x0F);
 		move_single_axis(6, angle_c, 0x0F, WRITE_DATA);
-        
+	}
+		
+	Tx = 25;
+	Ty = 20;
+	test = calculate_angles(CT_angle, Tx, Ty, &servo);
+	angle_a = round(servo[0]);
+	angle_b = round(servo[1]);
+	angle_c = round(servo[2]);
+	if(test){
+		move_double_axis(4, 5, angle_b, 0x0F);
+		move_double_axis(2, 3, angle_a, 0x0F);
+		move_single_axis(6, angle_c, 0x0F, WRITE_DATA);	
+	}
+		
+	Tx = 30;
+	Ty = 20;
+	test = calculate_angles(CT_angle, Tx, Ty, &servo);
+	angle_a = round(servo[0]);
+	angle_b = round(servo[1]);
+	angle_c = round(servo[2]);
+	if(test){
+		move_double_axis(4, 5, angle_b, 0x0F);
+		move_double_axis(2, 3, angle_a, 0x0F);
+		move_single_axis(6, angle_c, 0x0F, WRITE_DATA);
+	}
+		
+		
 		/*move_double_axis(2,3,(char)servo[0], 0x0F);
 		move_double_axis(4,5,(char)servo[1], 0x0F);
 		move_single_axis(6, (char)servo[2], 0x0F, WRITE_DATA);
 		*/	
-	}
 	
     while(1)
     {
