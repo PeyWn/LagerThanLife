@@ -3,7 +3,7 @@
 #include <string>
 #include "command_handler.h"
 
-CommandHandler::CommandHandler(InterThreadCom* com){
+CommandHandler::CommandHandler(InterThreadCom* com) : text_file_handler() {
     robot_com = com;
 }
 
@@ -45,6 +45,23 @@ bool CommandHandler::try_command(string line){
             cmd.append(to_string(n));
         }
         //TODO implement rest of commands with parameters
+
+        if ( cmd == "lager"){
+            //TODO implement read from textfile
+            string n;
+            ss >> n;
+            string filename;
+            string lager;
+
+            if(ss.fail()){
+                //Coukd not read a string
+                return false;
+            }
+
+            lager = text_file_handler.read_text_file(n);
+            cmd.append(lager); 
+
+        }
     }
 
     //send command to robot

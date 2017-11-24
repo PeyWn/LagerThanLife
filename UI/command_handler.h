@@ -1,11 +1,13 @@
 #include <map>
 #include "../lib/network/interthreadcom.h"
+#include "text_file_handler.h"
 
 using namespace std;
 
 class CommandHandler{
 private:
     InterThreadCom* robot_com; //Module to use to send messages to robot
+    TextFileHandler text_file_handler;
 
     /*
     First is name of command; second (booleans) is if command
