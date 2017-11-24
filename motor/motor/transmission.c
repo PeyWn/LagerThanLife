@@ -224,7 +224,7 @@ void move_axis(int axis, int pos, int speed)
 	}
 }
 
-int step_towards_pos(int axis, int pos, int cur_pos int speed)
+int step_towards_pos(int axis, int pos, int cur_pos, int speed)
 {
 	if(!IS_STOP)
 	{

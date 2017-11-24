@@ -11,9 +11,11 @@ int main(void)
     init_IO();
     usart_init(0);
 		
+	while(!step_towards_pos(1, 0x1ff, pos_1, 0x0f));
+		
     while(1)
     {
-		while(!step_towards_pos(1, 0x1ff, 0xf0));
+		
     }
 	
     return 0;
