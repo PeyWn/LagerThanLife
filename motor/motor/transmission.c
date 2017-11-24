@@ -162,12 +162,12 @@ void go_pos_front(void)
 
 void grab(void)
 {
-	move_single_axis(8, 0xf8, SPEED_MAX, WRITE_DATA);
+	new_pos[6] = 0x0f8;
 }
 
 void release(void)
 {
-	move_single_axis(8, 0x1ff, SPEED_MAX, WRITE_DATA);
+	new_pos[6] = 0x1ff;
 }
 
 void pickup_standard_front(void)
