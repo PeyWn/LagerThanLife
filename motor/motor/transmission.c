@@ -144,12 +144,11 @@ void update_error_var(int id)
 
 void go_home_pos(void)
 {
-	move_double_axis(2, 3, 0x280, SPEED_4);
-	move_single_axis(1, 0x1ff, SPEED_2, WRITE_DATA);
-	move_double_axis(4, 5, 0x250, SPEED_3);
-	_delay_ms(8000); //Wait with next servos to avoid crashing into platform. 
-	move_single_axis(6, 0xC0, SPEED_2, WRITE_DATA);
-	move_single_axis(7, 0x1ff, SPEED_2, WRITE_DATA);
+	new_pos[0] = 0x1ff;
+	new_pos[1] = 0x280;
+	new_pos[2] = 0x250;
+	new_pos[3] = 0x0c0;
+	new_pos[4] = 0x1ff;
 }
 
 void go_pos_front(void)
@@ -183,12 +182,10 @@ void pickup_standard_front(void)
 
 void putdown_standard_front(void)
 {	
-	IS_WORKING = 1; 
 	go_pos_front();
 	_delay_ms(32000); //Wait for arm to reach to object 
 	release();
 	go_home_pos();
-	IS_WORKING = 0;
 }
 
 void emergency_stop(void)
