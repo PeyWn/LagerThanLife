@@ -17,30 +17,48 @@ private:
     int turn_speed = 3; // 3 by default
 
     /*
-    Handles messages recieved from network
+    Handles commands recieved from the UI. Calls functions in the
+    abstract_stock, motor unit and sensor unit.
+
+    string msg - The command recieved from UI.
     */
     void handle_msg(string msg);
 
     /*
-    Split up commands that has a parameter
+    Split up strings that contain both a command and a parameter into two
+    separate strings.
+
+    string msg_with_parameter - Is the command with parameter. The parameter
+    will be seen as everytihing after the first  whitespace in
+    msg_with_parameter
+
+    string& command - a reference to the string where the command will be
+    stored. Is initiated in handle_msg().
+
+    string& parameter - a reference to the string where the paramter will be
+    stored. Is initiated in handle_msg().
+
     */
     void handle_command_parameter(string msg_with_parameter,
                             string& command, string& parameter);
 
     /*
-    Function for getting the latest calculated rout for the
+    Function for getting the latest calculated route for the
     robot to drive.
+    TODO: update this comment when implementation is made
     */
     void get_route();
 
     /*
     Function for getting the current robot position.
     Responds with two nodes that the robot currently is inbetween.
+    TODO: update this comment when implementation is made
     */
     void get_pos();
 
     /*
-    Function for getting the latest updated sensor data.
+    Function for getting the latest updated sensor data from the sensor unit.
+    TODO: update this comment
     */
     void get_sensors(int& line_center, LINE_STATE& line_state,
                                 pair<bool, bool>& ware_seen);
