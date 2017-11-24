@@ -15,15 +15,18 @@ int main(void)
 	
     while(1)
     {
-		step_towards_pos(1,new_pos_1, cur_pos_1, 0x1f);
-		step_towards_pos(1,new_pos_2, cur_pos_2, 0x1f);
-		step_towards_pos(1,new_pos_3, cur_pos_3, 0x1f);
-		step_towards_pos(1,new_pos_4, cur_pos_4, 0x1f);
-		step_towards_pos(1,new_pos_5, cur_pos_5, 0x1f);
-		step_towards_pos(1,new_pos_6, cur_pos_6, 0x1f);
-		step_towards_pos(1,new_pos_7, cur_pos_7, 0x1f);
-		step_towards_pos(1,new_pos_8, cur_pos_8, 0x1f);
-    }
+		volatile int done =
+		step_towards_pos(1 ,new_pos[0], cur_pos[0], 0x1f); +
+		step_towards_pos(2 ,new_pos[1], cur_pos[1], 0x1f); +
+		step_towards_pos(3 ,new_pos[2], cur_pos[2], 0x1f); +
+		step_towards_pos(4 ,new_pos[3], cur_pos[3], 0x1f); +
+		step_towards_pos(5 ,new_pos[4], cur_pos[4], 0x1f); +
+		step_towards_pos(6 ,new_pos[5], cur_pos[5], 0x1f);
+		if (done == 6)
+		{
+			IS_WORKING = 0; 
+		}
+	}
 	
     return 0;
 }

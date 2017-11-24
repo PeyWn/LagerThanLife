@@ -13,13 +13,10 @@
 #include "receive.h"
 
 volatile int IS_STOP;
+volatile int IS_WORKING;
 
-volatile int cur_pos_1;
-volatile int cur_pos_2;
-volatile int cur_pos_4;
-volatile int cur_pos_6;
-volatile int cur_pos_7;
-volatile int cur_pos_8;
+volatile int cur_pos[6];
+volatile int new_pos[6];
  
 void transmit_startbytes()
 {
@@ -203,35 +200,35 @@ void move_axis(int axis, int pos, int speed)
 {
 	switch (axis)
 	{
-		case 1:
+		case 0:
 			move_single_axis(1, pos, speed, WRITE_DATA);
 			break;
-		case 2:
+		case 1:
 			move_double_axis(2, 3, pos, speed);
 			break;
-		case 3:
+		case 2:
 			move_double_axis(4, 5, pos, speed);
 			break;
-		case 4:
+		case 3:
 			move_single_axis(6, pos, speed, WRITE_DATA);
 			break; 
-		case 5: 
+		case 4: 
 			move_single_axis(7, pos, speed, WRITE_DATA);
 			break; 
-		case 6: 
+		case 5: 
 			move_single_axis(8, pos, speed, WRITE_DATA);
 			break; 
 	}
 }
 
-int step_towards_pos(int axis, int pos, int cur_pos, int speed)
+int step_towards_pos(int axis, int new_pos[], int cur_pos[], int speed)
 {
 	if(!IS_STOP)
 	{
-		if(pos != cur_pos)
+		if(new_pos[axis] != cur_pos[axis])
 		{
 			IS_WORKING = 1;
-			move_axis(axis, cur_pos+1, speed);
+			move_axis(axis, cur_pos[axis]+1, speed);
 		}
 		else
 		{
@@ -240,7 +237,6 @@ int step_towards_pos(int axis, int pos, int cur_pos, int speed)
 	}
 	else
 	{
-		IS_WORKING = 0; 
 		return 1; 
 	}
 	return 0; 
