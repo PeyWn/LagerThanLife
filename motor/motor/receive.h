@@ -5,4 +5,5 @@
  *  Author: jesjo430
  */ 
 
-void receive_status_packet();
+/* Reads incoming data, stores errors in globals and returns first received parameter */  
+char receive_status_packet();
