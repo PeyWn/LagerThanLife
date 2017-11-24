@@ -1,6 +1,7 @@
 #include "../lib/network/interthreadcom.h"
 #include "motor_com.h"
 #include "sensor_com.h"
+#include "control_system.h"
 #include <string>
 
 class Central{
@@ -12,6 +13,7 @@ private:
 
     MotorCom motor;
     SensorCom sensor;
+    ControlSystem line_follower;
 
     /*
     Handles messages recieved from network

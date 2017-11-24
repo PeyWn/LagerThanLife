@@ -4,7 +4,8 @@
 using namespace std;
 
 Central::Central(InterThreadCom* thread_com_in) : motor(MOTOR_INTERFACE),
-         sensor(SENSOR_INTERFACE),  thread_com(thread_com_in) {}
+         sensor(SENSOR_INTERFACE),  thread_com(thread_com_in),
+         line_follower(&sensor, &motor) {}
 
 void Central::get_sensors(int& line_center, LINE_STATE& line_state, pair<bool, bool>& ware_seen){
     line_center = sensor.getLineCenter();
