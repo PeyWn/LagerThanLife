@@ -2,14 +2,18 @@
 #include <math.h>
 #include "coordinate.h"
 
+//The length between points
 volatile const double len_AB = 15.5;
 volatile const double len_BC = 15;
 volatile const double len_CT = 15.5;
 
-volatile const int Ax = 0;
+volatile const int Ax = 0;    //Servo 2&3 possition in the coordinate system
 volatile const int Ay = 21;
 
 volatile const double PI = 3.141593;
+
+//Point A, B, C, T corresponds to servo 2&3, servo 4&5, servo 6 and the claw.
+
 
 int calculate_angles(double CT_angle, double Tx, double Ty, double servo[3]){
 
@@ -35,15 +39,15 @@ int calculate_angles(double CT_angle, double Tx, double Ty, double servo[3]){
 		return 0;
 	}
 	
-    servo[0] = AC_angle + A;
-    servo[1] = B;
-    servo[2] = CT_angle - servo[1] - servo[0];
+    servo[0] = AC_angle + A;   //Saves the radial angle for point A 
+    servo[1] = B;              //Saves the radial angle for point B
+    servo[2] = CT_angle - servo[1] - servo[0];    //Saves the radial angle for point C
 	
-	convert_angles(servo);
-	return 1;
+    return convert_angles(servo);
+    
 }
 
-void convert_angles(double servo[3]){
+int convert_angles(double servo[3]){
 	
 	volatile double test1 = servo[0]; 
 	servo[0] = rad_to_dec(servo[0], 256);
@@ -83,11 +87,12 @@ void convert_angles(double servo[3]){
 		servo[2] = 765;
 		return 0;
 	}
+	return 1;
 }
 
-double rad_to_dec(double rads, int offcet){
-	if(rads < 0){
-		rads = (2*PI) + rads;
+double rad_to_dec(double rad, int offcet){
+	if(rad < 0){
+		rad = (2*PI) + rad;
 	}
-	return (rads*1023)/(2*PI) + offcet;
+	return (rad*1023)/((5/3)*PI) + offcet;
 }
