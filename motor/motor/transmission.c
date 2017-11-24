@@ -14,12 +14,12 @@
 
 volatile int IS_STOP;
 
-volatile int pos_1;
-volatile int pos_2;
-volatile int pos_4;
-volatile int pos_6;
-volatile int pos_7;
-volatile int pos_8;
+volatile int cur_pos_1;
+volatile int cur_pos_2;
+volatile int cur_pos_4;
+volatile int cur_pos_6;
+volatile int cur_pos_7;
+volatile int cur_pos_8;
  
 void transmit_startbytes()
 {
@@ -230,6 +230,7 @@ int step_towards_pos(int axis, int pos, int cur_pos, int speed)
 	{
 		if(pos != cur_pos)
 		{
+			IS_WORKING = 1;
 			move_axis(axis, cur_pos+1, speed);
 		}
 		else
@@ -239,6 +240,7 @@ int step_towards_pos(int axis, int pos, int cur_pos, int speed)
 	}
 	else
 	{
+		IS_WORKING = 0; 
 		return 1; 
 	}
 	return 0; 
