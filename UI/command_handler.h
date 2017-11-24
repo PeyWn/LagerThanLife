@@ -15,7 +15,7 @@ private:
     */
     const map<string, bool> acc_cmd = {
         {"fwd", false},
-        {"drivestop", false},
+        {"stop", false},
         {"right", false},
         {"left", false},
         {"noturn", false},

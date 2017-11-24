@@ -59,7 +59,7 @@ void Central::handle_msg(string msg) {
     if ( command == "fwd" ) {
         motor.drive(FORWARD);
     }
-    else if (command == "drivestop") {
+    else if (command == "stop") {
         motor.drive(IDLE);
     }
     else if (command == "right") {
