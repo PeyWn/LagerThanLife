@@ -48,8 +48,6 @@ void Central::handle_command_parameter(string msg_with_parameter, string& comman
 }
 
 void Central::handle_msg(string msg) {
-
-    int turn_speed = 3; // 3 by default
     int line_center;
     LINE_STATE line_state;
     pair<bool, bool> ware_seen;

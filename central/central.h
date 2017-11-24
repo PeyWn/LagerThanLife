@@ -14,6 +14,7 @@ private:
     MotorCom motor;
     SensorCom sensor;
     ControlSystem line_follower;
+    int turn_speed = 3; // 3 by default
 
     /*
     Handles messages recieved from network
