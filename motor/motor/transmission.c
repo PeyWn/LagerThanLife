@@ -154,11 +154,11 @@ void go_home_pos(void)
 
 void go_pos_front(void)
 {
-	move_single_axis(1, 0x1ff, SPEED_2, WRITE_DATA);
-	move_double_axis(4, 5, 0x155, SPEED_3);
-	move_single_axis(6, 0x100, SPEED_2, WRITE_DATA);
-	move_single_axis(7, 0x1ff, SPEED_2, WRITE_DATA);
-	move_double_axis(2, 3, 0x148, SPEED_4);
+	new_pos[0] = 0x1ff;
+	new_pos[1] = 0x148;
+	new_pos[2] = 0x155;
+	new_pos[3] = 0x100;
+	new_pos[4] = 0x1ff;
 }
 
 void grab(void)
@@ -182,7 +182,7 @@ void pickup_standard_front(void)
 }
 
 void putdown_standard_front(void)
-{
+{	
 	IS_WORKING = 1; 
 	go_pos_front();
 	_delay_ms(32000); //Wait for arm to reach to object 
