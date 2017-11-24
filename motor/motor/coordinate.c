@@ -50,41 +50,41 @@ int calculate_angles(double CT_angle, double Tx, double Ty, double servo[3]){
 int convert_angles(double servo[3]){
 	
 	volatile double test1 = servo[0]; 
-	servo[0] = rad_to_dec(servo[0], 170);
+	servo[0] = rad_to_dec(servo[0], 220);
 	volatile double test2 = servo[0];
 	
-	if(servo[0] < 170){
-		servo[0] = 170;
+	if(servo[0] < 220){
+		servo[0] = 220;
 		return 0;
 	}
-	else if(servo[0] > 853){
-		servo[0] = 853;
+	else if(servo[0] > 803){
+		servo[0] = 803;
 		return 0;
 	}
 	
 	volatile double test3 = servo[1]; 
-	servo[1] = rad_to_dec(servo[1], 170);
+	servo[1] = 1023 - rad_to_dec(servo[1], 210);
 	volatile double test4 = servo[1]; 
 	
-	if(servo[1] < 170){
-		servo[1] = 170;
+	if(servo[1] < 210){
+		servo[1] = 210;
 		return 0;
 	}
-	else if(servo[1] > 853){
-		servo[1] = 853;
+	else if(servo[1] > 803){
+		servo[1] = 803;
 		return 0;
 	}
 	
 	volatile double test5 = servo[2]; 
-	servo[2] = 1023 - rad_to_dec(servo[2], 170);
-	volatile double test6 = servo[2]; 
+	servo[2] = rad_to_dec(servo[2], 210);
+	volatile double test6 = servo[2];
 	
-	if(servo[2] < 170){
-		servo[2] = 170;
+	if(servo[2] < 210){
+		servo[2] = 210;
 		return 0;
 	}
-	else if(servo[2] > 853){
-		servo[2] = 853;
+	else if(servo[2] > 793){
+		servo[2] = 793;
 		return 0;
 	}
 	return 1;
@@ -92,10 +92,7 @@ int convert_angles(double servo[3]){
 
 double rad_to_dec(double rad, int offset){
 	if(rad < 0){
-		rad = (2*PI) + rad;
-	}
-	else if(rad > 2*PI){
-		rad = (2*PI) - rad;
+		rad = -rad;
 	}
 	return (rad*1228)/(2*PI) + offset;
 }

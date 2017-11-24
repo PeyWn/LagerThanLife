@@ -38,8 +38,8 @@ int main(void)
 	volatile int angle_b;
 	volatile int angle_c; 
 	
-	Tx = 20;
-	Ty = 20;
+	Tx = 30;
+	Ty = 31;
 	test = calculate_angles(CT_angle, Tx, Ty, &servo);
 	angle_a = round(servo[0]);
 	angle_b = round(servo[1]);
@@ -47,40 +47,39 @@ int main(void)
 	
 	if(test){
         //torque_enable(0xFE); // OBS!!! Base-servo starts turning...
-        move_double_axis(4, 5, angle_b, 0x0F);
-		move_double_axis(2, 3, angle_a, 0x0F);
+		move_double_axis(2,3,angle_a, 0x0F);
+		move_double_axis(4,5,angle_b, 0x0F);
 		move_single_axis(6, angle_c, 0x0F, WRITE_DATA);
 	}
-		
-	Tx = 25;
-	Ty = 20;
+	
+	Tx = 20;
+	Ty = 30;
 	test = calculate_angles(CT_angle, Tx, Ty, &servo);
 	angle_a = round(servo[0]);
 	angle_b = round(servo[1]);
 	angle_c = round(servo[2]);
+	
 	if(test){
-		move_double_axis(4, 5, angle_b, 0x0F);
-		move_double_axis(2, 3, angle_a, 0x0F);
-		move_single_axis(6, angle_c, 0x0F, WRITE_DATA);	
+        //torque_enable(0xFE); // OBS!!! Base-servo starts turning...
+		move_double_axis(2,3,angle_a, 0x0F);
+		move_double_axis(4,5,angle_b, 0x0F);
+		move_single_axis(6, angle_c, 0x0F, WRITE_DATA);
 	}
-		
-	Tx = 30;
-	Ty = 20;
+	
+	Tx = 20;
+	Ty = 35;
 	test = calculate_angles(CT_angle, Tx, Ty, &servo);
 	angle_a = round(servo[0]);
 	angle_b = round(servo[1]);
 	angle_c = round(servo[2]);
+	
 	if(test){
-		move_double_axis(4, 5, angle_b, 0x0F);
-		move_double_axis(2, 3, angle_a, 0x0F);
+        //torque_enable(0xFE); // OBS!!! Base-servo starts turning...
+		move_double_axis(2,3,angle_a, 0x0F);
+		move_double_axis(4,5,angle_b, 0x0F);
 		move_single_axis(6, angle_c, 0x0F, WRITE_DATA);
 	}
-		
-		
-		/*move_double_axis(2,3,(char)servo[0], 0x0F);
-		move_double_axis(4,5,(char)servo[1], 0x0F);
-		move_single_axis(6, (char)servo[2], 0x0F, WRITE_DATA);
-		*/	
+
 	
     while(1)
     {
