@@ -60,7 +60,14 @@ volatile extern int error7;
 volatile extern int error8;
 
 volatile extern int IS_WORKING; //Flag for indication that the arm is moving
-volatile extern int IS_STOP; 
+volatile extern int IS_STOP;
+
+volatile extern int pos_1;
+volatile extern int pos_2;
+volatile extern int pos_4;
+volatile extern int pos_6;
+volatile extern int pos_7;
+volatile extern int pos_8;
 
 /* Angular limits for each AX-12 servo */ 
 #define CW_LIMIT_1 0x0

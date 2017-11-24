@@ -13,6 +13,13 @@
 #include "receive.h"
 
 volatile int IS_STOP;
+
+volatile int pos_1;
+volatile int pos_2;
+volatile int pos_4;
+volatile int pos_6;
+volatile int pos_7;
+volatile int pos_8;
  
 void transmit_startbytes()
 {
@@ -196,7 +203,7 @@ int step_towards_pos(int id, int pos, int speed)
 {
 	if(!IS_STOP)
 	{
-		volatile int cur_pos = read_word(id, GOAL_POSITION_ADDRESS);
+		volatile int cur_pos = ;
 		if(pos != cur_pos)
 		{
 			move_single_axis(id, cur_pos+1, speed, WRITE_DATA);		
@@ -205,6 +212,10 @@ int step_towards_pos(int id, int pos, int speed)
 		{
 			return 1;
 		}
+	}
+	else
+	{
+		return 1; 
 	}
 	return 0; 
 }
