@@ -230,7 +230,7 @@ int step_towards_pos(int axis, int pos, int cur_pos, int speed)
 	{
 		if(pos != cur_pos)
 		{
-			move_axis(axis, cur_pos+1, speed, WRITE_DATA);
+			move_axis(axis, cur_pos+1, speed);
 		}
 		else
 		{
