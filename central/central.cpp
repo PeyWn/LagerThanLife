@@ -154,10 +154,11 @@ void Central::handle_msg(string msg) {
         // TODO call set stock(parameter) as full
     }
     else if (command == "lager") {
-        // TODO send parameter to abst stock to interpet lagerfile
+        delete map; //Clear memory of old map
+        map = new LineMap(parameter);
     }
     else if (command == "sethome") {
-        // TODO set parameter as home node in abst stock
+        homeNode = stoi(parameter);
     }
     else if (command == "showdata") {
         string to_user_interface = to_string(line_center) + " " +  to_string(line_state) +
@@ -166,10 +167,6 @@ void Central::handle_msg(string msg) {
 
         thread_com->write_to_queue(to_user_interface, TO_SOCKET);
     }
-    else {
-        // do nothing
-    }
-
 }
 
 void Central::main_loop() {
@@ -180,6 +177,24 @@ void Central::main_loop() {
         if (msg_read != "") {
             cout << "Msg: " << msg_read << "\n";  //prints the recieved Msg
             handle_msg(msg_read);
+        }
+    }
+
+    if(!manual){
+        //Behaviour for different states in autonoumus mode
+        switch(state){
+            case RobotState::TURN:
+            break;
+            case RobotState::DRIVING:
+            break;
+            case RobotState::PICK_UP:
+            break;
+            case RobotState::DROP_OFF:
+            break;
+            case RobotState::STANDBY:
+            break;
+            default:
+            break;
         }
     }
 }

@@ -2,6 +2,7 @@
 #include "motor_com.h"
 #include "sensor_com.h"
 #include "control_system.h"
+#include "../lib/abstract_stock/line_map.h"
 #include <string>
 
 class Central{
@@ -13,8 +14,31 @@ private:
 
     MotorCom motor;
     SensorCom sensor;
+
     ControlSystem line_follower;
+
     int turn_speed = 3; // 3 by default
+
+    //Enum for determining the robots state in autonoumus mode
+    enum class RobotState{
+        TURN,
+        DRIVING,
+        PICK_UP,
+        DROP_OFF,
+        STANDBY
+    };
+
+    //Current state of the robot
+    RobotState state = RobotState::STANDBY;
+
+    //Is robot in manual mode
+    bool manual = false;
+
+    //Map of the current area
+    LineMap* map;
+
+    //Id of the node to leave wares at
+    int homeNode = 0;
 
     /*
     Handles messages recieved from network
