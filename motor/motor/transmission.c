@@ -124,7 +124,7 @@ void torque_enable(int id)
 	write_byte(id, TORQUE_ENABLE_ADDRESS, 1, WRITE_DATA);
 }
 
-void torque_disable_all(int id)
+void torque_disable_all()
 {
 	for (int i = 1; i<=NUMBER_OF_MOTORS; i++)
 	{
@@ -193,7 +193,7 @@ void putdown_standard_front(void)
 
 void emergency_stop(void)
 {
-	torque_disable_all(0xFE);
+	torque_disable_all();
 }
 
 void move_axis(int axis, int pos, int speed)

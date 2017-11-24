@@ -47,7 +47,7 @@ void move_double_axis(int id1, int id2, int pos, int speed);
 void torque_enable(int id);
 
 /* Writes 0 to all NUMBER_OF_MOTORS control table on address torque_enable */ 
-void torque_disable_all(int id);
+void torque_disable_all();
 
 /* Transmits instruction PING to servo with given id and updates error globals */ 
 void update_error_var(int id);
