@@ -3,6 +3,9 @@
 #include "server_socket.h"
 #include <thread>
 
+//Define to use debug prints
+#define DEBUG
+
 ServerSocket* com_module;
 InterThreadCom* thread_com;
 
@@ -34,7 +37,7 @@ int main(){
 
     // Spawn a new thread that calls on comm_mod_loop
     thread com_child(comm_mod_loop);
-    
+
     Central central_unit(thread_com);
     central_unit.main_loop();
 }

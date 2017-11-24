@@ -1,14 +1,30 @@
+#ifndef CENTRAL_H
+#define CENTRAL_H
+
 #include "../lib/network/interthreadcom.h"
 #include "motor_com.h"
 #include "sensor_com.h"
 #include "control_system.h"
 #include "../lib/abstract_stock/line_map.h"
+#include "../lib/abstract_stock/line_node.h"
+#include "../lib/abstract_stock/line.h"
 #include <string>
+#include <stack>
+#include <time.h>
+
+using namespace std;
 
 class Central{
 private:
+    //UART interfaces for motor and sensor units
     const string SENSOR_INTERFACE = "/dev/ttyUSB0";
     const string MOTOR_INTERFACE = "/dev/ttyUSB1";
+
+    //Time to drive forward when on a corner
+    const double turn_forward_time = 1;
+
+    //Turn speed when turning in a corner
+    const int corner_turn_speed = 3;
 
     InterThreadCom* thread_com;
 
@@ -28,6 +44,13 @@ private:
         STANDBY
     };
 
+    enum class TurnState{
+        NEW_TURN,
+        FORWARD,
+        LEAVING_LINE,
+        BETWEEN_LINES
+    };
+
     //Current state of the robot
     RobotState state = RobotState::STANDBY;
 
@@ -38,7 +61,23 @@ private:
     LineMap* map;
 
     //Id of the node to leave wares at
-    int homeNode = 0;
+    int home_id = 0;
+
+    //State while driving
+    Line* cur_line = nullptr;
+    LineNode* next_node = nullptr;
+    stack<Line*> cur_path;
+
+    //Buffered sensor values
+    int line_center;
+    LINE_STATE line_state;
+    pair<bool, bool> ware_seen;
+
+    //Information when performing a turn
+    int turn_angle; //Angle for current turn, multiple of (pi/2)
+    TurnState cur_turn_state;
+    clock_t clock_start;
+
 
     /*
     Handles messages recieved from network
@@ -64,16 +103,21 @@ private:
     void get_pos();
 
     /*
+    Send sensor information to UI
+    */
+    void transmit_sensors();
+
+    /*
     Function for getting the latest updated sensor data.
     */
-    void get_sensors(int& line_center, LINE_STATE& line_state,
-                                pair<bool, bool>& ware_seen);
+    void update_sensors();
 public:
     /*
     Constructor for Central
     */
     Central(InterThreadCom* thread_com_in);
 
-
     void main_loop();
 };
+
+#endif /* CENTRAL_H */
