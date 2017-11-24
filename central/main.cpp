@@ -4,6 +4,7 @@
 #include <thread>
 
 ServerSocket* com_module;
+InterThreadCom* thread_com;
 
 /*
     Function for com_child_new. Checks for new socket connection
@@ -20,19 +21,20 @@ void check_new_connections() {
 */
 void comm_mod_loop()
 {
-    com_module->main_loop();
-}
-
-int main(){
-    InterThreadCom* thread_com = new InterThreadCom();
-
-    // Spawn a new thread that calls on comm_mod_loop
     com_module = new ServerSocket(thread_com);
-    thread com_child(comm_mod_loop);
 
     // Spawn a new thread that calls on check_new_connections
     thread com_child_new(check_new_connections);
 
+    com_module->main_loop();
+}
+
+int main(){
+    thread_com = new InterThreadCom();
+
+    // Spawn a new thread that calls on comm_mod_loop
+    thread com_child(comm_mod_loop);
+    
     Central central_unit(thread_com);
     central_unit.main_loop();
 }

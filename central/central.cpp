@@ -172,14 +172,13 @@ void Central::handle_msg(string msg) {
 
 }
 
-
 void Central::main_loop() {
     string msg_read;
     while(true) {
-        //Netwrok read
+        //Network read
         msg_read = thread_com->read_from_queue(FROM_SOCKET);
         if (msg_read != "") {
-            // cout << "Msg: " << msg_read << "\n";  //prints the recieved Msg
+            cout << "Msg: " << msg_read << "\n";  //prints the recieved Msg
             handle_msg(msg_read);
         }
     }
