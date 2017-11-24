@@ -199,14 +199,38 @@ void emergency_stop(void)
 	torque_disable_all(0xFE);
 }
 
-int step_towards_pos(int id, int pos, int speed)
+void move_axis(int axis, int pos, int speed)
+{
+	switch (axis)
+	{
+		case 1:
+			move_single_axis(1, pos, speed, WRITE_DATA);
+			break;
+		case 2:
+			move_double_axis(2, 3, pos, speed);
+			break;
+		case 3:
+			move_double_axis(4, 5, pos, speed);
+			break;
+		case 4:
+			move_single_axis(6, pos, speed, WRITE_DATA);
+			break; 
+		case 5: 
+			move_single_axis(7, pos, speed, WRITE_DATA);
+			break; 
+		case 6: 
+			move_single_axis(8, pos, speed, WRITE_DATA);
+			break; 
+	}
+}
+
+int step_towards_pos(int axis, int pos, int cur_pos int speed)
 {
 	if(!IS_STOP)
 	{
-		volatile int cur_pos = ;
 		if(pos != cur_pos)
 		{
-			move_single_axis(id, cur_pos+1, speed, WRITE_DATA);		
+			move_axis(axis, cur_pos+1, speed, WRITE_DATA);
 		}
 		else
 		{
