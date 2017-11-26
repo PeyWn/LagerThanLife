@@ -1,5 +1,6 @@
 ﻿#include <avr/interrupt.h>
 #include "transmission.h"
+#include "wheel_control.h"
 
 
 /*
@@ -74,11 +75,11 @@ ISR(USART0_RX_vect){
 			}
 			else if (parameter == 0b0001){
 				//robot drive forward
-				set_traversal_speed(1);
+				set_traversal_speed(MAX_TRAV_SETTING);
 			}
 			else if (parameter == 0b0010){
 				//robot drive backwards
-				set_traversal_speed(-1);
+				set_traversal_speed(-MAX_TRAV_SETTING);
 			}
 			
 			break;

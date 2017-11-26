@@ -6,13 +6,15 @@
 
 int main(void)
 {
-    init_wheel_control(0.3);
-
-
+    init_wheel_control();
+  
+    
+    
 
 	//Conf UART
 
 	//set rx to input, set tx to output
+    
 	DDRD = (0<<DDD0)|(1<<DDD1);
 
     init_IO();
@@ -25,6 +27,8 @@ int main(void)
 
 	//Enable global interrupts
 	sei();
+    
+    
 
     while(1)
     {
