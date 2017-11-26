@@ -7,7 +7,6 @@
 int main(void)
 {
     init_wheel_control();
-  
     
     
 

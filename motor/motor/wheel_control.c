@@ -123,7 +123,7 @@ void set_wheel_speeds(int turn_setting, int trav_setting)
 
     /* map traversal speed to PWM value */
     trav_scale = trav_param * MOTOR_MAX;
-    trav_speed = (trav_speed/MAX_TRAV_SETTING) * trav_scale;
+    trav_speed = ((float)trav_speed/MAX_TRAV_SETTING) * trav_scale;
 
     /* map turn speed to PWM value, scale by trav_speed */
     if(trav_speed == 0){
