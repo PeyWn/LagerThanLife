@@ -44,6 +44,26 @@ private:
         STANDBY
     };
 
+    /*
+    State of progree in turning around a corner.
+
+    If the robot is supposed to continue forward after the corner
+    the sequence of states would be:
+
+    NEW_TURN -> FORWARD -> (back to driving state)
+
+    Otherwise:
+    If there is a line opposite of the one the robot arrives to the corner on
+    the sequence of states would be:
+
+    NEW_TURN -> FORWARD -> LEAVING_LINE ->
+    BETWEEN_LINES -> (back to driving state)
+
+    If there is no line opposite of the one the robot arrives to the corner on
+    the sequence of states would be:
+
+    NEW_TURN -> FORWARD -> BETWEEN_LINES -> (back to driving state)
+    */
     enum class TurnState{
         NEW_TURN,
         FORWARD,
@@ -111,6 +131,16 @@ private:
     Function for getting the latest updated sensor data.
     */
     void update_sensors();
+
+    /*
+    Perform action based on sensor values when robot is in the turn state.
+    */
+    void turn_state();
+
+    /*
+    Perform action based on sensor values when robot is in the drive state.
+    */
+    void drive_state();
 public:
     /*
     Constructor for Central

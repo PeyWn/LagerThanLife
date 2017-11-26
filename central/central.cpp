@@ -8,7 +8,8 @@ Central::Central(InterThreadCom* thread_com_in) : motor(MOTOR_INTERFACE),
          line_follower(&sensor, &motor) {}
 
 void Central::transmit_sensors(){
-    string to_user_interface = to_string(line_center) + " " +  to_string(line_state) +
+    string to_user_interface = to_string(line_center) +
+                                " " +  to_string(line_state) +
                                 " " + to_string(ware_seen.first) + " " +
                                 to_string(ware_seen.second);
 
@@ -30,12 +31,14 @@ void Central::get_route(){
     //TODO: implement when abstract stock is made
 }
 
-void Central::handle_command_parameter(string msg_with_parameter, string& command, string& parameter){
+void Central::handle_command_parameter(string msg_with_parameter,
+    string& command, string& parameter){
 
     string delimiter = " ";
     size_t pos = 0;
 
-    pos = msg_with_parameter.substr(0,msg_with_parameter.find_first_of(" ")).length();
+    pos = msg_with_parameter.substr(0,
+            msg_with_parameter.find_first_of(" ")).length();
 
     if (pos > 0){
         command = msg_with_parameter.substr(0, pos);
@@ -209,130 +212,12 @@ void Central::main_loop() {
         switch(state){
             case RobotState::TURN:{
             // ~-*-~-*-~-*-~-*-~ TURN STATE ~-*-~-*-~-*-~-*-~
-                switch(cur_turn_state){
-                    case TurnState::NEW_TURN:{
-                        //Start clock
-                        clock_start = clock();
-
-                        //Start driving forward
-                        motor.drive(FORWARD);
-                        cur_turn_state = TurnState::FORWARD;
-
-                        #ifdef DEBUG
-                        cout << "Driving forward" << endl;
-                        #endif
-                        break;
-                    }
-                    case TurnState::FORWARD:{
-                        clock_t time_diff = clock() - clock_start;
-                        if((((float)time_diff)/CLOCKS_PER_SEC) > turn_forward_time){
-                            //Stop driving
-                            motor.drive(IDLE);
-
-                            //Turn different ways depending on angle
-                            if(turn_angle == 2){
-                                //Angle 2, continue forwars
-                                #ifdef DEBUG
-                                cout << "Continuing forward" << endl;
-                                #endif
-
-                                state = RobotState::DRIVING;
-                            }
-                            else{
-                                if(turn_angle == 1){
-                                    //Turn right
-                                    #ifdef DEBUG
-                                    cout << "Turning Right" << endl;
-                                    #endif
-
-                                    motor.turn(RIGHT, corner_turn_speed);
-                                }
-                                else{
-                                    //Turn left
-                                    #ifdef DEBUG
-                                    cout << "Turning Left" << endl;
-                                    #endif
-
-                                    motor.turn(LEFT, corner_turn_speed);
-                                }
-
-                                if(line_state == SINGLE){
-                                    //On opposite line
-                                    cur_turn_state = TurnState::LEAVING_LINE;
-                                }
-                                else{
-                                    cur_turn_state = TurnState::BETWEEN_LINES;
-                                }
-                            }
-                        }
-                        break;
-                    }
-                    case TurnState::LEAVING_LINE:{
-                        if(line_state == NONE_DOUBLE){
-                            //Left first line
-                            cur_turn_state = TurnState::BETWEEN_LINES;
-                        }
-                        break;
-                    }
-                    case TurnState::BETWEEN_LINES:{
-                        if(line_state == SINGLE){
-                            //Done turning
-                            #ifdef DEBUG
-                            cout << "Turn Done!" << endl;
-                            #endif
-
-                            motor.turn(NONE, 0); //Stop turning
-
-                            //Go back to driving state
-                            state = RobotState::DRIVING;
-                        }
-                        break;
-                    }
-                }
+                turn_state();
                 break;
             }
             case RobotState::DRIVING:{
             // ~-*-~-*-~-*-~-*-~ DRIVING STATE ~-*-~-*-~-*-~-*-~
-                if(line_state == SINGLE){
-                    //Follow line
-                    line_follower.run(); //Run line follw system
-                }
-                else if(line_state == CORNER){
-                    if(next_node->get_id() == home_id){
-                        //At base station
-                        #ifdef DEBUG
-                        cout << "At home" << endl;
-                        #endif
-
-                        motor.drive(IDLE);
-                        state = RobotState::DROP_OFF;
-                    }
-                    else{
-                        //Corner found
-                        state = RobotState::TURN;
-                        cur_turn_state = TurnState::NEW_TURN;
-
-                        Line* next_line = cur_path.top();
-
-                        turn_angle = next_node->get_angle(cur_line, next_line);
-                        next_node = next_line->get_opposite(next_node->get_id());
-                        cur_line = next_line;
-
-                        #ifdef DEBUG
-                        cout << "Corner Found!" << endl;
-                        cout << "Turning " << turn_angle << " steps." << endl;
-                        #endif
-                    }
-                }
-                else if(line_state == NONE_DOUBLE && next_node->is_leaf()){
-                    //End node
-                    #ifdef DEBUG
-                    cout << "At target" << endl;
-                    #endif
-
-                    motor.drive(IDLE);
-                    state = RobotState::PICK_UP;
-                }
+                drive_state();
                 break;
             }
             case RobotState::PICK_UP:{
@@ -350,5 +235,132 @@ void Central::main_loop() {
             default:
             break;
         }
+    }
+}
+
+void Central::turn_state(){
+    switch(cur_turn_state){
+        case TurnState::NEW_TURN:{
+            //Start clock
+            clock_start = clock();
+
+            //Start driving forward
+            motor.drive(FORWARD);
+            cur_turn_state = TurnState::FORWARD;
+
+            #ifdef DEBUG
+            cout << "Driving forward" << endl;
+            #endif
+            break;
+        }
+        case TurnState::FORWARD:{
+            clock_t time_diff = clock() - clock_start;
+            if((((float)time_diff)/CLOCKS_PER_SEC) > turn_forward_time){
+                //Stop driving
+                motor.drive(IDLE);
+
+                //Turn different ways depending on angle
+                if(turn_angle == 2){
+                    //Angle 2, continue forwars
+                    #ifdef DEBUG
+                    cout << "Continuing forward" << endl;
+                    #endif
+
+                    state = RobotState::DRIVING;
+                }
+                else{
+                    if(turn_angle == 1){
+                        //Turn right
+                        #ifdef DEBUG
+                        cout << "Turning Right" << endl;
+                        #endif
+
+                        motor.turn(RIGHT, corner_turn_speed);
+                    }
+                    else{
+                        //Turn left
+                        #ifdef DEBUG
+                        cout << "Turning Left" << endl;
+                        #endif
+
+                        motor.turn(LEFT, corner_turn_speed);
+                    }
+
+                    if(line_state == SINGLE){
+                        //On opposite line
+                        cur_turn_state = TurnState::LEAVING_LINE;
+                    }
+                    else{
+                        cur_turn_state = TurnState::BETWEEN_LINES;
+                    }
+                }
+            }
+            break;
+        }
+        case TurnState::LEAVING_LINE:{
+            if(line_state == NONE_DOUBLE){
+                //Left first line
+                cur_turn_state = TurnState::BETWEEN_LINES;
+            }
+            break;
+        }
+        case TurnState::BETWEEN_LINES:{
+            if(line_state == SINGLE){
+                //Done turning
+                #ifdef DEBUG
+                cout << "Turn Done!" << endl;
+                #endif
+
+                motor.turn(NONE, 0); //Stop turning
+
+                //Go back to driving state
+                state = RobotState::DRIVING;
+            }
+            break;
+        }
+    }
+}
+
+void Central::drive_state(){
+    if(line_state == SINGLE){
+        //Follow line
+        line_follower.run(); //Run line follower system
+    }
+    else if(line_state == CORNER){
+        if(next_node->get_id() == home_id){
+            //At base station
+            #ifdef DEBUG
+            cout << "At home" << endl;
+            #endif
+
+            motor.drive(IDLE);
+            state = RobotState::DROP_OFF;
+        }
+        else{
+            //Corner found
+            state = RobotState::TURN;
+            cur_turn_state = TurnState::NEW_TURN;
+
+            Line* next_line = cur_path.top();
+            cur_path.pop();
+
+            turn_angle = next_node->get_angle(cur_line, next_line);
+            next_node = next_line->get_opposite(next_node->get_id());
+            cur_line = next_line;
+
+            #ifdef DEBUG
+            cout << "Corner Found!" << endl;
+            cout << "Turning " << turn_angle << " steps." << endl;
+            #endif
+        }
+    }
+    else if(line_state == NONE_DOUBLE && next_node->is_leaf()){
+        //End node
+        #ifdef DEBUG
+        cout << "At target" << endl;
+        #endif
+
+        motor.drive(IDLE);
+        state = RobotState::PICK_UP;
     }
 }
