@@ -1,15 +1,12 @@
-/**
-    Main file for CentralModule
-*/
-#include <thread>
-#include <string>
-#include "server_socket.h"
+#include "central.h"
 #include "../lib/network/interthreadcom.h"
 #include "uart_handler.h"
 #include "motor_com.h"
 #include "sensor_com.h"
 #include <iostream>
 #include "ware_detection.h"
+#include "server_socket.h"
+#include <thread>
 
 using namespace std;
 
@@ -26,9 +23,7 @@ ServerSocket* com_module;
 MotorCom motor(MOTOR_INTERFACE);
 SensorCom sensor(SENSOR_INTERFACE);
 
-
 /*
-
     Function for com_child_new. Checks for new socket connection
     and makes the last connected current connection.
 */
@@ -51,8 +46,7 @@ void comm_mod_loop()
     com_module->main_loop();
 }
 
-int main() {
-    // Create a new InterThreadCom used for communication with CommunicationModule
+int main(){
     thread_com = new InterThreadCom();
 
     // Spawn a new thread that calls on comm_mod_loop
@@ -65,7 +59,7 @@ int main() {
         if (msg_read != "") {
             cout << "Msg: " << msg_read << "\n";
         }
- 
+
 	sensor.calibrateWare();
 	while(true){
 	    pair<bool, bool> sensor_values = sensor.getWareSeen();
@@ -73,7 +67,7 @@ int main() {
 	    done = center_ware(sensor_values, motor, turn_speed);
 	    std::cout << done << endl;
    	}
-  
+
     }
 	return 0;
 }
