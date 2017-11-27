@@ -24,7 +24,7 @@ private:
     const string MOTOR_INTERFACE = "/dev/ttyUSB1";
 
     //Delay in us between every iteration of mainloop
-    const int MAIN_LOOP_DELAY = 20000;
+    const int MAIN_LOOP_DELAY = 10000;
 
     //Time to drive forward when on a corner
     const double turn_forward_time = 0.3;
@@ -33,7 +33,7 @@ private:
     const int CORNER_TURN_SPEED = 6;
 
     //Allowed distance from line after turn to go back to driving
-    const int CORNER_LINE_THRESHOLD = 60;
+    const int CORNER_LINE_THRESHOLD = 40;
 
     InterThreadCom* thread_com;
 
@@ -107,7 +107,6 @@ private:
     TurnState cur_turn_state;
     clock_t clock_start;
 
-
     /*
     Handles commands recieved from the UI. Calls functions in the
     abstract_stock, motor unit and sensor unit.
@@ -135,9 +134,13 @@ private:
                             string& command, string& parameter);
 
     /*
-    Function for getting the latest calculated route for the
-    robot to drive.
-    TODO: update this comment when implementation is made
+    Get the latest calculated route for the robot to drive and
+    send it to the UI. The route is represented as the IDs of the nodes
+    on the path. Example:
+
+    0 4 5 12 13 10 8
+
+    If there is no route calculated only "0" is returned.
     */
     void get_route();
 
@@ -147,6 +150,8 @@ private:
     Sends the two nodes that the robot currently is inbetween on the format
 
     from_id to_id
+
+    If the robot isn't aware of it's position yet it simply sends two zeros.
     */
     void get_pos();
 

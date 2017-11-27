@@ -1,6 +1,7 @@
 #include "central.h"
 #include <iostream>
 #include <unistd.h>
+#include <vector>
 
 using namespace std;
 
@@ -24,16 +25,51 @@ void Central::update_sensors(){
 }
 
 void Central::get_pos(){
-    int to_id = next_node->get_id();
-    int from_id = cur_line->get_opposite(to_id)->get_id();
+    string send_string;
 
-    string send_string = to_string(from_id) + " " + to_string(to_id);
+    if(cur_line == nullptr || next_node == nullptr){
+        //If autonoumus mode started return just 0 0
+        send_string = "0 0";
+    }
+    else{
+        int to_id = next_node->get_id();
+        int from_id = cur_line->get_opposite(to_id)->get_id();
+
+        send_string = to_string(from_id) + " " + to_string(to_id);
+    }
+
     thread_com->write_to_queue(send_string, TO_SOCKET);
 }
 
 
 void Central::get_route(){
+    vector<int> node_order;
 
+    if(cur_path.size() == 0){
+        //Empty path, not on a route
+        node_order.push_back(0);
+    }
+    else{
+        //Copy path to not break navigation
+        stack<Line*> path_copy = cur_path;
+        LineNode* node_iter = next_node;
+
+        node_order.push_back(node_iter->get_id());
+
+        while(!path_copy.empty()){
+            node_iter = path_copy.top()->get_opposite(node_iter->get_id());
+
+            path_copy.pop();
+            node_order.push_back(node_iter->get_id());
+        }
+    }
+
+    string return_msg;
+    for(int id : node_order){
+        return_msg += to_string(id) + " ";
+    }
+
+    thread_com->write_to_queue(return_msg, TO_SOCKET);
 }
 
 void Central::handle_command_parameter(string msg_with_parameter,
@@ -273,9 +309,11 @@ void Central::main_loop() {
                 }
                 case RobotState::PICK_UP:{
                 // ~-*-~-*-~-*-~-*-~ PICK UP STATE ~-*-~-*-~-*-~-*-~
+                    state = RobotState::STANDBY; //FIXME change when implemeted
                     break;
                 }
                 case RobotState::DROP_OFF:{
+                    state = RobotState::STANDBY; //FIXME change when implemeted
                 // ~-*-~-*-~-*-~-*-~ DROP OFF STATE ~-*-~-*-~-*-~-*-~
                     break;
                 }
@@ -367,8 +405,9 @@ void Central::turn_state(){
                 #endif
 
                 motor.turn(NONE, 0); //Stop turning
-		motor.drive(FORWARD);
+
                 //Go back to driving state
+                motor.drive(FORWARD);
                 state = RobotState::DRIVING;
             }
             break;
