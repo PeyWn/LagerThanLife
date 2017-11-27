@@ -65,15 +65,29 @@ int main() {
         if (msg_read != "") {
             cout << "Msg: " << msg_read << "\n";
         }
- 
-	sensor.calibrateWare();
-	while(true){
+
+  cin >> input;
+  if(input == "c")
+  {
+    sensor.calibrateWare();
+    input = "calibrate";
+  }
+
+  cin >> input;
+	if(input == "")
+	    {
 	    pair<bool, bool> sensor_values = sensor.getWareSeen();
 	    cout << sensor_values.first << ' ' << sensor_values.second << endl;
-	    done = center_ware(sensor_values, motor, turn_speed);
+	    //done = center_ware(sensor_values, motor, turn_speed);
 	    std::cout << done << endl;
-   	}
-  
+      input = "read";
+	    }
+
+        //Motor com testing
+        //motor.turn(RIGHT, 7);
+	      //auto status = motor.get_turn_status();
+        //cout << "Turn status: " << status.first << " " << status.second << endl;
     }
-	return 0;
+
+    return 0;
 }
