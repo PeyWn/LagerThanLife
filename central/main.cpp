@@ -1,18 +1,34 @@
 /**
     Main file for CentralModule
 */
-
 #include <thread>
-#include <iostream>
+#include <string>
 #include "server_socket.h"
 #include "../lib/network/interthreadcom.h"
+#include "uart_handler.h"
+#include "motor_com.h"
+#include "sensor_com.h"
+#include <iostream>
+#include "ware_detection.h"
 
 using namespace std;
+
+const string SENSOR_INTERFACE = "/dev/ttyUSB0";
+const string MOTOR_INTERFACE = "/dev/ttyUSB1";
+
+const int turn_speed = 3;
+int done = 0;
+string input;
 
 InterThreadCom* thread_com;
 ServerSocket* com_module;
 
+MotorCom motor(MOTOR_INTERFACE);
+SensorCom sensor(SENSOR_INTERFACE);
+
+
 /*
+
     Function for com_child_new. Checks for new socket connection
     and makes the last connected current connection.
 */
@@ -44,11 +60,20 @@ int main() {
 
     string msg_read;
     while(true) {
+        //Netwrok read
         msg_read = thread_com->read_from_queue(FROM_SOCKET);
         if (msg_read != "") {
             cout << "Msg: " << msg_read << "\n";
         }
+ 
+	sensor.calibrateWare();
+	while(true){
+	    pair<bool, bool> sensor_values = sensor.getWareSeen();
+	    cout << sensor_values.first << ' ' << sensor_values.second << endl;
+	    done = center_ware(sensor_values, motor, turn_speed);
+	    std::cout << done << endl;
+   	}
+  
     }
-
-    return 0;
+	return 0;
 }
