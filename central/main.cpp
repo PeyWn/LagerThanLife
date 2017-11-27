@@ -6,9 +6,6 @@
 ServerSocket* com_module;
 InterThreadCom* thread_com;
 
-MotorCom motor(MOTOR_INTERFACE);
-SensorCom sensor(SENSOR_INTERFACE);
-
 
 /*
 
