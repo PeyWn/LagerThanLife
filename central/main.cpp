@@ -1,27 +1,10 @@
-/**
-    Main file for CentralModule
-*/
-#include <thread>
-#include <string>
-#include "server_socket.h"
+#include "central.h"
 #include "../lib/network/interthreadcom.h"
-#include "uart_handler.h"
-#include "motor_com.h"
-#include "sensor_com.h"
-#include <iostream>
-#include "ware_detection.h"
+#include "server_socket.h"
+#include <thread>
 
-using namespace std;
-
-const string SENSOR_INTERFACE = "/dev/ttyUSB0";
-const string MOTOR_INTERFACE = "/dev/ttyUSB1";
-
-const int turn_speed = 3;
-int done = 0;
-string input;
-
-InterThreadCom* thread_com;
 ServerSocket* com_module;
+InterThreadCom* thread_com;
 
 MotorCom motor(MOTOR_INTERFACE);
 SensorCom sensor(SENSOR_INTERFACE);
@@ -51,29 +34,12 @@ void comm_mod_loop()
     com_module->main_loop();
 }
 
-int main() {
-    // Create a new InterThreadCom used for communication with CommunicationModule
+int main(){
     thread_com = new InterThreadCom();
 
     // Spawn a new thread that calls on comm_mod_loop
     thread com_child(comm_mod_loop);
 
-    string msg_read;
-    while(true) {
-        //Netwrok read
-        msg_read = thread_com->read_from_queue(FROM_SOCKET);
-        if (msg_read != "") {
-            cout << "Msg: " << msg_read << "\n";
-        }
- 
-	sensor.calibrateWare();
-	while(true){
-	    pair<bool, bool> sensor_values = sensor.getWareSeen();
-	    cout << sensor_values.first << ' ' << sensor_values.second << endl;
-	    done = center_ware(sensor_values, motor, turn_speed);
-	    std::cout << done << endl;
-   	}
-  
-    }
-	return 0;
+    Central central_unit(thread_com);
+    central_unit.main_loop();
 }
