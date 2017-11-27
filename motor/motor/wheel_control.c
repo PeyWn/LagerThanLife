@@ -6,8 +6,8 @@
 #define TURN_MIN  0.285f // physical min PWM for turning
 
 /* parameters for speed (trav==turn and sum < 1.0 for no switch direction when moving)   */
-double trav_param = 0.35f;   // ratio MOTOR_MAX;
-double turn_param = 0.50f;   // ratio MOTOR_MAX; turn_param-trav_param must be less than left room to sum=1.0
+double trav_param = 0.3f;   // ratio MOTOR_MAX;
+double turn_param = 0.70f;   // ratio MOTOR_MAX; turn_param-trav_param must be less than left room to sum=1.0
 
 /* current speeds */
 int trav_status = 0;        // current traversal speed -MAX_TRAV_SETTING ... +MAX_TRAV_SETTING
@@ -163,7 +163,7 @@ void set_wheel_speeds(int turn_setting, int trav_setting)
     right   =  right - diff*trav_dir;
     
     /*  compensate right/left if breach 0 */                      
-    if(trav_param < 0.5f && (trav_param + turn_param) <= 1 && fabs(trav_speed)>0){
+    if(trav_param < 0.5f && ((1-(trav_param+turn_param))>(turn_param-trav_param)) && fabs(trav_speed)>0){
         sign_L = left  < 0 ? -1 : 1;
         sign_R = right < 0 ? -1 : 1;
     
