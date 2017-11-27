@@ -107,7 +107,6 @@ private:
     TurnState cur_turn_state;
     clock_t clock_start;
 
-
     /*
     Handles commands recieved from the UI. Calls functions in the
     abstract_stock, motor unit and sensor unit.
@@ -135,9 +134,13 @@ private:
                             string& command, string& parameter);
 
     /*
-    Function for getting the latest calculated route for the
-    robot to drive.
-    TODO: update this comment when implementation is made
+    Get the latest calculated route for the robot to drive and
+    send it to the UI. The route is represented as the IDs of the nodes
+    on the path. Example:
+
+    0 4 5 12 13 10 8
+
+    If there is no route calculated only "0" is returned.
     */
     void get_route();
 
@@ -147,6 +150,8 @@ private:
     Sends the two nodes that the robot currently is inbetween on the format
 
     from_id to_id
+
+    If the robot isn't aware of it's position yet it simply sends two zeros.
     */
     void get_pos();
 
