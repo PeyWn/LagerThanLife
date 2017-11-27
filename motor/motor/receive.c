@@ -8,66 +8,28 @@
 #include <stdio.h>
 #include "uart_arm.h"
 #include "globals.h"
+#include "receive.h"
 
-/* Error values for every servo */ 
-volatile int error1;
-volatile int error2;
-volatile int error3;
-volatile int error4;
-volatile int error5;
-volatile int error6;
-volatile int error7;
-volatile int error8;
-
-char receive_status_packet()
+Packet receive_status_packet()
 {
-	/* Start bits 0xFF 0xFF, which is ignored */
-	volatile int x = receive();
-	x = receive();
-	
-	int id = receive();
-	
-	/* Length wich is ignored */ 
-	x = receive();
-	
-	volatile int error = receive();
-	volatile int data = receive();
-	
-	switch(id) {
-		case 1:
-		error1 = error;
-		break;
-		
-		case 2:
-		error2 = error;
-		break;
-		
-		case 3:
-		error3 = error;
-		break;
+    volatile Packet data;   // fragile packet <3
+    
+    volatile char test = 0;
+    
+    data.start1 = receive();
+    
+    test = 1;
+    
+    data.start2 = receive();
+    data.id     = receive();
+    data.len    = receive();    // length: #params + 2
+    data.error  = receive();
 
-		case 4:
-		error4 = error; 
-		break;
-	
-		case 5:
-		error5 = error; 
-		break;
-		
-		case 6:
-		error6 = error;
-		break;
-		
-		case 7:
-		error7 = id;
-		break;
-		
-		case 8:
-		error8 = error;
-		break;
-  
-		default:
-		break;
-	}
+    char temp[data.len];
+    for(int i = 0; i < data.len - 2; i++){
+        data.params[i] = receive();
+    }
+    data.checksum = receive();
+
 	return data; 
 }

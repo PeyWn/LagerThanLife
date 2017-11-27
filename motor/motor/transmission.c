@@ -24,36 +24,54 @@ void transmit_startbytes()
 	transmit(0xFF); 	
 }
 
-char read_byte(int id, int address)
+Packet read_byte(int id, int address)
 {
 	transmit_startbytes();
 	transmit(id);
-	transmit(0x03); //Number of parameters + 2 = LENGHT.
-	transmit(READ_DATA);
-	transmit(address);
-	transmit( ~(id + 3 + READ_DATA + address) ); //Checksum
+	transmit(4);                                    // Length: Number of parameters + 2
+	transmit(READ_DATA);                            // Instruction: 0x02
+	transmit(address);                              // parameter 1: address to read from
+    transmit(1);                                    // parameter 2: #bytes to read
+	transmit( ~(id + 4 + READ_DATA + address + 1) );    //Checksum
 	return receive_status_packet();
 }
 
-char write_byte(int id, int address, int byte, int mode)
+Packet write_byte(int id, int address, int byte, int mode)
 {
-	transmit_startbytes();
-	transmit((char)id);
-	transmit(0x04); //Number of parameters + 2 = LENGHT.
-	transmit(mode);
-	transmit(address);
-	transmit(byte);
-	transmit( ~(id + 4 + mode + address + byte) ); //Checksum
-	return receive_status_packet();
+    volatile char checksum = ~(id +4 +mode +address +byte);
+    volatile char packet[] =  {0xFF, 0xFF, id, 4, mode, address, byte, checksum};
+      
+    for(int i=0; i<sizeof(packet); i++){
+        transmit(packet[i]);
+    }
+    
+    volatile int test = 1;
+    
+    /*
+	    transmit_startbytes();
+	    transmit((char)id);
+	    transmit(0x04); //Number of parameters + 2 = LENGHT.
+	    transmit(mode);
+	    transmit(address);
+	    transmit(byte);
+	    transmit( ~(id + 4 + mode + address + byte) ); //Checksum
+    */
+    if(id != 0xFE){
+	    return receive_status_packet();
+    }else{
+        return NO_STATUS_PACKET;
+    }     
 }
+
 
 int read_word(int id, int address)
 {
-	volatile char data1 = read_byte(id, address);
-	volatile char data2 = read_byte(id, address+1);
+	volatile char data1 = read_byte(id, address).params[0];
+	volatile char data2 = read_byte(id, address+1).params[1];
 	
 	return ((((short)data1)<<8) | data2); //Smash bytes together to one word. 
 }
+
 
 void write_word(int id, int address, int word, int mode)
 {

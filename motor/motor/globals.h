@@ -35,7 +35,7 @@
 #define RETURN_DELAY_TIME_ADDRESS 0x05
 #define LED_ADDRESS 0x19
 #define ID_ADDRESS 0x03
-#define PRES_POS_ADDRESS 0x24
+#define PRESENT_POS_ADDRESS 0x24
 
 /* Global speeds for servo movements */ 
 #define SPEED_0 0x3f
