@@ -174,9 +174,6 @@ int init_wheel_control()
     TCCR0B &= ~(1<<CS00);
     TCCR0B |=  (1<<CS01);
     TCCR0B &= ~(1<<CS02);
-
-    /* enable interupt for compare match A and B on timer TCNT0 */
-    TIMSK0 |= (1<<OCIE0B)|(1<<OCIE0A);
     
     /* set initial variable values, speed and turn to 0 */
     set_traversal_speed(0);
