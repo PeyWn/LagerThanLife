@@ -11,7 +11,7 @@ class NetworkSocket {
     protected:
         const char DELIMITER = '#';
         const int PORT = 6000;
-        std::string hostname = "192.168.11.160";
+        std::string hostname = "172.20.10.7";
 
         int sockfd;
         InterThreadCom* thread_com;

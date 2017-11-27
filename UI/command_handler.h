@@ -1,13 +1,11 @@
 #include <map>
 #include "../lib/network/interthreadcom.h"
-#include "text_file_handler.h"
 
 using namespace std;
 
 class CommandHandler{
 private:
     InterThreadCom* robot_com; //Module to use to send messages to robot
-    TextFileHandler text_file_handler;
 
     /*
     First is name of command; second (booleans) is if command
@@ -35,18 +33,17 @@ private:
         {"armback", false},
         {"armup", false},
         {"armdown", false},
-        {"closeclaw", false},
-        {"closeclaw", false},
-        {"opengclaw", false},
-        {"estop", false},
+        {"closegrap", false},
+        {"closegrap", false},
+        {"opengrap", false},
+        {"rotgrip", false},
+        {"stop", false},
         {"fwd", false},
         {"lager", true},
-        {"sethome", true},
-        {"calware", false},
+        {"sethome", true},        
+        {"caldetec", false},
         {"calline", false},
-        {"calfloor", false},
-        {"armhome", false},
-        {"turnspeed", true}
+        {"calfloor", false}
     };
 
     /*
