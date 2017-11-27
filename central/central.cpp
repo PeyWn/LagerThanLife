@@ -33,7 +33,7 @@ void Central::get_pos(){
 
 
 void Central::get_route(){
-    //TODO: implement when abstract stock is made
+
 }
 
 void Central::handle_command_parameter(string msg_with_parameter,
@@ -288,7 +288,8 @@ void Central::main_loop() {
             }
         }
 
-	usleep(1000);
+    //Delay main loop slightly to not spam UART
+	usleep(MAIN_LOOP_DELAY);
     }
 }
 
@@ -321,16 +322,15 @@ void Central::turn_state(){
                 }
                 else{
                     //Stop driving
-		    motor.drive(IDLE);
-		
-		    
+		            motor.drive(IDLE);
+
                     if(turn_angle == 1){
                         //Turn right
                         #ifdef DEBUG
                         cout << "Turning Right" << endl;
                         #endif
 
-                        motor.turn(RIGHT, corner_turn_speed);
+                        motor.turn(RIGHT, CORNER_TURN_SPEED);
                     }
                     else{
                         //Turn left
@@ -338,7 +338,7 @@ void Central::turn_state(){
                         cout << "Turning Left" << endl;
                         #endif
 
-                        motor.turn(LEFT, corner_turn_speed);
+                        motor.turn(LEFT, CORNER_TURN_SPEED);
                     }
 
                     if(line_state == SINGLE){
@@ -360,7 +360,7 @@ void Central::turn_state(){
             break;
         }
         case TurnState::BETWEEN_LINES:{
-            if(line_state == SINGLE && (abs(line_center) < 60)){
+            if(line_state == SINGLE && (abs(line_center) < CORNER_LINE_THRESHOLD)){
                 //Done turning
                 #ifdef DEBUG
                 cout << "Turn Done!" << endl;

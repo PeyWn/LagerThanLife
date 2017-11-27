@@ -23,11 +23,17 @@ private:
     const string SENSOR_INTERFACE = "/dev/ttyUSB0";
     const string MOTOR_INTERFACE = "/dev/ttyUSB1";
 
+    //Delay in us between every iteration of mainloop
+    const int MAIN_LOOP_DELAY = 20000;
+
     //Time to drive forward when on a corner
     const double turn_forward_time = 0.3;
 
     //Turn speed when turning in a corner
-    const int corner_turn_speed = 6;
+    const int CORNER_TURN_SPEED = 6;
+
+    //Allowed distance from line after turn to go back to driving
+    const int CORNER_LINE_THRESHOLD = 60;
 
     InterThreadCom* thread_com;
 
@@ -36,7 +42,7 @@ private:
 
     ControlSystem line_follower;
 
-    int turn_speed = 3; // 3 by default
+    int turn_speed = 4; // 3 by default
 
     //Enum for determining the robots state in autonoumus mode
     enum class RobotState{
@@ -136,9 +142,11 @@ private:
     void get_route();
 
     /*
-    Function for getting the current robot position.
-    Responds with two nodes that the robot currently is inbetween.
-    TODO: update this comment when implementation is made
+    Function for getting the current robot position in the
+    LineMap and sending it to the UI
+    Sends the two nodes that the robot currently is inbetween on the format
+
+    from_id to_id
     */
     void get_pos();
 
