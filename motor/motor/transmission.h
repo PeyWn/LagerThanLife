@@ -73,5 +73,8 @@ void putdown_standard_front(void);
 /* Disables torque of all servos */  
 void emergency_stop(void);
 
+/* Moves axis with index axis to pos with speed speed */ 
+void move_axis(int axis, int pos, int speed);
+
 /* Changes goal position given axis to pos */ 
 int step_towards_pos(int axis, int pos, int cur_pos, int speed);
