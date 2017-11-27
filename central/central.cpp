@@ -132,7 +132,7 @@ void Central::handle_msg(string msg) {
             #endif
 
             //Important! Need to go to home position at beginning of auto mode
-            motor.perform_arm_macro(GO_HOME);
+            //motor.perform_arm_macro(GO_HOME);
         }
     }
     else{
@@ -238,11 +238,11 @@ void Central::handle_msg(string msg) {
 }
 
 void Central::main_loop() {
-    //Update all sensor values
-    update_sensors();
-
     string msg_read;
     while(true) {
+        //Update all sensor values
+        update_sensors();
+
         //Network read
         msg_read = thread_com->read_from_queue(FROM_SOCKET);
         if (msg_read != "") {
@@ -252,35 +252,35 @@ void Central::main_loop() {
 
             handle_msg(msg_read);
         }
-    }
 
-    //Behaviour for different states in autonoumus mode
-    if(!manual){
-        switch(state){
-            case RobotState::TURN:{
-            // ~-*-~-*-~-*-~-*-~ TURN STATE ~-*-~-*-~-*-~-*-~
-                turn_state();
+        //Behaviour for different states in autonoumus mode
+        if(!manual){
+            switch(state){
+                case RobotState::TURN:{
+                // ~-*-~-*-~-*-~-*-~ TURN STATE ~-*-~-*-~-*-~-*-~
+                    turn_state();
+                    break;
+                }
+                case RobotState::DRIVING:{
+                // ~-*-~-*-~-*-~-*-~ DRIVING STATE ~-*-~-*-~-*-~-*-~
+                    drive_state();
+                    break;
+                }
+                case RobotState::PICK_UP:{
+                // ~-*-~-*-~-*-~-*-~ PICK UP STATE ~-*-~-*-~-*-~-*-~
+                    break;
+                }
+                case RobotState::DROP_OFF:{
+                // ~-*-~-*-~-*-~-*-~ DROP OFF STATE ~-*-~-*-~-*-~-*-~
+                    break;
+                }
+                case RobotState::STANDBY:{
+                // ~-*-~-*-~-*-~-*-~ STANDBY STATE ~-*-~-*-~-*-~-*-~
+                    break;
+                }
+                default:
                 break;
             }
-            case RobotState::DRIVING:{
-            // ~-*-~-*-~-*-~-*-~ DRIVING STATE ~-*-~-*-~-*-~-*-~
-                drive_state();
-                break;
-            }
-            case RobotState::PICK_UP:{
-            // ~-*-~-*-~-*-~-*-~ PICK UP STATE ~-*-~-*-~-*-~-*-~
-                break;
-            }
-            case RobotState::DROP_OFF:{
-            // ~-*-~-*-~-*-~-*-~ DROP OFF STATE ~-*-~-*-~-*-~-*-~
-                break;
-            }
-            case RobotState::STANDBY:{
-            // ~-*-~-*-~-*-~-*-~ STANDBY STATE ~-*-~-*-~-*-~-*-~
-                break;
-            }
-            default:
-            break;
         }
     }
 }
