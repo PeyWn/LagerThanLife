@@ -1,5 +1,6 @@
 #include "central.h"
 #include <iostream>
+#include <unistd.h>
 
 using namespace std;
 
@@ -225,7 +226,7 @@ void Central::handle_msg(string msg) {
         map = new LineMap(parameter);
 
         #ifdef DEBUG
-        cout << "LineMap of size " map->get_node_c() << " loaded." << endl;
+        cout << "LineMap of size " << map->get_node_c() << " loaded." << endl;
         #endif
     }
     else if (command == "sethome") {
@@ -282,6 +283,8 @@ void Central::main_loop() {
                 break;
             }
         }
+
+	usleep(1000);
     }
 }
 
@@ -303,9 +306,6 @@ void Central::turn_state(){
         case TurnState::FORWARD:{
             clock_t time_diff = clock() - clock_start;
             if((((float)time_diff)/CLOCKS_PER_SEC) > turn_forward_time){
-                //Stop driving
-                motor.drive(IDLE);
-
                 //Turn different ways depending on angle
                 if(turn_angle == 2){
                     //Angle 2, continue forwars
@@ -316,6 +316,10 @@ void Central::turn_state(){
                     state = RobotState::DRIVING;
                 }
                 else{
+                    //Stop driving
+		    motor.drive(IDLE);
+		
+		    
                     if(turn_angle == 1){
                         //Turn right
                         #ifdef DEBUG
@@ -352,14 +356,14 @@ void Central::turn_state(){
             break;
         }
         case TurnState::BETWEEN_LINES:{
-            if(line_state == SINGLE){
+            if(line_state == SINGLE && (abs(line_center) < 60)){
                 //Done turning
                 #ifdef DEBUG
                 cout << "Turn Done!" << endl;
                 #endif
 
                 motor.turn(NONE, 0); //Stop turning
-
+		motor.drive(FORWARD);
                 //Go back to driving state
                 state = RobotState::DRIVING;
             }

@@ -24,10 +24,10 @@ private:
     const string MOTOR_INTERFACE = "/dev/ttyUSB1";
 
     //Time to drive forward when on a corner
-    const double turn_forward_time = 1;
+    const double turn_forward_time = 0.3;
 
     //Turn speed when turning in a corner
-    const int corner_turn_speed = 3;
+    const int corner_turn_speed = 6;
 
     InterThreadCom* thread_com;
 
