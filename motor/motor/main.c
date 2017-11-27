@@ -7,8 +7,6 @@
 int main(void)
 {
     init_wheel_control();
-    
-    
 
 	//Conf UART
 
@@ -28,7 +26,6 @@ int main(void)
 	sei();
     
     
-
     while(1)
     {
         

@@ -5,9 +5,9 @@
 #define MOTOR_MAX 0.95f  // physical max PWM for DC-motors
 #define TURN_MIN  0.285f // physical min PWM for turning
 
-/* parameters for speed */
-double trav_param = 0.5f;   // ratio MOTOR_MAX; safe:0.3
-double turn_param = 1.0f;   // ratio trav_speed; safe-limit:1.0; more->direction-change
+/* parameters for speed (trav==turn and sum < 1.0 for no switch direction when moving)   */
+double trav_param = 0.35f;   // ratio MOTOR_MAX;
+double turn_param = 0.50f;   // ratio MOTOR_MAX; turn_param-trav_param must be less than left room to sum=1.0
 
 /* current speeds */
 int trav_status = 0;        // current traversal speed -MAX_TRAV_SETTING ... +MAX_TRAV_SETTING
@@ -114,58 +114,80 @@ void set_PWM(double left, double right){
 */
 void set_wheel_speeds(int turn_setting, int trav_setting)
 {
-    volatile double     left, right, trav_scale, turn_scale, diff, diff_R, diff_L, turn_dir;
+    volatile double     left, right, trav_scale, turn_max, diff, diff_R, diff_L;
     volatile double     turn_speed = turn_setting;
     volatile double     trav_speed = trav_setting;
                         
-    volatile int        negative_L;
-    volatile int        negative_R;
+    volatile int        sign_L;
+    volatile int        sign_R;
+
+    volatile double turn_dir   = turn_speed < 0? -1 : 1;
+    volatile double trav_dir   = trav_speed < 0? -1 : 1;
 
     /* map traversal speed to PWM value */
     trav_scale = trav_param * MOTOR_MAX;
-    trav_speed = ((float)trav_speed/MAX_TRAV_SETTING) * trav_scale;
+    trav_speed = ((float)trav_speed/MAX_TRAV_SETTING) * trav_scale; 
 
-    /* map turn speed to PWM value, scale by trav_speed */
+    
+    /* map turn speed to PWM value */
+    if(turn_speed != 0){
+        turn_max = turn_param  * MOTOR_MAX;                                   // max PWM-value
+        turn_speed = turn_dir    * ((fabs(turn_speed)-1) / MAX_TURN_SETTING);   // map to zero-index
+        turn_speed = turn_speed * (turn_max - TURN_MIN) + TURN_MIN*turn_dir;                      // scale by max + minimum
+    }    
+/*
     if(trav_speed == 0){
         turn_scale = turn_param * (trav_scale - TURN_MIN);
     }
     else{
-        turn_scale = turn_param * (trav_speed - TURN_MIN);
+        turn_scale = turn_param * (trav_speed - TURN_MIN); 
     }
     if(turn_speed != 0){
         turn_dir = turn_speed/fabs(turn_speed);
         turn_speed = ( (fabs(turn_speed)-1)/MAX_TURN_SETTING );
         turn_speed = (turn_scale * (fabs(turn_speed)) + TURN_MIN) * turn_dir;
-        //turn_speed = (fabs(turn_speed) - 1) *(turn_scale - TURN_MIN) + TURN_MIN;
-        //turn_speed = turn_speed * turn_speed / fabs(turn_speed);
     }
-
-    /* resulting wheel speeds */
+*/
+    /* wanted speeds */
     left  = trav_speed + turn_speed;
     right = trav_speed - turn_speed;
-    negative_L = left  < 0 ? -1 : 1;
-    negative_R = right < 0 ? -1 : 1;
 
     /* compensate right/left if breach MOTOR_MAX */
+    sign_L = left  < 0 ? -1 : 1;
+    sign_R = right < 0 ? -1 : 1;
+    
     diff_L  = (fabs(left)  - MOTOR_MAX);
     diff_R  = (fabs(right) - MOTOR_MAX);
-    diff    =  negative_L*diff_L*(diff_L>0) - negative_R*diff_R*(diff_R>0);
-    left    =  left  - diff;
-    right   =  right + diff;
+    diff    =  (diff_L>0)*(sign_L*diff_L) - (diff_R>0)*(sign_R*diff_R);
+    left    =  left  - diff*trav_dir;
+    right   =  right - diff*trav_dir;
+    
+    /*  compensate right/left if breach 0 */                      
+    if(trav_param < 0.5f && (trav_param + turn_param) <= 1 && fabs(trav_speed)>0){
+        sign_L = left  < 0 ? -1 : 1;
+        sign_R = right < 0 ? -1 : 1;
+    
+        diff_R  = (0 - right)*(trav_dir);
+        diff_L  = (0 - left) *(trav_dir);
+        diff    =  (diff_L>0)*(sign_L*diff_L) + (diff_R>0)*(sign_R*diff_R);
+        left    =  left  - diff*trav_dir;
+        right   =  right - diff*trav_dir;
+    }        
 
     /* final output */
     set_PWM(left, right);
 }
 /*----------------------------------------------------------------*/
 
+
 /*---------------------publicly used functions--------------------*/
 
 int init_wheel_control()
-{   
-    /* set OC0A and OC0B on compare match when up-counting, clear on down-counting */ 
+{
+    /* set OC0A and OC0B on compare match when up-counting, clear on down-counting */
     TCCR0A |= 1<<COM0A1 | 1<<COM0A0 | 1<<COM0B1 | 1<<COM0B0;
     
-    /* Phase correct PWM */ 
+    /* Phase correct PWM */
     TCCR0A |=     1<<WGM00;
     TCCR0A &=   ~(1<<WGM01);
     TCCR0B &=   ~(1<<WGM02);
@@ -207,7 +229,7 @@ void set_traversal_speed(int trav_value)
     if(fabs(trav_value) > MAX_TRAV_SETTING){
         trav_value = trav_value/fabs(trav_value)*MAX_TRAV_SETTING;
     }
-    set_wheel_speeds(turn_status, trav_value); 
+    set_wheel_speeds(turn_status, trav_value);
     trav_status = trav_value;
 }
 
@@ -219,8 +241,7 @@ void set_turn_speed(int turn_value)
     set_wheel_speeds(turn_value, trav_status);
     turn_status = turn_value;
 }
- 
+
 void update_wheel_control(){
     
 }
- 
