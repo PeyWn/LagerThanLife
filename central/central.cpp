@@ -23,7 +23,11 @@ void Central::update_sensors(){
 }
 
 void Central::get_pos(){
-    //TODO: implement when abstract stock is made
+    int to_id = next_node->get_id();
+    int from_id = cur_line->get_opposite(to_id)->get_id();
+
+    string send_string = to_string(from_id) + " " + to_string(to_id);
+    thread_com->write_to_queue(send_string, TO_SOCKET);
 }
 
 
@@ -225,7 +229,7 @@ void Central::handle_msg(string msg) {
         map = new LineMap(parameter);
 
         #ifdef DEBUG
-        cout << "LineMap of size " map->get_node_c() << " loaded." << endl;
+        cout << "LineMap of size " << map->get_node_c() << " loaded." << endl;
         #endif
     }
     else if (command == "sethome") {
