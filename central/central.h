@@ -12,6 +12,7 @@
 #include <stack>
 #include <time.h>
 
+//Define to use debug prints
 #define DEBUG
 
 using namespace std;

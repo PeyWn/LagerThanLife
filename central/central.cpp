@@ -63,12 +63,24 @@ void Central::handle_msg(string msg) {
         //Only allowed in manual mode
         if ( command == "fwd" ) {
             motor.drive(FORWARD);
+
+            #ifdef DEBUG
+            cout << "Driving forward." << endl;
+            #endif
         }
         else if (command == "right") {
             motor.turn(RIGHT, turn_speed);
+
+            #ifdef DEBUG
+            cout << "Turning right." << endl;
+            #endif
         }
         else if (command == "left") {
             motor.turn(LEFT, turn_speed);
+
+            #ifdef DEBUG
+            cout << "Turning left." << endl;
+            #endif
         }
         else if (command == "drivestop") {
             motor.drive(IDLE);
@@ -94,54 +106,6 @@ void Central::handle_msg(string msg) {
         else if (command == "putdown") {
             motor.perform_arm_macro(PUT_DOWN);
         }
-        else if (command ==  "auto") {
-            manual = false;
-
-	    #ifdef DEBUG
-	    cout << "Switched to auto mode." << endl;
-	    #endif
-
-            //Important! Need to go to home position at beginning of auto mode
-            motor.perform_arm_macro(GO_HOME);
-        }
-    }
-    else{
-        //Only allowed in auto mode
-        if (command == "get") {
-            //Retrieve new path
-            if(map != nullptr && state == RobotState::STANDBY){
-                //Start node of search is node behind robot
-               
-                cur_path = map->get_path(home_id, stoi(parameter));
-
-		cur_line = cur_path.top();
-		next_node = cur_line->get_opposite(home_id);
-		
-                //First driving distance will always be the same, so pop first
-                cur_path.pop();
-
-		#ifdef DEBUG
-		cout << "Going to pos " << parameter  << endl;
-		#endif
-		
-                //Go to state driving
-                state = RobotState::DRIVING;
-		motor.drive(FORWARD);
-            }
-        }
-        else if (command == "getpos") {
-            get_pos();
-        }
-        else if (command == "getroute") {
-            get_route();
-        }
-        else if (command == "manual") {
-            manual = true;
-
-	    #ifdef DEBUG
-	    cout << "Switched to manual mode." << endl;
-	    #endif
-        }
         else if (command == "armfwd") {
             motor.move_arm(AWAY);
         }
@@ -159,6 +123,54 @@ void Central::handle_msg(string msg) {
         }
         else if (command == "openclaw") {
             motor.control_claw(false);
+        }
+        else if (command ==  "auto") {
+            manual = false;
+
+            #ifdef DEBUG
+            cout << "Switched to auto mode." << endl;
+            #endif
+
+            //Important! Need to go to home position at beginning of auto mode
+            motor.perform_arm_macro(GO_HOME);
+        }
+    }
+    else{
+        //Only allowed in auto mode
+        if (command == "get") {
+            //Retrieve new path
+            if(map != nullptr && state == RobotState::STANDBY){
+                //Start node of search is node behind robot
+
+                cur_path = map->get_path(home_id, stoi(parameter));
+
+        		cur_line = cur_path.top();
+        		next_node = cur_line->get_opposite(home_id);
+
+                //First driving distance will always be the same, so pop first
+                cur_path.pop();
+
+        		#ifdef DEBUG
+        		cout << "Going to pos " << parameter  << endl;
+        		#endif
+
+                //Go to state driving
+                state = RobotState::DRIVING;
+                motor.drive(FORWARD);
+            }
+        }
+        else if (command == "getpos") {
+            get_pos();
+        }
+        else if (command == "getroute") {
+            get_route();
+        }
+        else if (command == "manual") {
+            manual = true;
+
+    	    #ifdef DEBUG
+    	    cout << "Switched to manual mode." << endl;
+    	    #endif
         }
     }
 
@@ -180,12 +192,24 @@ void Central::handle_msg(string msg) {
     }
     else if (command == "calware") {
         sensor.calibrateWare();
+
+        #ifdef DEBUG
+        cout << "Ware sensors calibrated." << endl;
+        #endif
     }
     else if (command == "calline") {
         sensor.calibrateLine();
+
+        #ifdef DEBUG
+        cout << "Line sensor calibrated for line." << endl;
+        #endif
     }
     else if (command == "calfloor") {
         sensor.calibrateFloor();
+
+        #ifdef DEBUG
+        cout << "Line sensor calibrated for floor." << endl;
+        #endif
     }
     else if (command == "turnspeed") {
         turn_speed = stoi(parameter);
@@ -199,9 +223,17 @@ void Central::handle_msg(string msg) {
     else if (command == "lager") {
         delete map; //Clear memory of old map
         map = new LineMap(parameter);
+
+        #ifdef DEBUG
+        cout << "LineMap of size " map->get_node_c() << " loaded." << endl;
+        #endif
     }
     else if (command == "sethome") {
         home_id = stoi(parameter);
+
+        #ifdef DEBUG
+        cout << "Home set to node " << home_id << "." << endl;
+        #endif
     }
 }
 

@@ -3,9 +3,6 @@
 #include "server_socket.h"
 #include <thread>
 
-//Define to use debug prints
-#define DEBUG
-
 ServerSocket* com_module;
 InterThreadCom* thread_com;
 
