@@ -12,6 +12,8 @@
 #include <stack>
 #include <time.h>
 
+#define DEBUG
+
 using namespace std;
 
 class Central{
@@ -78,7 +80,7 @@ private:
     bool manual = false;
 
     //Map of the current area
-    LineMap* map;
+    LineMap* map = nullptr;
 
     //Id of the node to leave wares at
     int home_id = 0;

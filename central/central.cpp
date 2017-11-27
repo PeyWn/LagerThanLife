@@ -97,6 +97,10 @@ void Central::handle_msg(string msg) {
         else if (command ==  "auto") {
             manual = false;
 
+	    #ifdef DEBUG
+	    cout << "Switched to auto mode." << endl;
+	    #endif
+
             //Important! Need to go to home position at beginning of auto mode
             motor.perform_arm_macro(GO_HOME);
         }
@@ -107,15 +111,22 @@ void Central::handle_msg(string msg) {
             //Retrieve new path
             if(map != nullptr && state == RobotState::STANDBY){
                 //Start node of search is node behind robot
-                LineNode* start_node = cur_line->get_opposite(next_node->get_id());
+               
+                cur_path = map->get_path(home_id, stoi(parameter));
 
-                cur_path = map->get_path(start_node->get_id(), stoi(parameter));
-
+		cur_line = cur_path.top();
+		next_node = cur_line->get_opposite(home_id);
+		
                 //First driving distance will always be the same, so pop first
                 cur_path.pop();
 
+		#ifdef DEBUG
+		cout << "Going to pos " << parameter  << endl;
+		#endif
+		
                 //Go to state driving
                 state = RobotState::DRIVING;
+		motor.drive(FORWARD);
             }
         }
         else if (command == "getpos") {
@@ -126,6 +137,10 @@ void Central::handle_msg(string msg) {
         }
         else if (command == "manual") {
             manual = true;
+
+	    #ifdef DEBUG
+	    cout << "Switched to manual mode." << endl;
+	    #endif
         }
         else if (command == "armfwd") {
             motor.move_arm(AWAY);
