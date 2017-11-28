@@ -46,7 +46,8 @@ private:
         {"calline", false},
         {"calfloor", false},
         {"armhome", false},
-        {"turnspeed", true}
+        {"turnspeed", true},
+        {"showdata", false},
         {"center", false}
     };
 
