@@ -8,21 +8,15 @@ Central::Central(InterThreadCom* thread_com_in) : motor(MOTOR_INTERFACE),
          line_follower(&sensor, &motor) {}
 
 void Central::get_sensors(int& line_center, LINE_STATE& line_state, pair<bool, bool>& ware_seen){
-    cout << "test 1 " << endl;
     line_center = sensor.getLineCenter();
-    cout << "test 2 " << endl;
     line_state = sensor.getLineState();
-    cout << "test 3 " << endl;
     ware_seen = sensor.getWareSeen();
-    cout << "test 4 " << endl;
 
     string to_user_interface = to_string(line_center) + " " +  to_string(line_state) +
                                 " " + to_string(ware_seen.first) + " " +
                                 to_string(ware_seen.second);
 
     thread_com->write_to_queue(to_user_interface, TO_SOCKET);
-
-    cout << "test 5 " << endl; 
 
 }
 

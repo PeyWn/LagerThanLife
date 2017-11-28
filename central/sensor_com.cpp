@@ -11,8 +11,11 @@ int SensorCom::getLineCenter(){
 }
 
 LINE_STATE SensorCom::getLineState(){
+    cout << "test 1 " << endl;
     com.send_msg(GET_LINE_STATE);
+    cout << "test 2 " << endl;
     int state = com.read_msg();
+    cout << "test 3 " << endl;
 
     return static_cast<LINE_STATE>(state);
 }
