@@ -32,6 +32,9 @@ private:
     //Turn speed when turning in a corner
     const int CORNER_TURN_SPEED = 6;
 
+    //Turn speed when turning in a corner
+    const int AUTO_DRIVE_SPEED = 7;
+
     //Allowed distance from line after turn to go back to driving
     const int CORNER_LINE_THRESHOLD = 40;
 
@@ -42,7 +45,8 @@ private:
 
     ControlSystem line_follower;
 
-    int turn_speed = 4; // 3 by default
+    int turn_speed = 3; // 3 by default
+    int drive_speed = 7; // 7 by default
 
     //Enum for determining the robots state in autonoumus mode
     enum class RobotState{

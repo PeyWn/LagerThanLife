@@ -103,11 +103,21 @@ void Central::handle_msg(string msg) {
     if(manual){
         //Only allowed in manual mode
         if ( command == "fwd" ) {
-            motor.drive(FORWARD);
+            motor.drive(FORWARD, drive_speed);
 
             #ifdef DEBUG
             cout << "Driving forward." << endl;
             #endif
+        }
+        else if (command == "back") {
+            motor.drive(BACKWARDS, drive_speed);
+
+            #ifdef DEBUG
+            cout << "Driving backwards." << endl;
+            #endif
+        }
+        else if (command == "stop") {
+            motor.drive(IDLE, 0);
         }
         else if (command == "right") {
             motor.turn(RIGHT, turn_speed);
@@ -122,9 +132,6 @@ void Central::handle_msg(string msg) {
             #ifdef DEBUG
             cout << "Turning left." << endl;
             #endif
-        }
-        else if (command == "drivestop") {
-            motor.drive(IDLE);
         }
         else if (command == "noturn") {
             motor.turn(NONE, turn_speed);
@@ -197,7 +204,7 @@ void Central::handle_msg(string msg) {
 
                 //Go to state driving
                 state = RobotState::DRIVING;
-                motor.drive(FORWARD);
+                motor.drive(FORWARD, AUTO_DRIVE_SPEED);
             }
         }
         else if (command == "getpos") {
@@ -226,7 +233,7 @@ void Central::handle_msg(string msg) {
     }
     else if (command == "estop") {
         motor.perform_arm_macro(STOP_ALL);
-        motor.drive(IDLE);
+        motor.drive(IDLE, 0);
         motor.turn(NONE, 0);
 
         state = RobotState::STANDBY;
@@ -254,6 +261,9 @@ void Central::handle_msg(string msg) {
     }
     else if (command == "turnspeed") {
         turn_speed = stoi(parameter);
+    }
+    else if(command == "drivespeed"){
+        drive_speed = stoi(parameter);
     }
     else if (command == "empty") {
         // TODO call set stock(parameter) as empty
@@ -338,7 +348,7 @@ void Central::turn_state(){
             clock_start = clock();
 
             //Start driving forward
-            motor.drive(FORWARD);
+            motor.drive(FORWARD, AUTO_DRIVE_SPEED);
             cur_turn_state = TurnState::FORWARD;
 
             #ifdef DEBUG
@@ -360,7 +370,7 @@ void Central::turn_state(){
                 }
                 else{
                     //Stop driving
-		            motor.drive(IDLE);
+		            motor.drive(IDLE, 0);
 
                     if(turn_angle == 1){
                         //Turn right
@@ -407,7 +417,7 @@ void Central::turn_state(){
                 motor.turn(NONE, 0); //Stop turning
 
                 //Go back to driving state
-                motor.drive(FORWARD);
+                motor.drive(FORWARD, AUTO_DRIVE_SPEED);
                 state = RobotState::DRIVING;
             }
             break;
@@ -427,7 +437,7 @@ void Central::drive_state(){
             cout << "At home" << endl;
             #endif
 
-            motor.drive(IDLE);
+            motor.drive(IDLE, 0);
             state = RobotState::DROP_OFF;
         }
         else{
@@ -454,7 +464,7 @@ void Central::drive_state(){
         cout << "At target" << endl;
         #endif
 
-        motor.drive(IDLE);
+        motor.drive(IDLE, 0);
         state = RobotState::PICK_UP;
     }
 }
