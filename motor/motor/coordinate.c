@@ -9,13 +9,13 @@ volatile const double len_CT = 15.5;
 
 volatile const int Ax = 0;    //Servo 2&3 x y possition in the coordinate system
 volatile const int Ay = 25;
-
 volatile const double PI = 3.141593;
-
+volatile double initial_servo[3];
 //Point A, B, C, T corresponds to servo 2&3, servo 4&5, servo 6 and the claw.
 
 int calculate_angles(double CT_angle, double Tx, double Ty, double servo[3]){
 
+    inital_servo = servo;
     volatile double Cx = Tx - cos(CT_angle)*len_CT;
     volatile double Cy = Ty - sin(CT_angle)*len_CT;
 
@@ -56,11 +56,11 @@ int convert_angles(double servo[3]){
 	volatile double test2 = servo[0];
 	
 	if(servo[0] < 220){
-		servo[0] = 220;
+		servo = inital_servo;
 		return 0;
 	}
 	else if(servo[0] > 803){
-		servo[0] = 803;
+		servo = inital_servo;
 		return 0;
 	}
 	
@@ -69,11 +69,11 @@ int convert_angles(double servo[3]){
 	volatile double test4 = servo[1]; 
 	
 	if(servo[1] < 210){
-		servo[1] = 210;
+		servo = inital_servo;
 		return 0;
 	}
 	else if(servo[1] > 803){
-		servo[1] = 803;
+		servo = inital_servo;
 		return 0;
 	}
 	
@@ -82,11 +82,11 @@ int convert_angles(double servo[3]){
 	volatile double test6 = servo[2];
 	
 	if(servo[2] < 210){
-		servo[2] = 210;
+		servo = inital_servo;
 		return 0;
 	}
 	else if(servo[2] > 793){
-		servo[2] = 793;
+		servo = inital_servo;
 		return 0;
 	}
 	return 1;
