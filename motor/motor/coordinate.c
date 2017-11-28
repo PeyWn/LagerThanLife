@@ -3,12 +3,12 @@
 #include "coordinate.h"
 
 //The length between points
-volatile const double len_AB = 15;
+volatile const double len_AB = 15.5;
 volatile const double len_BC = 15;
-volatile const double len_CT = 15;
+volatile const double len_CT = 15.5;
 
 volatile const int Ax = 0;    //Servo 2&3 possition in the coordinate system
-volatile const int Ay = 21;
+volatile const int Ay = 25;
 
 volatile const double PI = 3.141593;
 
@@ -76,7 +76,7 @@ int convert_angles(double servo[3]){
 	}
 	
 	volatile double test5 = servo[2]; 
-	servo[2] = rad_to_dec(servo[2], 210);
+	servo[2] = rad_to_dec(servo[2], -90); //TODO test with -300 --> -90 (with or without the offset) 300 is roughly equals to ""turning" the servo coordinate system 90 degrrens clockwise.
 	volatile double test6 = servo[2];
 	
 	if(servo[2] < 210){
