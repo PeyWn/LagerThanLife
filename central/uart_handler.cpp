@@ -16,7 +16,7 @@ UARTHandler::UARTHandler(string interface){
     //Set up UART option with termios
     struct termios options;
 	tcgetattr(uart_fd, &options);
-	options.c_cflag = B9600 | CS8 | CLOCAL | CREAD; //Baudrate of 9600
+	options.c_cflag = B19200 | CS8 | CLOCAL | CREAD; //Baudrate of 19200
 	options.c_oflag = 0;
 	options.c_lflag = 0;
     options.c_iflag = IGNPAR;
