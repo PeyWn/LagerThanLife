@@ -2,8 +2,9 @@
 #include    "math.h"
 
 /* physical limitations (by test) */
-#define MOTOR_MAX 0.95f  // physical max PWM for DC-motors
-#define TURN_MIN  0.285f // physical min PWM for turning
+#define MOTOR_MAX       0.95f   // physical max PWM for DC-motors
+#define TURN_MIN        0.285f  // physical min PWM for turning when still
+#define TURN_MIN_MOVING 0.143f   // physical min PWM for turning while moving
 
 /* parameters for speed (trav==turn and sum < 1.0 for no switch direction when moving)   */
 double trav_param = 0.3f;   // ratio MOTOR_MAX;
@@ -114,9 +115,12 @@ void set_PWM(double left, double right){
 */
 void set_wheel_speeds(int turn_setting, int trav_setting)
 {
-    volatile double     left, right, trav_scale, turn_max, diff, diff_R, diff_L;
     volatile double     turn_speed = turn_setting;
     volatile double     trav_speed = trav_setting;
+    
+    volatile double     left,       right,      trav_scale, 
+                        turn_max,   turn_min, 
+                        diff,       diff_R,     diff_L;
                         
     volatile int        sign_L;
     volatile int        sign_R;
@@ -131,9 +135,10 @@ void set_wheel_speeds(int turn_setting, int trav_setting)
     
     /* map turn speed to PWM value */
     if(turn_speed != 0){
-        turn_max = turn_param  * MOTOR_MAX;                                   // max PWM-value
-        turn_speed = turn_dir    * ((fabs(turn_speed)-1) / MAX_TURN_SETTING);   // map to zero-index
-        turn_speed = turn_speed * (turn_max - TURN_MIN) + TURN_MIN*turn_dir;                      // scale by max + minimum
+        turn_max = turn_param   * MOTOR_MAX;                                    // max PWM-value
+        turn_min = fabs(trav_speed) > 0 ? TURN_MIN_MOVING : TURN_MIN;           // decrease lower bound (turn) if moving
+        turn_speed = turn_dir   * ((fabs(turn_speed)-1) / MAX_TURN_SETTING);    // map to zero-index
+        turn_speed = turn_speed * (turn_max - turn_min) + turn_min*turn_dir;    // scale by max + minimum
     }    
 /*
     if(trav_speed == 0){
