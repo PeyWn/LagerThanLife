@@ -47,6 +47,7 @@ private:
         {"calfloor", false},
         {"armhome", false},
         {"turnspeed", true}
+        {"center", false}
     };
 
     /*
