@@ -3,6 +3,7 @@
 #include "sensor_com.h"
 #include "control_system.h"
 #include <string>
+#include "ware_detection.h"
 
 class Central{
 private:

@@ -166,6 +166,13 @@ void Central::handle_msg(string msg) {
 
         thread_com->write_to_queue(to_user_interface, TO_SOCKET);
     }
+    else if (command == "center") {      //TEMP for testing
+        //TODO: call centering function
+        //remember when testing: do "calware" and "updateall" first
+
+        center_ware(ware_seen, motor, turn_speed);
+
+    }
     else {
         // do nothing
     }
