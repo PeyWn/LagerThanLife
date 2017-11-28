@@ -136,7 +136,7 @@ void Central::handle_msg(string msg) {
     else if (command == "estop") {
         motor.perform_arm_macro(STOP_ALL);
         motor.drive(IDLE, 0);
-        //TODO: more ???
+        motor.turn(NONE, 0);
     }
     else if (command == "calware") {
         sensor.calibrateWare();
@@ -149,6 +149,9 @@ void Central::handle_msg(string msg) {
     }
     else if (command == "turnspeed") {
         turn_speed = stoi(parameter);
+    }
+    else if(command == "drivespeed"){
+	drive_speed = stoi(parameter);
     }
     else if (command == "empty") {
         // TODO call set stock(parameter) as empty
@@ -184,9 +187,5 @@ void Central::main_loop() {
             cout << "Msg: " << msg_read << "\n";  //prints the recieved Msg
             handle_msg(msg_read);
         }
-
-        motor.drive(FORWARD,1);
-        auto ans = motor.get_drive_status();
-        cout << ans.first << " " << ans.second << endl;
     }
 }
