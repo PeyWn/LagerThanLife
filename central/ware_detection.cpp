@@ -4,7 +4,7 @@
 #include "motor_com.h"
 #include <unistd.h>
 
-void center_ware(pair<bool, bool> sensor, MotorCom wheels, int turn_speed)
+void center_ware(pair<bool, bool> sensor, MotorCom wheels, int turn_speed, int drive_speed)
 {
 
     // cout << "hej" << endl;
@@ -29,9 +29,9 @@ void center_ware(pair<bool, bool> sensor, MotorCom wheels, int turn_speed)
     while (!(sensor.first && sensor.second)) {
 
         while (!(sensor.first || sensor.second)) {
-            wheels.drive(FORWARD);
+            wheels.drive(FORWARD, drive_speed);
         }
-        wheels.drive(IDLE);
+        wheels.drive(IDLE, 0);
 
         while (sensor.first) {
             wheels.turn(LEFT, turn_speed);

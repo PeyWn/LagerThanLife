@@ -151,7 +151,7 @@ void Central::handle_msg(string msg) {
         turn_speed = stoi(parameter);
     }
     else if(command == "drivespeed"){
-	drive_speed = stoi(parameter);
+	    drive_speed = stoi(parameter);
     }
     else if (command == "empty") {
         // TODO call set stock(parameter) as empty
@@ -176,7 +176,7 @@ void Central::handle_msg(string msg) {
         //TODO: call centering function
         //remember when testing: do "calware" and "updateall" first
         cout << "ware seen: " << ware_seen.first << " " << ware_seen.second << endl;
-        center_ware(ware_seen, motor, turn_speed);
+        center_ware(ware_seen, motor, turn_speed, drive_speed);
 
     }
     else {
