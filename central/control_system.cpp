@@ -98,4 +98,6 @@ bool ControlSystem::run(){
 	sample_line_position();
 	int turn_speed = turn_value();
 	set_turn_speed(turn_speed);
+
+	return true;
 }

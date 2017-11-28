@@ -57,10 +57,13 @@ void Central::handle_msg(string msg) {
     handle_command_parameter(msg, command, parameter);
 
     if ( command == "fwd" ) {
-        motor.drive(FORWARD);
+        motor.drive(FORWARD, drive_speed);
+    }
+    else if (command == "back") {
+        motor.drive(BACKWARDS, drive_speed);
     }
     else if (command == "stop") {
-        motor.drive(IDLE);
+        motor.drive(IDLE, 0);
     }
     else if (command == "right") {
         motor.turn(RIGHT, turn_speed);
@@ -132,8 +135,8 @@ void Central::handle_msg(string msg) {
     }
     else if (command == "estop") {
         motor.perform_arm_macro(STOP_ALL);
-        motor.drive(IDLE);
-        //TODO: more ???
+        motor.drive(IDLE, 0);
+        motor.turn(NONE, 0);
     }
     else if (command == "calware") {
         sensor.calibrateWare();
@@ -146,6 +149,9 @@ void Central::handle_msg(string msg) {
     }
     else if (command == "turnspeed") {
         turn_speed = stoi(parameter);
+    }
+    else if(command == "drivespeed"){
+	drive_speed = stoi(parameter);
     }
     else if (command == "empty") {
         // TODO call set stock(parameter) as empty

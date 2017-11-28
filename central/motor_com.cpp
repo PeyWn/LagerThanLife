@@ -4,12 +4,32 @@
 
 MotorCom::MotorCom(string motor_interface) : com(motor_interface) {}
 
-DRIVE_STATUS MotorCom::get_drive_status(){
+pair<DRIVE_STATUS, int> MotorCom::get_drive_status(){
     com.send_msg(GET_DRIVE_STATUS);
 
     int status = com.read_msg();
     status &= 0x0F; //Mask out lower 4 bits
-    return static_cast<DRIVE_STATUS>(status);
+
+    DRIVE_STATUS direction;
+    int speed;
+
+    if(status == 0) {
+        //0000, not driving
+        direction = IDLE;
+        speed = 0;
+    }
+    else if((status >> 3) == 0) {
+        //forward
+        direction = FORWARD;
+        speed = status;
+    }
+    else {
+        //backwards
+        direction = BACKWARDS;
+        speed = status - 7;
+    }
+
+    return make_pair(direction, speed);
 }
 
 pair<TURN_STATUS, int> MotorCom::get_turn_status(){
@@ -49,9 +69,29 @@ bool MotorCom::arm_active(){
     return (status == 1);
 }
 
-void MotorCom::drive(DRIVE_STATUS direction){
+void MotorCom::drive(DRIVE_STATUS direction, int speed){
+    if(speed < 0 || speed > 7){
+        throw invalid_argument("Speed not within bounds.");
+    }
+
     int msg = DRIVE; //ID, top 4 bits
-    msg += direction;
+
+    int parameter;
+
+    if(direction == IDLE || speed == 0){
+        //None
+        parameter = 0;
+    }
+    else if(direction == FORWARD){
+        //Forward
+        parameter = speed;
+    }
+    else{
+        //Back
+        parameter = 7 + speed;
+    }
+
+    msg += parameter;
 
     com.send_msg(msg);
 }
