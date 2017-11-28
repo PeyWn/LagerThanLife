@@ -26,9 +26,10 @@ Returns 1 if the calculated value is a valid number that the servos can physical
 int convert_angles(double servo[3]);
 
 /*
-The conversion equation for calculating angles
-Input rads and a numerical offset for the servos (servos uses another coordinate system their 0 is approximately equal to 280 degrees)
+Converts radians into a decimal number between 0 and 1024 the minimum and maximum value that the servos can assume.
 
-Returns a double with the correspondning decimal value for the input radian
+rad: is the radial value to be converted
+offset: is a numerical value used to align the servos "coordinate system" with the radial system.
+Returns a decimal value between 0 and 1024.
 */
 double rad_to_dec(double rads, int offcet);
