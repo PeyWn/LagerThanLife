@@ -66,7 +66,7 @@ public:
     return - if the robot is driving and in which direction,
             all contained in a DRIVE_STATUS value
     */
-    DRIVE_STATUS get_drive_status();
+    pair<DRIVE_STATUS, int> get_drive_status();
 
     /*
     Get the turning status of the motor unit
@@ -89,8 +89,9 @@ public:
     If the direction is idle the motor unit stops.
 
     direction - The direction the robot should drive in.
+    speed - The speed to use while driving on a scale 1-7.
     */
-    void drive(DRIVE_STATUS direction);
+    void drive(DRIVE_STATUS direction, int speed);
 
     /*
     Tell the motor unit to turn in a direction with a given speed.

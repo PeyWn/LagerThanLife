@@ -50,11 +50,16 @@ ISR(USART0_RX_vect){
 				//ask for driving status
 				
 				status_id = 0b0001;
-				
-				if (get_traversal_status() == 0){ status_parameter = 0b0000; } // idle
-				else if (get_traversal_status() > 0){ status_parameter = 0b0001; } //forwards
-				else if (get_traversal_status() < 0){ status_parameter = 0b0010; } //backwards
-				
+
+				int traversal_speed == get_traversal_status();
+
+				if(traversal_speed) >= 0) { 
+					status_parameter = traversal_speed;
+				} 
+				else {
+					status_parameter = (traversal_speed * (-1)) + 7;
+				}
+
 				data_write = ( status_id << 4 ) + status_parameter;
 				UDR0 = data_write; 
 				
@@ -73,13 +78,14 @@ ISR(USART0_RX_vect){
 				//robot idle
 				set_traversal_speed(0);
 			}
-			else if (parameter == 0b0001){
-				//robot drive forward
-				set_traversal_speed(7);
+
+			int dir = parameter >> 3;
+
+			if (dir == 0) {
+				set_traversal_speed(parameter);
 			}
-			else if (parameter == 0b0010){
-				//robot drive backwards
-				set_traversal_speed(-7);
+			else {
+			    set_traversal_speed(- parameter + 7);
 			}
 			
 			break;

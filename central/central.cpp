@@ -57,10 +57,13 @@ void Central::handle_msg(string msg) {
     handle_command_parameter(msg, command, parameter);
 
     if ( command == "fwd" ) {
-        motor.drive(FORWARD);
+        motor.drive(FORWARD, drive_speed);
+    }
+    else if (command == "back") {
+        motor.drive(BACKWARDS, drive_speed);
     }
     else if (command == "stop") {
-        motor.drive(IDLE);
+        motor.drive(IDLE, 0);
     }
     else if (command == "right") {
         motor.turn(RIGHT, turn_speed);
@@ -132,7 +135,7 @@ void Central::handle_msg(string msg) {
     }
     else if (command == "estop") {
         motor.perform_arm_macro(STOP_ALL);
-        motor.drive(IDLE);
+        motor.drive(IDLE, 0);
         //TODO: more ???
     }
     else if (command == "calware") {
@@ -181,5 +184,9 @@ void Central::main_loop() {
             cout << "Msg: " << msg_read << "\n";  //prints the recieved Msg
             handle_msg(msg_read);
         }
+
+        motor.drive(FORWARD,1);
+        auto ans = motor.get_drive_status();
+        cout << ans.first << " " << ans.second << endl;
     }
 }
