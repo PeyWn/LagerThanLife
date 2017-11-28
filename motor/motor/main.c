@@ -1,6 +1,4 @@
-
 #include "globals.h"    //F_CPU define first
-
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
@@ -72,7 +70,6 @@ int main(void)
     received_data = read_word(1, PRESENT_POS_ADDRESS);
     test = received_data;
     test = 0;
-    
     
     while(1)
     {
