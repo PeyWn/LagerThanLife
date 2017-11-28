@@ -27,7 +27,6 @@ void release_ware()
 
 void stop_all()
 {
-	
 	emergency_stop(); 
 }
 
@@ -48,32 +47,38 @@ void put_down_ware()
 
 void start_rotate_CW()
 {
-	move_axis(0, CW_LIMIT_1, 0x1f);
+	new_pos = CW_LIMIT_1;
 }
 
 void stop_rotate_CW()
 {
-	move_axis(0, cur_pos[0], 0x1f);
+	new_pos[0] = cur_pos[0];
 }
 
 void start_rotate_CCW()
 {
-	move_axis(0, CCW_LIMIT_1, 0x1f);
+	new_pos = CCW_LIMIT_1;
 }
 
 void stop_rotate_CCW()
 {
-	move_axis(0, cur_pos[0], 0x1f);
+	new_pos[0] = cur_pos[0];
 }
 
 void start_up() 
 {
-	
+	for (int i = 0; i < 3; i++)
+	{
+		new_pos[i+1] = calculate_angels()[i];
+	}
 }
 
 void stop_up()
 {
-	
+	for (int i = 1; i <= 3; i++)
+	{
+		new_pos[i] = cur_pos[i];
+	}
 }
 
 void start_down()
