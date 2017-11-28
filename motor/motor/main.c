@@ -12,29 +12,50 @@
 /* was not included */
 #include "transmission.h"   
 #include "receive.h"  
-/*------------------*/      
+/*------------------*/   
+
+volatile int IS_WORKING; //Flag for indication that the arm is moving
+volatile int IS_STOP;
+volatile int IS_PICKUP;   
+
+volatile int new_pos[6];
+volatile int cur_pos[6];
+volatile int front_pos[6];
+volatile int home_pos[6];
+
+int update_pos()
+{
+	return
+	step_towards_pos(1 ,new_pos[0], cur_pos[0], 0x1f); +
+	step_towards_pos(2 ,new_pos[1], cur_pos[1], 0x1f); +
+	step_towards_pos(3 ,new_pos[2], cur_pos[2], 0x1f); +
+	step_towards_pos(4 ,new_pos[3], cur_pos[3], 0x1f); +
+	step_towards_pos(5 ,new_pos[4], cur_pos[4], 0x1f); +
+	step_towards_pos(6 ,new_pos[5], cur_pos[5], 0x1f); 
+}
+
+int compare_arrays(int arr1[], int arr2[], int len)
+{
+	for (int i = 0; i < len; i++)
+	{
+		if (arr1[i] != arr2[i])
+		{
+			return 0;
+		}
+	}
+	return 1; 	
+}
 
 int main(void)
 {
-    /*  note -- servo IDs
-        dual axis:
-            2,3
-            4,5
-        single axis:
-            8
-            7
-            6
-            2
-            1
-    */
-    
     init_IO();
     usart_init(0);
-	torque_enable(0xfe); 
-    
+	torque_enable(0xfe);
+	IS_PICKUP = 0;
+	IS_STOP = 0;
+	IS_WORKING = 0; 
     
     volatile int received_data;
-    
     volatile int   test = 0;
     
     received_data = read_word(1, PRESENT_POS_ADDRESS);
@@ -54,7 +75,18 @@ int main(void)
     
     while(1)
     {
-		if(update_pos() == 8))
+		if(IS_PICKUP) 
+		{
+			go_pos_front();
+			if (compare_arrays(cur_pos, front_pos, 6))
+			{
+				grab();
+				go_home_pos();
+			}
+		}
+		
+		
+		if(update_pos() == 8)
 		{
 			IS_WORKING = 0; 
 		}
@@ -68,13 +100,3 @@ int main(void)
     return 0;
 }
 
-int update_pos()
-{
-	return
-	step_towards_pos(1 ,new_pos[0], cur_pos[0], 0x1f); +
-	step_towards_pos(2 ,new_pos[1], cur_pos[1], 0x1f); +
-	step_towards_pos(3 ,new_pos[2], cur_pos[2], 0x1f); +
-	step_towards_pos(4 ,new_pos[3], cur_pos[3], 0x1f); +
-	step_towards_pos(5 ,new_pos[4], cur_pos[4], 0x1f); +
-	step_towards_pos(6 ,new_pos[5], cur_pos[5], 0x1f); 
-}
