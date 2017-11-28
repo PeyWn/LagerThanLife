@@ -17,6 +17,10 @@ private:
     ControlSystem line_follower;
     int turn_speed = 3; // 3 by default
     int drive_speed = 7; // 7 by default
+    int center_flag = 0; // 0 by default
+    int line_center;
+    LINE_STATE line_state;
+    pair<bool, bool> ware_seen;
 
     /*
     Handles commands recieved from the UI. Calls functions in the
@@ -62,8 +66,12 @@ private:
     Function for getting the latest updated sensor data from the sensor unit.
     TODO: update this comment
     */
-    void get_sensors(int& line_center, LINE_STATE& line_state,
-                                pair<bool, bool>& ware_seen);
+    void update_sensors(/*int& line_center, LINE_STATE& line_state,
+                                pair<bool, bool>& ware_seen*/);
+    /*
+    TODO: write comment
+    */
+    void write_sensors();
 public:
     /*
     Constructor for Central

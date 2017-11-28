@@ -7,11 +7,13 @@ Central::Central(InterThreadCom* thread_com_in) : motor(MOTOR_INTERFACE),
          sensor(SENSOR_INTERFACE),  thread_com(thread_com_in),
          line_follower(&sensor, &motor) {}
 
-void Central::get_sensors(int& line_center, LINE_STATE& line_state, pair<bool, bool>& ware_seen){
+void Central::update_sensors(/*int& line_center, LINE_STATE& line_state, pair<bool, bool>& ware_seen*/){
     line_center = sensor.getLineCenter();
     line_state = sensor.getLineState();
     ware_seen = sensor.getWareSeen();
+}
 
+void Central::write_sensors(/*int line_center, LINE_STATE line_state, pair<bool, bool> ware_seen*/){
     string to_user_interface = to_string(line_center) + " " +  to_string(line_state) +
                                 " " + to_string(ware_seen.first) + " " +
                                 to_string(ware_seen.second);
@@ -48,9 +50,7 @@ void Central::handle_command_parameter(string msg_with_parameter, string& comman
 }
 
 void Central::handle_msg(string msg) {
-    int line_center;
-    LINE_STATE line_state;
-    pair<bool, bool> ware_seen;
+
     string command;
     string parameter;
 
@@ -96,7 +96,8 @@ void Central::handle_msg(string msg) {
         // TODO call for get(parameter) fn
     }
     else if (command == "getsensors") {
-        get_sensors(line_center, line_state, ware_seen);
+        update_sensors();
+        write_sensors();
     }
     else if (command == "getpos") {
         get_pos();
@@ -105,7 +106,8 @@ void Central::handle_msg(string msg) {
         get_route();
     }
     else if (command == "updateall") {
-        get_sensors(line_center, line_state, ware_seen);
+        update_sensors();
+        //write_sensors(line_center, line_state, ware_seen);
         get_pos();
         get_route();
     }
@@ -166,32 +168,18 @@ void Central::handle_msg(string msg) {
         // TODO set parameter as home node in abst stock
     }
     else if (command == "showdata") {
-        string to_user_interface = to_string(line_center) + " " +  to_string(line_state) +
-                                    " " + to_string(ware_seen.first) + " " +
-                                    to_string(ware_seen.second);
-
-        thread_com->write_to_queue(to_user_interface, TO_SOCKET);
+        write_sensors();
+        // string to_user_interface = to_string(line_center) + " " +  to_string(line_state) +
+        //                             " " + to_string(ware_seen.first) + " " +
+        //                             to_string(ware_seen.second);
+        //
+        // thread_com->write_to_queue(to_user_interface, TO_SOCKET);
     }
     else if (command == "center") {      //TEMP for testing
         //TODO: call centering function
         //remember when testing: do "calware" and "updateall" first
-        // center_ware(ware_seen, motor, turn_speed, drive_speed); -- får inte uppdaterade sensorvärden ju
-
-        while (!(ware_seen.first && ware_seen.second)) {
-
-            while (!(ware_seen.first || ware_seen.second)) {
-                motor.drive(FORWARD, drive_speed);
-            }
-            motor.drive(IDLE, 0);
-
-            while (ware_seen.first) {
-                motor.turn(LEFT, turn_speed);
-            }
-            while (ware_seen.second){
-                motor.turn(RIGHT, turn_speed);
-            }
-            motor.turn(NONE, turn_speed);
-        }
+        //center_ware(ware_seen, motor, turn_speed, drive_speed);
+        center_flag = 1;
 
     }
     else {
@@ -208,6 +196,12 @@ void Central::main_loop() {
         if (msg_read != "") {
             cout << "Msg: " << msg_read << "\n";  //prints the recieved Msg
             handle_msg(msg_read);
+        }
+        if (center_flag){
+            update_sensors();
+            if (center_ware(ware_seen, motor, turn_speed, drive_speed)){
+                center_flag = 0; 
+            }
         }
     }
 }
