@@ -169,7 +169,7 @@ void Central::handle_msg(string msg) {
     else if (command == "center") {      //TEMP for testing
         //TODO: call centering function
         //remember when testing: do "calware" and "updateall" first
-
+        cout << "ware seen: " << ware_seen.first << " " << ware_seen.second << endl;
         center_ware(ware_seen, motor, turn_speed);
 
     }
