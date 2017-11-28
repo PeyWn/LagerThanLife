@@ -15,7 +15,10 @@ volatile double initial_servo[3];
 
 int calculate_angles(double CT_angle, double Tx, double Ty, double servo[3]){
 
-    inital_servo = servo;
+    initial_servo[0] = servo[0];
+	initial_servo[1] = servo[1];
+	initial_servo[2] = servo[2];
+	
     volatile double Cx = Tx - cos(CT_angle)*len_CT;
     volatile double Cy = Ty - sin(CT_angle)*len_CT;
 
@@ -56,11 +59,11 @@ int convert_angles(double servo[3]){
 	volatile double test2 = servo[0];
 	
 	if(servo[0] < 220){
-		servo = inital_servo;
+		servo = initial_servo;
 		return 0;
 	}
 	else if(servo[0] > 803){
-		servo = inital_servo;
+		servo = initial_servo;
 		return 0;
 	}
 	
@@ -69,11 +72,11 @@ int convert_angles(double servo[3]){
 	volatile double test4 = servo[1]; 
 	
 	if(servo[1] < 210){
-		servo = inital_servo;
+		servo = initial_servo;
 		return 0;
 	}
 	else if(servo[1] > 803){
-		servo = inital_servo;
+		servo = initial_servo;
 		return 0;
 	}
 	
@@ -82,11 +85,11 @@ int convert_angles(double servo[3]){
 	volatile double test6 = servo[2];
 	
 	if(servo[2] < 210){
-		servo = inital_servo;
+		servo = initial_servo;
 		return 0;
 	}
 	else if(servo[2] > 793){
-		servo = inital_servo;
+		servo = initial_servo;
 		return 0;
 	}
 	return 1;

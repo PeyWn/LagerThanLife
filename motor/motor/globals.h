@@ -69,6 +69,8 @@ volatile extern int cur_pos[6];
 volatile extern int front_pos[6];
 volatile extern	int home_pos[6];
 
+volatile extern int pos_cords[2];
+
 /* Angular limits for each AX-12 servo */ 
 #define CW_LIMIT_1 0x0
 #define CCW_LIMIT_1 0x3ff

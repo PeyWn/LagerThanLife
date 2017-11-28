@@ -6,6 +6,7 @@
 #include "init_arm.h"
 #include "uart.h"
 #include "coordinate.h"
+#include "commands.h"
 
 /* was not included */
 #include "transmission.h"   
@@ -25,12 +26,12 @@ volatile int home_pos[6];
 int update_pos()
 {
 	return
-	step_towards_pos(1 ,new_pos[0], cur_pos[0], 0x1f); +
-	step_towards_pos(2 ,new_pos[1], cur_pos[1], 0x1f); +
-	step_towards_pos(3 ,new_pos[2], cur_pos[2], 0x1f); +
-	step_towards_pos(4 ,new_pos[3], cur_pos[3], 0x1f); +
-	step_towards_pos(5 ,new_pos[4], cur_pos[4], 0x1f); +
-	step_towards_pos(6 ,new_pos[5], cur_pos[5], 0x1f); 
+	step_towards_pos(1 ,new_pos, cur_pos, 0x1f) +
+	step_towards_pos(2 ,new_pos, cur_pos, 0x1f) +
+	step_towards_pos(3 ,new_pos, cur_pos, 0x1f) +
+	step_towards_pos(4 ,new_pos, cur_pos, 0x1f) +
+	step_towards_pos(5 ,new_pos, cur_pos, 0x1f) +
+	step_towards_pos(6 ,new_pos, cur_pos, 0x1f); 
 }
 
 int compare_arrays(int arr1[], int arr2[], int len)
@@ -54,6 +55,7 @@ int main(void)
 	IS_STOP = 0;
 	IS_WORKING = 0; 
     
+	/*
     volatile int received_data;
     volatile int   test = 0;
     
@@ -71,8 +73,13 @@ int main(void)
     test = received_data;
     test = 0;
     
+	*/
+	
     while(1)
     {
+		cur_pos[0] += 1; 
+		
+		
 		if(IS_PICKUP || IS_PUTDOWN) 
 		{
 			go_pos_front();
@@ -90,7 +97,7 @@ int main(void)
 		
 		if(update_pos() == 8)
 		{
-			IS_WORKING = 0; 
+			IS_WORKING = 0;
 		}
 		if(IS_STOP)
 		{

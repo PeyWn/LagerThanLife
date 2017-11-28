@@ -238,6 +238,7 @@ int step_towards_pos(int axis, int new_pos[], int cur_pos[], int speed)
 		{
 			IS_WORKING = 1;
 			move_axis(axis, cur_pos[axis]+1, speed);
+			cur_pos[axis] += 1;
 		}
 		else
 		{

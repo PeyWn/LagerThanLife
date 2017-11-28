@@ -1,4 +1,6 @@
-﻿/*
+﻿#ifndef TRANSMISSION_H
+#define TRANSMISSION_H
+/*
  * transmisison.h
  *
  * Created: 11/9/2017 11:38:56 AM
@@ -83,3 +85,8 @@ void move_axis(int axis, int pos, int speed);
 
 /* Changes goal position given axis to pos */ 
 int step_towards_pos(int axis, int pos, int cur_pos, int speed);
+
+/* Sets all axis' new pos to cur pos */  
+void stop_all();
+
+#endif 

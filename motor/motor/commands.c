@@ -7,8 +7,12 @@
 
 #include "transmission.h"
 #include "globals.h"
+#include "coordinate.h"
 
 volatile int IS_WORKING; 
+volatile int pos_cords[2]; 
+
+const double CT_ANGLE = 4.71; 
 
 int get_is_working()
 {
@@ -32,6 +36,7 @@ void stop_all()
 
 void go_home()
 {
+	//pos_cords[2] = {20, 30};
 	go_home_pos(); 
 }
 
@@ -47,7 +52,7 @@ void put_down_ware()
 
 void start_rotate_CW()
 {
-	new_pos = CW_LIMIT_1;
+	new_pos[0] = CW_LIMIT_1;
 }
 
 void stop_rotate_CW()
@@ -57,7 +62,7 @@ void stop_rotate_CW()
 
 void start_rotate_CCW()
 {
-	new_pos = CCW_LIMIT_1;
+	new_pos[0] = CCW_LIMIT_1;
 }
 
 void stop_rotate_CCW()
@@ -67,18 +72,17 @@ void stop_rotate_CCW()
 
 void start_up() 
 {
-	for (int i = 0; i < 3; i++)
-	{
-		new_pos[i+1] = calculate_angels()[i];
-	}
+	double next_pos[3] = {cur_pos[1], cur_pos[2], cur_pos[3]};
+	calculate_angles(CT_ANGLE, pos_cords[0], pos_cords[1]+1, next_pos);
+	
+	new_pos[1] = next_pos[0];
+	new_pos[2] = next_pos[1];
+	new_pos[3] = next_pos[2]; 
 }
 
 void stop_up()
 {
-	for (int i = 1; i <= 3; i++)
-	{
-		new_pos[i] = cur_pos[i];
-	}
+	stop_all(); 
 }
 
 void start_down()
@@ -88,7 +92,7 @@ void start_down()
 
 void stop_down()
 {
-	
+	stop_all(); 
 }
 
 void start_towards()
@@ -98,7 +102,7 @@ void start_towards()
 
 void stop_towards()
 {
-	
+	stop_all(); 
 }
 
 void start_away()
@@ -108,5 +112,5 @@ void start_away()
 
 void stop_away()
 {
-	
+	stop_all(); 
 }
