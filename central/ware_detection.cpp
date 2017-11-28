@@ -30,7 +30,7 @@ void center_ware(pair<bool, bool> sensor, MotorCom wheels, int turn_speed)
 
         do {
             wheels.drive(FORWARD);
-        } while (!(sensor.first || sensor.second))
+        } while (!(sensor.first || sensor.second));
         wheels.drive(IDLE);
 
         if (sensor.first) {
@@ -41,7 +41,7 @@ void center_ware(pair<bool, bool> sensor, MotorCom wheels, int turn_speed)
         }
         wheels.turn(NONE, turn_speed);
 
-    } while (!(sensor.first && sensor.second))
+    } while (!(sensor.first && sensor.second));
 
 
 }
