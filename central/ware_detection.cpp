@@ -26,22 +26,21 @@ void center_ware(pair<bool, bool> sensor, MotorCom wheels, int turn_speed)
     //     return 0;
     // }
     // return 1;
-    do {
+    while (!(sensor.first && sensor.second)) {
 
-        do {
+        while (!(sensor.first || sensor.second)) {
             wheels.drive(FORWARD);
-        } while (!(sensor.first || sensor.second));
+        }
         wheels.drive(IDLE);
 
-        if (sensor.first) {
+        while (sensor.first) {
             wheels.turn(LEFT, turn_speed);
         }
-        else if (sensor.second){
+        while (sensor.second){
             wheels.turn(RIGHT, turn_speed);
         }
         wheels.turn(NONE, turn_speed);
-
-    } while (!(sensor.first && sensor.second));
+    }
 
 
 }
