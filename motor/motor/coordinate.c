@@ -78,7 +78,7 @@ int convert_angles(double servo[3]){
 	}
 	
 	volatile double test5 = servo[2]; 
-	servo[2] = rad_to_dec(servo[2], -90); //TODO test with -300 --> -90 (with or without the offset) 300 is roughly equals to ""turning" the servo coordinate system 90 degrrens clockwise.
+	servo[2] = rad_to_dec(servo[2], -90);
 	volatile double test6 = servo[2];
 	
 	if(servo[2] < 210){
