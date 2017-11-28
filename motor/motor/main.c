@@ -54,7 +54,15 @@ int main(void)
     
     while(1)
     {
-		//while(!step_towards_pos(1, 0x1ff, 0xf0));
+		if(update_pos() == 8))
+		{
+			IS_WORKING = 0; 
+		}
+		if(IS_STOP)
+		{
+			torque_disable_all();
+		}
+		
     }
 	
     return 0;

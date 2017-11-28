@@ -208,7 +208,7 @@ void putdown_standard_front(void)
 
 void emergency_stop(void)
 {
-	torque_disable_all();
+	IS_STOP = 1; 
 }
 
 void move_axis(int axis, int pos, int speed)
