@@ -8,8 +8,11 @@ int center_ware(pair<bool, bool> sensor, MotorCom wheels, int turn_speed, int dr
 {
 
     //cout << "hej" << endl;
-    int delay_time = 10000; // Used to determine time turning -- TODO: maybe delete?
-    if (!(sensor.first && sensor.second))
+    int delay_time = 100000; // Used to determine time turning -- TODO: maybe delete?
+    if (sensor.first && sensor.second){
+	return 1; 
+    }
+    else if (!(sensor.first && sensor.second))
     {
         wheels.drive(FORWARD, drive_speed);
         if (sensor.first)
