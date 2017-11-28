@@ -51,9 +51,9 @@ ISR(USART0_RX_vect){
 				
 				status_id = 0b0001;
 
-				int traversal_speed == get_traversal_status();
+				int traversal_speed = get_traversal_status();
 
-				if(traversal_speed) >= 0) { 
+				if(traversal_speed >= 0) { 
 					status_parameter = traversal_speed;
 				} 
 				else {
@@ -94,12 +94,12 @@ ISR(USART0_RX_vect){
 			/* 	check if we want to go right of left where dir = 0 is right 
 				and dir = 1 is left 										*/
 			;
-			int dir = parameter >> 3;
+			int drive_dir = parameter >> 3;
 		
-			if (dir == 0){
+			if (drive_dir == 0){
 				set_turn_speed(parameter); 
 			}
-			else if (dir == 1){
+			else if (drive_dir == 1){
 				int left_turn_speed =  -(( parameter & 0b0111 ) + 0b0001);
 				set_turn_speed(left_turn_speed);
 			}
