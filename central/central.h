@@ -69,7 +69,8 @@ private:
     void update_sensors(/*int& line_center, LINE_STATE& line_state,
                                 pair<bool, bool>& ware_seen*/);
     /*
-    TODO: write comment
+    Turns line_center, line_state and ware_seen into one string and writes to
+    queue (sends to UI over wifi)
     */
     void write_sensors();
 public:

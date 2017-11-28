@@ -7,13 +7,13 @@ Central::Central(InterThreadCom* thread_com_in) : motor(MOTOR_INTERFACE),
          sensor(SENSOR_INTERFACE),  thread_com(thread_com_in),
          line_follower(&sensor, &motor) {}
 
-void Central::update_sensors(/*int& line_center, LINE_STATE& line_state, pair<bool, bool>& ware_seen*/){
+void Central::update_sensors(){
     line_center = sensor.getLineCenter();
     line_state = sensor.getLineState();
     ware_seen = sensor.getWareSeen();
 }
 
-void Central::write_sensors(/*int line_center, LINE_STATE line_state, pair<bool, bool> ware_seen*/){
+void Central::write_sensors(){
     string to_user_interface = to_string(line_center) + " " +  to_string(line_state) +
                                 " " + to_string(ware_seen.first) + " " +
                                 to_string(ware_seen.second);
@@ -107,7 +107,6 @@ void Central::handle_msg(string msg) {
     }
     else if (command == "updateall") {
         update_sensors();
-        //write_sensors(line_center, line_state, ware_seen);
         get_pos();
         get_route();
     }
@@ -169,16 +168,11 @@ void Central::handle_msg(string msg) {
     }
     else if (command == "showdata") {
         write_sensors();
-        // string to_user_interface = to_string(line_center) + " " +  to_string(line_state) +
-        //                             " " + to_string(ware_seen.first) + " " +
-        //                             to_string(ware_seen.second);
-        //
-        // thread_com->write_to_queue(to_user_interface, TO_SOCKET);
+
     }
     else if (command == "center") {      //TEMP for testing
         //TODO: call centering function
         //remember when testing: do "calware" and "updateall" first
-        //center_ware(ware_seen, motor, turn_speed, drive_speed);
         center_flag = 1;
 
     }
@@ -199,8 +193,8 @@ void Central::main_loop() {
         }
         if (center_flag){
             update_sensors();
-            if (center_ware(ware_seen, motor, turn_speed, drive_speed)){
-                center_flag = 0; 
+            if (center_ware(ware_seen, motor)){
+                center_flag = 0;
             }
         }
     }

@@ -4,46 +4,27 @@
 #include "motor_com.h"
 #include <unistd.h>
 
-int center_ware(pair<bool, bool> sensor, MotorCom wheels, int turn_speed, int drive_speed)
+int center_ware(pair<bool, bool> sensor, MotorCom wheels)
 {
 
-    //cout << "hej" << endl;
-    int delay_time = 100000; // Used to determine time turning -- TODO: maybe delete?
-    if (sensor.first && sensor.second){
-	return 1; 
-    }
-    else if (!(sensor.first && sensor.second))
+    int delay_time = 100000; // Used to determine time turning
+
+    if (!(sensor.first && sensor.second))
     {
-        wheels.drive(FORWARD, drive_speed);
+        wheels.drive(FORWARD, 3);
         if (sensor.first)
         {
-            wheels.turn(LEFT, turn_speed);
+            wheels.turn(LEFT, 1);
         }
         else if (sensor.second)
         {
-            wheels.turn(RIGHT, turn_speed);
+            wheels.turn(RIGHT, 1);
         }
         usleep(delay_time);
-        wheels.drive(IDLE, 0);
-        wheels.turn(NONE, turn_speed);
+        wheels.turn(NONE, 1);
         return 0;
     }
+    wheels.drive(IDLE, 0);
     return 1;
-    // if (!(sensor.first && sensor.second)) {
-    //
-    //     if (!(sensor.first || sensor.second)) {
-    //         wheels.drive(FORWARD, drive_speed);
-    //     }
-    //     wheels.drive(IDLE, 0);
-    //
-    //     while (sensor.first) {
-    //         wheels.turn(LEFT, turn_speed);
-    //     }
-    //     while (sensor.second){
-    //         wheels.turn(RIGHT, turn_speed);
-    //     }
-    //     wheels.turn(NONE, turn_speed);
-    // }
-
 
 }
