@@ -175,8 +175,23 @@ void Central::handle_msg(string msg) {
     else if (command == "center") {      //TEMP for testing
         //TODO: call centering function
         //remember when testing: do "calware" and "updateall" first
-        cout << "ware seen: " << ware_seen.first << " " << ware_seen.second << endl;
-        center_ware(ware_seen, motor, turn_speed, drive_speed);
+        // center_ware(ware_seen, motor, turn_speed, drive_speed); -- får inte uppdaterade sensorvärden ju
+
+        while (!(ware_seen.first && ware_seen.second)) {
+
+            while (!(ware_seen.first || ware_seen.second)) {
+                motor.drive(FORWARD, drive_speed);
+            }
+            motor.drive(IDLE, 0);
+
+            while (ware_seen.first) {
+                motor.turn(LEFT, turn_speed);
+            }
+            while (ware_seen.second){
+                motor.turn(RIGHT, turn_speed);
+            }
+            motor.turn(NONE, turn_speed);
+        }
 
     }
     else {
