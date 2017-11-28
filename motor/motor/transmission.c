@@ -11,6 +11,14 @@
 #include "uart_arm.h"
 #include "globals.h"
 #include "receive.h"
+
+volatile int IS_STOP;
+volatile int IS_WORKING;
+volatile int IS_PICKUP; 
+volatile int IS_PUTDOWN; 
+
+volatile int cur_pos[6];
+volatile int new_pos[6];
  
 void transmit_startbytes()
 {
@@ -18,36 +26,54 @@ void transmit_startbytes()
 	transmit(0xFF); 	
 }
 
-char read_byte(int id, int address)
+Packet read_byte(int id, int address)
 {
 	transmit_startbytes();
 	transmit(id);
-	transmit(0x03); //Number of parameters + 2 = LENGHT.
-	transmit(READ_DATA);
-	transmit(address);
-	transmit( ~(id + 3 + READ_DATA + address) ); //Checksum
+	transmit(4);                                    // Length: Number of parameters + 2
+	transmit(READ_DATA);                            // Instruction: 0x02
+	transmit(address);                              // parameter 1: address to read from
+    transmit(1);                                    // parameter 2: #bytes to read
+	transmit( ~(id + 4 + READ_DATA + address + 1) );    //Checksum
 	return receive_status_packet();
 }
 
-void write_byte(int id, int address, int byte, int mode)
+Packet write_byte(int id, int address, int byte, int mode)
 {
-	transmit_startbytes();
-	transmit((char)id);
-	transmit(0x04); //Number of parameters + 2 = LENGHT.
-	transmit(mode);
-	transmit(address);
-	transmit(byte);
-	transmit( ~(id + 4 + mode + address + byte) ); //Checksum
-	receive_status_packet();
+    volatile char checksum = ~(id +4 +mode +address +byte);
+    volatile char packet[] =  {0xFF, 0xFF, id, 4, mode, address, byte, checksum};
+      
+    for(int i=0; i<sizeof(packet); i++){
+        transmit(packet[i]);
+    }
+    
+    volatile int test = 1;
+    
+    /*
+	    transmit_startbytes();
+	    transmit((char)id);
+	    transmit(0x04); //Number of parameters + 2 = LENGHT.
+	    transmit(mode);
+	    transmit(address);
+	    transmit(byte);
+	    transmit( ~(id + 4 + mode + address + byte) ); //Checksum
+    */
+    if(id != 0xFE){
+	    return receive_status_packet();
+    }else{
+        return NO_STATUS_PACKET;
+    }     
 }
+
 
 int read_word(int id, int address)
 {
-	volatile char data1 = read_byte(id, address);
-	volatile char data2 = read_byte(id, address+1);
+	volatile char data1 = read_byte(id, address).params[0];
+	volatile char data2 = read_byte(id, address+1).params[1];
 	
 	return ((((short)data1)<<8) | data2); //Smash bytes together to one word. 
 }
+
 
 void write_word(int id, int address, int word, int mode)
 {
@@ -118,7 +144,7 @@ void torque_enable(int id)
 	write_byte(id, TORQUE_ENABLE_ADDRESS, 1, WRITE_DATA);
 }
 
-void torque_disable_all(int id)
+void torque_disable_all()
 {
 	for (int i = 1; i<=NUMBER_OF_MOTORS; i++)
 	{
@@ -138,54 +164,89 @@ void update_error_var(int id)
 
 void go_home_pos(void)
 {
-	move_double_axis(2, 3, 0x280, SPEED_4);
-	move_single_axis(1, 0x1ff, SPEED_2, WRITE_DATA);
-	move_double_axis(4, 5, 0x250, SPEED_3);
-	_delay_ms(8000); //Wait with next servos to avoid crashing into platform. 
-	move_single_axis(6, 0xC0, SPEED_2, WRITE_DATA);
-	move_single_axis(7, 0x1ff, SPEED_2, WRITE_DATA);
+	new_pos[0] = 0x1ff;
+	new_pos[1] = 0x280;
+	new_pos[2] = 0x250;
+	new_pos[3] = 0x0c0;
+	new_pos[4] = 0x1ff;
 }
 
 void go_pos_front(void)
 {
-	move_single_axis(1, 0x1ff, SPEED_2, WRITE_DATA);
-	move_double_axis(4, 5, 0x155, SPEED_3);
-	move_single_axis(6, 0x100, SPEED_2, WRITE_DATA);
-	move_single_axis(7, 0x1ff, SPEED_2, WRITE_DATA);
-	move_double_axis(2, 3, 0x148, SPEED_4);
+	new_pos[0] = 0x1ff;
+	new_pos[1] = 0x148;
+	new_pos[2] = 0x155;
+	new_pos[3] = 0x100;
+	new_pos[4] = 0x1ff;
 }
 
 void grab(void)
 {
-	move_single_axis(8, 0xf8, SPEED_MAX, WRITE_DATA);
+	new_pos[6] = 0x0f8;
 }
 
 void release(void)
 {
-	move_single_axis(8, 0x1ff, SPEED_MAX, WRITE_DATA);
+	new_pos[6] = 0x1ff;
 }
 
-void pickup_standard_front(void)
+void pickup_standard(void)
 {
-	IS_WORKING = 1;
-	go_pos_front();
-	_delay_ms(33000); //Wait for arm to reach to object
-	grab();
-	go_home_pos();
-	IS_WORKING = 0; 
+	IS_PICKUP = 1; 
 }
 
-void putdown_standard_front(void)
-{
-	IS_WORKING = 1; 
-	go_pos_front();
-	_delay_ms(32000); //Wait for arm to reach to object 
-	release();
-	go_home_pos();
-	IS_WORKING = 0;
+void putdown_standard(void)
+{	
+	IS_PUTDOWN = 1; 
 }
 
 void emergency_stop(void)
 {
-	torque_disable_all(0xFE);
+	IS_STOP = 1; 
+}
+
+void move_axis(int axis, int pos, int speed)
+{
+	switch (axis)
+	{
+		case 0:
+			move_single_axis(1, pos, speed, WRITE_DATA);
+			break;
+		case 1:
+			move_double_axis(2, 3, pos, speed);
+			break;
+		case 2:
+			move_double_axis(4, 5, pos, speed);
+			break;
+		case 3:
+			move_single_axis(6, pos, speed, WRITE_DATA);
+			break; 
+		case 4: 
+			move_single_axis(7, pos, speed, WRITE_DATA);
+			break; 
+		case 5: 
+			move_single_axis(8, pos, speed, WRITE_DATA);
+			break; 
+	}
+}
+
+int step_towards_pos(int axis, int new_pos[], int cur_pos[], int speed)
+{
+	if(!IS_STOP)
+	{
+		if(new_pos[axis] != cur_pos[axis])
+		{
+			IS_WORKING = 1;
+			move_axis(axis, cur_pos[axis]+1, speed);
+		}
+		else
+		{
+			return 1;
+		}
+	}
+	else
+	{
+		return 1; 
+	}
+	return 0; 
 }

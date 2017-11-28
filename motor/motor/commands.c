@@ -38,32 +38,32 @@ void go_home()
 
 void pick_up_ware()
 {
-	pickup_standard_front(); 
+	pickup_standard(); 
 }
 
 void put_down_ware()
 {
-	putdown_standard_front();
+	putdown_standard();
 }
 
 void start_rotate_CW()
 {
-	
+	move_axis(0, CW_LIMIT_1, 0x1f);
 }
 
 void stop_rotate_CW()
 {
-	
+	move_axis(0, cur_pos[0], 0x1f);
 }
 
 void start_rotate_CCW()
 {
-	
+	move_axis(0, CCW_LIMIT_1, 0x1f);
 }
 
 void stop_rotate_CCW()
 {
-		
+	move_axis(0, cur_pos[0], 0x1f);
 }
 
 void start_up() 

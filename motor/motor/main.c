@@ -1,101 +1,104 @@
-#include "globals.h"
+#include "globals.h"    //F_CPU define first
 #include <avr/io.h>
 #include <avr/interrupt.h>
+
 #include "wheel_control.h"
 #include "init_arm.h"
 #include "uart.h"
 #include "coordinate.h"
 
+/* was not included */
+#include "transmission.h"   
+#include "receive.h"  
+/*------------------*/   
+
+volatile int IS_WORKING; //Flag for indication that the arm is moving
+volatile int IS_STOP;
+volatile int IS_PICKUP;
+volatile int IS_PUTDOWN; 
+
+volatile int new_pos[6];
+volatile int cur_pos[6];
+volatile int front_pos[6];
+volatile int home_pos[6];
+
+int update_pos()
+{
+	return
+	step_towards_pos(1 ,new_pos[0], cur_pos[0], 0x1f); +
+	step_towards_pos(2 ,new_pos[1], cur_pos[1], 0x1f); +
+	step_towards_pos(3 ,new_pos[2], cur_pos[2], 0x1f); +
+	step_towards_pos(4 ,new_pos[3], cur_pos[3], 0x1f); +
+	step_towards_pos(5 ,new_pos[4], cur_pos[4], 0x1f); +
+	step_towards_pos(6 ,new_pos[5], cur_pos[5], 0x1f); 
+}
+
+int compare_arrays(int arr1[], int arr2[], int len)
+{
+	for (int i = 0; i < len; i++)
+	{
+		if (arr1[i] != arr2[i])
+		{
+			return 0;
+		}
+	}
+	return 1; 	
+}
+
 int main(void)
 {
-    init_wheel_control(0.3);
-
-
-
-	//Conf UART
-
-	//set rx to input, set tx to output
-	DDRD = (0<<DDD0)|(1<<DDD1);
-
     init_IO();
     usart_init(0);
-
-	UBRR0L = 0x67; //BAUDRATE 103
-
-	//Set UART baudrate, activates Tx/Rx, activates interrupts for UART data recieved
-	UCSR0B = (1<<RXEN0)|(1<<TXEN0)|(1<<RXCIE0);
-
-	//Enable global interrupts
-	sei();
-/*
-	volatile double CT_angle = 5.323254219;
-	volatile double Tx;    // target Y for claw
-	volatile double Ty;    // target X for claw
-	volatile double servo[3];   
-	
-	volatile int test;
-	volatile int angle_a;
-	volatile int angle_b;
-	volatile int angle_c; 
-	
-	Tx = 25;
-	Ty = 20;
-	test = calculate_angles(CT_angle, Tx, Ty, &servo);
-	angle_a = round(servo[0]);
-	angle_b = round(servo[1]);
-	angle_c = round(servo[2]);
-	
-	if(test){
-        //torque_enable(0xFE); // OBS!!! Base-servo starts turning...
-		move_double_axis(2,3,angle_a, 0x0F);
-		move_double_axis(4,5,angle_b, 0x0F);
-		move_single_axis(6, angle_c, 0x0F, WRITE_DATA);
-	}
-	
-	Tx = 25;
-	Ty = 10;
-	test = calculate_angles(CT_angle, Tx, Ty, &servo);
-	angle_a = round(servo[0]);
-	angle_b = round(servo[1]);
-	angle_c = round(servo[2]);
-	
-	if(test){
-        //torque_enable(0xFE); // OBS!!! Base-servo starts turning...
-		move_double_axis(2,3,angle_a, 0x0F);
-		move_double_axis(4,5,angle_b, 0x0F);
-		move_single_axis(6, angle_c, 0x0F, WRITE_DATA);
-	}
-	
-	Tx = 25;
-	Ty = 5;
-	test = calculate_angles(CT_angle, Tx, Ty, &servo);
-	angle_a = round(servo[0]);
-	angle_b = round(servo[1]);
-	angle_c = round(servo[2]);
-	
-	if(test){
-        //torque_enable(0xFE); // OBS!!! Base-servo starts turning...
-		move_double_axis(2,3,angle_a, 0x0F);
-		move_double_axis(4,5,angle_b, 0x0F);
-		move_single_axis(6, angle_c, 0x0F, WRITE_DATA);
-	}
-	
-	Tx = 25;
-	Ty = 0;
-	test = calculate_angles(CT_angle, Tx, Ty, &servo);
-	angle_a = round(servo[0]);
-	angle_b = round(servo[1]);
-	angle_c = round(servo[2]);
-	
-	if(test){
-        //torque_enable(0xFE); // OBS!!! Base-servo starts turning...
-		move_double_axis(2,3,angle_a, 0x0F);
-		move_double_axis(4,5,angle_b, 0x0F);
-		move_single_axis(6, angle_c, 0x0F, WRITE_DATA);
-	}
-	*/
+	torque_enable(0xfe);
+	IS_PICKUP = 0;
+	IS_STOP = 0;
+	IS_WORKING = 0; 
+    
+    volatile int received_data;
+    volatile int   test = 0;
+    
+    received_data = read_word(1, PRESENT_POS_ADDRESS);
+    test = received_data;
+    
+	move_axis(0, 0x200, 0x1F);
+    
+    received_data = read_word(1, PRESENT_POS_ADDRESS);
+    test = received_data;
+    
+    move_axis(0, 0x100, 0x1F);
+    
+    received_data = read_word(1, PRESENT_POS_ADDRESS);
+    test = received_data;
+    test = 0;
+    
     while(1)
     {
+		if(IS_PICKUP || IS_PUTDOWN) 
+		{
+			go_pos_front();
+			if (compare_arrays(cur_pos, front_pos, 6))
+			{
+				if (IS_PUTDOWN)
+				{
+					release();
+				}
+				grab();
+				go_home_pos();
+			}
+		}
+		
+		
+		if(update_pos() == 8)
+		{
+			IS_WORKING = 0; 
+		}
+		if(IS_STOP)
+		{
+			torque_disable_all();
+		}
+		
     }
+	
     return 0;
 }
+

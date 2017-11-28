@@ -35,7 +35,7 @@
 #define RETURN_DELAY_TIME_ADDRESS 0x05
 #define LED_ADDRESS 0x19
 #define ID_ADDRESS 0x03
-#define PRES_POS_ADDRESS 0x24
+#define PRESENT_POS_ADDRESS 0x24
 
 /* Global speeds for servo movements */ 
 #define SPEED_0 0x3f
@@ -60,6 +60,14 @@ volatile extern int error7;
 volatile extern int error8;
 
 volatile extern int IS_WORKING; //Flag for indication that the arm is moving
+volatile extern int IS_STOP;
+volatile extern int IS_PICKUP;
+volatile extern int IS_PUTDOWN;
+
+volatile extern int new_pos[6];
+volatile extern int cur_pos[6];
+volatile extern int front_pos[6];
+volatile extern	int home_pos[6];
 
 /* Angular limits for each AX-12 servo */ 
 #define CW_LIMIT_1 0x0
