@@ -7,8 +7,8 @@
 int center_ware(pair<bool, bool> sensor, MotorCom wheels, int turn_speed, int drive_speed)
 {
 
-    cout << "hej" << endl;
-    //int delay_time = 10000; // Used to determine time turning -- TODO: maybe delete?
+    //cout << "hej" << endl;
+    int delay_time = 10000; // Used to determine time turning -- TODO: maybe delete?
     if (!(sensor.first && sensor.second))
     {
         wheels.drive(FORWARD, drive_speed);
@@ -20,7 +20,7 @@ int center_ware(pair<bool, bool> sensor, MotorCom wheels, int turn_speed, int dr
         {
             wheels.turn(RIGHT, turn_speed);
         }
-        //usleep(delay_time);
+        usleep(delay_time);
         wheels.drive(IDLE, 0);
         wheels.turn(NONE, turn_speed);
         return 0;
