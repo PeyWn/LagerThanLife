@@ -48,22 +48,22 @@ void put_down_ware()
 
 void start_rotate_CW()
 {
-	
+	move_axis(0, CW_LIMIT_1, 0x1f);
 }
 
 void stop_rotate_CW()
 {
-	
+	move_axis(0, cur_pos[0], 0x1f);
 }
 
 void start_rotate_CCW()
 {
-	
+	move_axis(0, CCW_LIMIT_1, 0x1f);
 }
 
 void stop_rotate_CCW()
 {
-		
+	move_axis(0, cur_pos[0], 0x1f);
 }
 
 void start_up() 
