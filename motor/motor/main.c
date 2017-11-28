@@ -16,7 +16,8 @@
 
 volatile int IS_WORKING; //Flag for indication that the arm is moving
 volatile int IS_STOP;
-volatile int IS_PICKUP;   
+volatile int IS_PICKUP;
+volatile int IS_PUTDOWN; 
 
 volatile int new_pos[6];
 volatile int cur_pos[6];
@@ -75,11 +76,15 @@ int main(void)
     
     while(1)
     {
-		if(IS_PICKUP) 
+		if(IS_PICKUP || IS_PUTDOWN) 
 		{
 			go_pos_front();
 			if (compare_arrays(cur_pos, front_pos, 6))
 			{
+				if (IS_PUTDOWN)
+				{
+					release();
+				}
 				grab();
 				go_home_pos();
 			}

@@ -15,6 +15,7 @@
 volatile int IS_STOP;
 volatile int IS_WORKING;
 volatile int IS_PICKUP; 
+volatile int IS_PUTDOWN; 
 
 volatile int cur_pos[6];
 volatile int new_pos[6];
@@ -189,17 +190,14 @@ void release(void)
 	new_pos[6] = 0x1ff;
 }
 
-void pickup_standard_front(void)
+void pickup_standard(void)
 {
 	IS_PICKUP = 1; 
 }
 
-void putdown_standard_front(void)
+void putdown_standard(void)
 {	
-	go_pos_front();
-	_delay_ms(32000); //Wait for arm to reach to object 
-	release();
-	go_home_pos();
+	IS_PUTDOWN = 1; 
 }
 
 void emergency_stop(void)

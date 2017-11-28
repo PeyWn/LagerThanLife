@@ -128,11 +128,11 @@ ISR(USART0_RX_vect){
             }
             else if(parameter == 2){
                 //Pickup ware
-                pickup_standard_front();
+                pickup_standard();
             }
             else{
                 //Put down ware
-                putdown_standard_front();
+                putdown_standard();
             }
 			break;
 		

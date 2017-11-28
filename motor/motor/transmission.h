@@ -70,10 +70,10 @@ void grab(void);
 void release(void);
 
 /* Picks up object in front of platform and returns to home position, is_working during function */ 
-void pickup_standard_front(void);
+void pickup_standard(void);
 
 /* Puts down object in front of platform and returns to home position, is_working during function */
-void putdown_standard_front(void);
+void putdown_standard(void);
 
 /* Disables torque of all servos */  
 void emergency_stop(void);

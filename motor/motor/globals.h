@@ -62,6 +62,7 @@ volatile extern int error8;
 volatile extern int IS_WORKING; //Flag for indication that the arm is moving
 volatile extern int IS_STOP;
 volatile extern int IS_PICKUP;
+volatile extern int IS_PUTDOWN;
 
 volatile extern int new_pos[6];
 volatile extern int cur_pos[6];

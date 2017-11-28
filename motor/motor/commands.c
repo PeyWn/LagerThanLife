@@ -38,12 +38,12 @@ void go_home()
 
 void pick_up_ware()
 {
-	pickup_standard_front(); 
+	pickup_standard(); 
 }
 
 void put_down_ware()
 {
-	putdown_standard_front();
+	putdown_standard();
 }
 
 void start_rotate_CW()
