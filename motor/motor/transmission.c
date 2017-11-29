@@ -232,22 +232,14 @@ void move_axis(int axis, int pos, int speed)
 
 int step_towards_pos(int axis, int speed)
 {
-	if(!IS_STOP)
+	if(!IS_STOP || new_pos[axis] != cur_pos[axis])
 	{
-		if(new_pos[axis] != cur_pos[axis])
-		{
-			IS_WORKING = 1;
-			move_axis(axis, cur_pos[axis]+1, speed);
-			cur_pos[axis] += 1;
-		}
-		else
-		{
-			return 1;
-		}
+		move_axis(axis, cur_pos[axis]+1, speed);
+		cur_pos[axis] += 1;
 	}
 	else
 	{
-		return 1; 
+		return 0; 
 	}
-	return 0; 
+	return 1; 
 }

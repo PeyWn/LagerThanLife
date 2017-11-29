@@ -95,8 +95,8 @@ int main(void)
 			}
 		}
 		
-		
-		if(update_pos() == 8)
+		IS_WORKING = 1; 
+		if(!update_pos())
 		{
 			IS_WORKING = 0;
 		}
