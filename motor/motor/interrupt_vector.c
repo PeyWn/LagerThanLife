@@ -119,7 +119,7 @@ ISR(USART0_RX_vect){
 			// macro arm
             if(parameter == 0){
                 //Stop all engines
-                //TODO implement
+                stop_all(); 
 
             }
             else if(parameter == 1){
@@ -137,8 +137,61 @@ ISR(USART0_RX_vect){
 			break;
 		
 		case 0b1111  :
-			//rotering av arm
-            //TODO implement
+			//rotation of arm and single movements
+            
+			if (parameter == 0){ 
+				//Start rotation of entire arm clock wise
+				start_rotate_CW(); 
+			}
+			else if (parameter == 1){ 
+				//Stop clock wise rotation of entire arm 
+				stop_rotate_CW(); 
+			}
+			else if (parameter == 2){
+				//Start rotation of entire arm counter clock wise 
+				start_rotate_CCW(); 
+			}
+			else if (parameter == 3){ 
+				//stop counter clock wise rotation of entire arm
+				stop_rotate_CCW(); 
+			}
+			else if (parameter == 4){ 
+				//start moving the arm upwards
+				start_up(); 
+			}
+			else if (parameter == 5){
+				//stop moving the arm upwards 
+				//NOTE: there is no function in UI/central unit for calling this command,
+				//however, currently the stop_up command calls the stop_all function
+				stop_up(); 
+			}
+			else if (parameter == 6){ 
+				//start moving the arm downwards 
+				start_down(); 
+			}
+			else if (parameter == 7){ 
+				//stop moving the arm downwards
+				//NOTE: currently no function in central/UI for calling this fn
+				stop_down(); 
+			} 
+			else if (parameter == 8){ 
+				//start moving the arm towards its center body
+				start_towards(); 
+			}
+			else if (parameter == 9){ 
+				//stop moving the arm towards its center body
+				//NOTE: currently no function in central/UI for calling this fn
+				stop_towards(); 
+			} 
+			else if (parameter == 10){ 
+				//start moving the arm away from its body
+				start_away(); 
+			}
+			else if (parameter == 11){ 
+				//stop moving the arm away from its body
+				//NOTE: currently no function in central/UI for calling this fn
+				stop_away();
+			} 
 			
 			break; 
 		default: 
