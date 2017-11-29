@@ -7,7 +7,7 @@ using namespace std;
 
 Central::Central(InterThreadCom* thread_com_in) : motor(MOTOR_INTERFACE),
          sensor(SENSOR_INTERFACE),  thread_com(thread_com_in),
-         line_follower(&sensor, &motor) {}
+         line_follower(&motor) {}
 
 void Central::transmit_sensors(){
     string to_user_interface = to_string(line_center) +
@@ -408,7 +408,8 @@ void Central::turn_state(){
             break;
         }
         case TurnState::BETWEEN_LINES:{
-            if(line_state == SINGLE && (abs(line_center) < CORNER_LINE_THRESHOLD)){
+            if(line_state == SINGLE &&
+                (abs(line_center) < CORNER_LINE_THRESHOLD)){
                 //Done turning
                 #ifdef DEBUG
                 cout << "Turn Done!" << endl;
@@ -428,7 +429,7 @@ void Central::turn_state(){
 void Central::drive_state(){
     if(line_state == SINGLE){
         //Follow line
-        line_follower.run(); //Run line follower system
+        line_follower.run(line_center); //Run line follower system
     }
     else if(line_state == CORNER){
         if(next_node->get_id() == home_id){
@@ -455,6 +456,7 @@ void Central::drive_state(){
             #ifdef DEBUG
             cout << "Corner Found!" << endl;
             cout << "Turning " << turn_angle << " steps." << endl;
+            cout << "Next node will be " << next_node->get_id() << endl;
             #endif
         }
     }

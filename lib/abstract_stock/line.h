@@ -31,14 +31,14 @@ public:
 
 	i - index of one of the lines start nodes
 
-	return - the other end node of the line. 
+	return - the other end node of the line.
 	*/
 	LineNode* get_opposite(int i);
 private:
 	/*
 	Create a new Line with the given endnodes.
 
-	n1_in - the first endnodes
+	n1_in - the first endnode
 	n2_in - the second endnode
 	*/
 	Line(LineNode* n1_in, LineNode* n2_in);

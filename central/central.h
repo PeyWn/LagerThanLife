@@ -27,7 +27,7 @@ private:
     const int MAIN_LOOP_DELAY = 10000;
 
     //Time to drive forward when on a corner
-    const double turn_forward_time = 0.3;
+    const double turn_forward_time = 0.6;
 
     //Turn speed when turning in a corner
     const int CORNER_TURN_SPEED = 6;
@@ -36,7 +36,7 @@ private:
     const int AUTO_DRIVE_SPEED = 7;
 
     //Allowed distance from line after turn to go back to driving
-    const int CORNER_LINE_THRESHOLD = 30;
+    const int CORNER_LINE_THRESHOLD = 15;
 
     InterThreadCom* thread_com;
 
