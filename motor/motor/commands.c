@@ -72,12 +72,7 @@ void stop_rotate_CCW()
 
 void start_up() 
 {
-	double next_pos[3] = {cur_pos[1], cur_pos[2], cur_pos[3]};
-	calculate_angles(CT_ANGLE, pos_cords[0], pos_cords[1]+1, next_pos);
-	
-	new_pos[1] = next_pos[0];
-	new_pos[2] = next_pos[1];
-	new_pos[3] = next_pos[2]; 
+	step_new_pos('u'); 
 }
 
 void stop_up()

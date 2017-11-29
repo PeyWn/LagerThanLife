@@ -19,7 +19,7 @@ volatile int IS_PUTDOWN;
 
 volatile int cur_pos[6];
 volatile int new_pos[6];
- 
+
 void transmit_startbytes()
 {
 	transmit(0xFF);
@@ -243,3 +243,38 @@ int step_towards_pos(int axis, int speed)
 	}
 	return 1; 
 }
+
+void set_new_pos(double next_pos[])
+{
+	new_pos[1] = next_pos[0];
+	new_pos[2] = next_pos[1];
+	new_pos[3] = next_pos[2];
+}
+
+void step_new_pos(char dir)
+{
+	double next_pos[3] = {cur_pos[1], cur_pos[2], cur_pos[3]};
+	switch (dir)
+	{
+		case 'u': //up
+			calculate_angles(CT_ANGLE, pos_cords[0], pos_cords[1]+1, next_pos);
+			break;
+		 
+		case 'd': //down
+			calculate_angles(CT_ANGLE, pos_cords[0], pos_cords[1]-1, next_pos);
+			break;
+		
+		case 't': //towards
+			calculate_angles(CT_ANGLE, pos_cords[0]+1, pos_cords[1], next_pos);
+			break;
+		
+		case 'a': //away from
+			calculate_angles(CT_ANGLE, pos_cords[0]-1, pos_cords[1], next_pos);
+			break; 
+	
+		default:
+			break;
+	}
+	set_new_pos(next_pos); 
+}
+

@@ -17,8 +17,8 @@
 void transmit_startbytes();
 
 /*  Reads one byte of data from servo with given id, returns char with the data 
-    
-    arg int id:
+
+	arg int id:
     servo-id in range 1-7
 */  
 Packet read_byte(int id, int address);
@@ -84,9 +84,13 @@ void emergency_stop(void);
 void move_axis(int axis, int pos, int speed);
 
 /* Changes goal position given axis to pos */ 
-int step_towards_pos(int axis, int speed);
+int step_towards_pos(int speed);
 
 /* Sets all axis' new pos to cur pos */  
 void stop_all();
 
-#endif 
+void step_new_pos(char dir);
+
+void set_new_pos(double next_pos[]);
+
+#endif
