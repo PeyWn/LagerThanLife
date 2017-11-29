@@ -84,7 +84,7 @@ void emergency_stop(void);
 void move_axis(int axis, int pos, int speed);
 
 /* Changes goal position given axis to pos */ 
-int step_towards_pos(int axis, int pos, int cur_pos, int speed);
+int step_towards_pos(int axis, int speed);
 
 /* Sets all axis' new pos to cur pos */  
 void stop_all();

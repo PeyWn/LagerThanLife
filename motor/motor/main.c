@@ -26,12 +26,12 @@ volatile int home_pos[6];
 int update_pos()
 {
 	return
-	step_towards_pos(1 ,new_pos, cur_pos, 0x1f) +
-	step_towards_pos(2 ,new_pos, cur_pos, 0x1f) +
-	step_towards_pos(3 ,new_pos, cur_pos, 0x1f) +
-	step_towards_pos(4 ,new_pos, cur_pos, 0x1f) +
-	step_towards_pos(5 ,new_pos, cur_pos, 0x1f) +
-	step_towards_pos(6 ,new_pos, cur_pos, 0x1f); 
+	step_towards_pos(0 , 0x1f) +
+	step_towards_pos(1 , 0x1f) +
+	step_towards_pos(2 , 0x1f) +
+	step_towards_pos(3 , 0x1f) +
+	step_towards_pos(4 , 0x1f) +
+	step_towards_pos(5 , 0x1f); 
 }
 
 int compare_arrays(int arr1[], int arr2[], int len)
@@ -54,6 +54,7 @@ int main(void)
 	IS_PICKUP = 0;
 	IS_STOP = 0;
 	IS_WORKING = 0; 
+	go_home_pos(); 
     
 	/*
     volatile int received_data;
