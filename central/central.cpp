@@ -2,6 +2,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <vector>
+#include <stdexcept>
 
 using namespace std;
 
@@ -432,6 +433,10 @@ void Central::drive_state(){
         line_follower.run(line_center); //Run line follower system
     }
     else if(line_state == CORNER){
+        if(cur_path.empty()){
+            throw invalid_argument("Corner found when current path is empty");
+        }
+
         if(next_node->get_id() == home_id){
             //At base station
             #ifdef DEBUG
