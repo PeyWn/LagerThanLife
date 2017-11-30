@@ -22,9 +22,11 @@ int center_ware(pair<bool, bool> sensor, MotorCom* wheels)
         }
         usleep(delay_time);
         wheels->turn(NONE, 1);
-        return 0;
+	cout << "ware detect returned 0" << endl;
+	return 0;
     }
     wheels->drive(IDLE, 0);
+    cout << "ware detect returned 1" << endl;
     return 1;
 
 }

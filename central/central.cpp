@@ -1,6 +1,7 @@
 #include <iostream>
 #include "central.h"
-
+#include <unistd.h>
+#include <time.h>
 using namespace std;
 
 Central::Central(InterThreadCom* thread_com_in) : motor(MOTOR_INTERFACE),
@@ -52,27 +53,37 @@ void Central::handle_command_parameter(string msg_with_parameter, string& comman
 void Central::pick_up(){
     switch(cur_pick_up_state){	
     case(PickUpState::FIND_WARE):{
-	if(center_ware(ware_seen, &motor)){
-	    cur_pick_up_state = PickUpState::PICK_UP_START;
+	if(center_ware(ware_seen, &motor) == 1){
+	    motor.perform_arm_macro(ARM_MACRO::PICK_UP);
+	    cur_pick_up_state = PickUpState::PICK_UP;
 	}
-    }
-	
-    case(PickUpState::PICK_UP_START):{
-	motor.perform_arm_macro(ARM_MACRO::PICK_UP);
-	cur_pick_up_state = PickUpState::PICK_UP_WAIT; 
+	break;
     }
 
-    case(PickUpState::PICK_UP_WAIT):{
-	if(!motor.arm_active()){cur_pick_up_state = PickUpState::TURN;}
+    case(PickUpState::PICK_UP):{
+	//if(!motor.arm_active()){cur_pick_up_state = PickUpState::TURN;}
+	usleep(5000000);
+	t_revese = clock();
+	motor.drive(BACKWARDS, 4);
+	cur_pick_up_state = PickUpState::REVERSE;
+	break;
+    }
+	
+    case(PickUpState::REVERSE):{
+	if( (float)(clock() - t_revese)/CLOCKS_PER_SEC >= PICK_REVESE_TIME ){
+	    motor.drive(IDLE, 0);
+	    motor.turn(RIGHT, 4);
+	    cur_pick_up_state = PickUpState::TURN;
+	}
+	break;
     }
 	
     case(PickUpState::TURN):{
-	motor.turn(RIGHT, 4);
 	if(line_state != NONE_DOUBLE){
-	    motor.drive(IDLE, 0);
+	    motor.turn(NONE, 0);
 	    //TODO calculate route home --> drive
 	}
-	
+	break;
     }
     }
 }
@@ -208,6 +219,7 @@ void Central::handle_msg(string msg) {
 
 void Central::main_loop() {
     string msg_read;
+    motor.control_claw(false);
     while(true) {
         //Network read
         msg_read = thread_com->read_from_queue(FROM_SOCKET);
@@ -215,8 +227,11 @@ void Central::main_loop() {
             cout << "Msg: " << msg_read << "\n";  //prints the recieved Msg
             handle_msg(msg_read);
         }
+	cout << "main loop: Hello" << endl;
 	update_sensors();
+	cout << line_state << endl;
 	pick_up();
-	
+
+	usleep(10000);
     }
 }

@@ -9,11 +9,12 @@ class Central{
 private:
     const string SENSOR_INTERFACE = "/dev/ttyUSB0";
     const string MOTOR_INTERFACE = "/dev/ttyUSB1";
-
+    const double PICK_REVESE_TIME = 0.4;
+    
     enum class PickUpState{
 	FIND_WARE,
-	PICK_UP_START,
-	PICK_UP_WAIT,
+	PICK_UP,
+	REVERSE,
 	TURN
     };
 
@@ -31,6 +32,7 @@ private:
     pair<bool, bool> ware_seen;
 
     PickUpState cur_pick_up_state = PickUpState::FIND_WARE;
+    int t_revese = 0;
 
     /*
     Handles commands recieved from the UI. Calls functions in the
