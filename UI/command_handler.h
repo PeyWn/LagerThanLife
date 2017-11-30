@@ -38,7 +38,6 @@ private:
         {"armdown", false},
         {"closeclaw", false},
         {"openclaw", false},
-        {"opengclaw", false},
         {"estop", false},
         {"lager", true},
         {"sethome", true},
