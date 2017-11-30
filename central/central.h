@@ -36,7 +36,7 @@ private:
     const int AUTO_DRIVE_SPEED = 7;
 
     //Allowed distance from line after turn to go back to driving
-    const int CORNER_LINE_THRESHOLD = 15;
+    const int CORNER_LINE_THRESHOLD = 30;
 
     InterThreadCom* thread_com;
 

@@ -443,6 +443,10 @@ void Central::drive_state(){
         }
         else{
             //Corner found
+	    #ifdef DEBUG
+	    cout << "Corner Found!" << endl;
+	    #endif
+	    
             state = RobotState::TURN;
             cur_turn_state = TurnState::NEW_TURN;
 
@@ -454,7 +458,6 @@ void Central::drive_state(){
             cur_line = next_line;
 
             #ifdef DEBUG
-            cout << "Corner Found!" << endl;
             cout << "Turning " << turn_angle << " steps." << endl;
             cout << "Next node will be " << next_node->get_id() << endl;
             #endif
