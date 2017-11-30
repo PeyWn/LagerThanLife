@@ -13,17 +13,17 @@
 using namespace std;
 
 int main(){
+    string map_folder = "../../maps/";
+    string file_name = "big_storage.txt";
 
-    string file_name = "../../maps/big_storage.txt";
-
-    TextFileHandler fh;
+    TextFileHandler fh(map_folder);
 
     string lager = fh.read_text_file(file_name);
 
-    cout << "File read" << endl;
+    cout << "File read: " << endl;
 
     LineMap lm(lager);
-    stack<Line*> path = lm.get_path(8, 18);
+    stack<Line*> path = lm.get_path(36, 3);
 
     while(!path.empty()){
         cout << path.top()->get_node(0)->get_id() << " " << path.top()->get_node(1)->get_id() << endl;
