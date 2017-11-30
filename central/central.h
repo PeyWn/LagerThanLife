@@ -10,6 +10,14 @@ private:
     const string SENSOR_INTERFACE = "/dev/ttyUSB0";
     const string MOTOR_INTERFACE = "/dev/ttyUSB1";
 
+    enum class PickUpState{
+	FIND_WARE,
+	PICK_UP_START,
+	PICK_UP_WAIT,
+	TURN
+    };
+
+    
     InterThreadCom* thread_com;
 
     MotorCom motor;
@@ -21,6 +29,8 @@ private:
     int line_center;
     LINE_STATE line_state;
     pair<bool, bool> ware_seen;
+
+    PickUpState cur_pick_up_state = PickUpState::FIND_WARE;
 
     /*
     Handles commands recieved from the UI. Calls functions in the
@@ -73,6 +83,9 @@ private:
     queue (sends to UI over wifi)
     */
     void write_sensors();
+
+    void pick_up();
+	
 public:
     /*
     Constructor for Central

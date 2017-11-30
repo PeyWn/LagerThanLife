@@ -49,6 +49,34 @@ void Central::handle_command_parameter(string msg_with_parameter, string& comman
 
 }
 
+void Central::pick_up(){
+    switch(cur_pick_up_state){	
+    case(PickUpState::FIND_WARE):{
+	if(center_ware(ware_seen, &motor)){
+	    cur_pick_up_state = PickUpState::PICK_UP_START;
+	}
+    }
+	
+    case(PickUpState::PICK_UP_START):{
+	motor.perform_arm_macro(ARM_MACRO::PICK_UP);
+	cur_pick_up_state = PickUpState::PICK_UP_WAIT; 
+    }
+
+    case(PickUpState::PICK_UP_WAIT):{
+	if(!motor.arm_active()){cur_pick_up_state = PickUpState::TURN;}
+    }
+	
+    case(PickUpState::TURN):{
+	motor.turn(RIGHT, 4);
+	if(line_state != NONE_DOUBLE){
+	    motor.drive(IDLE, 0);
+	    //TODO calculate route home --> drive
+	}
+	
+    }
+    }
+}
+
 void Central::handle_msg(string msg) {
 
     string command;
@@ -187,11 +215,8 @@ void Central::main_loop() {
             cout << "Msg: " << msg_read << "\n";  //prints the recieved Msg
             handle_msg(msg_read);
         }
-        if (center_flag){
-            update_sensors();
-            if (center_ware(ware_seen, motor)){
-                center_flag = 0;
-            }
-        }
+	update_sensors();
+	pick_up();
+	
     }
 }

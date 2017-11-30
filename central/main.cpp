@@ -6,7 +6,6 @@
 ServerSocket* com_module;
 InterThreadCom* thread_com;
 
-
 /*
 
     Function for com_child_new. Checks for new socket connection
