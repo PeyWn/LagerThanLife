@@ -8,9 +8,9 @@ Central::Central(InterThreadCom* thread_com_in) : motor(MOTOR_INTERFACE),
          line_follower(&sensor, &motor) {}
 
 void Central::get_sensors(int& line_center, LINE_STATE& line_state, pair<bool, bool>& ware_seen){
-    line_center = sensor.getLineCenter();
-    line_state = sensor.getLineState();
-    ware_seen = sensor.getWareSeen();
+    line_center = sensor.get_line_center();
+    line_state = sensor.get_line_state();
+    ware_seen = sensor.get_ware_seen();
 
     string to_user_interface = to_string(line_center) + " " +  to_string(line_state) +
                                 " " + to_string(ware_seen.first) + " " +
@@ -139,13 +139,13 @@ void Central::handle_msg(string msg) {
         motor.turn(NONE, 0);
     }
     else if (command == "calware") {
-        sensor.calibrateWare();
+        sensor.calibrate_ware();
     }
     else if (command == "calline") {
-        sensor.calibrateLine();
+        sensor.calibrate_line();
     }
     else if (command == "calfloor") {
-        sensor.calibrateFloor();
+        sensor.calibrate_floor();
     }
     else if (command == "turnspeed") {
         turn_speed = stoi(parameter);
