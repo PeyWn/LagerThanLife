@@ -43,9 +43,9 @@ private:
 	*/
 	Line(LineNode* n1_in, LineNode* n2_in);
 
-	LineNode* n1;
-	LineNode* n2;
-	double length;
+	LineNode* n1 = nullptr;
+	LineNode* n2 = nullptr;
+	double length = 0;
 };
 
 #endif /* LINE_H */
