@@ -24,10 +24,10 @@ private:
     const string MOTOR_INTERFACE = "/dev/ttyUSB1";
 
     //Delay in us between every iteration of mainloop
-    const int MAIN_LOOP_DELAY = 10000;
+    const int MAIN_LOOP_DELAY = 20000;
 
     //Time to drive forward when on a corner
-    const double turn_forward_time = 0.6;
+    const double turn_forward_time = 0.5;
 
     //Turn speed when turning in a corner
     const int CORNER_TURN_SPEED = 6;
