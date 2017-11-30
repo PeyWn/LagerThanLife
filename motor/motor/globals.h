@@ -1,3 +1,5 @@
+#ifndef GLOBALS_H
+#define GLOBALS_H
 /*
  * globals.h
  *
@@ -88,3 +90,5 @@ volatile extern int pos_cords[2];
 #define CCW_LIMIT_7 0x3ff
 #define CW_LIMIT_8 0x0
 #define CCW_LIMIT_8 0x1ff
+
+#endif

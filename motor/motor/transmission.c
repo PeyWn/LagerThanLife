@@ -20,6 +20,8 @@ volatile int IS_PUTDOWN;
 volatile int cur_pos[6];
 volatile int new_pos[6];
 
+volatile const double CT_ANGLE = 4.71;
+
 void transmit_startbytes()
 {
 	transmit(0xFF);
@@ -232,10 +234,18 @@ void move_axis(int axis, int pos, int speed)
 
 int step_towards_pos(int axis, int speed)
 {
-	if(!IS_STOP || new_pos[axis] != cur_pos[axis])
+	if(new_pos[axis] != cur_pos[axis])
 	{
-		move_axis(axis, cur_pos[axis]+1, speed);
-		cur_pos[axis] += 1;
+		if(cur_pos[axis]<new_pos[axis])
+		{
+			move_axis(axis, cur_pos[axis]+1, speed);
+			cur_pos[axis] += 1;
+		}
+		else if(cur_pos[axis]>new_pos[axis])
+		{
+			move_axis(axis, cur_pos[axis]-1, speed);
+			cur_pos[axis] -= 1;
+		}
 	}
 	else
 	{

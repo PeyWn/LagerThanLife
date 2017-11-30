@@ -12,8 +12,6 @@
 volatile int IS_WORKING; 
 volatile int pos_cords[2]; 
 
-const double CT_ANGLE = 4.71; 
-
 int get_is_working()
 {
 	return IS_WORKING; 

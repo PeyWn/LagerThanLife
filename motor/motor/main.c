@@ -23,6 +23,17 @@ volatile int cur_pos[6];
 volatile int front_pos[6];
 volatile int home_pos[6];
 
+void init_cur_pos()
+{
+	go_home_pos();
+	cur_pos[0] = new_pos[0];
+	cur_pos[1] = new_pos[1];
+	cur_pos[2] = new_pos[2];
+	cur_pos[3] = new_pos[3];
+	cur_pos[4] = new_pos[4];
+	cur_pos[5] = 0x1ff;
+}
+
 int update_pos()
 {
 	return
@@ -53,9 +64,9 @@ int main(void)
 	torque_enable(0xfe);
 	IS_PICKUP = 0;
 	IS_STOP = 0;
-	IS_WORKING = 0; 
-	go_home_pos(); 
-    
+	IS_WORKING = 0;
+	init_cur_pos(); 
+	
 	/*
     volatile int received_data;
     volatile int   test = 0;
@@ -78,9 +89,6 @@ int main(void)
 	
     while(1)
     {
-		cur_pos[0] += 1; 
-		
-		
 		if(IS_PICKUP || IS_PUTDOWN) 
 		{
 			go_pos_front();
@@ -103,6 +111,7 @@ int main(void)
 		if(IS_STOP)
 		{
 			torque_disable_all();
+			IS_WORKING = 0;
 		}
 		
     }
