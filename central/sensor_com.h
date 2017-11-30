@@ -38,14 +38,14 @@ public:
 
     return - The position of the line, between -127 (right) and 127 (left).
     */
-    int getLineCenter();
+    int get_line_center();
 
     /*
     Get the line state registered by the sensor unit.
 
     return - the current line state.
     */
-    LINE_STATE getLineState();
+    LINE_STATE get_line_state();
 
     /*
     Get if the ware sensors register wares in front of them.
@@ -54,24 +54,24 @@ public:
             detect a ware in front of them. The first value is the right sensor
             and the second one the left sensor.
     */
-    pair<bool, bool> getWareSeen();
+    pair<bool, bool> get_ware_seen();
 
     /*
     Tell the sensor unit to calibrate the ware sensors.
     */
-    void calibrateWare();
+    void calibrate_ware();
 
     /*
     Tell the sensor unit to calibrate the line sensor
     as if the robot is on a line.
     */
-    void calibrateLine();
+    void calibrate_line();
 
     /*
     Tell the sensor unit to calibrate the line sensor
     as if the robot is not on a line (on the floor).
     */
-    void calibrateFloor();
+    void calibrate_floor();
 };
 
 #endif /* SENDOR_COM_H */

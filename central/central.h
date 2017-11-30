@@ -15,6 +15,7 @@ private:
     SensorCom sensor;
     ControlSystem line_follower;
     int turn_speed = 3; // 3 by default
+    int drive_speed = 7; // 7 by default
 
     /*
     Handles commands recieved from the UI. Calls functions in the

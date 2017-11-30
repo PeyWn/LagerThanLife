@@ -35,15 +35,15 @@ ISR(USART_RXC_vect){
         break;
         case 4:
             //Calibrate ware sensors
-            calibrate_waresensor();
+            do_calibrate_ware = true;
         break;
         case 5:
             //Calibrate line sensor for line
-            calibrate_line();
+            do_calibrate_line = true;
         break;
         case 6:
             //Calibrate line sensor for floor
-            calibrate_floor();
+            do_calibrate_floor = true;
         break;
         default:
         break;

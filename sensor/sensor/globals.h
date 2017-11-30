@@ -24,4 +24,9 @@ extern int distance_blocked[];
 extern int adc_value;
 extern volatile bool adc_done;
 
+//Flags to signal calibration next iteration
+extern bool do_calibrate_ware;
+extern bool do_calibrate_floor;
+extern bool do_calibrate_line;
+
 #endif /* GLOBALS_H_ */

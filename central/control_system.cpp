@@ -34,7 +34,7 @@ void ControlSystem::sample_line_position(){
 	   => positive correction, which is positive
 	   turn  									 */
 	old_line_pos = line_pos;
-	line_pos     = MAX_TURN * sensor->getLineCenter() / SENSOR_MAX; //+7,-7
+	line_pos     = MAX_TURN * sensor->get_line_center() / SENSOR_MAX; //+7,-7
 
 	/* PROPORTIONAL TERM */
 	p_error = line_pos;
@@ -87,7 +87,7 @@ bool ControlSystem::run(){
         return false;
     }
 
-	line_state = sensor->getLineState();
+	line_state = sensor->get_line_state();
 
 	/* return false if not correct states */
 	if(line_state != SINGLE){
@@ -98,4 +98,6 @@ bool ControlSystem::run(){
 	sample_line_position();
 	int turn_speed = turn_value();
 	set_turn_speed(turn_speed);
+
+	return true;
 }

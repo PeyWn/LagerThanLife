@@ -5,7 +5,7 @@
 
 void update_ware_seen(){
     volatile bool new_reading[2] = {false, false};
-    int reading; //temporary saved value of last reading
+    volatile int reading; //temporary saved value of last reading
 
     reading = convert_ad(DIST_R);
     new_reading[0] = (reading > distance_blocked[0]);
