@@ -23,10 +23,15 @@ int main(){
     cout << "File read: " << endl;
 
     LineMap lm(lager);
-    stack<Line*> path = lm.get_path(36, 3);
+
+    for(int i = 0; i < lm.get_node_c(); ++i){
+        cout << "degree " << i << ": " << lm.get_node(i)->get_degree() << endl;
+    }
+
+    /*stack<Line*> path = lm.get_path(36, 3);
 
     while(!path.empty()){
         cout << path.top()->get_node(0)->get_id() << " " << path.top()->get_node(1)->get_id() << endl;
         path.pop();
-    }
+    }*/
 }
