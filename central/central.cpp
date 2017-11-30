@@ -168,13 +168,9 @@ void Central::handle_msg(string msg) {
     }
     else if (command == "showdata") {
         write_sensors();
-
     }
-    else if (command == "center") {      //TEMP for testing
-        //TODO: call centering function
-        //remember when testing: do "calware" and "updateall" first
+    else if (command == "center") {
         center_flag = 1;
-
     }
     else {
         // do nothing
