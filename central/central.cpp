@@ -52,40 +52,55 @@ void Central::handle_command_parameter(string msg_with_parameter, string& comman
 
 void Central::pick_up(){
     switch(cur_pick_up_state){	
-    case(PickUpState::FIND_WARE):{
-	if(center_ware(ware_seen, &motor) == 1){
-	    motor.perform_arm_macro(ARM_MACRO::PICK_UP);
-	    cur_pick_up_state = PickUpState::PICK_UP;
-	}
-	break;
-    }
 
-    case(PickUpState::PICK_UP):{
-	//if(!motor.arm_active()){cur_pick_up_state = PickUpState::TURN;}
-	usleep(5000000);
-	t_revese = clock();
-	motor.drive(BACKWARDS, 4);
-	cur_pick_up_state = PickUpState::REVERSE;
-	break;
-    }
+	case(PickUpState::FIND_WARE):{
+	    if(center_ware(ware_seen, &motor) == 1){
+		motor.perform_arm_macro(ARM_MACRO::PICK_UP);
+		cur_pick_up_state = PickUpState::PICK_UP;
+	    }
+	    break;}
+
+	case(PickUpState::PICK_UP):{
+	    //if(!motor.arm_active()){cur_pick_up_state = PickUpState::REVERSE;}
+	    usleep(5000000);
+	    t_revese = clock();
+	    motor.drive(BACKWARDS, 4);
+	    cur_pick_up_state = PickUpState::REVERSE;
+	    break;}
 	
-    case(PickUpState::REVERSE):{
-	if( (float)(clock() - t_revese)/CLOCKS_PER_SEC >= PICK_REVESE_TIME ){
-	    motor.drive(IDLE, 0);
-	    motor.turn(RIGHT, 4);
-	    cur_pick_up_state = PickUpState::TURN;
-	}
-	break;
-    }
+	case(PickUpState::REVERSE):{
+	    if( (float)(clock() - t_revese)/CLOCKS_PER_SEC >= PICK_REVESE_TIME ){
+		motor.drive(IDLE, 0);
+		motor.turn(RIGHT, 4);
+		if (line_state != NONE_DOUBLE){
+		    cur_pick_up_state = PickUpState::ON_LINE;
+		}
+		else{
+		    cur_pick_up_state = PickUpState::TURN;
+		}
+
+	    }
+	    break;}
+	    
+	case(PickUpState::ON_LINE):{
+	    if(line_state == NONE_DOUBLE){
+		cur_pick_up_state = PickUpState::TURN;
+	    }
+	    break;}
 	
-    case(PickUpState::TURN):{
-	if(line_state != NONE_DOUBLE){
-	    motor.turn(NONE, 0);
-	    //TODO calculate route home --> drive
-	}
-	break;
+	case(PickUpState::TURN):{
+	    if(line_state != NONE_DOUBLE){
+		motor.turn(NONE, 0);
+		/*    --TODO--
+		      calculate route home-|
+		      revese current line--|
+		      change to drop_off <--
+		*/
+	    }
+	    break;}
+
     }
-    }
+    
 }
 
 void Central::handle_msg(string msg) {

@@ -15,6 +15,7 @@ private:
 	FIND_WARE,
 	PICK_UP,
 	REVERSE,
+	ON_LINE,
 	TURN
     };
 
