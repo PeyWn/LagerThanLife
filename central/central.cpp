@@ -189,7 +189,7 @@ void Central::main_loop() {
         }
         if (center_flag){
             update_sensors();
-            if (center_ware(ware_seen, motor)){
+            if (center_ware(ware_seen, &motor)){
                 center_flag = 0;
             }
         }

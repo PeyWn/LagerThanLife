@@ -2,6 +2,6 @@
 using namespace std;
 
 /* Turns and drives robot forward until both ware sensors sees ware, when that;
-returns 1
+returns true
 */
-int center_ware(pair<bool, bool>, MotorCom);
+bool center_ware(pair<bool, bool> sensor, MotorCom* wheels);
