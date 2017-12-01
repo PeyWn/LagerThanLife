@@ -140,19 +140,7 @@ void set_wheel_speeds(int turn_setting, int trav_setting)
         turn_speed = turn_dir   * ((fabs(turn_speed)-1) / MAX_TURN_SETTING);    // map to zero-index
         turn_speed = turn_speed * (turn_max - turn_min) + turn_min*turn_dir;    // scale by max + minimum
     }    
-/*
-    if(trav_speed == 0){
-        turn_scale = turn_param * (trav_scale - TURN_MIN);
-    }
-    else{
-        turn_scale = turn_param * (trav_speed - TURN_MIN); 
-    }
-    if(turn_speed != 0){
-        turn_dir = turn_speed/fabs(turn_speed);
-        turn_speed = ( (fabs(turn_speed)-1)/MAX_TURN_SETTING );
-        turn_speed = (turn_scale * (fabs(turn_speed)) + TURN_MIN) * turn_dir;
-    }
-*/
+
     /* wanted speeds */
     left  = trav_speed + turn_speed;
     right = trav_speed - turn_speed;
@@ -166,21 +154,7 @@ void set_wheel_speeds(int turn_setting, int trav_setting)
 		diff    =  (diff_L>0)*(sign_L*diff_L) - (diff_R>0)*(sign_R*diff_R);
 		left    =  left  - diff*trav_dir;
 		right   =  right - diff*trav_dir;
-		
-		/*  compensate right/left if breach 0 (if it makes sense) */
-		if(trav_param < 0.5f && ((1-(trav_param+turn_param))>(turn_param-trav_param))){
-			sign_L = left  < 0 ? -1 : 1;
-			sign_R = right < 0 ? -1 : 1;
-			
-			diff_R  = (0 - right)*(trav_dir);
-			diff_L  = (0 - left) *(trav_dir);
-			diff    =  (diff_L>0)*(sign_L*diff_L) + (diff_R>0)*(sign_R*diff_R);
-			left    =  left  - diff*trav_dir;
-			right   =  right - diff*trav_dir;
-		}
 	}
-	
-           
 
     /* final output */
     set_PWM(left, right);
