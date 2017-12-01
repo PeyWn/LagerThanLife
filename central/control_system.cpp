@@ -91,10 +91,12 @@ bool ControlSystem::run(){
 
 	/* return false if not correct states */
 	if(line_state != SINGLE){
+	    motor->drive(IDLE);
 	    set_turn_speed(0);
 	    return false;
 	}
 
+	motor->drive(FORWARD);
 	sample_line_position();
 	int turn_speed = turn_value();
 	set_turn_speed(turn_speed);

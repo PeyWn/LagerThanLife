@@ -51,7 +51,7 @@ bool MotorCom::arm_active(){
 
 void MotorCom::drive(DRIVE_STATUS direction){
     int msg = DRIVE; //ID, top 4 bits
-    msg += direction;
+    msg += 4;
 
     com.send_msg(msg);
 }
