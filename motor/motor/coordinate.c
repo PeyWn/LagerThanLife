@@ -19,6 +19,8 @@ int calculate_angles(double CT_angle, double Tx, double Ty, double servo[3]){
 	initial_servo[1] = servo[1];
 	initial_servo[2] = servo[2];
 	
+	if(Tx <= 17 && Ty <= 14){return 0;} //Otherwise the claw hits the sensor module card
+	
     volatile double Cx = Tx - cos(CT_angle)*len_CT;
     volatile double Cy = Ty - sin(CT_angle)*len_CT;
 
@@ -55,7 +57,7 @@ int calculate_angles(double CT_angle, double Tx, double Ty, double servo[3]){
 int convert_angles(double servo[3]){
 	
 	volatile double test1 = servo[0]; 
-	servo[0] = rad_to_dec(servo[0], 220);
+	servo[0] = rad_to_dec(servo[0], 300);
 	volatile double test2 = servo[0];
 	
 	if(servo[0] < 220){
