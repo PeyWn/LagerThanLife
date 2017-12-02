@@ -20,9 +20,9 @@ void Central::transmit_sensors(){
 }
 
 void Central::update_sensors(){
-    line_center = sensor.getLineCenter();
-    line_state = sensor.getLineState();
-    ware_seen = sensor.getWareSeen();
+    line_center = sensor.get_line_center();
+    line_state = sensor.get_line_state();
+    ware_seen = sensor.get_ware_seen();
 }
 
 void Central::get_pos(){
@@ -240,21 +240,21 @@ void Central::handle_msg(string msg) {
         state = RobotState::STANDBY;
     }
     else if (command == "calware") {
-        sensor.calibrateWare();
+        sensor.calibrate_ware();
 
         #ifdef DEBUG
         cout << "Ware sensors calibrated." << endl;
         #endif
     }
     else if (command == "calline") {
-        sensor.calibrateLine();
+        sensor.calibrate_line();
 
         #ifdef DEBUG
         cout << "Line sensor calibrated for line." << endl;
         #endif
     }
     else if (command == "calfloor") {
-        sensor.calibrateFloor();
+        sensor.calibrate_floor();
 
         #ifdef DEBUG
         cout << "Line sensor calibrated for floor." << endl;
@@ -451,7 +451,7 @@ void Central::drive_state(){
 	    #ifdef DEBUG
 	    cout << "Corner Found!" << endl;
 	    #endif
-	    
+
             state = RobotState::TURN;
             cur_turn_state = TurnState::NEW_TURN;
 
