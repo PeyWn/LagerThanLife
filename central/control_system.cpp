@@ -29,12 +29,12 @@ int ControlSystem::turn_value(){
 	return turn_value;
 }
 
-void ControlSystem::sample_line_position(){
+void ControlSystem::sample_line_position(int line_center){
 	/* negative error for line is to the right
 	   => positive correction, which is positive
 	   turn  									 */
 	old_line_pos = line_pos;
-	line_pos     = MAX_TURN * sensor->getLineCenter() / SENSOR_MAX; //+7,-7
+	line_pos     = MAX_TURN * line_center / SENSOR_MAX; //+7,-7
 
 	/* PROPORTIONAL TERM */
 	p_error = line_pos;
@@ -75,27 +75,18 @@ double ControlSystem::saturate(double val, double max){
 
 /*-----PUBLIC FUNCTIONS-------------------------------------------------------------------------*/
 
-ControlSystem::ControlSystem(SensorCom * Sensor, MotorCom * Motor){
-	sensor = Sensor;
-	motor  = Motor;
+ControlSystem::ControlSystem(MotorCom * motor_in){
+	motor  = motor_in;
 }
 
-bool ControlSystem::run(){
+bool ControlSystem::run(int line_center){
 
 	/* return false if it's not sampling time */
     if( !is_sampling_time() ){
         return false;
     }
 
-	line_state = sensor->getLineState();
-
-	/* return false if not correct states */
-	if(line_state != SINGLE){
-	    set_turn_speed(0);
-	    return false;
-	}
-
-	sample_line_position();
+	sample_line_position(line_center);
 	int turn_speed = turn_value();
 	set_turn_speed(turn_speed);
 
