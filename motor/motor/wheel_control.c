@@ -109,8 +109,8 @@ void set_wheel_speeds(int turn_setting, int trav_setting)
 		diff_L  = (fabs(left)  - MOTOR_MAX);
 		diff_R  = (fabs(right) - MOTOR_MAX);
 		diff    =  (diff_L>0)*(sign_L*diff_L) + (diff_R>0)*(sign_R*diff_R);
-		left    =  left  - diff*trav_dir;
-		right   =  right - diff*trav_dir;
+		left    =  left  - diff;
+		right   =  right - diff;
 	}
 
     /* final output */
