@@ -73,7 +73,7 @@ void set_wheel_speeds(int turn_setting, int trav_setting)
     volatile double     trav_speed = trav_setting;
 
     volatile double     left,       right,      trav_scale,
-                        turn_max,   turn_min,
+                        temp_turn_max,          temp_turn_min,
                         diff,       diff_R,     diff_L;
 
     volatile int        sign_L;
@@ -83,16 +83,19 @@ void set_wheel_speeds(int turn_setting, int trav_setting)
     volatile double trav_dir   = trav_speed < 0? -1 : 1;
 
     /* map traversal speed to PWM value */
-    trav_scale = trav_param * MOTOR_MAX;
+    trav_scale = trav_max * MOTOR_MAX;
     trav_speed = ((float)trav_speed/MAX_TRAV_SETTING) * trav_scale;
-
 
     /* map turn speed to PWM value */
     if(turn_speed != 0){ //not divide by 0
-        turn_max   = turn_param   * MOTOR_MAX;                                  // max PWM-value
-        turn_min   = fabs(trav_speed) > 0 ? TURN_MIN_MOVING : TURN_MIN;         // decrease lower bound (turn) if moving
-        turn_speed = turn_dir   * ((fabs(turn_speed)-1) / MAX_TURN_SETTING);    // map to zero-index
-        turn_speed = turn_speed * (turn_max - turn_min) + turn_min*turn_dir;    // scale by max + minimum
+        /* max PWM-value */
+        temp_turn_max   = turn_max   * MOTOR_MAX;
+        /* decrease lower bound (turn) if moving */
+        temp_turn_min   = fabs(trav_speed) > 0 ? TURN_MIN_MOVING : TURN_MIN;
+        /* map to zero-index */
+        turn_speed = turn_dir   * ((fabs(turn_speed)-1) / MAX_TURN_SETTING);    
+        /* scale by max + minimum */
+        turn_speed = turn_speed * (temp_turn_max - temp_turn_min) + temp_turn_min*turn_dir;
     }
 
     /* wanted speeds */
@@ -151,11 +154,11 @@ int get_turn_status(){
 }
 
 void set_traversal_param(double trav_value){
-    trav_param = trav_value;
+    trav_max = trav_value;
 }
 
-void set_turn_param(double turn_value){
-    turn_param = turn_value;
+void set_turn_max(double turn_value){
+    turn_max = turn_value;
 }
 
 void set_traversal_speed(int trav_value)

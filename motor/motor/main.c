@@ -28,15 +28,15 @@ int main(void)
     
     /* testing-statements */
     if(0){
-        set_traversal_speed(7);
+        set_traversal_speed(-7);
         set_turn_speed(-7);
         set_turn_speed(7);
-        set_traversal_speed(3);
+        set_traversal_speed(-3);
         set_turn_speed(-7);
         set_turn_speed(7);
         set_turn_speed(-4);
         set_turn_speed(4);
-        set_traversal_speed(7);
+        set_traversal_speed(-7);
         set_turn_speed(-4);
         set_turn_speed(4);
     }    
