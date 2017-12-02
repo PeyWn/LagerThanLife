@@ -27,7 +27,7 @@ int main(void)
     init_wheel_control();
     
     /* testing-statements */
-    if(0){
+    if(1){
         set_traversal_speed(-7);
         set_turn_speed(-7);
         set_turn_speed(7);
