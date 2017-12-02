@@ -27,7 +27,7 @@ private:
     const int MAIN_LOOP_DELAY = 20000;
 
     //Time to drive forward when on a corner
-    const double turn_forward_time = 0.5;
+    const double TURN_FORWARD_TIME = 0.5;
 
     //Turn speed when turning in a corner
     const int CORNER_TURN_SPEED = 6;
@@ -45,7 +45,8 @@ private:
 
     ControlSystem line_follower;
 
-    int turn_speed = 3; // 3 by default
+    //Default speeds for manual driving
+    int turn_speed = 5; // 5 by default
     int drive_speed = 7; // 7 by default
 
     //Enum for determining the robots state in autonoumus mode
@@ -184,6 +185,9 @@ public:
     */
     Central(InterThreadCom* thread_com_in);
 
+    /*
+    Main loop for running the program. 
+    */
     void main_loop();
 };
 

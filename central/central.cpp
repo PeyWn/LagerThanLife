@@ -181,7 +181,7 @@ void Central::handle_msg(string msg) {
             #endif
 
             //Important! Need to go to home position at beginning of auto mode
-            //motor.perform_arm_macro(GO_HOME);
+            motor.perform_arm_macro(GO_HOME);
         }
     }
     else{
@@ -291,6 +291,10 @@ void Central::handle_msg(string msg) {
 
 void Central::main_loop() {
     string msg_read;
+
+    //Move arm to home position when starting
+    motor.perform_arm_macro(GO_HOME);
+
     while(true) {
         //Update all sensor values
         update_sensors();
@@ -359,7 +363,7 @@ void Central::turn_state(){
         }
         case TurnState::FORWARD:{
             clock_t time_diff = clock() - clock_start;
-            if((((float)time_diff)/CLOCKS_PER_SEC) > turn_forward_time){
+            if((((float)time_diff)/CLOCKS_PER_SEC) > TURN_FORWARD_TIME){
                 //Turn different ways depending on angle
                 if(turn_angle == 2){
                     //Angle 2, continue forwars
@@ -434,6 +438,10 @@ void Central::drive_state(){
     }
     else if(line_state == CORNER){
         if(cur_path.empty()){
+            //Stop robot and throw exception
+            motor.drive(IDLE, 0);
+            motor.turn(NONE, 0);
+
             throw invalid_argument("Corner found when current path is empty");
         }
 
@@ -475,7 +483,7 @@ void Central::drive_state(){
         #endif
 
         motor.drive(IDLE, 0);
-	motor.turn(NONE, 0);
+        motor.turn(NONE, 0);
         state = RobotState::PICK_UP;
     }
 }
