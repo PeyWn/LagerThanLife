@@ -103,6 +103,26 @@ void Central::pick_up(){
     
 }
 
+
+void Central::drop_off(){
+    switch(cur_drop_off_State){
+	case(DropOffState::DRIVE):{
+	    /*Start course*/
+	    break;
+	}
+	case(DropOffState::DROP_OFF):{
+	    motor.drive()
+	    break;
+	}    
+	case(DropOffState::TURN):{
+	    /*Start course*/
+	    break;
+	}
+
+    }
+    
+}
+
 void Central::handle_msg(string msg) {
 
     string command;

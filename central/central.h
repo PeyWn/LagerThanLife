@@ -19,6 +19,12 @@ private:
 	TURN
     };
 
+    enum class DropOffState{
+	DRIVE,
+	DROP_OFF,
+	TURN    
+    }
+
     
     InterThreadCom* thread_com;
 
@@ -35,6 +41,7 @@ private:
     PickUpState cur_pick_up_state = PickUpState::FIND_WARE;
     int t_revese = 0;
 
+    DropOffState cur_drop_off_satate = DropOffState::DRIVE;
     /*
     Handles commands recieved from the UI. Calls functions in the
     abstract_stock, motor unit and sensor unit.
@@ -88,6 +95,7 @@ private:
     void write_sensors();
 
     void pick_up();
+    VOID drop_off();
 	
 public:
     /*
