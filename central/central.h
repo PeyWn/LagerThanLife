@@ -34,9 +34,9 @@ private:
     };
 
     enum class DropOffState{
-	DRIVE,
-	DROP_OFF,
-	TURN    
+	PUT_DOWN,
+	TURN_CORNER,
+	TURN_NONE    
     };
     
     //Delay in us between every iteration of mainloop
@@ -68,7 +68,7 @@ private:
     PickUpState cur_pick_up_state = PickUpState::FIND_WARE;
     int t_revese = 0;
 
-    DropOffState cur_drop_off_state = DropOffState::DRIVE;
+    DropOffState cur_drop_off_state = DropOffState::PUT_DOWN;
 
     //Enum for determining the robots state in autonoumus mode
     enum class RobotState{

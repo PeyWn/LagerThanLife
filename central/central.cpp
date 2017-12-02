@@ -114,7 +114,7 @@ void Central::pick_up(){
 	case(PickUpState::REVERSE):{
 	    if( (float)(clock() - t_revese)/CLOCKS_PER_SEC >= PICK_REVESE_TIME ){
 		motor.drive(IDLE, 0);
-		motor.turn(RIGHT, 4);
+		motor.turn(RIGHT, CORNER_TURN_SPEED);
 		if (line_state != NONE_DOUBLE){
 		    cur_pick_up_state = PickUpState::ON_LINE;
 		}
@@ -134,11 +134,12 @@ void Central::pick_up(){
 	case(PickUpState::TURN):{
 	    if(line_state != NONE_DOUBLE){
 		motor.turn(NONE, 0);
-		/*    --TODO--
-		      calculate route home-|
-		      revese current line--|
-		      change to drop_off <--
-		*/
+
+		next_node = cur_line->get_opposite(next_node->get_id());
+		cur_path = map->get_path(next_node->get_id(), home_id);
+		 
+		cur_pick_up_state = PickUpState::FIND_WARE;
+		state = RobotState::DRIVING;
 	    }
 	    break;}
 
@@ -149,16 +150,25 @@ void Central::pick_up(){
 
 void Central::drop_off(){
     switch(cur_drop_off_state){
-	case(DropOffState::DRIVE):{
-	    /*Start course*/
-	    break;
-	}
-	case(DropOffState::DROP_OFF):{
-	    //motor.drive()
+	case(DropOffState::PUT_DOWN):{
+	    motor.perform_arm_macro(ARM_MACRO::PUT_DOWN);
+	    usleep(5000000);
+	    motor.turn(RIGHT, CORNER_TURN_SPEED);
+	    cur_drop_off_state = DropOffState::TURN_CORNER; 
 	    break;
 	}    
-	case(DropOffState::TURN):{
-	    /*Start course*/
+	case(DropOffState::TURN_CORNER):{
+	    if(line_state == NONE_DOUBLE){
+		cur_drop_off_state = DropOffState::TURN_NONE; 
+	    }
+	    break;
+	}
+	case(DropOffState::TURN_NONE):{
+	    if(line_state == SINGLE){
+		motor.turn(NONE, 0);
+		cur_drop_off_state = DropOffState::PUT_DOWN;
+		state = RobotState::STANDBY;
+	    }
 	    break;
 	}
 
@@ -392,7 +402,7 @@ void Central::main_loop() {
                 }
                 case RobotState::PICK_UP:{
                 // ~-*-~-*-~-*-~-*-~ PICK UP STATE ~-*-~-*-~-*-~-*-~
-                    state = RobotState::STANDBY; //FIXME change when implemeted
+                    pick_up();
                     break;
                 }
                 case RobotState::DROP_OFF:{
