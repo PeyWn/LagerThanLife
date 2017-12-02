@@ -340,7 +340,7 @@ void Central::main_loop() {
                 break;
             }
         }
-	if(line_state == SINGLE){
+	/*	if(line_state == SINGLE){
 	    line_follower.run(line_center);
 	    motor.drive(FORWARD, 4);
 	}
@@ -348,7 +348,7 @@ void Central::main_loop() {
 	    motor.drive(IDLE, 0);
 	    motor.turn(NONE, 0);
 	}
-	cout<<"linepos: "<<line_center<<endl;
+	cout<<"linepos: "<<line_center<<endl;*/
 	//Delay main loop slightly to not spam UART
 	usleep(MAIN_LOOP_DELAY);
     }
