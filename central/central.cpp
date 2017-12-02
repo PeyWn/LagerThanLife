@@ -105,6 +105,9 @@ void Central::pick_up(){
 
 	case(PickUpState::PICK_UP):{
 	    //if(!motor.arm_active()){cur_pick_up_state = PickUpState::REVERSE;}
+	    #ifdef DEBUG
+	    cout << "Pick up state: PICK_UP" << endl;
+            #endif	    
 	    usleep(5000000);
 	    t_revese = clock();
 	    motor.drive(BACKWARDS, 4);
@@ -112,7 +115,14 @@ void Central::pick_up(){
 	    break;}
 	
 	case(PickUpState::REVERSE):{
+            #ifdef DEBUG
+	    cout << "Pick up state: REVERSE" << endl;
+            #endif
+
 	    if( (float)(clock() - t_revese)/CLOCKS_PER_SEC >= PICK_REVESE_TIME ){
+		#ifdef DEBUG
+		cout << "Pick up state: REVERSE-->STOP" << endl;
+                #endif
 		motor.drive(IDLE, 0);
 		motor.turn(RIGHT, CORNER_TURN_SPEED);
 		if (line_state != NONE_DOUBLE){
@@ -126,12 +136,18 @@ void Central::pick_up(){
 	    break;}
 	    
 	case(PickUpState::ON_LINE):{
+    	    #ifdef DEBUG
+	    cout << "Pick up state: ON_LINE" << endl;
+            #endif
 	    if(line_state == NONE_DOUBLE){
 		cur_pick_up_state = PickUpState::TURN;
 	    }
 	    break;}
 	
 	case(PickUpState::TURN):{
+	    #ifdef DEBUG
+	    cout << "Pick up state: TURN" << endl;
+            #endif	    
 	    if(line_state != NONE_DOUBLE){
 		motor.turn(NONE, 0);
 
