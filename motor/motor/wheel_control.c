@@ -12,8 +12,8 @@
     the lowest turn speed setting 1 with no traversal speed and with traversal speed
     respectively. When turn speed is greater than traversal speed, the slower wheel will switch
     direction.                                                                                  */
-double trav_max = 0.85f;   // ratio MOTOR_MAX;
-double turn_max = 0.70f;   // ratio MOTOR_MAX; turn_param-trav_param must be less than left room to sum=1.0
+double trav_max = 0.85f;   // ratio of MOTOR_MAX;
+double turn_max = 0.70f;   // ratio of MOTOR_MAX;
 
 /* current speeds */
 int trav_status = 0;        // current traversal speed -MAX_TRAV_SETTING ... +MAX_TRAV_SETTING
@@ -101,8 +101,8 @@ void set_wheel_speeds(int turn_setting, int trav_setting)
 
     /* compensate right/left if breach MOTOR_MAX */
 	if(fabs(trav_speed) > 0){
-		sign_L = left  < 0 ? -1 : 1;
-		sign_R = right < 0 ? -1 : 1;
+		sign_L  = left  < 0 ? -1 : 1;
+		sign_R  = right < 0 ? -1 : 1;
 		diff_L  = (fabs(left)  - MOTOR_MAX);
 		diff_R  = (fabs(right) - MOTOR_MAX);
 		diff    =  (diff_L>0)*(sign_L*diff_L) + (diff_R>0)*(sign_R*diff_R);
