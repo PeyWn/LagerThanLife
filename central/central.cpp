@@ -340,8 +340,16 @@ void Central::main_loop() {
                 break;
             }
         }
-
-    //Delay main loop slightly to not spam UART
+	if(line_state == SINGLE){
+	    line_follower.run(line_center);
+	    motor.drive(FORWARD, 4);
+	}
+	else{
+	    motor.drive(IDLE, 0);
+	    motor.turn(NONE, 0);
+	}
+	cout<<"linepos: "<<line_center<<endl;
+	//Delay main loop slightly to not spam UART
 	usleep(MAIN_LOOP_DELAY);
     }
 }

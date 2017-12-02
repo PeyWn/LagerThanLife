@@ -24,18 +24,20 @@ bool ControlSystem::is_sampling_time(){
 
 int ControlSystem::turn_value(){
 	// round off to closest integer
-	int turn_value = (int)round(-(K_P*p_error + K_I*i_error + K_D*d_error));
-	turn_value = (int)saturate(turn_value, MAX_TURN);
+    int turn_value = round(-(K_P*p_error + K_I*i_error + K_D*d_error));
+    
+    turn_value = (int)saturate(turn_value, MAX_TURN);
+	
 	return turn_value;
 }
 
-void ControlSystem::sample_line_position(int line_center){
+void ControlSystem::sample_line_position(float line_center){
 	/* negative error for line is to the right
 	   => positive correction, which is positive
 	   turn  									 */
 	old_line_pos = line_pos;
-	line_pos     = MAX_TURN * line_center / SENSOR_MAX; //+7,-7
-
+	line_pos     = MAX_TURN * line_center / (float)SENSOR_MAX; //+7,-7
+	
 	/* PROPORTIONAL TERM */
 	p_error = line_pos;
 
@@ -79,16 +81,16 @@ ControlSystem::ControlSystem(MotorCom * motor_in){
 	motor  = motor_in;
 }
 
-bool ControlSystem::run(int line_center){
+bool ControlSystem::run(float line_center){
 
 	/* return false if it's not sampling time */
     if( !is_sampling_time() ){
-        return false;
+	return false;
     }
 
-	sample_line_position(line_center);
-	int turn_speed = turn_value();
-	set_turn_speed(turn_speed);
+    sample_line_position(line_center);
+    int turn_speed = turn_value();
+    set_turn_speed(turn_speed);
 
-	return true;
+    return true;
 }
