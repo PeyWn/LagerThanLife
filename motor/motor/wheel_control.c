@@ -1,74 +1,35 @@
 ﻿#include    "wheel_control.h"
 #include    "math.h"
 
-/* physical limitations (by test) */
+/* physical limitations (do not change)                                                         */
 #define MOTOR_MAX       0.95f   // physical max PWM for DC-motors
 #define TURN_MIN        0.285f  // physical min PWM for turning when still
-#define TURN_MIN_MOVING 0.143f   // physical min PWM for turning while moving
+#define TURN_MIN_MOVING 0.143f  // physical min PWM for turning while moving
 
-/* parameters for speed (trav==turn and sum < 1.0 for no switch direction when moving)   */
-double trav_param = 0.85f;   // ratio MOTOR_MAX;
-double turn_param = 0.70f;   // ratio MOTOR_MAX; turn_param-trav_param must be less than left room to sum=1.0
+/*  DEFAULT PARAMETERS FOR SPEED - MAX SPEEDS:
+    Max speeds of turn and traversal movement. The current speeds are scaled by this factor. PWM
+    output is restricted from above by MOTOR_MAX. TURN_MIN and TURN_MIN_MOVING corresponds to
+    the lowest turn speed setting 1 with no traversal speed and with traversal speed
+    respectively. When turn speed is greater than traversal speed, the slower wheel will switch
+    direction.                                                                                  */
+double trav_max = 0.85f;   // ratio MOTOR_MAX;
+double turn_max = 0.70f;   // ratio MOTOR_MAX; turn_param-trav_param must be less than left room to sum=1.0
 
 /* current speeds */
 int trav_status = 0;        // current traversal speed -MAX_TRAV_SETTING ... +MAX_TRAV_SETTING
 int turn_status = 0;        // current turn speed      -MAX_TURN_SETTING ... +MAX_TURN_SETTING
 
-/* variables for using timer in testing */
-unsigned    int period_counter  = 0;
-unsigned    int second_counter  = 0;
-            int has_counted     = 0;
+/*-----------------------------------locally used functions-------------------------------------*/
 
-/*--------------------locally used functions----------------------*/
-
-/* timer for waiting (set for 16MHz 8-bit timer with 8x clock divide)
-   starts counting seconds from 0 when called upon. It must
-   be called once every timer-period in order to update. It
-   is reset if called and the amount of seconds has passed.
-    
-   arg int seconds:
-   amount of seconds to wait.
-   
-   return (int bool):
-   return true if the amount of seconds has passed since
-   first call to funtion, false otherwise.
-*/
-int seconds(unsigned int seconds)
-{
-     if ( TCNT0 > 200 && !(has_counted)){
-         has_counted = 1;
-         period_counter += 1;
-     }
-     else if ( TCNT0 < 200 ){
-         has_counted = 0;
-     }
-     
-     /* 15.770kHz is measured in oscilloscope           (8Mhz) 
-        16Mhz and timer-clock-divide 8 => approx 4kHz   (16MHz)
-     */
-     if ( period_counter >= 4000 ){ 
-         second_counter += 1;
-         period_counter = 0;
-     }
-     if (second_counter > seconds){
-         second_counter = 0;
-         return 1;
-     }
-     else
-     {
-         return 0;
-     }
-}
-
-/*  set output correctly and safely.
+/*  set output correctly and safely using the OCR0A and OCR0B as PWM-signals.
 
     arg double left:
     percentage of PWM for left wheel-side
-    
+
     arg double right:
-    percentage of PWM for right whell-side          */
+    percentage of PWM for right whell-side                                                      */
 void set_PWM(double left, double right){
-    
+
     /* safety net */
     if(fabs(left) > MOTOR_MAX){
         left  = MOTOR_MAX * left  / fabs(left);
@@ -76,11 +37,11 @@ void set_PWM(double left, double right){
     if(fabs(right) > MOTOR_MAX){
         right = MOTOR_MAX * right / fabs(right);
     }
-    
+
     /* set PWM duty - 255 is increments of the timer */
     OCR0A = (int)(255 * ( 1 - fabs(right) ) );
     OCR0B = (int)(255 * ( 1 - fabs(left)  ) );
-    
+
     /* set direction on left wheel side */
     if(right >= 0){
         PORTC &= ~(1<<PORTC0);
@@ -88,7 +49,7 @@ void set_PWM(double left, double right){
     else{
         PORTC |= 1<<PORTC0;
     }
-    
+
     /* set direction on right wheel side */
     if(left >= 0){
         PORTC |= 1<<PORTC1;
@@ -98,30 +59,23 @@ void set_PWM(double left, double right){
     }
 }
 
-/*  Set both wheel-sides' speed by scaling the set parameters
-    with the turn_speed and trav_speed given as arguments.
-    Turn-speed scales with current trav-speed if the robot
-    is moving. This is because 1.0 turn_param should result
-    in no switch of DC-motor direction when moving forward.
-    The safety for restricting speed to MOTOR_MAX is given by
-    the function set_PWM and is recommended for setting speeds
-    of both wheel-sides.
-    
+/*  Set both wheel-sides' speed by scaling the set parameters turn_max and trav_max with the
+    turn_speed and trav_speed given as arguments respectively.
+
     arg int turn_speed:
     an integer value between +/- MAX_TURN_SETTING
-    
+
     arg int trav_speed:
-    an integer value between +/- MAX_TRAV_SETTING
-*/
+    an integer value between +/- MAX_TRAV_SETTING                                               */
 void set_wheel_speeds(int turn_setting, int trav_setting)
 {
     volatile double     turn_speed = turn_setting;
     volatile double     trav_speed = trav_setting;
-    
-    volatile double     left,       right,      trav_scale, 
-                        turn_max,   turn_min, 
+
+    volatile double     left,       right,      trav_scale,
+                        turn_max,   turn_min,
                         diff,       diff_R,     diff_L;
-                        
+
     volatile int        sign_L;
     volatile int        sign_R;
 
@@ -130,23 +84,23 @@ void set_wheel_speeds(int turn_setting, int trav_setting)
 
     /* map traversal speed to PWM value */
     trav_scale = trav_param * MOTOR_MAX;
-    trav_speed = ((float)trav_speed/MAX_TRAV_SETTING) * trav_scale; 
+    trav_speed = ((float)trav_speed/MAX_TRAV_SETTING) * trav_scale;
 
-    
+
     /* map turn speed to PWM value */
     if(turn_speed != 0){ //not divide by 0
-        turn_max   = turn_param   * MOTOR_MAX;                                    // max PWM-value
-        turn_min   = fabs(trav_speed) > 0 ? TURN_MIN_MOVING : TURN_MIN;           // decrease lower bound (turn) if moving
+        turn_max   = turn_param   * MOTOR_MAX;                                  // max PWM-value
+        turn_min   = fabs(trav_speed) > 0 ? TURN_MIN_MOVING : TURN_MIN;         // decrease lower bound (turn) if moving
         turn_speed = turn_dir   * ((fabs(turn_speed)-1) / MAX_TURN_SETTING);    // map to zero-index
         turn_speed = turn_speed * (turn_max - turn_min) + turn_min*turn_dir;    // scale by max + minimum
-    }    
+    }
 
     /* wanted speeds */
     left  = trav_speed + turn_speed;
     right = trav_speed - turn_speed;
 
     /* compensate right/left if breach MOTOR_MAX */
-	if(fabs(trav_speed) > 0){ 
+	if(fabs(trav_speed) > 0){
 		sign_L = left  < 0 ? -1 : 1;
 		sign_R = right < 0 ? -1 : 1;
 		diff_L  = (fabs(left)  - MOTOR_MAX);
@@ -159,34 +113,32 @@ void set_wheel_speeds(int turn_setting, int trav_setting)
     /* final output */
     set_PWM(left, right);
 }
-/*----------------------------------------------------------------*/
 
-
-/*---------------------publicly used functions--------------------*/
+/*------------------------------------publicly used functions-----------------------------------*/
 
 int init_wheel_control()
 {
     /* set OC0A and OC0B on compare match when up-counting, clear on down-counting */
     TCCR0A |= 1<<COM0A1 | 1<<COM0A0 | 1<<COM0B1 | 1<<COM0B0;
-    
+
     /* Phase correct PWM */
     TCCR0A |=     1<<WGM00;
     TCCR0A &=   ~(1<<WGM01);
     TCCR0B &=   ~(1<<WGM02);
-    
+
     /* clk source, no prescaling for 8Mhz. (divide by 8 for 16MHz -> 2 MHz) */
     TCCR0B &= ~(1<<CS00);
     TCCR0B |=  (1<<CS01);
     TCCR0B &= ~(1<<CS02);
-    
+
     /* set initial variable values, speed and turn to 0 */
     set_traversal_speed(0);
     set_turn_speed(0);
-    
+
     /* set PB3, PB4 as output for PB4, PB5, PC1, PC0 */
     DDRB  |= (1<<DDB4) | (1<<DDB3); //PWM
     DDRC  |= (1<<DDC1) | (1<<DDC0); //DIR1
-    
+
     return 0;
 }
 
@@ -225,5 +177,5 @@ void set_turn_speed(int turn_value)
 }
 
 void update_wheel_control(){
-    
+
 }
