@@ -475,6 +475,7 @@ void Central::drive_state(){
         #endif
 
         motor.drive(IDLE, 0);
+	motor.turn(NONE, 0);
         state = RobotState::PICK_UP;
     }
 }
