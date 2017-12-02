@@ -56,7 +56,7 @@ private:
         sampling.
     Return:
         only stores errors in p_error, i_error, d_error                                         */
-    void sample_line_position();
+    void sample_line_position(int line_center);
 
     /*
     Output of the PID-controller:
@@ -102,7 +102,7 @@ public:
         MotorCom *motor -- pointer for communication with the motor-unit
     Return:
         new instance of the ControlSystem class                                                 */
-    ControlSystem(SensorCom *sensor, MotorCom *motor);
+    ControlSystem(MotorCom *motor);
 
     /*
     Run one iteration of the control-system:
@@ -110,7 +110,7 @@ public:
         correct and correct the error by setting the turn-speed of the robot platform.
     Return:
         whether a sampling->correction was done by the control-system or not (bool)             */
-    bool run();
+    bool run(int line_center);
 };
 
 #endif

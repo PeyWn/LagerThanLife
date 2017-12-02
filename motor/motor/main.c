@@ -13,10 +13,10 @@ int main(void)
     
     init_IO();
     usart_init(0);
-	//UBRR0L = 0x67; //BAUDRATE 103 - 9600b/s
-	UBRR0L = 0x33; //BAUDRATE     - 19200b/s
-    
-	/* Set UART baudrate, activates Tx/Rx, activates interrupts for UART data recieved */
+
+	UBRR0L = 0x33; //BAUDRATE 33 = 19200
+
+	//Set UART baudrate, activates Tx/Rx, activates interrupts for UART data recieved
 	UCSR0B = (1<<RXEN0)|(1<<TXEN0)|(1<<RXCIE0);
 	
     /* Enable global interrupts */
@@ -41,10 +41,9 @@ int main(void)
         set_turn_speed(4);
     }    
     
-    
     while(1)
     {
-        
+
     }
     return 0;
 }
