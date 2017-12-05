@@ -80,7 +80,7 @@ void stop_up()
 
 void start_down()
 {
-	
+	step_new_pos('d'); 
 }
 
 void stop_down()
@@ -90,7 +90,7 @@ void stop_down()
 
 void start_towards()
 {
-	
+	step_new_pos('t'); 
 }
 
 void stop_towards()
@@ -100,7 +100,7 @@ void stop_towards()
 
 void start_away()
 {
-	
+	step_new_pos('a'); 
 }
 
 void stop_away()
