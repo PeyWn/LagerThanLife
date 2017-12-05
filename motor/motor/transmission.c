@@ -37,7 +37,7 @@ Packet read_byte(int id, int address)
 	transmit(address);                              // parameter 1: address to read from
     transmit(1);                                    // parameter 2: #bytes to read
 	transmit( ~(id + 4 + READ_DATA + address + 1) );    //Checksum
-	return receive_status_packet();
+	return NO_STATUS_PACKET; //receive_status_packet();
 }
 
 Packet write_byte(int id, int address, int byte, int mode)
@@ -61,7 +61,7 @@ Packet write_byte(int id, int address, int byte, int mode)
 	    transmit( ~(id + 4 + mode + address + byte) ); //Checksum
     */
     if(id != 0xFE){
-	    return receive_status_packet();
+	    return NO_STATUS_PACKET; //receive_status_packet();
     }else{
         return NO_STATUS_PACKET;
     }     
@@ -91,7 +91,7 @@ void write_word(int id, int address, int word, int mode)
 	transmit(wordL);
 	transmit(wordH);
 	transmit( ~(id + 4 + mode + address + wordH + wordL) ); //Checksum
-	receive_status_packet();
+	//receive_status_packet();
 }
 
 void write_long(int id, int address, int word1, int word2, int mode)
@@ -112,7 +112,7 @@ void write_long(int id, int address, int word1, int word2, int mode)
 	transmit(word2L);
 	transmit(word2H);
 	transmit( ~(id + 7 + mode + address + word1L + word1H + word2L + word2H) ); //Checksum
-	receive_status_packet();
+	//receive_status_packet();
 }
  
 void move_single_axis(int id, int pos, int speed, char mode) 
@@ -161,7 +161,7 @@ void update_error_var(int id)
 	transmit(2); // Length = number of parameters + 2
 	transmit(1);
 	transmit((char)~(id+2+1)); // Checksum
-	receive_status_packet();
+	//receive_status_packet();
 }
 
 void go_home_pos(void)
