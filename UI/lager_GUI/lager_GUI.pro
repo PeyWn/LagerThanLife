@@ -25,10 +25,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        main_window.cpp
+        main_window.cpp \
+        ../../lib/network/interthreadcom.cpp \
+        ../../lib/network/network_socket.cpp \
+        ../client_socket.cpp \
+        ../command_handler.cpp \
+        ../text_file_handler.cpp
+
 
 HEADERS += \
-        main_window.h
+        main_window.h \
+        ../../lib/network/interthreadcom.h \
+        ../../lib/network/network_socket.h \
+        ../client_socket.h \
+        ../command_handler.h \
+        ../text_file_handler.h
 
 FORMS += \
         main_window.ui
+
+LIBS += \
+        -stdlib=libc++
+

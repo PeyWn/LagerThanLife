@@ -20,8 +20,8 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>740</x>
-      <y>0</y>
+      <x>730</x>
+      <y>10</y>
       <width>661</width>
       <height>411</height>
      </rect>
@@ -237,7 +237,7 @@
      <widget class="QPushButton" name="pushButton_8">
       <property name="geometry">
        <rect>
-        <x>60</x>
+        <x>120</x>
         <y>160</y>
         <width>91</width>
         <height>41</height>
@@ -261,7 +261,7 @@
      <widget class="QPushButton" name="pushButton_9">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>220</x>
         <y>160</y>
         <width>91</width>
         <height>41</height>
@@ -567,6 +567,30 @@ p, li { white-space: pre-wrap; }
        <bool>false</bool>
       </property>
      </widget>
+     <widget class="QPushButton" name="pushButton_10">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>160</y>
+        <width>91</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(102, 204, 255);</string>
+      </property>
+      <property name="text">
+       <string>FIND WARE</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
@@ -586,7 +610,7 @@ p, li { white-space: pre-wrap; }
      </font>
     </property>
     <property name="autoFillBackground">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(252, 68, 68);
