@@ -61,60 +61,53 @@ int main(void)
 {
     init_IO();
     usart_init(0);
-	torque_enable(0xfe);
-	IS_PICKUP = 0;
-	IS_STOP = 0;
-	IS_WORKING = 0;
-	init_cur_pos(); 
-	
-	/*
-    volatile int received_data;
-    volatile int   test = 0;
-    
-    received_data = read_word(1, PRESENT_POS_ADDRESS);
-    test = received_data;
-    
-	move_axis(0, 0x200, 0x1F);
-    
-    received_data = read_word(1, PRESENT_POS_ADDRESS);
-    test = received_data;
-    
-    move_axis(0, 0x100, 0x1F);
-    
-    received_data = read_word(1, PRESENT_POS_ADDRESS);
-    test = received_data;
-    test = 0;
-    
-	*/
+    init_wheel_control();
+
+    //set rx to input, set tx to output
+
+    DDRD = (0<<DDD0)|(1<<DDD1);
+
+    UBRR0L = 0x33; //BAUDRATE 33 = 19200
+
+    //Set UART baudrate, activates Tx/Rx, activates interrupts for UART data recieved
+    UCSR0B = (1<<RXEN0)|(1<<TXEN0)|(1<<RXCIE0);
+
+    //Enable global interrupts
+    sei();
+
+    torque_enable(0xfe);
+    IS_PICKUP = 0;
+    IS_STOP = 0;
+    IS_WORKING = 0;
+    init_cur_pos(); 
 	
     while(1)
     {
-		if(IS_PICKUP || IS_PUTDOWN) 
-		{
-			go_pos_front();
-			if (compare_arrays(cur_pos, front_pos, 6))
-			{
-				if (IS_PUTDOWN)
-				{
-					release();
-				}
-				grab();
-				go_home_pos();
-			}
-		}
+	if(IS_PICKUP || IS_PUTDOWN) 
+	    {
+		go_pos_front();
+		if (compare_arrays(cur_pos, front_pos, 6))
+		    {
+			if (IS_PUTDOWN)
+			    {
+				release();
+			    }
+			grab();
+			go_home_pos();
+		    }
+	    }
 		
-		IS_WORKING = 1; 
-		if(!update_pos())
-		{
-			IS_WORKING = 0;
-		}
-		if(IS_STOP)
-		{
-			torque_disable_all();
-			IS_WORKING = 0;
-		}
-		
-    }
+	IS_WORKING = 1; 
+	if(!update_pos())
+	    {
+		IS_WORKING = 0;
+	    }
+	if(IS_STOP)
+	    {
+		torque_disable_all();
+		IS_WORKING = 0;
+	    }
+    }	
 	
     return 0;
 }
