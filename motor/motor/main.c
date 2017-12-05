@@ -97,11 +97,13 @@ int main(void)
 		    }
 	    }
 		
-	IS_WORKING = 1; 
-	if(!update_pos())
-	    {
+	if(!IS_STOP && update_pos()){
+		IS_WORKING = 1;
+	}
+	else{
 		IS_WORKING = 0;
-	    }
+	}
+		
 	if(IS_STOP)
 	    {
 		torque_disable_all();
