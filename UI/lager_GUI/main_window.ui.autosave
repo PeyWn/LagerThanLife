@@ -92,7 +92,7 @@
      <attribute name="title">
       <string>Manual Control</string>
      </attribute>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="right_button">
       <property name="geometry">
        <rect>
         <x>210</x>
@@ -116,7 +116,7 @@
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_5">
+     <widget class="QPushButton" name="fwd_button">
       <property name="geometry">
        <rect>
         <x>160</x>
@@ -186,7 +186,7 @@
        <string>CLAW:</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_6">
+     <widget class="QPushButton" name="open_claw_button">
       <property name="geometry">
        <rect>
         <x>450</x>
@@ -210,7 +210,7 @@
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_7">
+     <widget class="QPushButton" name="close_claw_button">
       <property name="geometry">
        <rect>
         <x>450</x>
@@ -234,7 +234,7 @@
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_8">
+     <widget class="QPushButton" name="pick_up_button">
       <property name="geometry">
        <rect>
         <x>120</x>
@@ -258,7 +258,7 @@
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_9">
+     <widget class="QPushButton" name="put_down_button">
       <property name="geometry">
        <rect>
         <x>220</x>
@@ -327,7 +327,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica Neue'; font-size:11pt; font-weight:600; color:#fd6666;&quot;&gt;===============                                            \       \&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_18">
+     <widget class="QPushButton" name="left_button">
       <property name="geometry">
        <rect>
         <x>110</x>
@@ -351,7 +351,7 @@ p, li { white-space: pre-wrap; }
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_19">
+     <widget class="QPushButton" name="back_button">
       <property name="geometry">
        <rect>
         <x>160</x>
@@ -375,7 +375,7 @@ p, li { white-space: pre-wrap; }
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_12">
+     <widget class="QPushButton" name="arm_up_button">
       <property name="geometry">
        <rect>
         <x>450</x>
@@ -399,7 +399,7 @@ p, li { white-space: pre-wrap; }
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_20">
+     <widget class="QPushButton" name="arm_down_button">
       <property name="geometry">
        <rect>
         <x>450</x>
@@ -423,7 +423,7 @@ p, li { white-space: pre-wrap; }
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_21">
+     <widget class="QPushButton" name="arm_back_button">
       <property name="geometry">
        <rect>
         <x>340</x>
@@ -447,7 +447,7 @@ p, li { white-space: pre-wrap; }
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="arm_fwd_button">
       <property name="geometry">
        <rect>
         <x>570</x>
@@ -471,7 +471,7 @@ p, li { white-space: pre-wrap; }
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_10">
+     <widget class="QPushButton" name="find_ware_button">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -497,7 +497,7 @@ p, li { white-space: pre-wrap; }
      </widget>
     </widget>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="emergency_stop_button">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -534,6 +534,13 @@ selection-background-color: rgb(253, 117, 207);</string>
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuMenu">
+    <property name="title">
+     <string>Menu</string>
+    </property>
+    <addaction name="actionExit"/>
+   </widget>
+   <addaction name="menuMenu"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -544,6 +551,11 @@ selection-background-color: rgb(253, 117, 207);</string>
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

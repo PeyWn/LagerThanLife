@@ -21,51 +21,52 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_5_pressed();
-
-    void on_pushButton_5_released();
-
-    void on_pushButton_18_pressed();
-
-    void on_pushButton_18_released();
 
     void on_tabWidget_tabBarClicked(int index);
 
-    void on_pushButton_8_clicked();
+    void on_fwd_button_pressed();
 
-    void on_pushButton_19_pressed();
+    void on_fwd_button_released();
 
-    void on_pushButton_19_released();
+    void on_left_button_pressed();
 
-    void on_pushButton_released();
+    void on_left_button_released();
 
-    void on_pushButton_pressed();
+    void on_back_button_pressed();
 
-    void on_pushButton_6_clicked();
+    void on_back_button_released();
 
-    void on_pushButton_7_clicked();
+    void on_right_button_pressed();
 
-    void on_pushButton_12_pressed();
+    void on_right_button_released();
 
-    void on_pushButton_12_released();
+    void on_find_ware_button_clicked();
 
-    void on_pushButton_20_pressed();
+    void on_pick_up_button_clicked();
 
-    void on_pushButton_20_released();
+    void on_put_down_button_clicked();
 
-    void on_pushButton_21_pressed();
+    void on_open_claw_button_clicked();
 
-    void on_pushButton_21_released();
+    void on_close_claw_button_clicked();
 
-    void on_pushButton_3_pressed();
+    void on_arm_up_button_pressed();
 
-    void on_pushButton_3_released();
+    void on_arm_up_button_released();
 
-    void on_pushButton_10_clicked();
+    void on_arm_down_button_pressed();
 
-    void on_pushButton_9_clicked();
+    void on_arm_down_button_released();
 
-    void on_pushButton_2_clicked();
+    void on_arm_back_button_pressed();
+
+    void on_arm_back_button_released();
+
+    void on_arm_fwd_button_pressed();
+
+    void on_arm_fwd_button_released();
+
+    void on_emergency_stop_button_pressed();
 
 private:
     CommandHandler* cmd_handler;
