@@ -86,7 +86,7 @@ public:
 	return - The euclidean distance between the coordinates of n1 and n2
 	*/
 	static double euc_dist(LineNode* n1, LineNode* n2);
-	
+
 private:
 	/*
 	Create a new LineNode object with given id and coordinates.
@@ -97,11 +97,11 @@ private:
 	*/
 	LineNode(double x_in, double y_in, int id_in);
 
-	int id;
-	double x;
-	double y;
+	int id = 0;
+	double x = 0;
+	double y = 0;
 	vector<Line*> lines;
-	int degree;
+	int degree = 0;
 
 	/*
 	Add a line connecting to the node.
