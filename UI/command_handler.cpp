@@ -67,6 +67,9 @@ bool CommandHandler::try_command(string line){
 
     //send command to robot
     send_msg(cmd);
+    // read_msg(cmd);
+    // result = cmd + param;
+    // state_handler->interpret_result(result);
     return true;
 }
 
