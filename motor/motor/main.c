@@ -22,24 +22,8 @@ int main(void)
     /* Enable global interrupts */
 	sei();
     
-    /* INITIALIZE WHEEL_CONTROL - OBS! REMOVE TESTING-STATEMENTS */
-    
-    init_wheel_control();
-    
-    /* testing-statements */
-    if(0){
-        set_traversal_speed(7);
-        set_turn_speed(-7);
-        set_turn_speed(7);
-        set_traversal_speed(3);
-        set_turn_speed(-7);
-        set_turn_speed(7);
-        set_turn_speed(4);
-        set_turn_speed(4);
-        set_traversal_speed(7);
-        set_turn_speed(-4);
-        set_turn_speed(4);
-    }    
+    /* INITIALIZE WHEEL_CONTROL */
+    init_wheel_control();  
     
     while(1)
     {
