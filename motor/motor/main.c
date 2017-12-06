@@ -8,10 +8,8 @@
 #include "coordinate.h"
 #include "commands.h"
 
-/* was not included */
 #include "transmission.h"   
-#include "receive.h"  
-/*------------------*/   
+#include "receive.h" 
 
 volatile int IS_WORKING; //Flag for indication that the arm is moving
 volatile int IS_STOP;
@@ -32,6 +30,10 @@ void init_cur_pos()
 	cur_pos[3] = new_pos[3];
 	cur_pos[4] = new_pos[4];
 	cur_pos[5] = 0x1ff;
+	
+	move_axis(1, cur_pos[1], 0x1f);
+	move_axis(2, cur_pos[2], 0x1f);
+	move_axis(3, cur_pos[3], 0x1f);
 }
 
 int update_pos()
@@ -61,7 +63,11 @@ int main(void)
 {
     init_IO();
     usart_init(0);
-    init_wheel_control();
+	IS_PICKUP = 0;
+    IS_STOP = 0;
+    IS_WORKING = 0;
+    /*
+	init_wheel_control();
 
     //set rx to input, set tx to output
 
@@ -74,15 +80,15 @@ int main(void)
 
     //Enable global interrupts
     sei();
+	*/
+	
 
-    torque_enable(0xfe);
-    IS_PICKUP = 0;
-    IS_STOP = 0;
-    IS_WORKING = 0;
+    //kill it with fire (may reprogram servos) torque_enable(0xfe);
     init_cur_pos(); 
 	
     while(1)
     {
+		
 	if(IS_PICKUP || IS_PUTDOWN) 
 	    {
 		go_pos_front();
