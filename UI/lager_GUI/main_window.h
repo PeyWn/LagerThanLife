@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <iostream>
-#include "../command_handler.h"
+//#include "../command_handler.h"
 #include "../client_socket.h"
 #include "state_handler.h"
 
@@ -69,9 +69,17 @@ private slots:
 
     void on_emergency_stop_button_pressed();
 
+    void on_terminal_prompt_returnPressed();
+
+
+    void on_terminal_window_textChanged();
+
 private:
     CommandHandler* cmd_handler;
     Ui::MainWindow *ui;
+
+    string command; //saves the last command written to the command promt
+    QString terminal_history; // saves the terminal history
 };
 
 #endif // MAIN_WINDOW_H

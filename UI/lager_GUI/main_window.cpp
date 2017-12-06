@@ -141,3 +141,22 @@ void MainWindow::on_emergency_stop_button_pressed()
 {
     cmd_handler->try_command("estop");
 }
+
+void MainWindow::on_terminal_prompt_returnPressed()
+{
+    command = ui->terminal_prompt->text().toStdString();
+    ui->terminal_prompt->clear();
+
+    string tmp = terminal_history.QString::toStdString() + "\n > " + command;
+
+    terminal_history = QString::fromStdString(tmp);
+
+    ui->terminal_window->setText(terminal_history);
+
+}
+
+
+void MainWindow::on_terminal_window_textChanged()
+{
+    //make it scroll down to the bottom
+}
