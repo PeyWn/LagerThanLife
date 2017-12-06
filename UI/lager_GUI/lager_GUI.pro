@@ -30,7 +30,8 @@ SOURCES += \
         ../../lib/network/network_socket.cpp \
         ../client_socket.cpp \
         ../command_handler.cpp \
-        ../text_file_handler.cpp
+        ../text_file_handler.cpp \
+        state_handler.cpp
 
 
 HEADERS += \
@@ -39,7 +40,8 @@ HEADERS += \
         ../../lib/network/network_socket.h \
         ../client_socket.h \
         ../command_handler.h \
-        ../text_file_handler.h
+        ../text_file_handler.h \
+        state_handler.h
 
 FORMS += \
         main_window.ui

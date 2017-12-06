@@ -16,10 +16,10 @@ int main(int argc, char *argv[])
     CommandHandler cmd_handler(thread_com);
 
     // Create a new thread to handle communication
-    com_module = new ClientSocket(thread_com);
+    //com_module = new ClientSocket(thread_com);
 
     //thread com_child(comm_mod_loop);
-    thread com_child([](){com_module->main_loop();});
+    //thread com_child([](){com_module->main_loop();});
 
     QApplication a(argc, argv);
     MainWindow w(&cmd_handler);

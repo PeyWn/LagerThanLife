@@ -141,8 +141,3 @@ void MainWindow::on_emergency_stop_button_pressed()
 {
     cmd_handler->try_command("estop");
 }
-
-void MainWindow::on_actionExit_triggered()
-{
-    // knapp för att avsluta programmet ????
-}
