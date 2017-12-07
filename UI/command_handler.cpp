@@ -18,6 +18,9 @@ bool CommandHandler::try_command(string line){
     //Load first word into cmd
     ss >> cmd;
 
+    //saves the command-part to later see if the command get answers back from robot
+    string ask_cmd = cmd;
+
     auto cmd_info = acc_cmd.find(cmd);
 
     if(cmd_info == acc_cmd.end()){
@@ -42,10 +45,13 @@ bool CommandHandler::try_command(string line){
                 return false;
             }
 
+
             cmd.append(" ");
             cmd.append(to_string(n));
+
+            // TODO: implement update state_handler <---------------------------
+            // state_handler->interpret_result(cmd); <---------------------------
         }
-        //TODO implement rest of commands with parameters
 
         if ( cmd == "lager"){
             //TODO implement read from textfile
@@ -62,16 +68,44 @@ bool CommandHandler::try_command(string line){
             lager = text_file_handler.read_text_file(n);
             cmd.append(lager);
 
+            // TODO: implement update state_handler <---------------------------
+            // state_handler->interpret_result(cmd); <---------------------------
+
         }
     }
 
     //send command to robot
     send_msg(cmd);
-    // read_msg(cmd);
-    // result = cmd + param;
-    // state_handler->interpret_result(result);
-    return true;
+
+    //if there is a command where we expect to get an answer, read it and send to state_handler
+    if(  //cmd == updateall ????? tar emot 3 meddelanden
+        cmd == "getsensors" ||
+        cmd == "getpos" ||
+        cmd == "getroute"
+    ){
+        //busy wait till det finns
+        string param = read_msg();
+        string result = cmd + param;
+        // state_handler->interpret_result(result);
+    }
+
+        return true;
 }
+
+/*
+Read the last message recieved to the network module for communication to the robot
+*/
+string CommandHandler::read_msg(){
+
+    string answer = robot_com->read_from_queue(FROM_SOCKET);
+
+    if (answer != ""){
+        return answer;
+    }
+
+    return "";
+}
+
 
 /*
 Send the given string to the network module for communication to the robot

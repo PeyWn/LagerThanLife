@@ -57,6 +57,11 @@ private:
     msg - the string to be sent
     */
     void send_msg(string msg);
+
+    /*
+    Read a message from the robot using robot_com
+    */
+    string read_msg();
 public:
     /*
     Construct a CommandHandler Objext
