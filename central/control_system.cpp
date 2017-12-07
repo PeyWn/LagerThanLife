@@ -23,11 +23,15 @@ bool ControlSystem::is_sampling_time(){
 }
 
 int ControlSystem::turn_value(){
-	// round off to closest integer
-    int turn_value = round(-(K_P*p_error + K_I*i_error + K_D*d_error));
-    
+    /* compute integration and derivative by time (from ms) */
+    i_error = i_error*(SAMPLE_TIME/1000);
+    d_error = d_error/(SAMPLE_TIME/1000);
+
+	/* round off correction to closest integer */
+    int turn_value = round(-(K_P*p_error + K_I*i_error + K_D*d_error) );
+
     turn_value = (int)saturate(turn_value, MAX_TURN);
-	
+
 	return turn_value;
 }
 
@@ -37,7 +41,7 @@ void ControlSystem::sample_line_position(float line_center){
 	   turn  									 */
 	old_line_pos = line_pos;
 	line_pos     = MAX_TURN * line_center / (float)SENSOR_MAX; //+7,-7
-	
+
 	/* PROPORTIONAL TERM */
 	p_error = line_pos;
 

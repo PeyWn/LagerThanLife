@@ -9,6 +9,17 @@ using namespace std;
 
 class ControlSystem{
 private:
+    /*-----CONSTANTS----------------------------------------------------------------------------*/
+    const float  SAMPLE_TIME = 50;          // time [ms] between samplings
+    const float  MAX_TURN    = 7;           // maximum turn-speed possible in motor-unit
+    const float  MAX_I_ERROR = MAX_TURN;    // integral anti-windup constant
+    const float  SENSOR_MAX  = 127;
+
+    /* Ziegler Nichols parameters */
+    const double    K_P=1;
+    const double    K_I=0;  // integrator gain 1/T_I; where T_I is in seconds
+    const double    K_D=0;  // derivating gain T_D; where T_D is in seconds
+
     /*-----FIELDS-------------------------------------------------------------------------------*/
     SensorCom  *sensor;
     MotorCom   *motor;
@@ -24,17 +35,6 @@ private:
     double      d_error;        // delta error for derivating term
 
     clock_t last_sample_time;   // time since last sampling
-
-    /*-----CONSTANTS----------------------------------------------------------------------------*/
-    const float  SAMPLE_TIME = 50;          // time [ms] between samplings
-    const float  MAX_TURN    = 7;           // maximum turn-speed possible in motor-unit
-    const float  MAX_I_ERROR = MAX_TURN;    // integral anti-windup constant
-    const float  SENSOR_MAX  = 127;
-
-    /* idea is for 1 to be max correction of 7 in turn setting */
-    const double    K_P = 1,
-	            K_I = 0 * (SAMPLE_TIME/50), // scales by time
-	            K_D = 0 / (SAMPLE_TIME*50); // scales by time
 
     /*-----FUNCTIONS----------------------------------------------------------------------------*/
 
