@@ -51,6 +51,8 @@
 /* Globals values for control table*/ 
 #define GLOBAL_TORQUE_LIMIT 0x3FF
 
+#define STEPS_PER_TICK 10
+
 /* Error variables for each servo */ 
 volatile extern int error1;
 volatile extern int error2;

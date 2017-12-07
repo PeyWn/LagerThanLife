@@ -31,8 +31,11 @@ void init_cur_pos()
 	cur_pos[4] = new_pos[4];
 	cur_pos[5] = 0x1ff;
 	
+	//_delay_ms(100);
 	move_axis(1, cur_pos[1], 0x1f);
+	//_delay_ms(100);
 	move_axis(2, cur_pos[2], 0x1f);
+	//_delay_ms(100);
 	move_axis(3, cur_pos[3], 0x1f);
 }
 
@@ -64,9 +67,10 @@ int main(void)
     init_IO();
     usart_init(0);
 	IS_PICKUP = 0;
+	IS_PUTDOWN = 0;
     IS_STOP = 0;
     IS_WORKING = 0;
-    /*
+    
 	init_wheel_control();
 
     //set rx to input, set tx to output
@@ -80,43 +84,39 @@ int main(void)
 
     //Enable global interrupts
     sei();
-	*/
+	
 	
 
     //kill it with fire (may reprogram servos) torque_enable(0xfe);
-    init_cur_pos(); 
+    init_cur_pos();
+	
 	
     while(1)
     {
+		cli();
+		if(IS_PICKUP || IS_PUTDOWN){
+			
+			if (compare_arrays(cur_pos, new_pos, 6)){
+				if (IS_PUTDOWN){
+					IS_PUTDOWN = 0;
+					release();
+				}
+				else{
+					IS_PICKUP = 0;
+					grab();
+				}
+				
+				go_home_pos();
+			}
+		}
 		
-	if(IS_PICKUP || IS_PUTDOWN) 
-	    {
-		go_pos_front();
-		if (compare_arrays(cur_pos, front_pos, 6))
-		    {
-			if (IS_PUTDOWN)
-			    {
-				release();
-			    }
-			grab();
-			go_home_pos();
-		    }
-	    }
-		
-	if(!IS_STOP && update_pos()){
-		IS_WORKING = 1;
-	}
-	else{
-		IS_WORKING = 0;
-	}
-		
-	if(IS_STOP)
-	    {
-		torque_disable_all();
-		IS_WORKING = 0;
-	    }
-    }	
-	
-    return 0;
+		if(!IS_STOP && update_pos()){
+			IS_WORKING = 1;
+		}
+		else{
+			IS_WORKING = 0;
+		}
+		sei();
+    }
 }
 

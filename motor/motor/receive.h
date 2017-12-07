@@ -14,13 +14,13 @@ typedef struct Packet {
     char  id;
     char  len;
     char  error;
-    char* params;
+    char  params[100];
     char  checksum;
 } Packet;
 
 const Packet NO_STATUS_PACKET;
 
 /* Reads incoming data, stores errors in globals and returns first received parameter */  
-Packet receive_status_packet();
+void receive_status_packet();
 
 #endif

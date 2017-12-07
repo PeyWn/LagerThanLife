@@ -11,14 +11,15 @@
 #include "uart_arm.h"
 #include "globals.h"
 #include "receive.h"
+#include "math.h"
 
-volatile int IS_STOP;
+/*volatile int IS_STOP;
 volatile int IS_WORKING;
 volatile int IS_PICKUP; 
 volatile int IS_PUTDOWN; 
 
 volatile int cur_pos[6];
-volatile int new_pos[6];
+volatile int new_pos[6];*/
 
 volatile const double CT_ANGLE = 4.71;
 
@@ -134,7 +135,7 @@ void move_double_axis(int id1, int id2, int pos, int speed)
 	move_single_axis(id1, pos, speed, REG_WRITE);
 	_delay_ms(500);
 	
-	long mirror_pos = 0x03FF-pos; //Double axis's partner servo pos. 
+	volatile long mirror_pos = 0x03FF-pos; //Double axis's partner servo pos. 
 	move_single_axis(id2, mirror_pos, speed, REG_WRITE);
 	_delay_ms(500);
 	
@@ -184,21 +185,23 @@ void go_pos_front(void)
 
 void grab(void)
 {
-	new_pos[6] = 0x0f8;
+	new_pos[5] = 0x0f8;
 }
 
 void release(void)
 {
-	new_pos[6] = 0x1ff;
+	new_pos[5] = 0x1ff;
 }
 
 void pickup_standard(void)
 {
+	go_pos_front();
 	IS_PICKUP = 1; 
 }
 
 void putdown_standard(void)
 {	
+	go_pos_front();
 	IS_PUTDOWN = 1; 
 }
 
@@ -238,14 +241,20 @@ int step_towards_pos(int axis, int speed)
 	{
 		if(cur_pos[axis]<new_pos[axis])
 		{
-			move_axis(axis, cur_pos[axis]+1, speed);
-			cur_pos[axis] += 1;
+			cur_pos[axis] += STEPS_PER_TICK;
+			if(cur_pos[axis]>new_pos[axis]){
+				cur_pos[axis] = new_pos[axis];
+			}
 		}
 		else if(cur_pos[axis]>new_pos[axis])
 		{
-			move_axis(axis, cur_pos[axis]-1, speed);
-			cur_pos[axis] -= 1;
+			cur_pos[axis] -= STEPS_PER_TICK;
+			if(cur_pos[axis]<new_pos[axis]){
+				cur_pos[axis] = new_pos[axis];
+			}
 		}
+		
+		move_axis(axis, cur_pos[axis], speed);
 	}
 	else
 	{
