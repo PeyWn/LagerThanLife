@@ -20,9 +20,9 @@ void Central::transmit_sensors(){
 }
 
 void Central::update_sensors(){
-    //    line_center = sensor.get_line_center();
+        line_center = sensor.get_line_center();
         line_state = sensor.get_line_state();
-    // ware_seen = sensor.get_ware_seen();
+	ware_seen = sensor.get_ware_seen();
 }
 
 void Central::get_pos(){
