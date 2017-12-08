@@ -11,8 +11,18 @@ int SensorCom::get_line_center(){
 }
 
 LINE_STATE SensorCom::get_line_state(){
+    clock_t clk = clock();
     com.send_msg(GET_LINE_STATE);
+
+    clock_t clk1 = clock();
+    double clk_send = (float)(clk1 - clk)/CLOCKS_PER_SEC;
+    
     int state = com.read_msg();
+
+    double clk_read = (float)(clock() - clk1)/CLOCKS_PER_SEC;
+
+    printf("Time to UART SEND message : %f\n", clk_send);
+    printf("Time to UART READ message : %f\n", clk_read);
 
     return static_cast<LINE_STATE>(state);
 }
