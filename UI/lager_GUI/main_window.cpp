@@ -3,7 +3,7 @@
 
 
 
-MainWindow::MainWindow(CommandHandler* handler, StateHandler *state, QWidget *parent) :
+MainWindow::MainWindow(CommandHandler* handler, StateHandler state, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 
@@ -160,4 +160,23 @@ void MainWindow::on_terminal_prompt_returnPressed()
 void MainWindow::on_terminal_window_textChanged()
 {
     //make it scroll down to the bottom
+}
+
+void MainWindow::on_update_sensors_button_clicked()
+{
+    cmd_handler->try_command("getsensors");
+    ui->line_sensor_state->setText(QString::fromStdString(state_handler.line_sensor_state));
+    ui->line_sensor_value->setText(QString::fromStdString(state_handler.line_sensor_value));
+    ui->ware_one_value->setText(QString::fromStdString(state_handler.ware_one_value));
+    ui->ware_two_value->setText(QString::fromStdString(state_handler.ware_two_value));
+
+}
+
+void MainWindow::on_go_get_ware_button_clicked()
+{
+    string get_command = "get ";
+    string id = ui->get_id_spin_box->text().toStdString();
+    get_command = get_command + id;
+    cmd_handler->try_command(get_command);
+
 }

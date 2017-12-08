@@ -18,7 +18,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(CommandHandler* handler, StateHandler* state, QWidget *parent = 0);
+    explicit MainWindow(CommandHandler* handler, StateHandler state, QWidget *parent = 0);
     ~MainWindow();
 
 private slots:
@@ -74,9 +74,14 @@ private slots:
 
     void on_terminal_window_textChanged();
 
+
+    void on_update_sensors_button_clicked();
+
+    void on_go_get_ware_button_clicked();
+
 private:
     CommandHandler* cmd_handler;
-    StateHandler* state_handler;
+    StateHandler state_handler;
     Ui::MainWindow *ui;
 
     string command; //saves the last command written to the command promt

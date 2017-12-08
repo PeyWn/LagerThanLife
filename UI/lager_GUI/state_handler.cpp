@@ -1,39 +1,55 @@
 #include "state_handler.h"
+#include <stack>
 
 StateHandler::StateHandler(){}
 
-void StateHandler::interpret_message(string msg){
-    string command;
-    string answer;
+void StateHandler::interpret_message(string cmd, string param){
 
-    split_msg(msg, command, answer);
-
-    if (command == "drivespeed" ) {
-        drivespeed = stoi(answer);
+    if (cmd == "drivespeed" ) {
+        drivespeed = stoi(param);
     }
-        //drivespeed
-        //turnspeed
-        //getsensors
-        //getpos
-        //get route
-
-}
-
-void StateHandler::split_msg(string msg_with_parameter,
-    string& command, string& answer){
-
-    string delimiter = " ";
-    size_t pos = 0;
-
-    pos = msg_with_parameter.substr(0,
-            msg_with_parameter.find_first_of(" ")).length();
-
-    if (pos > 0){
-        command = msg_with_parameter.substr(0, pos);
-        msg_with_parameter.erase(0, pos + delimiter.length());
-        answer = msg_with_parameter;
+    else if (cmd == "turnspeed"){
+        turnspeed = stoi(param);
+    }
+    else if (cmd == "getsensors"){
+        interpret_sensor_values(param);
+    }
+    else if (cmd == "getpos"){
+        curr_pos = param;
+    }
+    else if (cmd == "getroute"){
+        route = param;
     }
     else {
-        command = msg_with_parameter;
+        //do nothing
     }
+
 }
+
+
+void StateHandler::interpret_sensor_values(string values){
+
+    stack<string> value_list;
+    string delimiter = " ";
+    size_t pos = 0;
+    string token;
+
+
+    while ((pos = values.find(delimiter)) != std::string::npos) {
+        token = values.substr(0,pos);
+        value_list.push(token);
+        values.erase(0, pos + delimiter.length());
+    }
+    value_list.push(values);
+
+    string ware_two_value = value_list.top();
+    value_list.pop();
+    string ware_one_value = value_list.top();
+    value_list.pop();
+    string line_sensor_state = value_list.top();
+    value_list.pop();
+    string line_sensor_value = value_list.top();
+    value_list.pop();
+
+}
+

@@ -51,7 +51,7 @@
        <string>Tell Mulle to go get the ware at id:</string>
       </property>
      </widget>
-     <widget class="QSpinBox" name="spinBox">
+     <widget class="QSpinBox" name="get_id_spin_box">
       <property name="geometry">
        <rect>
         <x>340</x>
@@ -66,7 +66,7 @@
        </font>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_4">
+     <widget class="QPushButton" name="go_get_ware_button">
       <property name="geometry">
        <rect>
         <x>450</x>
@@ -655,6 +655,19 @@ selection-background-color: rgb(253, 117, 207);</string>
     </property>
     <property name="text">
      <string>-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="update_sensors_button">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>550</y>
+      <width>141</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Update all sensors</string>
     </property>
    </widget>
   </widget>

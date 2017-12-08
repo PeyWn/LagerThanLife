@@ -10,18 +10,23 @@ class StateHandler
 public:
     StateHandler();
 
-    int ware_one_value;
-    int ware_two_value;
-    int line_sensor_state;
-    int line_sensor_value;
+    string ware_one_value = "hacker";
+    string ware_two_value = "jocke";
+    string line_sensor_state = "was"; //9000 for testing right now
+    string line_sensor_value = "here";
     string lager; //stores the current lager for drawing it
-    int drivespeed;
-    int turnspeed;
+    string drivespeed;
+    string turnspeed;
     string drive_status;
     string turn_status;
+    string curr_pos;
+    string route;
 
-    void interpret_message(string msg);
+    void interpret_message(string cmd, string param);
+
+private:
     void split_msg(string msg_with_parameter, string& command, string& answer);
+    void interpret_sensor_values(string values);
 
 };
 

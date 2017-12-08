@@ -8,7 +8,7 @@
 
 InterThreadCom* thread_com;
 ClientSocket* com_module;
-StateHandler* state_handler;
+StateHandler state_handler;
 
 int main(int argc, char *argv[])
 {

@@ -3,7 +3,7 @@
 #include <string>
 #include "command_handler.h"
 
-CommandHandler::CommandHandler(InterThreadCom* com, StateHandler* state) : text_file_handler() {
+CommandHandler::CommandHandler(InterThreadCom* com, StateHandler state) : text_file_handler() {
     robot_com = com;
     state_handler = state;
 }
@@ -51,7 +51,7 @@ bool CommandHandler::try_command(string line){
             cmd.append(to_string(n));
 
             // TODO: implement update state_handler <---------------------------
-            // state_handler->interpret_result(cmd); <---------------------------
+            // state_handler->interpret_result(ask_cmd, n); <---------------------------
         }
 
         if ( cmd == "lager"){
@@ -70,7 +70,7 @@ bool CommandHandler::try_command(string line){
             cmd.append(lager);
 
             // TODO: implement update state_handler <---------------------------
-            // state_handler->interpret_result(cmd); <---------------------------
+            // state_handler->interpret_result(ask_cmd, lager); <---------------------------
 
         }
     }
@@ -80,14 +80,14 @@ bool CommandHandler::try_command(string line){
 
     //if there is a command where we expect to get an answer, read it and send to state_handler
     if(  //cmd == updateall ????? tar emot 3 meddelanden
-        cmd == "getsensors" ||
-        cmd == "getpos" ||
-        cmd == "getroute"
+        ask_cmd == "getsensors" ||
+        ask_cmd == "getpos" ||
+        ask_cmd == "getroute"
     ){
         //busy wait till det finns
         string param = read_msg();
-        string result = cmd + param;
-        // state_handler->interpret_result(result);
+        string result = ask_cmd + param;
+        // state_handler->interpret_result(ask_cmd, param);
     }
 
         return true;
