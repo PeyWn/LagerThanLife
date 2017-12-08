@@ -337,7 +337,7 @@ void Central::main_loop() {
         }
 		
 		clk3 = clock();
-		double clk3_res (float)(clk3 - clk2)/CLOCKS_PER_SEC;
+		double clk3_res = (float)(clk3 - clk2)/CLOCKS_PER_SEC;
 
         //Behaviour for different states in autonoumus mode
         if(!manual){
@@ -376,7 +376,7 @@ void Central::main_loop() {
     //double elapsed_sec = (float)(clock() - main_loop_clock)/CLOCKS_PER_SEC; //delay in seconds
 	
 	clk4 = clock();
-	double clk4_res (float)(clk4 - clk3)/CLOCKS_PER_SEC;
+	double clk4_res = (float)(clk4 - clk3)/CLOCKS_PER_SEC;
 
     //Multiply with 1000000 to make seconds into us
     usleep((MAIN_LOOP_DELAY - elapsed_sec) * 1000000);
