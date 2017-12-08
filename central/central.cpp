@@ -296,6 +296,9 @@ void Central::main_loop() {
     motor.perform_arm_macro(GO_HOME);
 
     while(true) {
+        //Start the main loop clock
+        main_loop_clock = clock();
+
         //Update all sensor values
         update_sensors();
 
@@ -340,8 +343,18 @@ void Central::main_loop() {
                 break;
             }
         }
+
 	//Delay main loop slightly to not spam UART
-	usleep(MAIN_LOOP_DELAY);
+    //Delay is calculated based on time left to keep delay constant
+    double elapsed_sec = (float)(clock() - main_loop_clock)/CLOCKS_PER_SEC; //delay in seconds
+
+    //Multiply with 1000000 to make seconds into us
+    usleep((MAIN_LOOP_DELAY - elapsed_sec) * 1000000);
+
+    //DEBUG
+    //FIXME REMOVE
+    cout << "Elapsed before sleep: " << elapsed_sec << endl;
+    cout << "Elapsed after sleep: " << (float)(clock() - main_loop_clock)/CLOCKS_PER_SEC << endl;
     }
 }
 

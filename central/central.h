@@ -23,8 +23,8 @@ private:
     const string SENSOR_INTERFACE = "/dev/ttyUSB0";
     const string MOTOR_INTERFACE = "/dev/ttyUSB1";
 
-    //Delay in us between every iteration of mainloop
-    const int MAIN_LOOP_DELAY = 10000;
+    //Delay in seconds between every iteration of mainloop
+    const double MAIN_LOOP_DELAY = 0.01;
 
     //Time to drive forward when on a corner
     const double TURN_FORWARD_TIME = 0.15;
@@ -57,6 +57,9 @@ private:
         DROP_OFF,
         STANDBY
     };
+
+    //For clocking the main main_loop
+    clock_t main_loop_clock;
 
     /*
     State of progree in turning around a corner.
@@ -186,7 +189,7 @@ public:
     Central(InterThreadCom* thread_com_in);
 
     /*
-    Main loop for running the program. 
+    Main loop for running the program.
     */
     void main_loop();
 };
