@@ -3,7 +3,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <termios.h>
-#include <stdexcept.h>
 #include "uart_handler.h"
 
 UARTHandler::UARTHandler(string interface){
