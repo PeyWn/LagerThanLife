@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <iostream>
-//#include "../command_handler.h"
+#include "../command_handler.h"
 #include "../client_socket.h"
 #include "state_handler.h"
 
@@ -18,7 +18,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(CommandHandler* handler, QWidget *parent = 0);
+    explicit MainWindow(CommandHandler* handler, StateHandler* state, QWidget *parent = 0);
     ~MainWindow();
 
 private slots:
@@ -76,6 +76,7 @@ private slots:
 
 private:
     CommandHandler* cmd_handler;
+    StateHandler* state_handler;
     Ui::MainWindow *ui;
 
     string command; //saves the last command written to the command promt

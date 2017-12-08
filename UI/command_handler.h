@@ -1,6 +1,7 @@
 #include <map>
 #include "../lib/network/interthreadcom.h"
 #include "text_file_handler.h"
+#include "lager_GUI/state_handler.h"
 
 using namespace std;
 
@@ -8,6 +9,7 @@ class CommandHandler{
 private:
     InterThreadCom* robot_com; //Module to use to send messages to robot
     TextFileHandler text_file_handler;
+    StateHandler* state_handler;
 
     /*
     First is name of command; second (booleans) is if command
@@ -68,7 +70,7 @@ public:
 
     com - pointer to InterThreadCom module to use to send messages to robot
     */
-    CommandHandler(InterThreadCom* com);
+    CommandHandler(InterThreadCom* com, StateHandler* state);
 
     /*
     try to execute given string as a command. Return if it worked

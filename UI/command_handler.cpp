@@ -3,8 +3,9 @@
 #include <string>
 #include "command_handler.h"
 
-CommandHandler::CommandHandler(InterThreadCom* com) : text_file_handler() {
+CommandHandler::CommandHandler(InterThreadCom* com, StateHandler* state) : text_file_handler() {
     robot_com = com;
+    state_handler = state;
 }
 
 /*

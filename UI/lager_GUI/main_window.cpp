@@ -3,13 +3,14 @@
 
 
 
-MainWindow::MainWindow(CommandHandler* handler, QWidget *parent) :
+MainWindow::MainWindow(CommandHandler* handler, StateHandler *state, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 
 {
     ui->setupUi(this);
     cmd_handler = handler;
+    state_handler = state;
 
 }
 

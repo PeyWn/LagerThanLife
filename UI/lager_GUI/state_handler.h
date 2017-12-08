@@ -1,10 +1,14 @@
 #ifndef STATE_HANDLER_H
 #define STATE_HANDLER_H
 
-class state_handler
+#include <string>
+
+using namespace std;
+
+class StateHandler
 {
 public:
-    state_handler();
+    StateHandler();
 
     int ware_one_value;
     int ware_two_value;
@@ -16,6 +20,8 @@ public:
     string drive_status;
     string turn_status;
 
+    void interpret_message(string msg);
+    void split_msg(string msg_with_parameter, string& command, string& answer);
 
 };
 
