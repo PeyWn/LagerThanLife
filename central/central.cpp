@@ -291,24 +291,6 @@ void Central::handle_msg(string msg) {
 
 void Central::main_loop() {
     string msg_read;
-	
-	// TEMP DEBUG
-	clock_t clk1;
-	double clk1_res;
-	
-	clock_t clk2;
-	double clk2_res;
-	
-	clock_t clk3;
-	double clk3_res;
-	
-	clock_t clk4;
-	double clk4_res;
-	
-	clock_t clk5;
-	double clk5_res;
-
-	double usleep_arg;
 
     //Move arm to home position when starting
 	//    motor.perform_arm_macro(GO_HOME);
@@ -319,16 +301,10 @@ void Central::main_loop() {
 
         //Update all sensor values
         update_sensors();
-		
-	clk1 = clock();
-	double clk1_res = (float)(clk1 - main_loop_clock)/CLOCKS_PER_SEC;
 
         //Network read
         msg_read = thread_com->read_from_queue(FROM_SOCKET);
-		
-	clk2 = clock();
-	double clk2_res = (float)(clk2 - clk1)/CLOCKS_PER_SEC;
-		
+
         if (msg_read != "") {
             #ifdef DEBUG
             cout << "Msg: " << msg_read << "\n";  //prints the recieved Msg
@@ -336,9 +312,6 @@ void Central::main_loop() {
 
             handle_msg(msg_read);
         }
-		
-	clk3 = clock();
-	double clk3_res = (float)(clk3 - clk2)/CLOCKS_PER_SEC;
 
         //Behaviour for different states in autonoumus mode
         if(!manual){
@@ -372,33 +345,13 @@ void Central::main_loop() {
             }
         }
 
-	//Delay main loop slightly to not spam UART
-    //Delay is calculated based on time left to keep delay constant
-    double elapsed_sec = (float)(clock() - main_loop_clock)/CLOCKS_PER_SEC; //delay in seconds
-	
-    clk4 = clock();
-    double clk4_res = (float)(clk4 - clk3)/CLOCKS_PER_SEC;
+    	//Delay main loop slightly to not spam UART
+        //Delay is calculated based on time left to keep delay constant
+        double elapsed_sec = (float)(clock() - main_loop_clock)/CLOCKS_PER_SEC; //delay in seconds
 
-    //Multiply with 1000000 to make seconds into us
-    usleep_arg = (MAIN_LOOP_DELAY - elapsed_sec) * 1000000;
-    usleep((MAIN_LOOP_DELAY - elapsed_sec) * 1000000);
-    
-    
-    clk5 = clock();
-    double clk5_res = (float)(clk5 - clk4)/CLOCKS_PER_SEC;
-
-    //DEBUG
-    //FIXME REMOVE
-	//cout << "Elapsed after sleep: " << (float)(clock() - main_loop_clock)/CLOCKS_PER_SEC << endl;
-    	
-	cout << "Time for function update_sensors() :" << clk1_res << endl;
-	cout << "Time for thread_com read :" << clk2_res << endl;
-	cout << "Time for handle msg :" << clk3_res << endl;
-	cout << "Time for state handling :" << clk4_res << endl;
-	cout << "Usleep time :" << clk5_res << endl;
-	cout << "Elapsed before sleep: " << elapsed_sec << endl;
-	cout << "usleep_arg :" << usleep_arg << endl;
-	cout << "----------------------" << endl;
+        //Multiply with 1000000 to make seconds into us
+        double sleep_time = (MAIN_LOOP_DELAY - elapsed_sec) * 1000000;
+        usleep(sleep_time);
     }
 }
 
