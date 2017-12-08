@@ -14,7 +14,7 @@ typedef struct Packet {
     char  id;
     char  len;
     char  error;
-    char  params[100];
+    char  params[10];
     char  checksum;
 } Packet;
 

@@ -21,11 +21,11 @@ void transmit_startbytes();
 	arg int id:
     servo-id in range 1-7
 */  
-Packet read_byte(int id, int address);
+void read_byte(int id, int address);
 
 /* Writes given data in control table of given servo id at given address. 
 mode indicates instruction type */
-Packet write_byte(int id, int address, int byte, int mode);
+void write_byte(int id, int address, int byte, int mode);
 
 /* Reads two bytes of data from control table of servo with given id at given address 
 mode determines with what instruction type */ 
@@ -92,5 +92,8 @@ void stop_all();
 void step_new_pos(char dir);
 
 void set_new_pos(double next_pos[]);
+
+/* sends a ping message to the servo */
+void ping_servo(int id);
 
 #endif

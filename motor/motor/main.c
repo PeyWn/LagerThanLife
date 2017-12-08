@@ -62,6 +62,31 @@ int compare_arrays(int arr1[], int arr2[], int len)
 	return 1; 	
 }
 
+volatile int pos;
+
+
+void get_servo_status(){
+    flush_UDR1_receive();
+    Packet data;
+    char data1, data2;
+    
+    read_byte(4, PRESENT_POS_ADDRESS);
+    receive_status_packet(&data);
+    data1 = data.params[0];
+    
+    flush_UDR1_receive();
+    
+    read_byte(4, PRESENT_POS_ADDRESS+1);
+    receive_status_packet(&data);
+    data2 = data.params[0];
+    
+    pos = ((((short)data1)<<8) | data2);
+    
+    volatile char test = 0;
+    
+    
+}
+
 int main(void)
 {
     init_IO();
@@ -75,7 +100,9 @@ int main(void)
 
     //set rx to input, set tx to output
 
-    DDRD = (0<<DDD0)|(1<<DDD1);
+    /* DDRD = (0<<DDD0)|(1<<DDD1); */ 
+    DDRD |=  (1<<DDD1);
+    DDRD &= ~(1<<DDD0);
 
     UBRR0L = 0x33; //BAUDRATE 33 = 19200
 
@@ -85,38 +112,21 @@ int main(void)
     //Enable global interrupts
     sei();
 	
-	
-
-    //kill it with fire (may reprogram servos) torque_enable(0xfe);
-    init_cur_pos();
-	
+    //read_byte(4, PRESENT_POS_ADDRESS);
+    //receive_status_packet();
+    
+    //get_servo_status();
+    
+    //write_byte(4, LED_ADDRESS, 1, WRITE_DATA);
+    
+    //ping_servo(4);
+    //receive_status_packet();
+    get_servo_status();
+    
 	
     while(1)
     {
-		cli();
-		if(IS_PICKUP || IS_PUTDOWN){
-			
-			if (compare_arrays(cur_pos, new_pos, 6)){
-				if (IS_PUTDOWN){
-					IS_PUTDOWN = 0;
-					release();
-				}
-				else{
-					IS_PICKUP = 0;
-					grab();
-				}
-				
-				go_home_pos();
-			}
-		}
-		
-		if(!IS_STOP && update_pos()){
-			IS_WORKING = 1;
-		}
-		else{
-			IS_WORKING = 0;
-		}
-		sei();
+
     }
 }
 

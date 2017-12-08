@@ -29,19 +29,29 @@ void transmit_startbytes()
 	transmit(0xFF); 	
 }
 
-Packet read_byte(int id, int address)
+void read_byte(int id, int address)
 {
+    // 0xff 0xff ID, LEN, INSTR,     PARAM,   PARAM, CHECKSUM
+    // 0xff 0xff id,  4 , READ_DATA, address, 1,     checksum
+    volatile char checksum = ~(id + 4 + READ_DATA + address + 1);
+    volatile char packet[] = {0xFF, 0xFF, id, 4, READ_DATA, address, 1, checksum};
+    //volatile int size = sizeof(packet);
+    
+    for(int i=0; i<8; i++){
+        transmit(packet[i]);
+    }
+    /*
 	transmit_startbytes();
 	transmit(id);
 	transmit(4);                                    // Length: Number of parameters + 2
 	transmit(READ_DATA);                            // Instruction: 0x02
 	transmit(address);                              // parameter 1: address to read from
     transmit(1);                                    // parameter 2: #bytes to read
-	transmit( ~(id + 4 + READ_DATA + address + 1) );    //Checksum
-	return NO_STATUS_PACKET; //receive_status_packet();
+	transmit( ~(id + 4 + READ_DATA + address + 1) );    //Checksum'
+    */
 }
 
-Packet write_byte(int id, int address, int byte, int mode)
+void write_byte(int id, int address, int byte, int mode)
 {
     volatile char checksum = ~(id +4 +mode +address +byte);
     volatile char packet[] =  {0xFF, 0xFF, id, 4, mode, address, byte, checksum};
@@ -61,20 +71,24 @@ Packet write_byte(int id, int address, int byte, int mode)
 	    transmit(byte);
 	    transmit( ~(id + 4 + mode + address + byte) ); //Checksum
     */
+    /*
     if(id != 0xFE){
 	    return NO_STATUS_PACKET; //receive_status_packet();
     }else{
         return NO_STATUS_PACKET;
-    }     
+    } 
+    */    
 }
 
 
 int read_word(int id, int address)
 {
+    /*  THIS IS NOT HOW IT WORKS ANYMORE
 	volatile char data1 = read_byte(id, address).params[0];
 	volatile char data2 = read_byte(id, address+1).params[1];
 	
 	return ((((short)data1)<<8) | data2); //Smash bytes together to one word. 
+    */
 }
 
 
@@ -295,5 +309,13 @@ void step_new_pos(char dir)
 			break;
 	}
 	set_new_pos(next_pos); 
+}
+
+void ping_servo(int id){
+    volatile char checksum = ~(id + 2 + PING);
+    volatile char packet[] = {0xFF, 0xFF, id, 2, PING, checksum};
+    for(int i=0; i<6; i++){
+        transmit(packet[i]);
+    }
 }
 

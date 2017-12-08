@@ -51,7 +51,7 @@ void usart_transmit( unsigned char data )
 unsigned char usart_receive (void)
 {
 	volatile char test = 1;
-	while(!( UCSR1A & (1<<RXC1) ));  // wait for data to be received in receiver buffer
+	while(!( UCSR1A & (1<<RXC1)));  // wait for data to be received in receiver buffer
 	volatile char data = UDR1;
 	return data;
 }
