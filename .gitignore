@@ -30,6 +30,9 @@
 
 # ------ Qt project files -------
 
+# user settings
+*.pro.user
+
 # Generated MOC, resource and UI files
 moc_*.cpp
 qrc_*.cpp

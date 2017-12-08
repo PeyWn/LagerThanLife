@@ -11,46 +11,46 @@ private:
     TextFileHandler text_file_handler;
     StateHandler* state_handler;
 
-    /*
-    First is name of command; second (booleans) is if command
-    requires parameters after the command itself.
+    /* CMDS TO SEND
+    First is name of command (string);
+    Second is if command requires parameters after the command itself (boolean)
     */
     const map<string, bool> acc_cmd = {
-        {"fwd", false},
-        {"stop", false},
-        {"back", false},
-        {"right", false},
-        {"left", false},
-        {"noturn", false},
-        {"armright", false},
-        {"armleft", false},
-        {"armstop", false},
-        {"pickup", false},
-        {"putdown", false},
-        {"get", true},
-        {"getsensors", false},
-        {"getpos", false},
-        {"getroute", false},
-        {"updateall", false},
-        {"auto", false},
-        {"manual", false},
-        {"armfwd", false},
-        {"armback", false},
-        {"armup", false},
-        {"armdown", false},
-        {"closeclaw", false},
-        {"closeclaw", false},
-        {"opengclaw", false},
-        {"estop", false},
-        {"lager", true},
-        {"sethome", true},
-        {"calware", false},
-        {"calline", false},
-        {"calfloor", false},
-        {"armhome", false},
-        {"turnspeed", true},
-        {"drivespeed", true},
-        {"center", false}
+        {"fwd",         false},
+        {"stop",        false},
+        {"back",        false},
+        {"right",       false},
+        {"left",        false},
+        {"noturn",      false},
+        {"armright",    false},
+        {"armleft",     false},
+        {"armstop",     false},
+        {"pickup",      false},
+        {"putdown",     false},
+        {"get",         true},
+        {"getsensors",  false},
+        {"getpos",      false},
+        {"getroute",    false},
+        {"updateall",   false},
+        {"auto",        false},
+        {"manual",      false},
+        {"armfwd",      false},
+        {"armback",     false},
+        {"armup",       false},
+        {"armdown",     false},
+        {"closeclaw",   false},
+        {"closeclaw",   false},
+        {"opengclaw",   false},
+        {"estop",       false},
+        {"lager",       true},
+        {"sethome",     true},
+        {"calware",     false},
+        {"calline",     false},
+        {"calfloor",    false},
+        {"armhome",     false},
+        {"turnspeed",   true},
+        {"drivespeed",  true},
+        {"center",      false}
     };
 
     /*
