@@ -1,13 +1,5 @@
-﻿/*
- * commands.c
- *
- * Created: 11/21/2017 11:24:12 AM
- *  Author: jesjo430
- */ 
-
-#include "transmission.h"
+﻿#include "transmission.h"
 #include "globals.h"
-#include "coordinate.h"
 
 volatile int IS_WORKING; 
 volatile int pos_cords[2]; 
@@ -50,7 +42,6 @@ void release_ware()
 
 void go_home()
 {
-	//pos_cords[2] = {20, 30};
 	go_home_pos(); 
 }
 
@@ -71,5 +62,3 @@ void axis_fwd(int axis){
 void axis_back(int axis){
     move_axis(axis, 0x3ff, SPEED_1);
 }
-
-

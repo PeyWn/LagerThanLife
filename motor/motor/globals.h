@@ -1,11 +1,5 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
-/*
- * globals.h
- *
- * Created: 11/8/2017 8:37:16 PM
- *  Author: jesjo430
- */ 
 
 #include <util/delay.h>
 

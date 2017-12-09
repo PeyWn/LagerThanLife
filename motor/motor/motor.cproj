@@ -130,12 +130,6 @@
     <Compile Include="commands.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="coordinate.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="coordinate.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="receive.c">
       <SubType>compile</SubType>
     </Compile>

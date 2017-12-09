@@ -1,11 +1,5 @@
 ﻿#ifndef TRANSMISSION_H
 #define TRANSMISSION_H
-/*
- * transmisison.h
- *
- * Created: 11/9/2017 11:38:56 AM
- *  Author: jesjo430
- */ 
 
 #include <stdio.h>
 #include <string.h>

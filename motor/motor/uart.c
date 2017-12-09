@@ -1,10 +1,3 @@
-/*
- * uart.c
- *
- * Created: 11/2/2017 10:55:44 AM
- *  Author: jesjo430, bjohv276
- */ 
-
 #include <stdio.h>
 #include <avr/io.h>
 #include <stdlib.h>

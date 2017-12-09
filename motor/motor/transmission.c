@@ -147,12 +147,12 @@ void go_pos_front(void)
 
 void grab(void)
 {
-	move_axis(4, 0x0f8, SPEED_MAX);
+	move_axis(5, 0x0f8, SPEED_MAX);
 }
 
 void release(void)
 {
-    move_axis(4, 0x1ff, SPEED_MAX);
+    move_axis(5, 0x1ff, SPEED_MAX);
 }
 
 void pickup_standard(void)
@@ -197,4 +197,3 @@ void ping_servo(int id){
         transmit(packet[i]);
     }
 }
-
