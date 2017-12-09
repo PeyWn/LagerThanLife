@@ -1,12 +1,11 @@
 ﻿#include <avr/interrupt.h>
 #include "transmission.h"
 #include "wheel_control.h"
+#include "commands.h"
 
 
 /*
 Define interrupt vector for UART data received.
-
-TODO: clean up code
 */
 ISR(USART0_RX_vect){
 	
@@ -126,8 +125,7 @@ ISR(USART0_RX_vect){
 			// macro arm
             if(parameter == 0){
                 //Stop all engines
-                stop_all(); 
-
+                stop_arm(); 
             }
             else if(parameter == 1){
                 //Go to home position
@@ -144,62 +142,45 @@ ISR(USART0_RX_vect){
 			break;
 		
 		case 0b1111  :
-			//rotation of arm and single movements
+			//Manual control of arm
             
 			if (parameter == 0){ 
-				//Start rotation of entire arm clock wise
-				start_rotate_CW(); 
+			    //Stop arm movements
+                stop_arm();	
 			}
 			else if (parameter == 1){ 
-				//Stop clock wise rotation of entire arm 
-				stop_rotate_CW(); 
+                //rotate entire arm clock wise
+                axis_fwd(0);
 			}
 			else if (parameter == 2){
-				//Start rotation of entire arm counter clock wise 
-				start_rotate_CCW(); 
+				//rotate entire arm counter clock wise
+				axis_back(0);
 			}
 			else if (parameter == 3){ 
-				//stop counter clock wise rotation of entire arm
-				stop_rotate_CCW(); 
+				//axis 1 forward
+				axis_fwd(1);
 			}
 			else if (parameter == 4){ 
-				//start moving the arm upwards
-				start_up(); 
+				//axis 1 back
+				axis_back(1);
 			}
 			else if (parameter == 5){
-				//stop moving the arm upwards 
-				//NOTE: there is no function in UI/central unit for calling this command,
-				//however, currently the stop_up command calls the stop_all function
-				stop_up(); 
+				//axis 2 forward
+				axis_fwd(2);
 			}
 			else if (parameter == 6){ 
-				//start moving the arm downwards 
-				start_down(); 
+				//axis 2 back
+				axis_back(2);
 			}
 			else if (parameter == 7){ 
-				//stop moving the arm downwards
-				//NOTE: currently no function in central/UI for calling this fn
-				stop_down(); 
+				//axis 3 forward
+				axis_fwd(3);
 			} 
 			else if (parameter == 8){ 
-				//start moving the arm towards its center body
-				start_towards(); 
+				//axis 3 back
+				axis_back(3);
 			}
-			else if (parameter == 9){ 
-				//stop moving the arm towards its center body
-				//NOTE: currently no function in central/UI for calling this fn
-				stop_towards(); 
-			} 
-			else if (parameter == 10){ 
-				//start moving the arm away from its body
-				start_away(); 
-			}
-			else if (parameter == 11){ 
-				//stop moving the arm away from its body
-				//NOTE: currently no function in central/UI for calling this fn
-				stop_away();
-			} 
-			
+	
 			break; 
 		default: 
 			break;

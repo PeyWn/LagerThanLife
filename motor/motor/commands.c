@@ -12,6 +12,27 @@
 volatile int IS_WORKING; 
 volatile int pos_cords[2]; 
 
+/* Servo that contains position of entire axis
+NOTE that axis are 0-indexed */
+int AXIS_POS_SERVO[] = {1, 2, 4, 6, 7, 8};
+
+void stop_arm(){
+    for(int i = 0; i < NUMBER_OF_AXIS; ++i){
+        stop_axis(i);
+    }
+}
+
+void stop_axis(int id){
+    //Figure out which servo to read from
+    int servo_id = AXIS_POS_SERVO[id];
+
+    //Read pos from servo
+    int pos = get_servo_pos(servo_id);
+
+    //Move axis to pos
+    move_axis(id, pos, SPEED_2);
+}
+
 int get_is_working()
 {
 	return IS_WORKING; 
@@ -25,11 +46,6 @@ void grab_ware()
 void release_ware()
 {
 	release();
-}
-
-void stop_all()
-{
-	emergency_stop(); 
 }
 
 void go_home()
@@ -48,62 +64,12 @@ void put_down_ware()
 	putdown_standard();
 }
 
-void start_rotate_CW()
-{
-	new_pos[0] = CW_LIMIT_1;
+void axis_fwd(int axis){
+    move_axis(axis, 0, SPEED_1);
 }
 
-void stop_rotate_CW()
-{
-	new_pos[0] = cur_pos[0];
+void axis_back(int axis){
+    move_axis(axis, 0x3ff, SPEED_1);
 }
 
-void start_rotate_CCW()
-{
-	new_pos[0] = CCW_LIMIT_1;
-}
 
-void stop_rotate_CCW()
-{
-	new_pos[0] = cur_pos[0];
-}
-
-void start_up() 
-{
-	step_new_pos('u'); 
-}
-
-void stop_up()
-{
-	stop_all(); 
-}
-
-void start_down()
-{
-	step_new_pos('d'); 
-}
-
-void stop_down()
-{
-	stop_all(); 
-}
-
-void start_towards()
-{
-	step_new_pos('t'); 
-}
-
-void stop_towards()
-{
-	stop_all(); 
-}
-
-void start_away()
-{
-	step_new_pos('a'); 
-}
-
-void stop_away()
-{
-	stop_all(); 
-}

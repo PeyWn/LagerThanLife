@@ -13,6 +13,7 @@
 #define DIRECTION_PORT PORTD // Direction port D4 on AVR.
 
 #define NUMBER_OF_MOTORS 8
+#define NUMBER_OF_AXIS 6
 
 #define RECEIVE 0 // Definition used when setting half duplex UART direction.
 #define TRANSMIT 1 // Definition used when setting half duplex UART direction.
@@ -53,27 +54,8 @@
 
 #define STEPS_PER_TICK 10
 
-/* Error variables for each servo */ 
-volatile extern int error1;
-volatile extern int error2;
-volatile extern int error3;
-volatile extern int error4;
-volatile extern int error5;
-volatile extern int error6;
-volatile extern int error7;
-volatile extern int error8;
-
-volatile extern int IS_WORKING; //Flag for indication that the arm is moving
-volatile extern int IS_STOP;
-volatile extern int IS_PICKUP;
-volatile extern int IS_PUTDOWN;
-
-volatile extern int new_pos[6];
-volatile extern int cur_pos[6];
 volatile extern int front_pos[6];
 volatile extern	int home_pos[6];
-
-volatile extern int pos_cords[2];
 
 /* Angular limits for each AX-12 servo */ 
 #define CW_LIMIT_1 0x0

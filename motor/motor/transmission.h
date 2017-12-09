@@ -21,15 +21,11 @@ void transmit_startbytes();
 	arg int id:
     servo-id in range 1-7
 */  
-void read_byte(int id, int address);
+void send_read_msg(int id, int address, int length);
 
 /* Writes given data in control table of given servo id at given address. 
 mode indicates instruction type */
 void write_byte(int id, int address, int byte, int mode);
-
-/* Reads two bytes of data from control table of servo with given id at given address 
-mode determines with what instruction type */ 
-int read_word(int id, int address);
 
 /* Writes two bytes in control table of servo with given id at given address.
 Mode determines with which instruction */
@@ -77,21 +73,8 @@ void pickup_standard(void);
 /* Puts down object in front of platform and returns to home position, is_working during function */
 void putdown_standard(void);
 
-/* Disables torque of all servos */  
-void emergency_stop(void);
-
 /* Moves axis with index axis to pos with speed speed */ 
 void move_axis(int axis, int pos, int speed);
-
-/* Changes goal position given axis to pos */ 
-int step_towards_pos(int axis, int speed);
-
-/* Sets all axis' new pos to cur pos */  
-void stop_all();
-
-void step_new_pos(char dir);
-
-void set_new_pos(double next_pos[]);
 
 /* sends a ping message to the servo */
 void ping_servo(int id);

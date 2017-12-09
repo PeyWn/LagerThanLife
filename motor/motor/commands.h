@@ -5,21 +5,23 @@
  *  Author: jesjo430
  */ 
 
+ /*
+ Stop all movement of the arm
+ */
+void stop_arm();
+
+/*
+Stop the movement of the given axis
+
+id - id of the axis to stop moevement on, an integer between 0 and 5.
+*/
+void stop_axis(int id);
+
 void grab_ware();
 void release_ware();
-void stop_all();
 void go_home();
 void pick_up_ware();
 void put_down_ware();
-void start_rotate_CW();
-void stop_rotate_CW();
-void start_rotate_CCW();
-void stop_rotate_CCW();
-void start_up();
-void stop_up();
-void start_down();
-void stop_down();
-void start_towards();
-void stop_towards();
-void start_away();
-void stop_away();
+
+void axis_fwd(int axis);
+void axis_back(int axis);

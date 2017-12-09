@@ -13,14 +13,6 @@
 #include "receive.h"
 #include "math.h"
 
-/*volatile int IS_STOP;
-volatile int IS_WORKING;
-volatile int IS_PICKUP; 
-volatile int IS_PUTDOWN; 
-
-volatile int cur_pos[6];
-volatile int new_pos[6];*/
-
 volatile const double CT_ANGLE = 4.71;
 
 void transmit_startbytes()
@@ -29,26 +21,16 @@ void transmit_startbytes()
 	transmit(0xFF); 	
 }
 
-void read_byte(int id, int address)
+void send_read_msg(int id, int address, int length)
 {
     // 0xff 0xff ID, LEN, INSTR,     PARAM,   PARAM, CHECKSUM
     // 0xff 0xff id,  4 , READ_DATA, address, 1,     checksum
-    volatile char checksum = ~(id + 4 + READ_DATA + address + 1);
-    volatile char packet[] = {0xFF, 0xFF, id, 4, READ_DATA, address, 1, checksum};
-    //volatile int size = sizeof(packet);
+    volatile char checksum = ~(id + 4 + READ_DATA + address + length);
+    volatile char packet[] = {0xFF, 0xFF, id, 4, READ_DATA, address, length, checksum};
     
     for(int i=0; i<8; i++){
         transmit(packet[i]);
     }
-    /*
-	transmit_startbytes();
-	transmit(id);
-	transmit(4);                                    // Length: Number of parameters + 2
-	transmit(READ_DATA);                            // Instruction: 0x02
-	transmit(address);                              // parameter 1: address to read from
-    transmit(1);                                    // parameter 2: #bytes to read
-	transmit( ~(id + 4 + READ_DATA + address + 1) );    //Checksum'
-    */
 }
 
 void write_byte(int id, int address, int byte, int mode)
@@ -59,38 +41,7 @@ void write_byte(int id, int address, int byte, int mode)
     for(int i=0; i<sizeof(packet); i++){
         transmit(packet[i]);
     }
-    
-    volatile int test = 1;
-    
-    /*
-	    transmit_startbytes();
-	    transmit((char)id);
-	    transmit(0x04); //Number of parameters + 2 = LENGHT.
-	    transmit(mode);
-	    transmit(address);
-	    transmit(byte);
-	    transmit( ~(id + 4 + mode + address + byte) ); //Checksum
-    */
-    /*
-    if(id != 0xFE){
-	    return NO_STATUS_PACKET; //receive_status_packet();
-    }else{
-        return NO_STATUS_PACKET;
-    } 
-    */    
 }
-
-
-int read_word(int id, int address)
-{
-    /*  THIS IS NOT HOW IT WORKS ANYMORE
-	volatile char data1 = read_byte(id, address).params[0];
-	volatile char data2 = read_byte(id, address+1).params[1];
-	
-	return ((((short)data1)<<8) | data2); //Smash bytes together to one word. 
-    */
-}
-
 
 void write_word(int id, int address, int word, int mode)
 {
@@ -106,7 +57,6 @@ void write_word(int id, int address, int word, int mode)
 	transmit(wordL);
 	transmit(wordH);
 	transmit( ~(id + 4 + mode + address + wordH + wordL) ); //Checksum
-	//receive_status_packet();
 }
 
 void write_long(int id, int address, int word1, int word2, int mode)
@@ -127,7 +77,6 @@ void write_long(int id, int address, int word1, int word2, int mode)
 	transmit(word2L);
 	transmit(word2H);
 	transmit( ~(id + 7 + mode + address + word1L + word1H + word2L + word2H) ); //Checksum
-	//receive_status_packet();
 }
  
 void move_single_axis(int id, int pos, int speed, char mode) 
@@ -176,52 +125,44 @@ void update_error_var(int id)
 	transmit(2); // Length = number of parameters + 2
 	transmit(1);
 	transmit((char)~(id+2+1)); // Checksum
-	//receive_status_packet();
 }
 
 void go_home_pos(void)
 {
-	new_pos[0] = 0x1ff;
-	new_pos[1] = 0x280;
-	new_pos[2] = 0x250;
-	new_pos[3] = 0x0c0;
-	new_pos[4] = 0x1ff;
+    move_axis(0, 0x1ff, SPEED_1);
+    move_axis(1, 0x280, SPEED_1);
+    move_axis(2, 0x250, SPEED_1);
+    move_axis(3, 0x0c0, SPEED_1);
+    move_axis(4, 0x1ff, SPEED_1);
 }
 
 void go_pos_front(void)
 {
-	new_pos[0] = 0x1ff;
-	new_pos[1] = 0x148;
-	new_pos[2] = 0x155;
-	new_pos[3] = 0x100;
-	new_pos[4] = 0x1ff;
+    move_axis(0, 0x1ff, SPEED_1);
+    move_axis(1, 0x148, SPEED_1);
+    move_axis(2, 0x155, SPEED_1);
+    move_axis(3, 0x100, SPEED_1);
+    move_axis(4, 0x1ff, SPEED_1);
 }
 
 void grab(void)
 {
-	new_pos[5] = 0x0f8;
+	move_axis(4, 0x0f8, SPEED_MAX);
 }
 
 void release(void)
 {
-	new_pos[5] = 0x1ff;
+    move_axis(4, 0x1ff, SPEED_MAX);
 }
 
 void pickup_standard(void)
 {
 	go_pos_front();
-	IS_PICKUP = 1; 
 }
 
 void putdown_standard(void)
 {	
 	go_pos_front();
-	IS_PUTDOWN = 1; 
-}
-
-void emergency_stop(void)
-{
-	IS_STOP = 1; 
 }
 
 void move_axis(int axis, int pos, int speed)
@@ -247,68 +188,6 @@ void move_axis(int axis, int pos, int speed)
 			move_single_axis(8, pos, speed, WRITE_DATA);
 			break; 
 	}
-}
-
-int step_towards_pos(int axis, int speed)
-{
-	if(new_pos[axis] != cur_pos[axis])
-	{
-		if(cur_pos[axis]<new_pos[axis])
-		{
-			cur_pos[axis] += STEPS_PER_TICK;
-			if(cur_pos[axis]>new_pos[axis]){
-				cur_pos[axis] = new_pos[axis];
-			}
-		}
-		else if(cur_pos[axis]>new_pos[axis])
-		{
-			cur_pos[axis] -= STEPS_PER_TICK;
-			if(cur_pos[axis]<new_pos[axis]){
-				cur_pos[axis] = new_pos[axis];
-			}
-		}
-		
-		move_axis(axis, cur_pos[axis], speed);
-	}
-	else
-	{
-		return 0; 
-	}
-	return 1; 
-}
-
-void set_new_pos(double next_pos[])
-{
-	new_pos[1] = next_pos[0];
-	new_pos[2] = next_pos[1];
-	new_pos[3] = next_pos[2];
-}
-
-void step_new_pos(char dir)
-{
-	double next_pos[3] = {cur_pos[1], cur_pos[2], cur_pos[3]};
-	switch (dir)
-	{
-		case 'u': //up
-			calculate_angles(CT_ANGLE, pos_cords[0], pos_cords[1]+1, next_pos);
-			break;
-		 
-		case 'd': //down
-			calculate_angles(CT_ANGLE, pos_cords[0], pos_cords[1]-1, next_pos);
-			break;
-		
-		case 't': //towards
-			calculate_angles(CT_ANGLE, pos_cords[0]+1, pos_cords[1], next_pos);
-			break;
-		
-		case 'a': //away from
-			calculate_angles(CT_ANGLE, pos_cords[0]-1, pos_cords[1], next_pos);
-			break; 
-	
-		default:
-			break;
-	}
-	set_new_pos(next_pos); 
 }
 
 void ping_servo(int id){
