@@ -151,16 +151,15 @@ void MotorCom::control_claw(bool close){
     com.send_msg(msg);
 }
 
-void MotorCom::move_arm(ARM_DIRECTION direction){
-    int msg = MANUAL_ARM_CONTROL;
-    msg += direction;
+void MotorCom::move_arm(int axis, bool fwd){
+    int parameter = (1 + (2*axis));
 
-    com.send_msg(msg);
-}
+    if(!fwd){
+        //Back is one number over fwd
+        parameter++;
+    }
 
-void MotorCom::stop_arm(ARM_DIRECTION direction){
-    int msg = MANUAL_ARM_CONTROL;
-    msg += direction + 1;
+    int msg = MANUAL_ARM_CONTROL + parameter;
 
     com.send_msg(msg);
 }

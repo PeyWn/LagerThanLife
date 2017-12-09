@@ -138,10 +138,10 @@ void Central::handle_msg(string msg) {
             motor.turn(NONE, turn_speed);
         }
         else if (command == "armright") {
-            motor.move_arm(CW);
+            motor.move_arm(0, true);
         }
         else if (command == "armleft") {
-            motor.move_arm(CCW);
+            motor.move_arm(0, false);
         }
         else if (command == "armhome") {
             motor.perform_arm_macro(GO_HOME);
@@ -155,17 +155,23 @@ void Central::handle_msg(string msg) {
         else if (command == "putdown") {
             motor.perform_arm_macro(PUT_DOWN);
         }
-        else if (command == "armfwd") {
-            motor.move_arm(AWAY);
+        else if (command == "arm1fwd") {
+            motor.move_arm(1, true);
         }
-        else if (command == "armback") {
-            motor.move_arm(TOWARDS);
+        else if (command == "arm1back") {
+            motor.move_arm(1, false);
         }
-        else if (command == "armup") {
-            motor.move_arm(UP);
+        else if (command == "arm2fwd") {
+            motor.move_arm(2, true);
         }
-        else if (command == "armdown") {
-            motor.move_arm(DOWN);
+        else if (command == "arm2back") {
+            motor.move_arm(2, false);
+        }
+        else if (command == "arm3fwd") {
+            motor.move_arm(3, true);
+        }
+        else if (command == "arm3back") {
+            motor.move_arm(3, false);
         }
         else if (command == "closeclaw") {
             motor.control_claw(true);
