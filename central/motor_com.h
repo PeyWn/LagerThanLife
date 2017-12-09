@@ -27,15 +27,6 @@ enum ARM_MACRO{
     PUT_DOWN = 3
 };
 
-enum ARM_DIRECTION{
-    CW = 0,
-    CCW = 2,
-    UP = 4,
-    DOWN = 6,
-    TOWARDS = 8,
-    AWAY = 10
-};
-
 class MotorCom{
 private:
     UARTHandler com;
@@ -128,16 +119,10 @@ public:
     /*
     Start moving the arm in the given direction.
 
-    direction - the direction to tell the motor unit to move the arm.
+    axis - index of the axis to move
+    fwd - if the axis should be moved forward, false for moving backwards
     */
-    void move_arm(ARM_DIRECTION direction);
-
-    /*
-    Stops movement of the arm in the given direction.
-
-    direction - the arm direction to stop movement in.
-    */
-    void stop_arm(ARM_DIRECTION direction);
+    void move_arm(int axis, bool fwd);
 };
 
 #endif /* MOTOR_COM_H */
