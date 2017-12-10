@@ -55,10 +55,9 @@ bool CommandHandler::try_command(string line){
         }
 
         if ( cmd == "lager"){
-            //TODO implement read from textfile
-            string n;
-            ss >> n;
             string filename;
+            ss >> filename;
+            //string filename;
             string lager;
 
             if(ss.fail()){
@@ -66,11 +65,16 @@ bool CommandHandler::try_command(string line){
                 return false;
             }
 
-            lager = text_file_handler.read_text_file(n);
+            lager = text_file_handler.read_text_file(filename);
             cmd.append(lager);
+
+            cout << cmd << endl;
 
             // TODO: implement update state_handler <---------------------------
             // state_handler->interpret_result(ask_cmd, lager); <---------------------------
+            state_handler.lager = lager;
+
+            //cout << state_handler.lager << endl;
 
         }
     }

@@ -79,6 +79,8 @@ private slots:
 
     void on_go_get_ware_button_clicked();
 
+    void on_read_lager_file_button_clicked();
+
 private:
     CommandHandler* cmd_handler;
     StateHandler state_handler;

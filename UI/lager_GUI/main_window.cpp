@@ -180,3 +180,14 @@ void MainWindow::on_go_get_ware_button_clicked()
     cmd_handler->try_command(get_command);
 
 }
+
+void MainWindow::on_read_lager_file_button_clicked()
+{
+
+    //OBS text_file_handler verkar inte kunna hitta filen???
+
+    string lager_com = "lager " + ui->lager_file_name->text().toStdString();
+    ui->lager_file_name->clear();
+    cmd_handler->try_command(lager_com);
+    ui->temp_lager_viewer->setText(QString::fromStdString(state_handler.lager));
+}

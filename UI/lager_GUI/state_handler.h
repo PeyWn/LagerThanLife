@@ -12,7 +12,7 @@ public:
 
     string ware_one_value = "hacker";
     string ware_two_value = "jocke";
-    string line_sensor_state = "was"; //9000 for testing right now
+    string line_sensor_state = "was";
     string line_sensor_value = "here";
     string lager; //stores the current lager for drawing it
     string drivespeed;
