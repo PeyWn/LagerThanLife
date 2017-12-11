@@ -39,7 +39,7 @@
       </framework-data>
     </AsfFrameworkConfig>
     <AsfVersion>3.1.3</AsfVersion>
-    <avrtool>com.atmel.avrdbg.tool.atmelice</avrtool>
+    <avrtool>com.atmel.avrdbg.tool.simulator</avrtool>
     <com_atmel_avrdbg_tool_atmelice>
       <ToolOptions>
         <InterfaceProperties>
@@ -52,13 +52,13 @@
       <ToolNumber>J41800005213</ToolNumber>
       <ToolName>Atmel-ICE</ToolName>
     </com_atmel_avrdbg_tool_atmelice>
-    <avrtoolinterface>JTAG</avrtoolinterface>
+    <avrtoolinterface>
+    </avrtoolinterface>
     <com_atmel_avrdbg_tool_simulator>
       <ToolOptions>
         <InterfaceProperties>
         </InterfaceProperties>
-        <InterfaceName>
-        </InterfaceName>
+        <InterfaceName>JTAG</InterfaceName>
       </ToolOptions>
       <ToolType>com.atmel.avrdbg.tool.simulator</ToolType>
       <ToolNumber>
@@ -125,10 +125,18 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="coordinate.c">
+    <Compile Include="..\..\lib\avr_util.c">
+      <SubType>compile</SubType>
+      <Link>avr_util.c</Link>
+    </Compile>
+    <Compile Include="..\..\lib\avr_util.h">
+      <SubType>compile</SubType>
+      <Link>avr_util.h</Link>
+    </Compile>
+    <Compile Include="commands.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="coordinate.h">
+    <Compile Include="commands.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="receive.c">

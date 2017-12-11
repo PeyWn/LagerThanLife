@@ -7,6 +7,7 @@ ServerSocket* com_module;
 InterThreadCom* thread_com;
 
 /*
+
     Function for com_child_new. Checks for new socket connection
     and makes the last connected current connection.
 */

@@ -18,4 +18,4 @@ void transmit(unsigned char data);
 unsigned char receive(void);
 
 /* Reads data register of receive to release receive flag of uart transmit */ 
-void flush_UDR(); 
+void flush_UDR1_receive(); 

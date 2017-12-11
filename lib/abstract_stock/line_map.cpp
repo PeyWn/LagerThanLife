@@ -205,7 +205,7 @@ void LineMap::add_line(int i1, int i2){
 }
 
 void LineMap::add_node(double x, double y){
-    int new_id = get_node_c(); //Length if index of new node (last-index + 1)
+    int new_id = get_node_c(); //Length is index of new node (last_index + 1)
     LineNode* new_node = new LineNode(x, y, new_id);
 
     nodes.push_back(new_node);

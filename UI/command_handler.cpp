@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 
-CommandHandler::CommandHandler(InterThreadCom* com, StateHandler* state) : text_file_handler() {
+CommandHandler::CommandHandler(InterThreadCom* com, StateHandler* state) : text_file_handler("../../../../../maps/") {
     robot_com = com;
     state_handler = state;
 }
@@ -111,7 +111,7 @@ string CommandHandler::read_msg(){
         answer = robot_com->read_from_queue(FROM_SOCKET);
     }
 
-    cout << answer << endl;//for debugging
+    //cout << answer << endl;//for debugging
 
     if (answer != ""){
         return answer;

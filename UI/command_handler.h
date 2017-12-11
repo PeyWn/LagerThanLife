@@ -1,4 +1,5 @@
 #include <map>
+#include <string>
 #include "../lib/network/interthreadcom.h"
 #include "text_file_handler.h"
 #include "lager_GUI/state_handler.h"
@@ -7,6 +8,8 @@ using namespace std;
 
 class CommandHandler{
 private:
+    const string map_path = "../maps/";
+
     InterThreadCom* robot_com; //Module to use to send messages to robot
     TextFileHandler text_file_handler;
     StateHandler* state_handler;
@@ -16,46 +19,43 @@ private:
     Second is if command requires parameters after the command itself (boolean)
     */
     const map<string, bool> acc_cmd = {
-        {"fwd",         false},
-        {"stop",        false},
-        {"back",        false},
-        {"right",       false},
-        {"left",        false},
-        {"noturn",      false},
-        {"armright",    false},
-        {"armleft",     false},
-        {"armstop",     false},
-        {"pickup",      false},
-        {"putdown",     false},
-        {"get",         true},
-        {"getsensors",  false},
-        {"getpos",      false},
-        {"getroute",    false},
-        {"updateall",   false},
-        {"auto",        false},
-        {"manual",      false},
-        {"armfwd",      false},
-        {"armback",     false},
-        {"armup",       false},
-        {"armdown",     false},
-        {"closeclaw",   false},
-        {"openclaw",    false},
-        {"estop",       false},
-        {"lager",       true},
-        {"sethome",     true},
-        {"calware",     false},
-        {"calline",     false},
-        {"calfloor",    false},
-        {"armhome",     false},
-        {"turnspeed",   true},
-        {"drivespeed",  true},
-        {"center",      false},
-        {"arm1fwd",     false},
-        {"arm1back",    false},
-        {"arm2fwd",     false},
-        {"arm2back",    false},
-        {"arm3fwd",     false},
-        {"arm3back",    false},
+        {"fwd", false},
+        {"stop", false},
+        {"back", false},
+        {"right", false},
+        {"left", false},
+        {"noturn", false},
+        {"armright", false},
+        {"armleft", false},
+        {"armstop", false},
+        {"pickup", false},
+        {"putdown", false},
+        {"get", true},
+        {"getsensors", false},
+        {"getpos", false},
+        {"getroute", false},
+        {"updateall", false},
+        {"auto", false},
+        {"manual", false},
+        {"closeclaw", false},
+        {"openclaw", false},
+        {"estop", false},
+        {"lager", true},
+        {"sethome", true},
+        {"calware", false},
+        {"calline", false},
+        {"calfloor", false},
+        {"armhome", false},
+        {"turnspeed", true},
+        {"drivespeed", true},
+        {"showdata", false},
+        {"center", false},
+        {"arm1fwd", false},
+        {"arm1back", false},
+        {"arm2fwd", false},
+        {"arm2back", false},
+        {"arm3fwd", false},
+        {"arm3back", false},
     };
 
     /*

@@ -9,6 +9,7 @@
 #include "../lib/abstract_stock/line_node.h"
 #include "../lib/abstract_stock/line.h"
 #include <string>
+#include "ware_detection.h"
 #include <stack>
 #include <time.h>
 
@@ -22,18 +23,32 @@ private:
     //UART interfaces for motor and sensor units
     const string SENSOR_INTERFACE = "/dev/ttyUSB0";
     const string MOTOR_INTERFACE = "/dev/ttyUSB1";
+    const double PICK_REVESE_TIME = 0.4;
+    
+    enum class PickUpState{
+	FIND_WARE,
+	PICK_UP,
+	REVERSE,
+	ON_LINE,
+	TURN
+    };
 
-    //Delay in us between every iteration of mainloop
-    const int MAIN_LOOP_DELAY = 20000;
+    enum class DropOffState{
+	PUT_DOWN,
+	TURN_CORNER,
+	TURN_NONE    
+    };
+    //Delay in seconds between every iteration of mainloop
+    const double MAIN_LOOP_DELAY = 0.01;
 
     //Time to drive forward when on a corner
-    const double TURN_FORWARD_TIME = 0.5;
+    const double TURN_FORWARD_TIME = 0.15;
 
     //Turn speed when turning in a corner
     const int CORNER_TURN_SPEED = 6;
 
     //Turn speed when turning in a corner
-    const int AUTO_DRIVE_SPEED = 7;
+    const int AUTO_DRIVE_SPEED = 4;
 
     //Allowed distance from line after turn to go back to driving
     const int CORNER_LINE_THRESHOLD = 30;
@@ -48,6 +63,12 @@ private:
     //Default speeds for manual driving
     int turn_speed = 5; // 5 by default
     int drive_speed = 7; // 7 by default
+    int center_flag = 0; // 0 by default
+    
+    PickUpState cur_pick_up_state = PickUpState::FIND_WARE;
+    int t_revese = 0;
+
+    DropOffState cur_drop_off_state = DropOffState::PUT_DOWN;
 
     //Enum for determining the robots state in autonoumus mode
     enum class RobotState{
@@ -57,6 +78,9 @@ private:
         DROP_OFF,
         STANDBY
     };
+
+    //For clocking the main main_loop
+    clock_t main_loop_clock;
 
     /*
     State of progree in turning around a corner.
@@ -163,6 +187,9 @@ private:
     /*
     Send sensor information to UI
     */
+    void pick_up();
+    void drop_off();
+	
     void transmit_sensors();
 
     /*
@@ -179,6 +206,7 @@ private:
     Perform action based on sensor values when robot is in the drive state.
     */
     void drive_state();
+
 public:
     /*
     Constructor for Central
@@ -186,7 +214,7 @@ public:
     Central(InterThreadCom* thread_com_in);
 
     /*
-    Main loop for running the program. 
+    Main loop for running the program.
     */
     void main_loop();
 };
