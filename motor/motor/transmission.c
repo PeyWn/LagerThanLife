@@ -160,8 +160,18 @@ void pickup_standard(void)
 {
 	go_pos_front();
 	_delay_ms(33000);
+    if(do_stop){
+        do_stop = false;
+        return;
+    }
+
 	grab();
 	_delay_ms(8000);
+    if(do_stop){
+        do_stop = false;
+        return;
+    }
+
 	go_home_pos();
 }
 
@@ -169,8 +179,18 @@ void putdown_standard(void)
 {	
 	go_pos_front();
 	_delay_ms(33000);
+    if(do_stop){
+        do_stop = false;
+        return;
+    }
+
 	release();
 	_delay_ms(8000);
+    if(do_stop){
+        do_stop = false;
+        return;
+    }
+
 	go_home_pos();
 }
 
