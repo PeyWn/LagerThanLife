@@ -4,8 +4,10 @@
 #include <fcntl.h>
 #include <termios.h>
 #include "uart_handler.h"
+#include <linux/serial.h>
 
 UARTHandler::UARTHandler(string interface){
+    
     uart_fd = open(interface.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
 
     if (uart_fd == -1)
@@ -16,7 +18,7 @@ UARTHandler::UARTHandler(string interface){
     //Set up UART option with termios
     struct termios options;
 	tcgetattr(uart_fd, &options);
-	options.c_cflag = B9600 | CS8 | CLOCAL | CREAD; //Baudrate of 9600
+	options.c_cflag = B19200 | CS8 | CLOCAL | CREAD; //Baudrate of 9600
 	options.c_oflag = 0;
 	options.c_lflag = 0;
     options.c_iflag = IGNPAR;
