@@ -16,8 +16,6 @@ volatile int home_pos[6];
 int main(void)
 {
     /* CONFIGURE UART */
-    /* set rx to input, set tx to output */
-    DDRD = (0<<DDD0)|(1<<DDD1);
 
     init_IO();
     usart_init(0);
