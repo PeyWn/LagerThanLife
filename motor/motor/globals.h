@@ -2,6 +2,7 @@
 #define GLOBALS_H
 
 #include <util/delay.h>
+#include "../../lib/avr_util.h"
 
 #define F_CPU 16000000 // Avr system clock @ 16Mhz. 
 #define DIRECTION_PORT PORTD // Direction port D4 on AVR.
@@ -68,5 +69,9 @@ volatile extern	int home_pos[6];
 #define CCW_LIMIT_7 0x3ff
 #define CW_LIMIT_8 0x0
 #define CCW_LIMIT_8 0x1ff
+
+volatile extern bool do_stop;
+volatile extern bool do_pickup;
+volatile extern bool do_putdown;
 
 #endif

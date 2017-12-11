@@ -124,6 +124,14 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\lib\avr_util.c">
+      <SubType>compile</SubType>
+      <Link>avr_util.c</Link>
+    </Compile>
+    <Compile Include="..\..\lib\avr_util.h">
+      <SubType>compile</SubType>
+      <Link>avr_util.h</Link>
+    </Compile>
     <Compile Include="commands.c">
       <SubType>compile</SubType>
     </Compile>

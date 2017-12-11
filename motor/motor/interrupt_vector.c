@@ -126,6 +126,10 @@ ISR(USART0_RX_vect){
             if(parameter == 0){
                 //Stop all engines
                 stop_arm(); 
+
+                if(do_putdown || do_pickup){
+                    do_stop = true;
+                }
             }
             else if(parameter == 1){
                 //Go to home position
@@ -133,11 +137,11 @@ ISR(USART0_RX_vect){
             }
             else if(parameter == 2){
                 //Pickup ware
-                pickup_standard();
+                do_pickup = true;
             }
             else{
                 //Put down ware
-                putdown_standard();
+                do_putdown = true;
             }
 			break;
 		
@@ -146,7 +150,7 @@ ISR(USART0_RX_vect){
             
 			if (parameter == 0){ 
 			    //Stop arm movements
-                stop_arm();	
+                stop_arm();
 			}
 			else if (parameter == 1){ 
                 //rotate entire arm clock wise
