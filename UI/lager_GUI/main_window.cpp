@@ -3,10 +3,9 @@
 
 
 
-MainWindow::MainWindow(CommandHandler* handler, StateHandler state, QWidget *parent) :
+MainWindow::MainWindow(CommandHandler* handler, StateHandler* state, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
-
 {
     ui->setupUi(this);
     cmd_handler = handler;
@@ -98,46 +97,6 @@ void MainWindow::on_close_claw_button_clicked()
     cmd_handler->try_command("closeclaw");
 }
 
-void MainWindow::on_arm_up_button_pressed()
-{
-    cmd_handler->try_command("armup");
-}
-
-void MainWindow::on_arm_up_button_released()
-{
-    cmd_handler->try_command("armstop");
-}
-
-void MainWindow::on_arm_down_button_pressed()
-{
-    cmd_handler->try_command("armdown");
-}
-
-void MainWindow::on_arm_down_button_released()
-{
-    cmd_handler->try_command("armstop");
-}
-
-void MainWindow::on_arm_back_button_pressed()
-{
-    cmd_handler->try_command("armback");
-}
-
-void MainWindow::on_arm_back_button_released()
-{
-    cmd_handler->try_command("armstop");
-}
-
-void MainWindow::on_arm_fwd_button_pressed()
-{
-    cmd_handler->try_command("armfwd");
-}
-
-void MainWindow::on_arm_fwd_button_released()
-{
-    cmd_handler->try_command("armstop");
-}
-
 void MainWindow::on_emergency_stop_button_pressed()
 {
     cmd_handler->try_command("estop");
@@ -165,10 +124,10 @@ void MainWindow::on_terminal_window_textChanged()
 void MainWindow::on_update_sensors_button_clicked()
 {
     cmd_handler->try_command("getsensors");
-    ui->line_sensor_state->setText(QString::fromStdString(state_handler.line_sensor_state));
-    ui->line_sensor_value->setText(QString::fromStdString(state_handler.line_sensor_value));
-    ui->ware_one_value->setText(QString::fromStdString(state_handler.ware_one_value));
-    ui->ware_two_value->setText(QString::fromStdString(state_handler.ware_two_value));
+    ui->line_sensor_state->setText(QString::fromStdString(state_handler->line_sensor_state));
+    ui->line_sensor_value->setText(QString::fromStdString(state_handler->line_sensor_value));
+    ui->ware_one_value->setText(QString::fromStdString(state_handler->ware_one_value));
+    ui->ware_two_value->setText(QString::fromStdString(state_handler->ware_two_value));
 
 }
 
@@ -183,11 +142,105 @@ void MainWindow::on_go_get_ware_button_clicked()
 
 void MainWindow::on_read_lager_file_button_clicked()
 {
-
-    //OBS text_file_handler verkar inte kunna hitta filen???
-
     string lager_com = "lager " + ui->lager_file_name->text().toStdString();
     ui->lager_file_name->clear();
     cmd_handler->try_command(lager_com);
-    ui->temp_lager_viewer->setText(QString::fromStdString(state_handler.lager));
+
+    ui->temp_lager_viewer->setText(QString::fromStdString(state_handler->lager));
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    string set_drive_speed = "drivespeed " + ui->drive_speed_value->text().toStdString();
+    string set_turn_speed = "turnspeed " + ui->turn_speed_value->text().toStdString();
+    cmd_handler->try_command(set_drive_speed);
+    cmd_handler->try_command(set_turn_speed);
+}
+
+void MainWindow::on_set_home_button_clicked()
+{
+    string home_id = ui->set_home_box->text().toStdString();
+    string cmd = "sethome" + home_id;
+    cmd_handler->try_command(home_id);
+
+}
+
+void MainWindow::on_arm_2_back_button_pressed()
+{
+    cmd_handler->try_command("arm2back");
+}
+
+void MainWindow::on_arm_2_back_button_released()
+{
+    cmd_handler->try_command("armstop");
+}
+
+void MainWindow::on_arm_2_fwd_button_pressed()
+{
+    cmd_handler->try_command("arm2fwd");
+}
+
+void MainWindow::on_arm_2_fwd_button_released()
+{
+    cmd_handler->try_command("armstop");
+}
+
+void MainWindow::on_arm_1_fwd_button_pressed()
+{
+    cmd_handler->try_command("arm1fwd");
+}
+
+void MainWindow::on_arm_1_fwd_button_released()
+{
+    cmd_handler->try_command("armstop");
+}
+
+void MainWindow::on_arm_1_back_button_pressed()
+{
+    cmd_handler->try_command("arm1back");
+}
+
+void MainWindow::on_arm_1_back_button_released()
+{
+    cmd_handler->try_command("armstop");
+}
+
+void MainWindow::on_arm_3_back_button_pressed()
+{
+    cmd_handler->try_command("arm3back");
+}
+
+void MainWindow::on_arm_3_back_button_released()
+{
+    cmd_handler->try_command("armstop");
+}
+
+void MainWindow::on_arm_3_fwd_button_pressed()
+{
+    cmd_handler->try_command("arm3fwd");
+}
+
+void MainWindow::on_arm_3_fwd_button_released()
+{
+    cmd_handler->try_command("armstop");
+}
+
+void MainWindow::on_arm_ccw_button_pressed()
+{
+    cmd_handler->try_command("armleft");
+}
+
+void MainWindow::on_arm_ccw_button_released()
+{
+    cmd_handler->try_command("armstop");
+}
+
+void MainWindow::on_arm_cw_button_pressed()
+{
+    cmd_handler->try_command("armright");
+}
+
+void MainWindow::on_arm_cw_button_released()
+{
+    cmd_handler->try_command("armstop");
 }

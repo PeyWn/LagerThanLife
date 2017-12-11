@@ -1,5 +1,8 @@
 #include "state_handler.h"
 #include <stack>
+#include <iostream>
+
+using namespace std;
 
 StateHandler::StateHandler(){}
 
@@ -19,6 +22,9 @@ void StateHandler::interpret_message(string cmd, string param){
     }
     else if (cmd == "getroute"){
         route = param;
+    }
+    else if (cmd == "lager"){
+        lager = param;
     }
     else {
         //do nothing

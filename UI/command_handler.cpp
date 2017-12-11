@@ -3,7 +3,7 @@
 #include <string>
 #include "command_handler.h"
 
-CommandHandler::CommandHandler(InterThreadCom* com, StateHandler state) : text_file_handler() {
+CommandHandler::CommandHandler(InterThreadCom* com, StateHandler* state) : text_file_handler() {
     robot_com = com;
     state_handler = state;
 }
@@ -61,18 +61,18 @@ bool CommandHandler::try_command(string line){
             string lager;
 
             if(ss.fail()){
-                //Coukd not read a string
+                //Could not read a string
                 return false;
             }
 
             lager = text_file_handler.read_text_file(filename);
             cmd.append(lager);
 
-            cout << cmd << endl;
+            //cout << cmd << endl;
 
             // TODO: implement update state_handler <---------------------------
             // state_handler->interpret_result(ask_cmd, lager); <---------------------------
-            state_handler.lager = lager;
+            state_handler->interpret_message("lager", lager);
 
             //cout << state_handler.lager << endl;
 
@@ -88,10 +88,9 @@ bool CommandHandler::try_command(string line){
         ask_cmd == "getpos" ||
         ask_cmd == "getroute"
     ){
-        //busy wait till det finns
-        string param = read_msg();
-        string result = ask_cmd + param;
-        // state_handler->interpret_result(ask_cmd, param);
+        //busy wait till det finns något att läsa ????
+        //string param = read_msg();
+        //state_handler->interpret_message(ask_cmd, param);
     }
 
         return true;

@@ -48,4 +48,3 @@ FORMS += \
 
 LIBS += \
         -stdlib=libc++
-

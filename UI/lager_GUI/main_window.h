@@ -18,7 +18,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(CommandHandler* handler, StateHandler state, QWidget *parent = 0);
+    explicit MainWindow(CommandHandler* handler, StateHandler *state, QWidget *parent = 0);
     ~MainWindow();
 
 private slots:
@@ -51,29 +51,11 @@ private slots:
 
     void on_close_claw_button_clicked();
 
-    void on_arm_up_button_pressed();
-
-    void on_arm_up_button_released();
-
-    void on_arm_down_button_pressed();
-
-    void on_arm_down_button_released();
-
-    void on_arm_back_button_pressed();
-
-    void on_arm_back_button_released();
-
-    void on_arm_fwd_button_pressed();
-
-    void on_arm_fwd_button_released();
-
     void on_emergency_stop_button_pressed();
 
     void on_terminal_prompt_returnPressed();
 
-
     void on_terminal_window_textChanged();
-
 
     void on_update_sensors_button_clicked();
 
@@ -81,9 +63,45 @@ private slots:
 
     void on_read_lager_file_button_clicked();
 
+    void on_pushButton_clicked();
+
+    void on_set_home_button_clicked();
+
+    void on_arm_2_back_button_pressed();
+
+    void on_arm_2_back_button_released();
+
+    void on_arm_2_fwd_button_pressed();
+
+    void on_arm_2_fwd_button_released();
+
+    void on_arm_1_fwd_button_pressed();
+
+    void on_arm_1_fwd_button_released();
+
+    void on_arm_1_back_button_pressed();
+
+    void on_arm_1_back_button_released();
+
+    void on_arm_3_back_button_pressed();
+
+    void on_arm_3_back_button_released();
+
+    void on_arm_3_fwd_button_pressed();
+
+    void on_arm_3_fwd_button_released();
+
+    void on_arm_ccw_button_pressed();
+
+    void on_arm_ccw_button_released();
+
+    void on_arm_cw_button_pressed();
+
+    void on_arm_cw_button_released();
+
 private:
     CommandHandler* cmd_handler;
-    StateHandler state_handler;
+    StateHandler* state_handler;
     Ui::MainWindow *ui;
 
     string command; //saves the last command written to the command promt

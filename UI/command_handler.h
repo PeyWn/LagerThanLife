@@ -9,7 +9,7 @@ class CommandHandler{
 private:
     InterThreadCom* robot_com; //Module to use to send messages to robot
     TextFileHandler text_file_handler;
-    StateHandler state_handler;
+    StateHandler* state_handler;
 
     /* CMDS TO SEND
     First is name of command (string);
@@ -70,7 +70,7 @@ public:
 
     com - pointer to InterThreadCom module to use to send messages to robot
     */
-    CommandHandler(InterThreadCom* com, StateHandler state);
+    CommandHandler(InterThreadCom* com, StateHandler *state);
 
     /*
     try to execute given string as a command. Return if it worked

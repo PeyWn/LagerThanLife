@@ -6,9 +6,10 @@ TextFileHandler::TextFileHandler(){}
 
 string TextFileHandler::read_text_file(string filename){
 
+
     string str;
     string strTotal = " ";
-    string myfile = ("../maps/" + filename);
+    string myfile = ("../../../../../maps/" + filename);
     ifstream in;
 
     in.open(myfile);
