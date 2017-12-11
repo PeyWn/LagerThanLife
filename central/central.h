@@ -38,18 +38,17 @@ private:
 	TURN_CORNER,
 	TURN_NONE    
     };
-    
-    //Delay in us between every iteration of mainloop
-    const int MAIN_LOOP_DELAY = 20000;
+    //Delay in seconds between every iteration of mainloop
+    const double MAIN_LOOP_DELAY = 0.01;
 
     //Time to drive forward when on a corner
-    const double turn_forward_time = 0.5;
+    const double TURN_FORWARD_TIME = 0.15;
 
     //Turn speed when turning in a corner
     const int CORNER_TURN_SPEED = 6;
 
     //Turn speed when turning in a corner
-    const int AUTO_DRIVE_SPEED = 7;
+    const int AUTO_DRIVE_SPEED = 4;
 
     //Allowed distance from line after turn to go back to driving
     const int CORNER_LINE_THRESHOLD = 30;
@@ -61,7 +60,8 @@ private:
 
     ControlSystem line_follower;
 
-    int turn_speed = 3; // 3 by default
+    //Default speeds for manual driving
+    int turn_speed = 5; // 5 by default
     int drive_speed = 7; // 7 by default
     int center_flag = 0; // 0 by default
     
@@ -78,6 +78,9 @@ private:
         DROP_OFF,
         STANDBY
     };
+
+    //For clocking the main main_loop
+    clock_t main_loop_clock;
 
     /*
     State of progree in turning around a corner.
@@ -210,6 +213,9 @@ public:
     */
     Central(InterThreadCom* thread_com_in);
 
+    /*
+    Main loop for running the program.
+    */
     void main_loop();
 };
 

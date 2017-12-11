@@ -21,9 +21,9 @@ void Central::transmit_sensors(){
 }
 
 void Central::update_sensors(){
-    line_center = sensor.get_line_center();
-    line_state = sensor.get_line_state();
-    ware_seen = sensor.get_ware_seen();
+        line_center = sensor.get_line_center();
+        line_state = sensor.get_line_state();
+	ware_seen = sensor.get_ware_seen();
 }
 
 void Central::get_pos(){
@@ -392,13 +392,22 @@ void Central::handle_msg(string msg) {
 
 void Central::main_loop() {
     string msg_read;
+    /* Might need to init arm correctly
     motor.control_claw(false);
+    //Move arm to home position when starting
+    motor.perform_arm_macro(GO_HOME);
+    */
+
     while(true) {
+        //Start the main loop clock
+        main_loop_clock = clock();
+
         //Update all sensor values
         update_sensors();
 
         //Network read
         msg_read = thread_com->read_from_queue(FROM_SOCKET);
+
         if (msg_read != "") {
             #ifdef DEBUG
             cout << "Msg: " << msg_read << "\n";  //prints the recieved Msg
@@ -438,8 +447,13 @@ void Central::main_loop() {
             }
         }
 
-    //Delay main loop slightly to not spam UART
-	usleep(MAIN_LOOP_DELAY);
+    	//Delay main loop slightly to not spam UART
+        //Delay is calculated based on time left to keep delay constant
+        double elapsed_sec = (float)(clock() - main_loop_clock)/CLOCKS_PER_SEC; //delay in seconds
+
+        //Multiply with 1000000 to make seconds into us
+        double sleep_time = (MAIN_LOOP_DELAY - elapsed_sec) * 1000000;
+        usleep(sleep_time);
     }
 }
 
@@ -460,7 +474,7 @@ void Central::turn_state(){
         }
         case TurnState::FORWARD:{
             clock_t time_diff = clock() - clock_start;
-            if((((float)time_diff)/CLOCKS_PER_SEC) > turn_forward_time){
+            if((((float)time_diff)/CLOCKS_PER_SEC) > TURN_FORWARD_TIME){
                 //Turn different ways depending on angle
                 if(turn_angle == 2){
                     //Angle 2, continue forwars
@@ -534,7 +548,15 @@ void Central::drive_state(){
         line_follower.run(line_center); //Run line follower system
     }
     else if(line_state == CORNER){
-	if(next_node->get_id() == home_id){
+        if(cur_path.empty()){
+            //Stop robot and throw exception
+            motor.drive(IDLE, 0);
+            motor.turn(NONE, 0);
+
+            throw invalid_argument("Corner found when current path is empty");
+        }
+
+        if(next_node->get_id() == home_id){
             //At base station
             #ifdef DEBUG
             cout << "At home" << endl;
@@ -577,7 +599,7 @@ void Central::drive_state(){
         #endif
 
         motor.drive(IDLE, 0);
-	motor.turn(NONE, 0);
+        motor.turn(NONE, 0);
         state = RobotState::PICK_UP;
     }
 }

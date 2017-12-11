@@ -4,8 +4,10 @@
 #include <fcntl.h>
 #include <termios.h>
 #include "uart_handler.h"
+#include <linux/serial.h>
 
 UARTHandler::UARTHandler(string interface){
+    
     uart_fd = open(interface.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
 
     if (uart_fd == -1)

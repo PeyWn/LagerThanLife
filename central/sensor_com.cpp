@@ -11,6 +11,7 @@ int SensorCom::get_line_center(){
 
 LINE_STATE SensorCom::get_line_state(){
     com.send_msg(GET_LINE_STATE);
+
     int state = com.read_msg();
 
     return static_cast<LINE_STATE>(state);
