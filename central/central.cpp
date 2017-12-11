@@ -164,6 +164,9 @@ void Central::pick_up(){
 void Central::drop_off(){
     switch(cur_drop_off_state){
 	case(DropOffState::PUT_DOWN):{
+	    #ifdef DEBUG
+	    cout << "Drop off: put down" << endl;
+            #endif	    
 	    motor.perform_arm_macro(ARM_MACRO::PUT_DOWN);
 	    usleep(5000000);
 	    motor.turn(RIGHT, CORNER_TURN_SPEED);
@@ -171,12 +174,18 @@ void Central::drop_off(){
 	    break;
 	}    
 	case(DropOffState::TURN_CORNER):{
+            #ifdef DEBUG
+	    cout << "Drop off: corner" << endl;
+            #endif	    
 	    if(line_state == NONE_DOUBLE){
 		cur_drop_off_state = DropOffState::TURN_NONE; 
 	    }
 	    break;
 	}
 	case(DropOffState::TURN_NONE):{
+            #ifdef DEBUG
+	    cout << "Drop off: none" << endl;
+            #endif	    	    
 	    if( (line_state == SINGLE) && (abs(line_center) < CORNER_LINE_THRESHOLD) ){
 		motor.turn(NONE, 0);
 		cur_drop_off_state = DropOffState::PUT_DOWN;
