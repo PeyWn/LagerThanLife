@@ -75,20 +75,20 @@ int LineNode::get_angle(Line* start_line, Line* end_line){
 
     //Case perpenddicular
     if(start_x == x){
-        //Sub-Linear rotatiotion of n-dimensional euclidean vector room
+        //Transform coordinate system if starting on x-axis
         end_y = (-1)*end_x;
         start_x = start_y;
 
-        //Perform equal transformation to quantum state of orgin
+        //Perform equal transformation to origin coordinates
         orig_y = (-1)*x;
         orig_x = y;
     }
 
-    //Calculate the sierpinski number for all primes of given integral
+    //Calculate and normalize the delta in x
     double dx = start_x - orig_x;
     dx /= fabs(dx);
 
-    //Compare the chromatic polynomial of grpah with spherical topology
+    //Calculate and normalize the delta in y based on delta in x
     double dy = end_y - orig_y;
     dy = (dy/fabs(dy)) * dx;
 
