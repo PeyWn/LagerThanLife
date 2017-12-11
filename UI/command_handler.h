@@ -32,10 +32,6 @@ private:
         {"updateall", false},
         {"auto", false},
         {"manual", false},
-        {"armfwd", false},
-        {"armback", false},
-        {"armup", false},
-        {"armdown", false},
         {"closeclaw", false},
         {"openclaw", false},
         {"estop", false},
@@ -49,6 +45,12 @@ private:
         {"drivespeed", true},
         {"showdata", false},
         {"center", false}
+        {"arm1fwd", false},
+        {"arm1back", false},
+        {"arm2fwd", false},
+        {"arm2back", false},
+        {"arm3fwd", false},
+        {"arm3back", false},
     };
 
     /*

@@ -1,12 +1,11 @@
 ﻿#include <avr/interrupt.h>
 #include "transmission.h"
 #include "wheel_control.h"
+#include "commands.h"
 
 
 /*
 Define interrupt vector for UART data received.
-
-TODO: clean up code
 */
 ISR(USART0_RX_vect){
 	
@@ -126,8 +125,7 @@ ISR(USART0_RX_vect){
 			// macro arm
             if(parameter == 0){
                 //Stop all engines
-                //TODO implement
-
+                stop_arm(); 
             }
             else if(parameter == 1){
                 //Go to home position
@@ -135,18 +133,54 @@ ISR(USART0_RX_vect){
             }
             else if(parameter == 2){
                 //Pickup ware
-                pickup_standard_front();
+                pickup_standard();
             }
             else{
                 //Put down ware
-                putdown_standard_front();
+                putdown_standard();
             }
 			break;
 		
 		case 0b1111  :
-			//rotering av arm
-            //TODO implement
-			
+			//Manual control of arm
+            
+			if (parameter == 0){ 
+			    //Stop arm movements
+                stop_arm();	
+			}
+			else if (parameter == 1){ 
+                //rotate entire arm clock wise
+                axis_fwd(0);
+			}
+			else if (parameter == 2){
+				//rotate entire arm counter clock wise
+				axis_back(0);
+			}
+			else if (parameter == 3){ 
+				//axis 1 forward
+				axis_fwd(1);
+			}
+			else if (parameter == 4){ 
+				//axis 1 back
+				axis_back(1);
+			}
+			else if (parameter == 5){
+				//axis 2 forward
+				axis_fwd(2);
+			}
+			else if (parameter == 6){ 
+				//axis 2 back
+				axis_back(2);
+			}
+			else if (parameter == 7){ 
+				//axis 3 forward
+				axis_fwd(3);
+			} 
+			else if (parameter == 8){ 
+				//axis 3 back
+				axis_back(3);
+			}
+	
 			break; 
 		default: 
 			break;

@@ -1,9 +1,5 @@
-/*
- * globals.h
- *
- * Created: 11/8/2017 8:37:16 PM
- *  Author: jesjo430
- */ 
+#ifndef GLOBALS_H
+#define GLOBALS_H
 
 #include <util/delay.h>
 
@@ -11,6 +7,7 @@
 #define DIRECTION_PORT PORTD // Direction port D4 on AVR.
 
 #define NUMBER_OF_MOTORS 8
+#define NUMBER_OF_AXIS 6
 
 #define RECEIVE 0 // Definition used when setting half duplex UART direction.
 #define TRANSMIT 1 // Definition used when setting half duplex UART direction.
@@ -35,7 +32,7 @@
 #define RETURN_DELAY_TIME_ADDRESS 0x05
 #define LED_ADDRESS 0x19
 #define ID_ADDRESS 0x03
-#define PRES_POS_ADDRESS 0x24
+#define PRESENT_POS_ADDRESS 0x24
 
 /* Global speeds for servo movements */ 
 #define SPEED_0 0x3f
@@ -49,17 +46,10 @@
 /* Globals values for control table*/ 
 #define GLOBAL_TORQUE_LIMIT 0x3FF
 
-/* Error variables for each servo */ 
-volatile extern int error1;
-volatile extern int error2;
-volatile extern int error3;
-volatile extern int error4;
-volatile extern int error5;
-volatile extern int error6;
-volatile extern int error7;
-volatile extern int error8;
+#define STEPS_PER_TICK 10
 
-volatile extern int is_working; //Flag for indication that the arm is moving
+volatile extern int front_pos[6];
+volatile extern	int home_pos[6];
 
 /* Angular limits for each AX-12 servo */ 
 #define CW_LIMIT_1 0x0
@@ -78,3 +68,5 @@ volatile extern int is_working; //Flag for indication that the arm is moving
 #define CCW_LIMIT_7 0x3ff
 #define CW_LIMIT_8 0x0
 #define CCW_LIMIT_8 0x1ff
+
+#endif

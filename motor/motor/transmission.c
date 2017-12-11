@@ -11,44 +11,36 @@
 #include "uart_arm.h"
 #include "globals.h"
 #include "receive.h"
+#include "math.h"
 
-volatile int is_working; 
- 
+volatile const double CT_ANGLE = 4.71;
+
 void transmit_startbytes()
 {
 	transmit(0xFF);
 	transmit(0xFF); 	
 }
 
-char read_byte(int id, int address)
+void send_read_msg(int id, int address, int length)
 {
-	transmit_startbytes();
-	transmit(id);
-	transmit(0x03); //Number of parameters + 2 = LENGHT.
-	transmit(READ_DATA);
-	transmit(address);
-	transmit( ~(id + 3 + READ_DATA + address) ); //Checksum
-	return receive_status_packet();
+    // 0xff 0xff ID, LEN, INSTR,     PARAM,   PARAM, CHECKSUM
+    // 0xff 0xff id,  4 , READ_DATA, address, 1,     checksum
+    volatile char checksum = ~(id + 4 + READ_DATA + address + length);
+    volatile char packet[] = {0xFF, 0xFF, id, 4, READ_DATA, address, length, checksum};
+    
+    for(int i=0; i<8; i++){
+        transmit(packet[i]);
+    }
 }
 
 void write_byte(int id, int address, int byte, int mode)
 {
-	transmit_startbytes();
-	transmit((char)id);
-	transmit(0x04); //Number of parameters + 2 = LENGHT.
-	transmit(mode);
-	transmit(address);
-	transmit(byte);
-	transmit( ~(id + 4 + mode + address + byte) ); //Checksum
-	receive_status_packet();
-}
-
-int read_word(int id, int address)
-{
-	volatile char data1 = read_byte(id, address);
-	volatile char data2 = read_byte(id, address+1);
-	
-	return ((((short)data1)<<8) | data2); //Smash bytes together to one word. 
+    volatile char checksum = ~(id +4 +mode +address +byte);
+    volatile char packet[] =  {0xFF, 0xFF, id, 4, mode, address, byte, checksum};
+      
+    for(int i=0; i<sizeof(packet); i++){
+        transmit(packet[i]);
+    }
 }
 
 void write_word(int id, int address, int word, int mode)
@@ -65,7 +57,6 @@ void write_word(int id, int address, int word, int mode)
 	transmit(wordL);
 	transmit(wordH);
 	transmit( ~(id + 4 + mode + address + wordH + wordL) ); //Checksum
-	receive_status_packet();
 }
 
 void write_long(int id, int address, int word1, int word2, int mode)
@@ -86,7 +77,6 @@ void write_long(int id, int address, int word1, int word2, int mode)
 	transmit(word2L);
 	transmit(word2H);
 	transmit( ~(id + 7 + mode + address + word1L + word1H + word2L + word2H) ); //Checksum
-	receive_status_packet();
 }
  
 void move_single_axis(int id, int pos, int speed, char mode) 
@@ -108,7 +98,7 @@ void move_double_axis(int id1, int id2, int pos, int speed)
 	move_single_axis(id1, pos, speed, REG_WRITE);
 	_delay_ms(500);
 	
-	long mirror_pos = 0x03FF-pos; //Double axis's partner servo pos. 
+	volatile long mirror_pos = 0x03FF-pos; //Double axis's partner servo pos. 
 	move_single_axis(id2, mirror_pos, speed, REG_WRITE);
 	_delay_ms(500);
 	
@@ -120,7 +110,7 @@ void torque_enable(int id)
 	write_byte(id, TORQUE_ENABLE_ADDRESS, 1, WRITE_DATA);
 }
 
-void torque_disable_all(int id)
+void torque_disable_all()
 {
 	for (int i = 1; i<=NUMBER_OF_MOTORS; i++)
 	{
@@ -135,59 +125,84 @@ void update_error_var(int id)
 	transmit(2); // Length = number of parameters + 2
 	transmit(1);
 	transmit((char)~(id+2+1)); // Checksum
-	receive_status_packet();
 }
 
 void go_home_pos(void)
 {
-	move_double_axis(2, 3, 0x280, SPEED_4);
-	move_single_axis(1, 0x1ff, SPEED_2, WRITE_DATA);
-	move_double_axis(4, 5, 0x250, SPEED_3);
-	_delay_ms(8000); //Wait with next servos to avoid crashing into platform. 
-	move_single_axis(6, 0xC0, SPEED_2, WRITE_DATA);
-	move_single_axis(7, 0x1ff, SPEED_2, WRITE_DATA);
+    move_axis(0, 0x1ff, SPEED_1);
+    move_axis(1, 0x280, SPEED_1);
+	_delay_ms(8000);
+    move_axis(2, 0x250, SPEED_1);
+    move_axis(3, 0x0c0, SPEED_1);
+    move_axis(4, 0x1ff, SPEED_1);
 }
 
 void go_pos_front(void)
 {
-	move_single_axis(1, 0x1ff, SPEED_2, WRITE_DATA);
-	move_double_axis(4, 5, 0x155, SPEED_3);
-	move_single_axis(6, 0x100, SPEED_2, WRITE_DATA);
-	move_single_axis(7, 0x1ff, SPEED_2, WRITE_DATA);
-	move_double_axis(2, 3, 0x148, SPEED_4);
+    move_axis(0, 0x1ff, SPEED_1);
+    move_axis(1, 0x148, SPEED_1);
+    move_axis(2, 0x155, SPEED_1);
+    move_axis(3, 0x100, SPEED_1);
+    move_axis(4, 0x1ff, SPEED_1);
 }
 
 void grab(void)
 {
-	move_single_axis(8, 0xf8, SPEED_MAX, WRITE_DATA);
+	move_axis(5, 0x0f8, SPEED_MAX);
 }
 
 void release(void)
 {
-	move_single_axis(8, 0x1ff, SPEED_MAX, WRITE_DATA);
+    move_axis(5, 0x1ff, SPEED_MAX);
 }
 
-void pickup_standard_front(void)
+void pickup_standard(void)
 {
-	is_working = 1;
 	go_pos_front();
-	_delay_ms(33000); //Wait for arm to reach to object
+	_delay_ms(33000);
 	grab();
+	_delay_ms(8000);
 	go_home_pos();
-	is_working = 0; 
 }
 
-void putdown_standard_front(void)
-{
-	is_working = 1; 
+void putdown_standard(void)
+{	
 	go_pos_front();
-	_delay_ms(32000); //Wait for arm to reach to object 
+	_delay_ms(33000);
 	release();
+	_delay_ms(8000);
 	go_home_pos();
-	is_working = 0;
 }
 
-void emergency_stop(void)
+void move_axis(int axis, int pos, int speed)
 {
-	torque_disable_all(0xFE);
+	switch (axis)
+	{
+		case 0:
+			move_single_axis(1, pos, speed, WRITE_DATA);
+			break;
+		case 1:
+			move_double_axis(2, 3, pos, speed);
+			break;
+		case 2:
+			move_double_axis(4, 5, pos, speed);
+			break;
+		case 3:
+			move_single_axis(6, pos, speed, WRITE_DATA);
+			break; 
+		case 4: 
+			move_single_axis(7, pos, speed, WRITE_DATA);
+			break; 
+		case 5: 
+			move_single_axis(8, pos, speed, WRITE_DATA);
+			break; 
+	}
+}
+
+void ping_servo(int id){
+    volatile char checksum = ~(id + 2 + PING);
+    volatile char packet[] = {0xFF, 0xFF, id, 2, PING, checksum};
+    for(int i=0; i<6; i++){
+        transmit(packet[i]);
+    }
 }

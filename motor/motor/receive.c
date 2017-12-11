@@ -8,66 +8,34 @@
 #include <stdio.h>
 #include "uart_arm.h"
 #include "globals.h"
+#include "receive.h"
 
-/* Error values for every servo */ 
-volatile int error1;
-volatile int error2;
-volatile int error3;
-volatile int error4;
-volatile int error5;
-volatile int error6;
-volatile int error7;
-volatile int error8;
+void receive_status_packet(Packet *data)
+{   
+    data->start1 = receive();
+    data->start2 = receive();
+    data->id     = receive();
+    data->len    = receive();    // length: #params + 2
+    data->error  = receive();
 
-char receive_status_packet()
-{
-	/* Start bits 0xFF 0xFF, which is ignored */
-	volatile int x = receive();
-	x = receive();
-	
-	int id = receive();
-	
-	/* Length wich is ignored */ 
-	x = receive();
-	
-	volatile int error = receive();
-	volatile int data = receive();
-	
-	switch(id) {
-		case 1:
-		error1 = error;
-		break;
-		
-		case 2:
-		error2 = error;
-		break;
-		
-		case 3:
-		error3 = error;
-		break;
+    for(int i = 0; i < data->len - 2; i++){
+        data->params[i] = receive();
+    }
+    data->checksum = receive();
+}
 
-		case 4:
-		error4 = error; 
-		break;
-	
-		case 5:
-		error5 = error; 
-		break;
-		
-		case 6:
-		error6 = error;
-		break;
-		
-		case 7:
-		error7 = id;
-		break;
-		
-		case 8:
-		error8 = error;
-		break;
-  
-		default:
-		break;
-	}
-	return data; 
+int get_servo_pos(int id){
+    flush_UDR1_receive();
+    Packet data;
+    char pos_l, pos_h;
+    
+    send_read_msg(id, PRESENT_POS_ADDRESS, 2);
+    receive_status_packet(&data);
+    pos_l = data.params[0];
+    
+    pos_h = data.params[1];
+    
+    int pos = ((pos_h<<8) | pos_l);
+
+    return pos;
 }

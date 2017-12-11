@@ -57,8 +57,7 @@
       <ToolOptions>
         <InterfaceProperties>
         </InterfaceProperties>
-        <InterfaceName>
-        </InterfaceName>
+        <InterfaceName>JTAG</InterfaceName>
       </ToolOptions>
       <ToolType>com.atmel.avrdbg.tool.simulator</ToolType>
       <ToolNumber>
@@ -125,10 +124,10 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="coordinate.c">
+    <Compile Include="commands.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="coordinate.h">
+    <Compile Include="commands.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="receive.c">
