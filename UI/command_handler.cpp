@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 #include "command_handler.h"
+#include <unistd.h>
+
 
 CommandHandler::CommandHandler(InterThreadCom* com, StateHandler* state) : text_file_handler() {
     robot_com = com;
@@ -52,6 +54,7 @@ bool CommandHandler::try_command(string line){
 
             // TODO: implement update state_handler <---------------------------
             // state_handler->interpret_result(ask_cmd, n); <---------------------------
+            state_handler->interpret_message(ask_cmd, to_string(n));
         }
 
         if ( cmd == "lager"){
@@ -88,9 +91,9 @@ bool CommandHandler::try_command(string line){
         ask_cmd == "getpos" ||
         ask_cmd == "getroute"
     ){
-        //busy wait till det finns något att läsa ????
-        //string param = read_msg();
-        //state_handler->interpret_message(ask_cmd, param);
+
+        string param = read_msg();
+        state_handler->interpret_message(ask_cmd, param);
     }
 
         return true;
@@ -100,13 +103,21 @@ bool CommandHandler::try_command(string line){
 Read the last message recieved to the network module for communication to the robot
 */
 string CommandHandler::read_msg(){
+    //busy wait till det finns något att läsa ???? <<<<--------------- how!
+    string answer;
 
-    string answer = robot_com->read_from_queue(FROM_SOCKET);
+    while(answer == ""){
+
+        answer = robot_com->read_from_queue(FROM_SOCKET);
+    }
+
+    cout << answer << endl;//for debugging
 
     if (answer != ""){
         return answer;
     }
 
+    cout << "Did not get response from robot :( " << endl;
     return "";
 }
 

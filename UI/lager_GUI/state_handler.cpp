@@ -8,6 +8,8 @@ StateHandler::StateHandler(){}
 
 void StateHandler::interpret_message(string cmd, string param){
 
+    //TODO: implement so that when one of these variables change, it updates the value shown in main_window
+
     if (cmd == "drivespeed" ) {
         drivespeed = stoi(param);
     }
@@ -15,7 +17,9 @@ void StateHandler::interpret_message(string cmd, string param){
         turnspeed = stoi(param);
     }
     else if (cmd == "getsensors"){
-        interpret_sensor_values(param);
+        if (param != ""){
+            interpret_sensor_values(param);
+        }
     }
     else if (cmd == "getpos"){
         curr_pos = param;
@@ -40,7 +44,6 @@ void StateHandler::interpret_sensor_values(string values){
     size_t pos = 0;
     string token;
 
-
     while ((pos = values.find(delimiter)) != std::string::npos) {
         token = values.substr(0,pos);
         value_list.push(token);
@@ -48,13 +51,13 @@ void StateHandler::interpret_sensor_values(string values){
     }
     value_list.push(values);
 
-    string ware_two_value = value_list.top();
+    ware_two_value = value_list.top();
     value_list.pop();
-    string ware_one_value = value_list.top();
+    ware_one_value = value_list.top();
     value_list.pop();
-    string line_sensor_state = value_list.top();
+    line_sensor_state = value_list.top();
     value_list.pop();
-    string line_sensor_value = value_list.top();
+    line_sensor_value = value_list.top();
     value_list.pop();
 
 }

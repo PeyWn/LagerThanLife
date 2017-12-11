@@ -18,8 +18,10 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(CommandHandler* handler, StateHandler *state, QWidget *parent = 0);
+    explicit MainWindow(CommandHandler* handler, StateHandler *state, ClientSocket* com_module, QWidget *parent = 0);
     ~MainWindow();
+
+    void update_variables(string variable, string value);
 
 private slots:
 
@@ -54,8 +56,6 @@ private slots:
     void on_emergency_stop_button_pressed();
 
     void on_terminal_prompt_returnPressed();
-
-    void on_terminal_window_textChanged();
 
     void on_update_sensors_button_clicked();
 
@@ -99,9 +99,15 @@ private slots:
 
     void on_arm_cw_button_released();
 
+    void on_arm_ccw_button_2_clicked();
+
+
+    void on_pushButton_2_clicked();
+
 private:
     CommandHandler* cmd_handler;
     StateHandler* state_handler;
+    ClientSocket* communication_module;
     Ui::MainWindow *ui;
 
     string command; //saves the last command written to the command promt

@@ -27,7 +27,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_1">
      <attribute name="title">
@@ -124,6 +124,9 @@
        <font>
         <pointsize>15</pointsize>
        </font>
+      </property>
+      <property name="maximum">
+       <number>999</number>
       </property>
      </widget>
      <widget class="QPushButton" name="set_home_button">
@@ -365,7 +368,7 @@
      <widget class="QLabel" name="label_3">
       <property name="geometry">
        <rect>
-        <x>140</x>
+        <x>40</x>
         <y>230</y>
         <width>151</width>
         <height>21</height>
@@ -393,6 +396,9 @@
         <width>401</width>
         <height>231</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
       </property>
       <property name="text">
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -626,7 +632,7 @@ p, li { white-space: pre-wrap; }
      <widget class="QPushButton" name="arm_cw_button">
       <property name="geometry">
        <rect>
-        <x>140</x>
+        <x>160</x>
         <y>290</y>
         <width>51</width>
         <height>41</height>
@@ -650,7 +656,7 @@ p, li { white-space: pre-wrap; }
      <widget class="QPushButton" name="arm_ccw_button">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>220</x>
         <y>290</y>
         <width>51</width>
         <height>41</height>
@@ -674,7 +680,7 @@ p, li { white-space: pre-wrap; }
      <widget class="QLabel" name="label_9">
       <property name="geometry">
        <rect>
-        <x>140</x>
+        <x>160</x>
         <y>270</y>
         <width>60</width>
         <height>16</height>
@@ -685,6 +691,30 @@ p, li { white-space: pre-wrap; }
       </property>
       <property name="text">
        <string>Rotate:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="arm_ccw_button_2">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>290</y>
+        <width>81</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(253, 102, 102);</string>
+      </property>
+      <property name="text">
+       <string>GO HOME</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
       </property>
      </widget>
     </widget>
@@ -724,25 +754,6 @@ selection-background-color: rgb(253, 117, 207);</string>
       <width>361</width>
       <height>21</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QTextBrowser" name="terminal_window">
-    <property name="geometry">
-     <rect>
-      <x>1020</x>
-      <y>430</y>
-      <width>361</width>
-      <height>241</height>
-     </rect>
-    </property>
-    <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOn</enum>
-    </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QAbstractScrollArea::AdjustIgnored</enum>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="ware_sensor_one_label">
@@ -969,7 +980,7 @@ selection-background-color: rgb(253, 117, 207);</string>
    <widget class="QLabel" name="label_10">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>470</x>
       <y>20</y>
       <width>121</width>
       <height>16</height>
@@ -985,7 +996,7 @@ selection-background-color: rgb(253, 117, 207);</string>
    <widget class="QLabel" name="label_11">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>470</x>
       <y>40</y>
       <width>121</width>
       <height>16</height>
@@ -1001,7 +1012,7 @@ selection-background-color: rgb(253, 117, 207);</string>
    <widget class="QSpinBox" name="drive_speed_value">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>580</x>
       <y>20</y>
       <width>48</width>
       <height>24</height>
@@ -1017,7 +1028,7 @@ selection-background-color: rgb(253, 117, 207);</string>
    <widget class="QSpinBox" name="turn_speed_value">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>580</x>
       <y>40</y>
       <width>48</width>
       <height>24</height>
@@ -1033,7 +1044,7 @@ selection-background-color: rgb(253, 117, 207);</string>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>630</x>
       <y>30</y>
       <width>51</width>
       <height>31</height>
@@ -1049,7 +1060,7 @@ selection-background-color: rgb(253, 117, 207);</string>
    <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>460</x>
       <y>10</y>
       <width>241</width>
       <height>61</height>
@@ -1059,11 +1070,62 @@ selection-background-color: rgb(253, 117, 207);</string>
      <string notr="true">background-color: rgb(255, 255, 102);</string>
     </property>
    </widget>
+   <widget class="QTextEdit" name="terminal_window">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>430</y>
+      <width>361</width>
+      <height>241</height>
+     </rect>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOn</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Connected:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="is_connected_label">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>20</y>
+      <width>60</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>113</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Refresh</string>
+    </property>
+   </widget>
    <zorder>graphicsView</zorder>
    <zorder>tabWidget</zorder>
    <zorder>emergency_stop_button</zorder>
    <zorder>terminal_prompt</zorder>
-   <zorder>terminal_window</zorder>
    <zorder>ware_sensor_one_label</zorder>
    <zorder>ware_one_value</zorder>
    <zorder>ware_sensor_two_label</zorder>
@@ -1086,6 +1148,10 @@ selection-background-color: rgb(253, 117, 207);</string>
    <zorder>drive_speed_value</zorder>
    <zorder>turn_speed_value</zorder>
    <zorder>pushButton</zorder>
+   <zorder>terminal_window</zorder>
+   <zorder>label_13</zorder>
+   <zorder>is_connected_label</zorder>
+   <zorder>pushButton_2</zorder>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">

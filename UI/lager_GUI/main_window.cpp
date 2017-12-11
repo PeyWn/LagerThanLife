@@ -1,21 +1,53 @@
 #include "main_window.h"
 #include "ui_main_window.h"
 
+const string COMMAND_ERROR = "ERROR! There was an error executing your command: ";
 
-
-MainWindow::MainWindow(CommandHandler* handler, StateHandler* state, QWidget *parent) :
+MainWindow::MainWindow(CommandHandler* handler, StateHandler* state, ClientSocket *com_module, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     cmd_handler = handler;
     state_handler = state;
+    communication_module = com_module;
 
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+//denna funktion tror jag vi skrotar
+void MainWindow::update_variables(string variable, string value){
+    if (variable == "ware_one_value"){
+        ui->ware_one_value->setText(QString::fromStdString(state_handler->ware_one_value));
+    }
+    else if (variable == "ware_two_value"){
+        ui->ware_two_value->setText(QString::fromStdString(state_handler->ware_two_value));
+    }
+    else if (variable == "line_sensor_state"){
+        ui->line_sensor_state->setText(QString::fromStdString(state_handler->line_sensor_state));
+    }
+    else if (variable == "line_sensor_value"){
+        ui->line_sensor_value->setText(QString::fromStdString(state_handler->line_sensor_value));
+    }
+    else if (variable == "lager"){
+    }
+    else if (variable == "drivespeed"){
+    }
+    else if (variable == "turnspeed"){
+    }
+    else if (variable == "drive_status"){
+    }
+    else if (variable == "turn_status"){
+    }
+    else if (variable == "curr_pos"){
+    }
+    else if (variable == "route"){
+    }
+
 }
 
 void MainWindow::on_tabWidget_tabBarClicked(int index)
@@ -113,21 +145,25 @@ void MainWindow::on_terminal_prompt_returnPressed()
 
     ui->terminal_window->setText(terminal_history);
 
-}
+    //ui->terminal_window->ensureCursorVisible();
 
-
-void MainWindow::on_terminal_window_textChanged()
-{
-    //make it scroll down to the bottom
 }
 
 void MainWindow::on_update_sensors_button_clicked()
 {
-    cmd_handler->try_command("getsensors");
-    ui->line_sensor_state->setText(QString::fromStdString(state_handler->line_sensor_state));
-    ui->line_sensor_value->setText(QString::fromStdString(state_handler->line_sensor_value));
-    ui->ware_one_value->setText(QString::fromStdString(state_handler->ware_one_value));
-    ui->ware_two_value->setText(QString::fromStdString(state_handler->ware_two_value));
+    if (communication_module->is_connected())
+    {
+        cmd_handler->try_command("getsensors");
+        ui->line_sensor_state->setText(QString::fromStdString(state_handler->line_sensor_state));
+        ui->line_sensor_value->setText(QString::fromStdString(state_handler->line_sensor_value));
+        ui->ware_one_value->setText(QString::fromStdString(state_handler->ware_one_value));
+        ui->ware_two_value->setText(QString::fromStdString(state_handler->ware_two_value));
+    }
+    else {
+        string tmp = terminal_history.QString::toStdString() + "\n" + COMMAND_ERROR + "No connection to robot";
+        terminal_history = QString::fromStdString(tmp);
+        ui->terminal_window->setText(terminal_history);
+    }
 
 }
 
@@ -136,7 +172,13 @@ void MainWindow::on_go_get_ware_button_clicked()
     string get_command = "get ";
     string id = ui->get_id_spin_box->text().toStdString();
     get_command = get_command + id;
-    cmd_handler->try_command(get_command);
+    bool cmd_accepted = cmd_handler->try_command(get_command);
+
+    if(!cmd_accepted){
+        string tmp = terminal_history.QString::toStdString() + "\n" + COMMAND_ERROR + get_command;
+        terminal_history = QString::fromStdString(tmp);
+        ui->terminal_window->setText(terminal_history);
+    }
 
 }
 
@@ -160,14 +202,20 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_set_home_button_clicked()
 {
     string home_id = ui->set_home_box->text().toStdString();
-    string cmd = "sethome" + home_id;
-    cmd_handler->try_command(home_id);
+    string cmd = "sethome " + home_id;
+    bool cmd_accepted = cmd_handler->try_command(cmd);
+
+    if(!cmd_accepted){
+        string tmp = terminal_history.QString::toStdString() + "\n" + COMMAND_ERROR + cmd;
+        terminal_history = QString::fromStdString(tmp);
+        ui->terminal_window->setText(terminal_history);
+    }
 
 }
 
 void MainWindow::on_arm_2_back_button_pressed()
 {
-    cmd_handler->try_command("arm2back");
+    cmd_handler->try_command("arm2fwd");
 }
 
 void MainWindow::on_arm_2_back_button_released()
@@ -177,7 +225,7 @@ void MainWindow::on_arm_2_back_button_released()
 
 void MainWindow::on_arm_2_fwd_button_pressed()
 {
-    cmd_handler->try_command("arm2fwd");
+    cmd_handler->try_command("arm2back");
 }
 
 void MainWindow::on_arm_2_fwd_button_released()
@@ -243,4 +291,22 @@ void MainWindow::on_arm_cw_button_pressed()
 void MainWindow::on_arm_cw_button_released()
 {
     cmd_handler->try_command("armstop");
+}
+
+void MainWindow::on_arm_ccw_button_2_clicked()
+{
+    cmd_handler->try_command("armhome");
+
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    string is_connected;
+
+    if (communication_module->is_connected()){
+        is_connected = "YES";
+    }
+    else { is_connected = "NO"; }
+
+    ui->is_connected_label->setText(QString::fromStdString(is_connected));
 }
