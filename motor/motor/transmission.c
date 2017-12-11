@@ -131,6 +131,7 @@ void go_home_pos(void)
 {
     move_axis(0, 0x1ff, SPEED_1);
     move_axis(1, 0x280, SPEED_1);
+	_delay_ms(8000);
     move_axis(2, 0x250, SPEED_1);
     move_axis(3, 0x0c0, SPEED_1);
     move_axis(4, 0x1ff, SPEED_1);
@@ -158,11 +159,19 @@ void release(void)
 void pickup_standard(void)
 {
 	go_pos_front();
+	_delay_ms(33000);
+	grab();
+	_delay_ms(8000);
+	go_home_pos();
 }
 
 void putdown_standard(void)
 {	
 	go_pos_front();
+	_delay_ms(33000);
+	release();
+	_delay_ms(8000);
+	go_home_pos();
 }
 
 void move_axis(int axis, int pos, int speed)
