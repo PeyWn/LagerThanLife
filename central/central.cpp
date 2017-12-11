@@ -148,7 +148,7 @@ void Central::pick_up(){
 		cur_path = map->get_path(next_node->get_id(), home_id);
 		 
 		cur_pick_up_state = PickUpState::FIND_WARE;
-		motor.drive(FORWARD, drive_speed);
+		motor.drive(FORWARD, AUTO_DRIVE_SPEED);
 		state = RobotState::DRIVING;
 	    }
 	    #ifdef DEBUG
