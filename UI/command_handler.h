@@ -39,8 +39,7 @@ private:
         {"armup",       false},
         {"armdown",     false},
         {"closeclaw",   false},
-        {"closeclaw",   false},
-        {"opengclaw",   false},
+        {"openclaw",   false},
         {"estop",       false},
         {"lager",       true},
         {"sethome",     true},
@@ -50,7 +49,13 @@ private:
         {"armhome",     false},
         {"turnspeed",   true},
         {"drivespeed",  true},
-        {"center",      false}
+        {"center",      false},
+        {"arm1fwd",      false},
+        {"arm1back",      false},
+        {"arm2fwd",      false},
+        {"arm2back",      false},
+        {"arm3fwd",      false},
+        {"arm3back",      false},
     };
 
     /*

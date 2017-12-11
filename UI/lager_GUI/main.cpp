@@ -17,11 +17,11 @@ int main(int argc, char *argv[])
     CommandHandler cmd_handler(thread_com, &state_handler);
 
     // Create a new thread to handle communication
-    //com_module = new ClientSocket(thread_com);
+    com_module = new ClientSocket(thread_com);
 
     //thread com_child(comm_mod_loop); <--- keep commented. What is this?
-    //thread com_child([](){com_module->main_loop();});
-    //cout << "Connected!" << endl;
+    thread com_child([](){com_module->main_loop();});
+    cout << "Connected!" << endl;
 
 
     QApplication a(argc, argv);
