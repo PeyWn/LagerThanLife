@@ -45,8 +45,6 @@ private slots:
 
     void on_right_button_released();
 
-    void on_find_ware_button_clicked();
-
     void on_pick_up_button_clicked();
 
     void on_put_down_button_clicked();

@@ -100,10 +100,6 @@ void MainWindow::on_right_button_released()
     cmd_handler->try_command("noturn");
 }
 
-void MainWindow::on_find_ware_button_clicked()
-{
-    cmd_handler->try_command("center");
-}
 
 void MainWindow::on_pick_up_button_clicked()
 {

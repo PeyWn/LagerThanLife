@@ -320,7 +320,7 @@
      <widget class="QPushButton" name="pick_up_button">
       <property name="geometry">
        <rect>
-        <x>120</x>
+        <x>80</x>
         <y>160</y>
         <width>91</width>
         <height>41</height>
@@ -344,7 +344,7 @@
      <widget class="QPushButton" name="put_down_button">
       <property name="geometry">
        <rect>
-        <x>220</x>
+        <x>180</x>
         <y>160</y>
         <width>91</width>
         <height>41</height>
@@ -552,30 +552,6 @@ p, li { white-space: pre-wrap; }
       </property>
       <property name="text">
        <string>➡︎</string>
-      </property>
-      <property name="checkable">
-       <bool>false</bool>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="find_ware_button">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>160</y>
-        <width>91</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(102, 204, 255);</string>
-      </property>
-      <property name="text">
-       <string>FIND WARE</string>
       </property>
       <property name="checkable">
        <bool>false</bool>
