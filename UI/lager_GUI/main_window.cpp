@@ -1,5 +1,6 @@
 #include "main_window.h"
 #include "ui_main_window.h"
+#include <QPixmap>
 
 const string COMMAND_ERROR = "ERROR! There was an error executing your command: ";
 
@@ -12,6 +13,10 @@ MainWindow::MainWindow(CommandHandler* handler, StateHandler* state, ClientSocke
     state_handler = state;
     communication_module = com_module;
 
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    timer->start(1000);
+
 }
 
 MainWindow::~MainWindow()
@@ -19,36 +24,27 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//denna funktion tror jag vi skrotar
-void MainWindow::update_variables(string variable, string value){
-    if (variable == "ware_one_value"){
-        ui->ware_one_value->setText(QString::fromStdString(state_handler->ware_one_value));
-    }
-    else if (variable == "ware_two_value"){
-        ui->ware_two_value->setText(QString::fromStdString(state_handler->ware_two_value));
-    }
-    else if (variable == "line_sensor_state"){
+void MainWindow::update(){
+
+    if (communication_module->is_connected()){
+        cmd_handler->try_command("getsensors");
         ui->line_sensor_state->setText(QString::fromStdString(state_handler->line_sensor_state));
-    }
-    else if (variable == "line_sensor_value"){
         ui->line_sensor_value->setText(QString::fromStdString(state_handler->line_sensor_value));
+        ui->ware_one_value->setText(QString::fromStdString(state_handler->ware_one_value));
+        ui->ware_two_value->setText(QString::fromStdString(state_handler->ware_two_value));
+
+        ui->is_connected_label->setText(QString::fromStdString("YES"));
     }
-    else if (variable == "lager"){
-    }
-    else if (variable == "drivespeed"){
-    }
-    else if (variable == "turnspeed"){
-    }
-    else if (variable == "drive_status"){
-    }
-    else if (variable == "turn_status"){
-    }
-    else if (variable == "curr_pos"){
-    }
-    else if (variable == "route"){
+    else {
+        ui->is_connected_label->setText(QString::fromStdString("NO"));
+        ui->line_sensor_state->setText(QString::fromStdString("NO CONNECTION"));
+        ui->line_sensor_value->setText(QString::fromStdString("NO CONNECTION"));
+        ui->ware_one_value->setText(QString::fromStdString("NO CONNECTION"));
+        ui->ware_two_value->setText(QString::fromStdString("NO CONNECTION"));
     }
 
 }
+
 
 void MainWindow::on_tabWidget_tabBarClicked(int index)
 {
@@ -138,14 +134,18 @@ void MainWindow::on_terminal_prompt_returnPressed()
 {
     command = ui->terminal_prompt->text().toStdString();
     ui->terminal_prompt->clear();
+    bool cmd_accepted = cmd_handler->try_command(command);
 
     string tmp = terminal_history.QString::toStdString() + "\n > " + command;
-
     terminal_history = QString::fromStdString(tmp);
-
     ui->terminal_window->setText(terminal_history);
 
-    //ui->terminal_window->ensureCursorVisible();
+    if(!cmd_accepted){
+        string tmp = terminal_history.QString::toStdString() + "\n" + COMMAND_ERROR + command;
+        terminal_history = QString::fromStdString(tmp);
+        ui->terminal_window->setText(terminal_history);
+    }
+
 
 }
 
@@ -160,7 +160,7 @@ void MainWindow::on_update_sensors_button_clicked()
         ui->ware_two_value->setText(QString::fromStdString(state_handler->ware_two_value));
     }
     else {
-        string tmp = terminal_history.QString::toStdString() + "\n" + COMMAND_ERROR + "No connection to robot";
+        string tmp = terminal_history.QString::toStdString() + "\n" + COMMAND_ERROR + "No connection to Mulle";
         terminal_history = QString::fromStdString(tmp);
         ui->terminal_window->setText(terminal_history);
     }
@@ -184,11 +184,33 @@ void MainWindow::on_go_get_ware_button_clicked()
 
 void MainWindow::on_read_lager_file_button_clicked()
 {
-    string lager_com = "lager " + ui->lager_file_name->text().toStdString();
+    string file = ui->lager_file_name->text().toStdString();
+    string lager_com = "lager " + file;
     ui->lager_file_name->clear();
-    cmd_handler->try_command(lager_com);
+    bool cmd_accepted = cmd_handler->try_command(lager_com);
 
-    ui->temp_lager_viewer->setText(QString::fromStdString(state_handler->lager));
+    if (!cmd_accepted){
+        string tmp = terminal_history.QString::toStdString() + "\n" + COMMAND_ERROR + lager_com;
+        terminal_history = QString::fromStdString(tmp);
+        ui->terminal_window->setText(terminal_history);
+    }
+    else {
+        QPixmap small_lager("../../../../../maps/lager1");
+        QPixmap big_lager("../../../../../maps/lager2");
+
+        //.scaled(661, 501, Qt::KeepAspectRatio) <-- lägg till för att få en skalad bild
+
+        if (file == "big" || file == "big.txt"){
+            ui->lager_image_label->setPixmap(big_lager);
+        }
+        else if (file == "small" || file == "small.txt"){
+            ui->lager_image_label->setPixmap(small_lager);
+        }
+    }
+
+    //ui->temp_lager_viewer->setText(QString::fromStdString(state_handler->lager));
+
+
 }
 
 void MainWindow::on_pushButton_clicked()

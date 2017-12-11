@@ -17,11 +17,9 @@ int main(int argc, char *argv[])
     CommandHandler cmd_handler(thread_com, &state_handler);
 
     // Create a new thread to handle communication
-    com_module = new ClientSocket(thread_com); //programmet startar inte om inte detta lyckas. ??
-    //cout << "Connected!" << endl;
+    com_module = new ClientSocket(thread_com);
 
     thread com_child([](){com_module->main_loop();});
-
 
     QApplication a(argc, argv);
     MainWindow w(&cmd_handler, &state_handler, com_module);

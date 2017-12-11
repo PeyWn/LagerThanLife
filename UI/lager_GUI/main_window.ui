@@ -722,9 +722,9 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="emergency_stop_button">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>30</x>
       <y>670</y>
-      <width>241</width>
+      <width>681</width>
       <height>61</height>
      </rect>
     </property>
@@ -774,7 +774,7 @@ selection-background-color: rgb(253, 117, 207);</string>
      <rect>
       <x>840</x>
       <y>430</y>
-      <width>101</width>
+      <width>161</width>
       <height>21</height>
      </rect>
     </property>
@@ -800,7 +800,7 @@ selection-background-color: rgb(253, 117, 207);</string>
      <rect>
       <x>840</x>
       <y>460</y>
-      <width>101</width>
+      <width>161</width>
       <height>21</height>
      </rect>
     </property>
@@ -826,7 +826,7 @@ selection-background-color: rgb(253, 117, 207);</string>
      <rect>
       <x>860</x>
       <y>490</y>
-      <width>101</width>
+      <width>141</width>
       <height>21</height>
      </rect>
     </property>
@@ -852,7 +852,7 @@ selection-background-color: rgb(253, 117, 207);</string>
      <rect>
       <x>860</x>
       <y>520</y>
-      <width>101</width>
+      <width>141</width>
       <height>21</height>
      </rect>
     </property>
@@ -957,24 +957,24 @@ selection-background-color: rgb(253, 117, 207);</string>
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>160</y>
+      <x>20</x>
+      <y>100</y>
       <width>251</width>
-      <height>16</height>
+      <height>31</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>26</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(253, 102, 255);</string>
     </property>
     <property name="text">
-     <string>Current Lager (this might be a mess): </string>
-    </property>
-   </widget>
-   <widget class="QTextBrowser" name="temp_lager_viewer">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>200</y>
-      <width>491</width>
-      <height>231</height>
-     </rect>
+     <string>Current Lager : </string>
     </property>
    </widget>
    <widget class="QLabel" name="label_10">
@@ -1122,6 +1122,19 @@ selection-background-color: rgb(253, 117, 207);</string>
      <string>Refresh</string>
     </property>
    </widget>
+   <widget class="QLabel" name="lager_image_label">
+    <property name="geometry">
+     <rect>
+      <x>39</x>
+      <y>155</y>
+      <width>661</width>
+      <height>501</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>graphicsView</zorder>
    <zorder>tabWidget</zorder>
    <zorder>emergency_stop_button</zorder>
@@ -1142,7 +1155,6 @@ selection-background-color: rgb(253, 117, 207);</string>
    <zorder>label_7</zorder>
    <zorder>line_2</zorder>
    <zorder>label_8</zorder>
-   <zorder>temp_lager_viewer</zorder>
    <zorder>label_10</zorder>
    <zorder>label_11</zorder>
    <zorder>drive_speed_value</zorder>
@@ -1152,6 +1164,7 @@ selection-background-color: rgb(253, 117, 207);</string>
    <zorder>label_13</zorder>
    <zorder>is_connected_label</zorder>
    <zorder>pushButton_2</zorder>
+   <zorder>lager_image_label</zorder>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">

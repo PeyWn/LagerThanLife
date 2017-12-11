@@ -6,6 +6,7 @@
 #include "../command_handler.h"
 #include "../client_socket.h"
 #include "state_handler.h"
+#include <QTimer>
 
 using namespace std;
 
@@ -21,9 +22,10 @@ public:
     explicit MainWindow(CommandHandler* handler, StateHandler *state, ClientSocket* com_module, QWidget *parent = 0);
     ~MainWindow();
 
-    void update_variables(string variable, string value);
 
 private slots:
+
+    void update();
 
     void on_tabWidget_tabBarClicked(int index);
 
