@@ -44,7 +44,7 @@ private:
         {"turnspeed", true},
         {"drivespeed", true},
         {"showdata", false},
-        {"center", false}
+        {"center", false},
         {"arm1fwd", false},
         {"arm1back", false},
         {"arm2fwd", false},
