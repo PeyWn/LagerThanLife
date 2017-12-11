@@ -392,12 +392,9 @@ void Central::handle_msg(string msg) {
 
 void Central::main_loop() {
     string msg_read;
-    /* Might need to init arm correctly
-    motor.control_claw(false);
     //Move arm to home position when starting
     motor.perform_arm_macro(GO_HOME);
-    */
-
+    
     while(true) {
         //Start the main loop clock
         main_loop_clock = clock();
