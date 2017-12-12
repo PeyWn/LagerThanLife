@@ -27,7 +27,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab_1">
      <attribute name="title">
@@ -249,8 +249,8 @@
      <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>370</x>
-        <y>10</y>
+        <x>330</x>
+        <y>110</y>
         <width>81</width>
         <height>21</height>
        </rect>
@@ -272,8 +272,8 @@
      <widget class="QPushButton" name="open_claw_button">
       <property name="geometry">
        <rect>
-        <x>450</x>
-        <y>30</y>
+        <x>530</x>
+        <y>100</y>
         <width>81</width>
         <height>41</height>
        </rect>
@@ -296,8 +296,8 @@
      <widget class="QPushButton" name="close_claw_button">
       <property name="geometry">
        <rect>
-        <x>450</x>
-        <y>80</y>
+        <x>430</x>
+        <y>100</y>
         <width>81</width>
         <height>41</height>
        </rect>
@@ -693,6 +693,133 @@ p, li { white-space: pre-wrap; }
        <bool>false</bool>
       </property>
      </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>30</y>
+        <width>51</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(254, 204, 102);</string>
+      </property>
+      <property name="text">
+       <string>SET</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="turn_speed_value">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>40</y>
+        <width>48</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>7</number>
+      </property>
+      <property name="value">
+       <number>5</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>40</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 102);</string>
+      </property>
+      <property name="text">
+       <string>Set turn speed:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>20</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 102);</string>
+      </property>
+      <property name="text">
+       <string>Set drive speed:</string>
+      </property>
+     </widget>
+     <widget class="QGraphicsView" name="graphicsView">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>10</y>
+        <width>241</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 102);</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="drive_speed_value">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>20</y>
+        <width>48</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>7</number>
+      </property>
+      <property name="value">
+       <number>7</number>
+      </property>
+     </widget>
+     <zorder>graphicsView</zorder>
+     <zorder>right_button</zorder>
+     <zorder>fwd_button</zorder>
+     <zorder>label</zorder>
+     <zorder>label_2</zorder>
+     <zorder>open_claw_button</zorder>
+     <zorder>close_claw_button</zorder>
+     <zorder>pick_up_button</zorder>
+     <zorder>put_down_button</zorder>
+     <zorder>label_3</zorder>
+     <zorder>label_4</zorder>
+     <zorder>left_button</zorder>
+     <zorder>back_button</zorder>
+     <zorder>arm_2_back_button</zorder>
+     <zorder>arm_2_fwd_button</zorder>
+     <zorder>arm_1_back_button</zorder>
+     <zorder>arm_3_back_button</zorder>
+     <zorder>arm_1_fwd_button</zorder>
+     <zorder>arm_3_fwd_button</zorder>
+     <zorder>arm_cw_button</zorder>
+     <zorder>arm_ccw_button</zorder>
+     <zorder>label_9</zorder>
+     <zorder>arm_ccw_button_2</zorder>
+     <zorder>pushButton</zorder>
+     <zorder>turn_speed_value</zorder>
+     <zorder>label_11</zorder>
+     <zorder>label_10</zorder>
+     <zorder>drive_speed_value</zorder>
     </widget>
    </widget>
    <widget class="QPushButton" name="emergency_stop_button">
@@ -953,105 +1080,6 @@ selection-background-color: rgb(253, 117, 207);</string>
      <string>Current Lager : </string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_10">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>20</y>
-      <width>121</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 102);</string>
-    </property>
-    <property name="text">
-     <string>Set drive speed:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_11">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>40</y>
-      <width>121</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 102);</string>
-    </property>
-    <property name="text">
-     <string>Set turn speed:</string>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="drive_speed_value">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>20</y>
-      <width>48</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>7</number>
-    </property>
-    <property name="value">
-     <number>7</number>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="turn_speed_value">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>40</y>
-      <width>48</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>7</number>
-    </property>
-    <property name="value">
-     <number>5</number>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>30</y>
-      <width>51</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(254, 204, 102);</string>
-    </property>
-    <property name="text">
-     <string>SET</string>
-    </property>
-   </widget>
-   <widget class="QGraphicsView" name="graphicsView">
-    <property name="geometry">
-     <rect>
-      <x>460</x>
-      <y>10</y>
-      <width>241</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 102);</string>
-    </property>
-   </widget>
    <widget class="QTextEdit" name="terminal_window">
     <property name="geometry">
      <rect>
@@ -1120,8 +1148,8 @@ selection-background-color: rgb(253, 117, 207);</string>
    <widget class="QLabel" name="label_14">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>80</y>
+      <x>210</x>
+      <y>20</y>
       <width>261</width>
       <height>16</height>
      </rect>
@@ -1133,8 +1161,8 @@ selection-background-color: rgb(253, 117, 207);</string>
    <widget class="QLabel" name="getting_id_label">
     <property name="geometry">
      <rect>
-      <x>650</x>
-      <y>80</y>
+      <x>470</x>
+      <y>20</y>
       <width>60</width>
       <height>16</height>
      </rect>
@@ -1143,38 +1171,6 @@ selection-background-color: rgb(253, 117, 207);</string>
      <string>none</string>
     </property>
    </widget>
-   <zorder>graphicsView</zorder>
-   <zorder>tabWidget</zorder>
-   <zorder>emergency_stop_button</zorder>
-   <zorder>terminal_prompt</zorder>
-   <zorder>ware_sensor_one_label</zorder>
-   <zorder>ware_one_value</zorder>
-   <zorder>ware_sensor_two_label</zorder>
-   <zorder>ware_two_value</zorder>
-   <zorder>line_sensor_state_label</zorder>
-   <zorder>line_sensor_state</zorder>
-   <zorder>line_sensor_value_label</zorder>
-   <zorder>line_sensor_value</zorder>
-   <zorder>update_sensors_button</zorder>
-   <zorder>line</zorder>
-   <zorder>lager_file_name</zorder>
-   <zorder>label_6</zorder>
-   <zorder>read_lager_file_button</zorder>
-   <zorder>label_7</zorder>
-   <zorder>line_2</zorder>
-   <zorder>label_8</zorder>
-   <zorder>label_10</zorder>
-   <zorder>label_11</zorder>
-   <zorder>drive_speed_value</zorder>
-   <zorder>turn_speed_value</zorder>
-   <zorder>pushButton</zorder>
-   <zorder>terminal_window</zorder>
-   <zorder>label_13</zorder>
-   <zorder>is_connected_label</zorder>
-   <zorder>pushButton_2</zorder>
-   <zorder>lager_image_label</zorder>
-   <zorder>label_14</zorder>
-   <zorder>getting_id_label</zorder>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
