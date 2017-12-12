@@ -201,10 +201,16 @@ void MainWindow::on_read_lager_file_button_clicked()
         //.scaled(661, 501, Qt::KeepAspectRatio) <-- lägg till för att få en skalad bild
 
         if (file == "big" || file == "big.txt"){
-            ui->lager_image_label->setPixmap(big_lager);
+            //ui->lager_image_label->setPixmap(big_lager);
+            QLabel *label = new QLabel();
+            ui->scroll_area->setWidget(label);
+            label->setPixmap(big_lager);
         }
         else if (file == "small" || file == "small.txt"){
-            ui->lager_image_label->setPixmap(small_lager);
+            //ui->lager_image_label->setPixmap(small_lager);
+            QLabel *label = new QLabel();
+            ui->scroll_area->setWidget(label);
+            label->setPixmap(small_lager);
         }
     }
 

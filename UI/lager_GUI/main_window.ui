@@ -1132,19 +1132,6 @@ selection-background-color: rgb(253, 117, 207);</string>
      <string>Refresh</string>
     </property>
    </widget>
-   <widget class="QLabel" name="lager_image_label">
-    <property name="geometry">
-     <rect>
-      <x>39</x>
-      <y>155</y>
-      <width>661</width>
-      <height>501</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_14">
     <property name="geometry">
      <rect>
@@ -1170,6 +1157,29 @@ selection-background-color: rgb(253, 117, 207);</string>
     <property name="text">
      <string>none</string>
     </property>
+   </widget>
+   <widget class="QScrollArea" name="scroll_area">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>150</y>
+      <width>691</width>
+      <height>491</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>689</width>
+       <height>489</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
