@@ -1,6 +1,7 @@
 #include "main_window.h"
 #include "ui_main_window.h"
 #include <QPixmap>
+#include <QFileDialog>
 
 const string COMMAND_ERROR = "ERROR! There was an error executing your command: ";
 
@@ -25,9 +26,12 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::handle_lager_filename(){
-    string file = ui->lager_file_name->text().toStdString();
+    /*
+    string file = ui->lager_file_name->text().toStdString(); */
+    string file = QFileDialog::getOpenFileName(this, tr("Open File"), "~/").toStdString();
+    cout << file << endl;
     string lager_com = "lager " + file;
-    ui->lager_file_name->clear();
+    //ui->lager_file_name->clear();
     bool cmd_accepted = cmd_handler->try_command(lager_com);
 
     if (!cmd_accepted){
@@ -36,26 +40,13 @@ void MainWindow::handle_lager_filename(){
         ui->terminal_window->setText(terminal_history);
     }
     else {
-        QPixmap small_lager("../../../../../maps/lager1");
-        QPixmap big_lager("../../../../../maps/lager2");
+        ui->current_lager_label->setText(QString::fromStdString(file));
 
-        //.scaled(661, 501, Qt::KeepAspectRatio) <-- lägg till för att få en skalad bild
-
-        if (file == "big" || file == "big.txt"){
-           // ui->lager_image_label->setPixmap(big_lager.scaled(661, 501, Qt::KeepAspectRatio));
-            QLabel *label = new QLabel();
-            ui->scroll_area->setWidget(label);
-            label->setPixmap(big_lager);
-        }
-        else if (file == "small" || file == "small.txt"){
-            //ui->lager_image_label->setPixmap(small_lager);
-            QLabel *label = new QLabel();
-            ui->scroll_area->setWidget(label);
-            label->setPixmap(small_lager);
-        }
+        QPixmap lager(QString::fromStdString(file+".png"));
+        QLabel *label = new QLabel();
+        ui->scroll_area->setWidget(label);
+        label->setPixmap(lager);
     }
-
-    //ui->temp_lager_viewer->setText(QString::fromStdString(state_handler->lager));
 }
 
 void MainWindow::update(){
@@ -342,7 +333,3 @@ void MainWindow::on_pushButton_2_clicked()
     ui->is_connected_label->setText(QString::fromStdString(is_connected));
 }
 
-void MainWindow::on_lager_file_name_returnPressed()
-{
-    handle_lager_filename();
-}

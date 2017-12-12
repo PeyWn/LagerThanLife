@@ -105,7 +105,6 @@ private slots:
 
     void on_pushButton_2_clicked();
 
-    void on_lager_file_name_returnPressed();
 
 private:
     CommandHandler* cmd_handler;

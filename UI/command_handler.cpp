@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 
-CommandHandler::CommandHandler(InterThreadCom* com, StateHandler* state) : text_file_handler("../../../../../maps/") {
+CommandHandler::CommandHandler(InterThreadCom* com, StateHandler* state) : text_file_handler("") {
     robot_com = com;
     state_handler = state;
 }
