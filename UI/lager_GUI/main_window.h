@@ -27,6 +27,8 @@ private slots:
 
     void update();
 
+    void handle_lager_filename();
+
     void on_tabWidget_tabBarClicked(int index);
 
     void on_fwd_button_pressed();
@@ -101,8 +103,9 @@ private slots:
 
     void on_arm_ccw_button_2_clicked();
 
-
     void on_pushButton_2_clicked();
+
+    void on_lager_file_name_returnPressed();
 
 private:
     CommandHandler* cmd_handler;

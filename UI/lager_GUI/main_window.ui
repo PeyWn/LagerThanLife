@@ -27,7 +27,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_1">
      <attribute name="title">
@@ -1041,7 +1041,7 @@ selection-background-color: rgb(253, 117, 207);</string>
      </rect>
     </property>
     <property name="text">
-     <string>as &quot;lagerfile.txt&quot; :</string>
+     <string>as &quot;big&quot; or &quot;small&quot; :</string>
     </property>
    </widget>
    <widget class="Line" name="line_2">
@@ -1179,6 +1179,19 @@ selection-background-color: rgb(253, 117, 207);</string>
        <height>489</height>
       </rect>
      </property>
+     <widget class="QLabel" name="lager_image_label">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>691</width>
+        <height>491</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>

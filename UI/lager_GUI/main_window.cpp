@@ -24,6 +24,40 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::handle_lager_filename(){
+    string file = ui->lager_file_name->text().toStdString();
+    string lager_com = "lager " + file;
+    ui->lager_file_name->clear();
+    bool cmd_accepted = cmd_handler->try_command(lager_com);
+
+    if (!cmd_accepted){
+        string tmp = terminal_history.QString::toStdString() + "\n" + COMMAND_ERROR + lager_com;
+        terminal_history = QString::fromStdString(tmp);
+        ui->terminal_window->setText(terminal_history);
+    }
+    else {
+        QPixmap small_lager("../../../../../maps/lager1");
+        QPixmap big_lager("../../../../../maps/lager2");
+
+        //.scaled(661, 501, Qt::KeepAspectRatio) <-- lägg till för att få en skalad bild
+
+        if (file == "big" || file == "big.txt"){
+           // ui->lager_image_label->setPixmap(big_lager.scaled(661, 501, Qt::KeepAspectRatio));
+            QLabel *label = new QLabel();
+            ui->scroll_area->setWidget(label);
+            label->setPixmap(big_lager);
+        }
+        else if (file == "small" || file == "small.txt"){
+            //ui->lager_image_label->setPixmap(small_lager);
+            QLabel *label = new QLabel();
+            ui->scroll_area->setWidget(label);
+            label->setPixmap(small_lager);
+        }
+    }
+
+    //ui->temp_lager_viewer->setText(QString::fromStdString(state_handler->lager));
+}
+
 void MainWindow::update(){
 
     if (communication_module->is_connected()){
@@ -182,41 +216,10 @@ void MainWindow::on_go_get_ware_button_clicked()
 
 }
 
+
 void MainWindow::on_read_lager_file_button_clicked()
 {
-    string file = ui->lager_file_name->text().toStdString();
-    string lager_com = "lager " + file;
-    ui->lager_file_name->clear();
-    bool cmd_accepted = cmd_handler->try_command(lager_com);
-
-    if (!cmd_accepted){
-        string tmp = terminal_history.QString::toStdString() + "\n" + COMMAND_ERROR + lager_com;
-        terminal_history = QString::fromStdString(tmp);
-        ui->terminal_window->setText(terminal_history);
-    }
-    else {
-        QPixmap small_lager("../../../../../maps/lager1");
-        QPixmap big_lager("../../../../../maps/lager2");
-
-        //.scaled(661, 501, Qt::KeepAspectRatio) <-- lägg till för att få en skalad bild
-
-        if (file == "big" || file == "big.txt"){
-            //ui->lager_image_label->setPixmap(big_lager);
-            QLabel *label = new QLabel();
-            ui->scroll_area->setWidget(label);
-            label->setPixmap(big_lager);
-        }
-        else if (file == "small" || file == "small.txt"){
-            //ui->lager_image_label->setPixmap(small_lager);
-            QLabel *label = new QLabel();
-            ui->scroll_area->setWidget(label);
-            label->setPixmap(small_lager);
-        }
-    }
-
-    //ui->temp_lager_viewer->setText(QString::fromStdString(state_handler->lager));
-
-
+    handle_lager_filename();
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -337,4 +340,9 @@ void MainWindow::on_pushButton_2_clicked()
     else { is_connected = "NO"; }
 
     ui->is_connected_label->setText(QString::fromStdString(is_connected));
+}
+
+void MainWindow::on_lager_file_name_returnPressed()
+{
+    handle_lager_filename();
 }
