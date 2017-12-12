@@ -1,4 +1,5 @@
 #include "central.h"
+#include <time.h>
 #include <iostream>
 #include <unistd.h>
 #include <vector>
@@ -20,9 +21,9 @@ void Central::transmit_sensors(){
 }
 
 void Central::update_sensors(){
-    line_center = sensor.get_line_center();
-    line_state = sensor.get_line_state();
-    ware_seen = sensor.get_ware_seen();
+        line_center = sensor.get_line_center();
+        line_state = sensor.get_line_state();
+	ware_seen = sensor.get_ware_seen();
 }
 
 void Central::get_pos(){
@@ -92,10 +93,113 @@ void Central::handle_command_parameter(string msg_with_parameter,
     }
 }
 
+void Central::pick_up(){
+    switch(cur_pick_up_state){	
+
+	case(PickUpState::FIND_WARE):{
+	    if(center_ware(ware_seen, &motor) == 1){
+		motor.control_claw(false);
+		motor.perform_arm_macro(ARM_MACRO::PICK_UP);
+		cur_pick_up_state = PickUpState::PICK_UP;
+	    }
+	    break;}
+
+	case(PickUpState::PICK_UP):{
+	    //if(!motor.arm_active()){cur_pick_up_state = PickUpState::REVERSE;}
+	    #ifdef DEBUG
+	    cout << "Pick up state: PICK_UP" << endl;
+            #endif	    
+	    usleep(5000000);
+	    cur_pick_up_state = PickUpState::REVERSE;
+	    break;}
+	
+	case(PickUpState::REVERSE):{
+            #ifdef DEBUG
+	    cout << "Pick up state: REVERSE" << endl;
+            #endif
+
+	    motor.turn(RIGHT, CORNER_TURN_SPEED);
+	    if (line_state != NONE_DOUBLE){
+		cur_pick_up_state = PickUpState::ON_LINE;
+	    }
+	    else{
+		cur_pick_up_state = PickUpState::TURN;
+	    }
+	    
+	    break;}
+	    
+	case(PickUpState::ON_LINE):{
+    	    #ifdef DEBUG
+	    cout << "Pick up state: ON_LINE" << endl;
+            #endif
+	    if(line_state == NONE_DOUBLE){
+		cur_pick_up_state = PickUpState::TURN;
+	    }
+	    break;}
+	
+	case(PickUpState::TURN):{
+	    #ifdef DEBUG
+	    cout << "Pick up state: TURN" << endl;
+            #endif	    
+	    if( (line_state != NONE_DOUBLE) && (abs(line_center) < CORNER_LINE_THRESHOLD) ){
+		motor.turn(NONE, 0);
+
+		next_node = cur_line->get_opposite(next_node->get_id());
+		cur_path = map->get_path(next_node->get_id(), home_id);
+		 
+		cur_pick_up_state = PickUpState::FIND_WARE;
+		motor.drive(FORWARD, AUTO_DRIVE_SPEED);
+		state = RobotState::DRIVING;
+	    }
+	    #ifdef DEBUG
+	    cout << "Pick up has ended" << endl;
+            #endif	    
+	    break;}
+
+    }
+    
+}
+
+
+void Central::drop_off(){
+    switch(cur_drop_off_state){
+	case(DropOffState::PUT_DOWN):{
+	    #ifdef DEBUG
+	    cout << "Drop off: put down" << endl;
+            #endif	    
+	    motor.perform_arm_macro(ARM_MACRO::PUT_DOWN);
+	    usleep(5000000);
+	    motor.turn(RIGHT, CORNER_TURN_SPEED);
+	    cur_drop_off_state = DropOffState::TURN_CORNER; 
+	    break;
+	}    
+	case(DropOffState::TURN_CORNER):{
+            #ifdef DEBUG
+	    cout << "Drop off: corner" << endl;
+            #endif	    
+	    if(line_state == NONE_DOUBLE){
+		cur_drop_off_state = DropOffState::TURN_NONE; 
+	    }
+	    break;
+	}
+	case(DropOffState::TURN_NONE):{
+            #ifdef DEBUG
+	    cout << "Drop off: none" << endl;
+            #endif	    	    
+	    if( (line_state == SINGLE) && (abs(line_center) < CORNER_LINE_THRESHOLD) ){
+		motor.turn(NONE, 0);
+		cur_drop_off_state = DropOffState::PUT_DOWN;
+		state = RobotState::STANDBY;
+	    }
+	    break;
+	}
+
+    }
+    
+}
+
 void Central::handle_msg(string msg) {
-    int line_center;
-    LINE_STATE line_state;
-    pair<bool, bool> ware_seen;
+
     string command;
     string parameter;
 
@@ -187,7 +291,7 @@ void Central::handle_msg(string msg) {
             #endif
 
             //Important! Need to go to home position at beginning of auto mode
-            //motor.perform_arm_macro(GO_HOME);
+            motor.perform_arm_macro(GO_HOME);
         }
     }
     else{
@@ -297,12 +401,19 @@ void Central::handle_msg(string msg) {
 
 void Central::main_loop() {
     string msg_read;
+    //Move arm to home position when starting
+    motor.perform_arm_macro(GO_HOME);
+    
     while(true) {
+        //Start the main loop clock
+        main_loop_clock = clock();
+
         //Update all sensor values
         update_sensors();
 
         //Network read
         msg_read = thread_com->read_from_queue(FROM_SOCKET);
+
         if (msg_read != "") {
             #ifdef DEBUG
             cout << "Msg: " << msg_read << "\n";  //prints the recieved Msg
@@ -310,7 +421,6 @@ void Central::main_loop() {
 
             handle_msg(msg_read);
         }
-
         //Behaviour for different states in autonoumus mode
         if(!manual){
             switch(state){
@@ -326,12 +436,12 @@ void Central::main_loop() {
                 }
                 case RobotState::PICK_UP:{
                 // ~-*-~-*-~-*-~-*-~ PICK UP STATE ~-*-~-*-~-*-~-*-~
-                    state = RobotState::STANDBY; //FIXME change when implemeted
+                    pick_up();
                     break;
                 }
                 case RobotState::DROP_OFF:{
-                    state = RobotState::STANDBY; //FIXME change when implemeted
                 // ~-*-~-*-~-*-~-*-~ DROP OFF STATE ~-*-~-*-~-*-~-*-~
+		    drop_off();
                     break;
                 }
                 case RobotState::STANDBY:{
@@ -343,8 +453,13 @@ void Central::main_loop() {
             }
         }
 
-    //Delay main loop slightly to not spam UART
-	usleep(MAIN_LOOP_DELAY);
+    	//Delay main loop slightly to not spam UART
+        //Delay is calculated based on time left to keep delay constant
+        double elapsed_sec = (float)(clock() - main_loop_clock)/CLOCKS_PER_SEC; //delay in seconds
+
+        //Multiply with 1000000 to make seconds into us
+        double sleep_time = (MAIN_LOOP_DELAY - elapsed_sec) * 1000000;
+        usleep(sleep_time);
     }
 }
 
@@ -365,7 +480,7 @@ void Central::turn_state(){
         }
         case TurnState::FORWARD:{
             clock_t time_diff = clock() - clock_start;
-            if((((float)time_diff)/CLOCKS_PER_SEC) > turn_forward_time){
+            if((((float)time_diff)/CLOCKS_PER_SEC) > TURN_FORWARD_TIME){
                 //Turn different ways depending on angle
                 if(turn_angle == 2){
                     //Angle 2, continue forwars
@@ -439,20 +554,21 @@ void Central::drive_state(){
         line_follower.run(line_center); //Run line follower system
     }
     else if(line_state == CORNER){
-        if(cur_path.empty()){
-            throw invalid_argument("Corner found when current path is empty");
-        }
-
         if(next_node->get_id() == home_id){
             //At base station
             #ifdef DEBUG
             cout << "At home" << endl;
             #endif
 
-            motor.drive(IDLE, 0);
+	    motor.turn(NONE, 0);
+	    motor.drive(IDLE, 0);
             state = RobotState::DROP_OFF;
         }
         else{
+	    if(cur_path.empty()){
+		throw invalid_argument("Corner found when current path is empty");
+	    }
+
             //Corner found
 	    #ifdef DEBUG
 	    cout << "Corner Found!" << endl;
@@ -474,14 +590,14 @@ void Central::drive_state(){
             #endif
         }
     }
-    else if(line_state == NONE_DOUBLE && next_node->is_leaf()){
+    else if(line_state == NONE_DOUBLE && next_node->is_leaf() && next_node->get_id() != home_id){
         //End node
         #ifdef DEBUG
         cout << "At target" << endl;
         #endif
 
         motor.drive(IDLE, 0);
-	motor.turn(NONE, 0);
+        motor.turn(NONE, 0);
         state = RobotState::PICK_UP;
     }
 }

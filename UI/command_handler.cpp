@@ -3,7 +3,7 @@
 #include <string>
 #include "command_handler.h"
 
-CommandHandler::CommandHandler(InterThreadCom* com) : text_file_handler() {
+CommandHandler::CommandHandler(InterThreadCom* com) : text_file_handler(map_path) {
     robot_com = com;
 }
 

@@ -1,4 +1,5 @@
 #include <map>
+#include <string>
 #include "../lib/network/interthreadcom.h"
 #include "text_file_handler.h"
 
@@ -6,6 +7,8 @@ using namespace std;
 
 class CommandHandler{
 private:
+    const string map_path = "../maps/";
+
     InterThreadCom* robot_com; //Module to use to send messages to robot
     TextFileHandler text_file_handler;
 
@@ -43,6 +46,8 @@ private:
         {"armhome", false},
         {"turnspeed", true},
         {"drivespeed", true},
+        {"showdata", false},
+        {"center", false},
         {"arm1fwd", false},
         {"arm1back", false},
         {"arm2fwd", false},

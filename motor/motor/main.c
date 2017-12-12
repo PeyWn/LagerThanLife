@@ -19,10 +19,12 @@ volatile bool do_putdown = false;
 
 int main(void)
 {
+    /* CONFIGURE UART */
+
     init_IO();
     usart_init(0);
     
-	init_wheel_control();
+    init_wheel_control();
 
     /* DDRD = (0<<DDD0)|(1<<DDD1); */ 
     DDRD |=  (1<<DDD1);
