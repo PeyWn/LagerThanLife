@@ -61,10 +61,10 @@ void grab(void);
 /* Opens the claw of the robot aka servo #8 */ 
 void release(void);
 
-/* Picks up object in front of platform and returns to home position, is_working during function */ 
+/* Picks up object in front of platform and returns to home position */ 
 void pickup_standard(void);
 
-/* Puts down object in front of platform and returns to home position, is_working during function */
+/* Puts down object in front of platform and returns to home position */
 void putdown_standard(void);
 
 /* Moves axis with index axis to pos with speed speed */ 

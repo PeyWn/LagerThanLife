@@ -55,16 +55,16 @@ volatile extern	int home_pos[6];
 /* Angular limits for each AX-12 servo */ 
 #define CW_LIMIT_1 0x0
 #define CCW_LIMIT_1 0x3ff
-#define CW_LIMIT_2 0x0
-#define CCW_LIMIT_2 0x3ff
+#define CW_LIMIT_2 222
+#define CCW_LIMIT_2 803
 #define CW_LIMIT_3 (0x3ff-CCW_LIMIT_2)
 #define CCW_LIMIT_3 (0x3ff-CW_LIMIT_2)
-#define CW_LIMIT_4 0x0
-#define CCW_LIMIT_4 0x3ff
+#define CW_LIMIT_4 210
+#define CCW_LIMIT_4 830
 #define CW_LIMIT_5 (0x3ff-CCW_LIMIT_4)
 #define CCW_LIMIT_5 (0x3ff-CW_LIMIT_4)
-#define CW_LIMIT_6 0xC0
-#define CCW_LIMIT_6 0x2ff
+#define CW_LIMIT_6 210
+#define CCW_LIMIT_6 793
 #define CW_LIMIT_7 0x0
 #define CCW_LIMIT_7 0x3ff
 #define CW_LIMIT_8 0x0
