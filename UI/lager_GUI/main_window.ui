@@ -1111,6 +1111,32 @@ selection-background-color: rgb(253, 117, 207);</string>
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="label_14">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>80</y>
+      <width>261</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>The last ware Mulle will pick/picked up:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="getting_id_label">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>80</y>
+      <width>60</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>none</string>
+    </property>
+   </widget>
    <zorder>graphicsView</zorder>
    <zorder>tabWidget</zorder>
    <zorder>emergency_stop_button</zorder>
@@ -1141,6 +1167,8 @@ selection-background-color: rgb(253, 117, 207);</string>
    <zorder>is_connected_label</zorder>
    <zorder>pushButton_2</zorder>
    <zorder>lager_image_label</zorder>
+   <zorder>label_14</zorder>
+   <zorder>getting_id_label</zorder>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">

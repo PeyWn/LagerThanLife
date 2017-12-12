@@ -34,6 +34,8 @@ void MainWindow::update(){
         ui->ware_two_value->setText(QString::fromStdString(state_handler->ware_two_value));
 
         ui->is_connected_label->setText(QString::fromStdString("YES"));
+
+        ui->getting_id_label->setText(QString::fromStdString(state_handler->getting_id));
     }
     else {
         ui->is_connected_label->setText(QString::fromStdString("NO"));
@@ -41,6 +43,7 @@ void MainWindow::update(){
         ui->line_sensor_value->setText(QString::fromStdString("NO CONNECTION"));
         ui->ware_one_value->setText(QString::fromStdString("NO CONNECTION"));
         ui->ware_two_value->setText(QString::fromStdString("NO CONNECTION"));
+        //ui->getting_id_label->setText(QString::fromStdString("none"));
     }
 
 }
@@ -167,6 +170,7 @@ void MainWindow::on_go_get_ware_button_clicked()
 {
     string get_command = "get ";
     string id = ui->get_id_spin_box->text().toStdString();
+    state_handler->getting_id = id;
     get_command = get_command + id;
     bool cmd_accepted = cmd_handler->try_command(get_command);
 

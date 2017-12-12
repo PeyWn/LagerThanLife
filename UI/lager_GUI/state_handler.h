@@ -21,6 +21,7 @@ public:
     string turn_status;
     string curr_pos;
     string route;
+    string getting_id; //the last ware that the robot went to get
 
     void interpret_message(string cmd, string param);
 
