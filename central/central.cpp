@@ -21,9 +21,12 @@ void Central::transmit_sensors(){
 }
 
 void Central::update_sensors(){
-        line_center = sensor.get_line_center();
+        /* Update state before center to avoid issues when sensor
+        updates happens between calls. */
         line_state = sensor.get_line_state();
-	ware_seen = sensor.get_ware_seen();
+        line_center = sensor.get_line_center();
+
+	    ware_seen = sensor.get_ware_seen();
 }
 
 void Central::get_pos(){
@@ -94,7 +97,7 @@ void Central::handle_command_parameter(string msg_with_parameter,
 }
 
 void Central::pick_up(){
-    switch(cur_pick_up_state){	
+    switch(cur_pick_up_state){
 
 	case(PickUpState::FIND_WARE):{
 	    if(center_ware(ware_seen, &motor) == 1){
@@ -108,11 +111,11 @@ void Central::pick_up(){
 	    //if(!motor.arm_active()){cur_pick_up_state = PickUpState::REVERSE;}
 	    #ifdef DEBUG
 	    cout << "Pick up state: PICK_UP" << endl;
-            #endif	    
+            #endif
 	    usleep(5000000);
 	    cur_pick_up_state = PickUpState::REVERSE;
 	    break;}
-	
+
 	case(PickUpState::REVERSE):{
             #ifdef DEBUG
 	    cout << "Pick up state: REVERSE" << endl;
@@ -125,9 +128,9 @@ void Central::pick_up(){
 	    else{
 		cur_pick_up_state = PickUpState::TURN;
 	    }
-	    
+
 	    break;}
-	    
+
 	case(PickUpState::ON_LINE):{
     	    #ifdef DEBUG
 	    cout << "Pick up state: ON_LINE" << endl;
@@ -136,28 +139,28 @@ void Central::pick_up(){
 		cur_pick_up_state = PickUpState::TURN;
 	    }
 	    break;}
-	
+
 	case(PickUpState::TURN):{
 	    #ifdef DEBUG
 	    cout << "Pick up state: TURN" << endl;
-            #endif	    
+            #endif
 	    if( (line_state != NONE_DOUBLE) && (abs(line_center) < CORNER_LINE_THRESHOLD) ){
 		motor.turn(NONE, 0);
 
 		next_node = cur_line->get_opposite(next_node->get_id());
 		cur_path = map->get_path(next_node->get_id(), home_id);
-		 
+
 		cur_pick_up_state = PickUpState::FIND_WARE;
 		motor.drive(FORWARD, AUTO_DRIVE_SPEED);
 		state = RobotState::DRIVING;
 	    }
 	    #ifdef DEBUG
 	    cout << "Pick up has ended" << endl;
-            #endif	    
+            #endif
 	    break;}
 
     }
-    
+
 }
 
 
@@ -166,26 +169,26 @@ void Central::drop_off(){
 	case(DropOffState::PUT_DOWN):{
 	    #ifdef DEBUG
 	    cout << "Drop off: put down" << endl;
-            #endif	    
+            #endif
 	    motor.perform_arm_macro(ARM_MACRO::PUT_DOWN);
 	    usleep(5000000);
 	    motor.turn(RIGHT, CORNER_TURN_SPEED);
-	    cur_drop_off_state = DropOffState::TURN_CORNER; 
+	    cur_drop_off_state = DropOffState::TURN_CORNER;
 	    break;
-	}    
+	}
 	case(DropOffState::TURN_CORNER):{
             #ifdef DEBUG
 	    cout << "Drop off: corner" << endl;
-            #endif	    
+            #endif
 	    if(line_state == NONE_DOUBLE){
-		cur_drop_off_state = DropOffState::TURN_NONE; 
+		cur_drop_off_state = DropOffState::TURN_NONE;
 	    }
 	    break;
 	}
 	case(DropOffState::TURN_NONE):{
             #ifdef DEBUG
 	    cout << "Drop off: none" << endl;
-            #endif	    	    
+            #endif
 	    if( (line_state == SINGLE) && (abs(line_center) < CORNER_LINE_THRESHOLD) ){
 		motor.turn(NONE, 0);
 		cur_drop_off_state = DropOffState::PUT_DOWN;
@@ -195,7 +198,7 @@ void Central::drop_off(){
 	}
 
     }
-    
+
 }
 
 void Central::handle_msg(string msg) {
@@ -403,7 +406,7 @@ void Central::main_loop() {
     string msg_read;
     //Move arm to home position when starting
     motor.perform_arm_macro(GO_HOME);
-    
+
     while(true) {
         //Start the main loop clock
         main_loop_clock = clock();
