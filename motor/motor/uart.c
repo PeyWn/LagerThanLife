@@ -6,12 +6,12 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-void usart1_init(int baudrate)
+void usart1_init()
 {
 	/* Calculate baud according to formula given in data sheet. */
-	int baud = (((F_CPU)/(baudrate*16UL))-1);
+	// int baud = (((F_CPU)/(baudrate*16UL))-1);
 
-	baud = 0; //HACK: CHANGED TO CALCULATED VALUE.
+	int baud = 0; // directly calculated value of baud for 1 megabaud.
 
 	/* Set baud rate to 1M @ max 1Mb/s. */
 	UBRR1H = (unsigned char)(baud>>8);
