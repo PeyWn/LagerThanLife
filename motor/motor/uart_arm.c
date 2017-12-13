@@ -27,13 +27,9 @@ void set_direction_port(int dir)
 
 void transmit(unsigned char data)
 {
-    volatile char test = 0;
-    test = 0;
 	/* on next receive, don't read old receive bytes,  flush before transmit*/
 	flush_UDR1_receive();
-    test = 1;
 	set_direction_port(TRANSMIT);
-    test = 2;
 	usart_transmit(data);
 }
 

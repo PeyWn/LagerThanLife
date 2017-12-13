@@ -80,7 +80,6 @@ void set_wheel_speeds(int turn_setting, int trav_setting)
     volatile int        sign_R;
 
     volatile double turn_dir   = turn_speed < 0? -1 : 1;
-    volatile double trav_dir   = trav_speed < 0? -1 : 1;
 
     /* map traversal speed to PWM value */
     trav_scale = trav_max * MOTOR_MAX;
