@@ -1112,21 +1112,21 @@ selection-background-color: rgb(253, 117, 207);</string>
    <widget class="QLabel" name="label_14">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>20</y>
-      <width>261</width>
+      <x>570</x>
+      <y>120</y>
+      <width>101</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>The last ware Mulle will pick/picked up:</string>
+     <string>Current ware: </string>
     </property>
    </widget>
    <widget class="QLabel" name="getting_id_label">
     <property name="geometry">
      <rect>
-      <x>470</x>
-      <y>20</y>
+      <x>670</x>
+      <y>120</y>
       <width>60</width>
       <height>16</height>
      </rect>
@@ -1218,7 +1218,7 @@ selection-background-color: rgb(253, 117, 207);</string>
      <x>0</x>
      <y>0</y>
      <width>1400</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
