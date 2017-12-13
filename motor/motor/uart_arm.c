@@ -3,7 +3,7 @@
  *
  * Created: 2017-11-04 17:36:19
  *  Author: Jesper
- */  
+ */
 
 #include <stdio.h>
 #include <avr/io.h>
@@ -26,31 +26,31 @@ void set_direction_port(int dir)
 }
 
 void transmit(unsigned char data)
-{	
+{
     volatile char test = 0;
-    test = 0; 
+    test = 0;
 	/* on next receive, don't read old receive bytes,  flush before transmit*/
 	flush_UDR1_receive();
     test = 1;
 	set_direction_port(TRANSMIT);
     test = 2;
-	usart_transmit(data); 
+	usart_transmit(data);
 }
 
 unsigned char receive(void)
-{	
-	set_direction_port(RECEIVE); 
-    
+{
+	set_direction_port(RECEIVE);
+
 	return usart_receive();
 }
 
 void flush_UDR1_receive()
 {
 	volatile char x;
-    
-	/* while receiving */ 
+
+	/* while receiving */
 	while( (UCSR1A & (1<<RXC1) ) )
     {
-		x = UDR1; // read data empties buffer 
-    }        
+		x = UDR1; // read data, empties buffer 
+    }
 }

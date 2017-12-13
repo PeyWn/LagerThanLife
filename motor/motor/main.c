@@ -7,8 +7,8 @@
 #include "uart.h"
 #include "commands.h"
 
-#include "transmission.h"   
-#include "receive.h" 
+#include "transmission.h"
+#include "receive.h"
 
 volatile int front_pos[6];
 volatile int home_pos[6];
@@ -19,24 +19,10 @@ volatile bool do_putdown = false;
 
 int main(void)
 {
-    /* CONFIGURE UART */
-
     init_IO();
-    usart_init(0);
-    
+    usart1_init(0);
+    usart0_init();
     init_wheel_control();
-
-    /* DDRD = (0<<DDD0)|(1<<DDD1); */ 
-    DDRD |=  (1<<DDD1);
-    DDRD &= ~(1<<DDD0);
-
-    UBRR0L = 0x33; //BAUDRATE 33 = 19200
-
-    //Set UART baudrate, activates Tx/Rx, activates interrupts for UART data recieved
-    UCSR0B = (1<<RXEN0)|(1<<TXEN0)|(1<<RXCIE0);
-
-    //Enable global interrupts
-    sei();
 
     while(1){
 
@@ -52,4 +38,3 @@ int main(void)
         }
     }
 }
-
