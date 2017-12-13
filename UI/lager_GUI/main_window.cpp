@@ -26,27 +26,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::handle_lager_filename(){
-    /*
-    string file = ui->lager_file_name->text().toStdString(); */
-    string file = QFileDialog::getOpenFileName(this, tr("Open File"), "~/").toStdString();
-    cout << file << endl;
-    string lager_com = "lager " + file;
-    //ui->lager_file_name->clear();
-    bool cmd_accepted = cmd_handler->try_command(lager_com);
 
-    if (!cmd_accepted){
-        string tmp = terminal_history.QString::toStdString() + "\n" + COMMAND_ERROR + lager_com;
-        terminal_history = QString::fromStdString(tmp);
-        ui->terminal_window->setText(terminal_history);
-    }
-    else {
-        ui->current_lager_label->setText(QString::fromStdString(file));
-
-        QPixmap lager(QString::fromStdString(file+".png"));
-        QLabel *label = new QLabel();
-        ui->scroll_area->setWidget(label);
-        label->setPixmap(lager);
-    }
 }
 
 void MainWindow::update(){
@@ -191,11 +171,15 @@ void MainWindow::on_update_sensors_button_clicked()
 
 }
 
+/*
+    Read what id the user has entered in the get-ware-box and sends the command to the command handler.
+    Also updates state_handler.
+    If command failed it prints an error message to the GUI terminal window.
+*/
 void MainWindow::on_go_get_ware_button_clicked()
 {
     string get_command = "get ";
     string id = ui->get_id_spin_box->text().toStdString();
-    state_handler->getting_id = id;
     get_command = get_command + id;
     bool cmd_accepted = cmd_handler->try_command(get_command);
 
@@ -204,17 +188,44 @@ void MainWindow::on_go_get_ware_button_clicked()
         terminal_history = QString::fromStdString(tmp);
         ui->terminal_window->setText(terminal_history);
     }
+    else {
+        state_handler->getting_id = id;
+    }
 
 }
 
-
+/*
+    When read_lager_file_button has ben clicked it will open a file dialog where user can
+    select lager file. The lager file will then be sent to the command handler. If successful
+    it will also try to read an image of the lager and display it, else it will write an
+    error message to the GUI terminal window.
+*/
 void MainWindow::on_read_lager_file_button_clicked()
 {
-    handle_lager_filename();
+    string file = QFileDialog::getOpenFileName(this, tr("Open File"), "~/").toStdString();
+    string lager_command = "lager " + file;
+
+    bool cmd_accepted = cmd_handler->try_command(lager_command);
+
+    if (!cmd_accepted){
+        string tmp = terminal_history.QString::toStdString() + "\n" + COMMAND_ERROR + lager_command;
+        terminal_history = QString::fromStdString(tmp);
+        ui->terminal_window->setText(terminal_history);
+    }
+    else {
+        ui->current_lager_label->setText(QString::fromStdString(file));
+
+        QPixmap lager(QString::fromStdString(file+".png"));
+        QLabel *label = new QLabel();
+        ui->scroll_area->setWidget(label);
+        label->setPixmap(lager);
+    }
 }
 
 void MainWindow::on_pushButton_clicked()
 {
+    //the set drivespeed/turnspeed button
+
     string set_drive_speed = "drivespeed " + ui->drive_speed_value->text().toStdString();
     string set_turn_speed = "turnspeed " + ui->turn_speed_value->text().toStdString();
     cmd_handler->try_command(set_drive_speed);
