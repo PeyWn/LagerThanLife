@@ -32,6 +32,7 @@
 
 # user settings
 *.pro.user
+*.pro.user*
 
 # Generated MOC, resource and UI files
 moc_*.cpp

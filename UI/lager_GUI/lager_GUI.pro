@@ -46,5 +46,14 @@ HEADERS += \
 FORMS += \
         main_window.ui
 
-LIBS += \
-        -stdlib=libc++
+
+CONFIG += c++11
+
+unix:!macx {
+    QMAKE_CXXFLAGS += -pthread
+    LIBS += -pthread
+}
+
+macx: {
+    LIBS += -stdlib=libc++
+}
