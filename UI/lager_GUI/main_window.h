@@ -27,7 +27,7 @@ private slots:
 
     void update();
 
-    void handle_lager_filename();
+    void write_to_terminal_window(string msg);
 
     void on_tabWidget_tabBarClicked(int index);
 
@@ -65,8 +65,6 @@ private slots:
 
     void on_read_lager_file_button_clicked();
 
-    void on_pushButton_clicked();
-
     void on_set_home_button_clicked();
 
     void on_arm_2_back_button_pressed();
@@ -101,10 +99,15 @@ private slots:
 
     void on_arm_cw_button_released();
 
-    void on_arm_ccw_button_2_clicked();
+    void on_cal_ware_sensors_clicked();
 
-    void on_pushButton_2_clicked();
+    void on_cal_line_sensors_line_clicked();
 
+    void on_cal_line_sensors_floor_clicked();
+
+    void on_arm_home_button_clicked();
+
+    void on_set_drive_turn_speed_clicked();
 
 private:
     CommandHandler* cmd_handler;

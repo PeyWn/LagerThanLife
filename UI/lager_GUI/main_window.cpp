@@ -25,10 +25,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::handle_lager_filename(){
-
-}
-
 void MainWindow::update(){
 
     if (communication_module->is_connected()){
@@ -48,9 +44,20 @@ void MainWindow::update(){
         ui->line_sensor_value->setText(QString::fromStdString("NO CONNECTION"));
         ui->ware_one_value->setText(QString::fromStdString("NO CONNECTION"));
         ui->ware_two_value->setText(QString::fromStdString("NO CONNECTION"));
-        //ui->getting_id_label->setText(QString::fromStdString("none"));
     }
 
+}
+
+/*
+    Adds a new line and the string msg to string terminal_history and then writes
+    terminal_history to the terminal window widget
+
+    string msg - the text that will be written to the terminal window widget
+*/
+void MainWindow::write_to_terminal_window(string msg){
+    string tmp = terminal_history.QString::toStdString() + "\n" + msg;
+    terminal_history = QString::fromStdString(tmp);
+    ui->terminal_window->setText(terminal_history);
 }
 
 
@@ -140,14 +147,12 @@ void MainWindow::on_terminal_prompt_returnPressed()
     ui->terminal_prompt->clear();
     bool cmd_accepted = cmd_handler->try_command(command);
 
-    string tmp = terminal_history.QString::toStdString() + "\n > " + command;
-    terminal_history = QString::fromStdString(tmp);
-    ui->terminal_window->setText(terminal_history);
+    string write_terminal = "> " + command;
+    write_to_terminal_window(write_terminal);
 
     if(!cmd_accepted){
-        string tmp = terminal_history.QString::toStdString() + "\n" + COMMAND_ERROR + command;
-        terminal_history = QString::fromStdString(tmp);
-        ui->terminal_window->setText(terminal_history);
+        string error_msg = COMMAND_ERROR + command;
+        write_to_terminal_window(error_msg);
     }
 
 
@@ -164,9 +169,8 @@ void MainWindow::on_update_sensors_button_clicked()
         ui->ware_two_value->setText(QString::fromStdString(state_handler->ware_two_value));
     }
     else {
-        string tmp = terminal_history.QString::toStdString() + "\n" + COMMAND_ERROR + "No connection to Mulle";
-        terminal_history = QString::fromStdString(tmp);
-        ui->terminal_window->setText(terminal_history);
+        string error_msg = COMMAND_ERROR + "No connection to Robot";
+        write_to_terminal_window(error_msg);
     }
 
 }
@@ -184,14 +188,13 @@ void MainWindow::on_go_get_ware_button_clicked()
     bool cmd_accepted = cmd_handler->try_command(get_command);
 
     if(!cmd_accepted){
-        string tmp = terminal_history.QString::toStdString() + "\n" + COMMAND_ERROR + get_command;
-        terminal_history = QString::fromStdString(tmp);
-        ui->terminal_window->setText(terminal_history);
+        string error_msg = COMMAND_ERROR + get_command;
+        write_to_terminal_window(error_msg);
     }
     else {
         state_handler->getting_id = id;
+        write_to_terminal_window("Robot will get the ware at " + id + " for you!");
     }
-
 }
 
 /*
@@ -208,9 +211,8 @@ void MainWindow::on_read_lager_file_button_clicked()
     bool cmd_accepted = cmd_handler->try_command(lager_command);
 
     if (!cmd_accepted){
-        string tmp = terminal_history.QString::toStdString() + "\n" + COMMAND_ERROR + lager_command;
-        terminal_history = QString::fromStdString(tmp);
-        ui->terminal_window->setText(terminal_history);
+        string error_msg = COMMAND_ERROR + lager_command;
+        write_to_terminal_window(error_msg);
     }
     else {
         ui->current_lager_label->setText(QString::fromStdString(file));
@@ -222,16 +224,6 @@ void MainWindow::on_read_lager_file_button_clicked()
     }
 }
 
-void MainWindow::on_pushButton_clicked()
-{
-    //the set drivespeed/turnspeed button
-
-    string set_drive_speed = "drivespeed " + ui->drive_speed_value->text().toStdString();
-    string set_turn_speed = "turnspeed " + ui->turn_speed_value->text().toStdString();
-    cmd_handler->try_command(set_drive_speed);
-    cmd_handler->try_command(set_turn_speed);
-}
-
 void MainWindow::on_set_home_button_clicked()
 {
     string home_id = ui->set_home_box->text().toStdString();
@@ -239,9 +231,11 @@ void MainWindow::on_set_home_button_clicked()
     bool cmd_accepted = cmd_handler->try_command(cmd);
 
     if(!cmd_accepted){
-        string tmp = terminal_history.QString::toStdString() + "\n" + COMMAND_ERROR + cmd;
-        terminal_history = QString::fromStdString(tmp);
-        ui->terminal_window->setText(terminal_history);
+        string error_msg = COMMAND_ERROR + cmd;
+        write_to_terminal_window(error_msg);
+    }
+    else {
+        write_to_terminal_window(("Home set to " + home_id + "!"));
     }
 
 }
@@ -326,21 +320,38 @@ void MainWindow::on_arm_cw_button_released()
     cmd_handler->try_command("armstop");
 }
 
-void MainWindow::on_arm_ccw_button_2_clicked()
+void MainWindow::on_cal_ware_sensors_clicked()
+{
+    cmd_handler->try_command("calware");
+    write_to_terminal_window("Ware sensors calibrated!");
+}
+
+void MainWindow::on_cal_line_sensors_line_clicked()
+{
+    cmd_handler->try_command("calline");
+    write_to_terminal_window("Line sensors calibrated for line!");
+}
+
+void MainWindow::on_cal_line_sensors_floor_clicked()
+{
+    cmd_handler->try_command("calfloor");
+    write_to_terminal_window("Line sensors calibrated for floor!");
+}
+
+void MainWindow::on_arm_home_button_clicked()
 {
     cmd_handler->try_command("armhome");
-
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_set_drive_turn_speed_clicked()
 {
-    string is_connected;
+    string drive_speed = ui->drive_speed_value->text().toStdString();
+    string turn_speed = ui->turn_speed_value->text().toStdString();
+    string set_drive_speed = "drivespeed " + drive_speed;
+    string set_turn_speed = "turnspeed " + turn_speed;
+    cmd_handler->try_command(set_drive_speed);
+    cmd_handler->try_command(set_turn_speed);
 
-    if (communication_module->is_connected()){
-        is_connected = "YES";
-    }
-    else { is_connected = "NO"; }
-
-    ui->is_connected_label->setText(QString::fromStdString(is_connected));
+    string print = "Drive speed set to " + drive_speed + ", turn speed set to " + turn_speed;
+    write_to_terminal_window(print);
 }
-

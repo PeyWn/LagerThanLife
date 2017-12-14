@@ -27,7 +27,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_1">
      <attribute name="title">
@@ -37,7 +37,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>80</y>
+        <y>110</y>
         <width>231</width>
         <height>41</height>
        </rect>
@@ -51,14 +51,14 @@
        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
       </property>
       <property name="text">
-       <string>Tell Mulle to go get the ware at id:</string>
+       <string>Tell Robot to go get the ware at id:</string>
       </property>
      </widget>
      <widget class="QSpinBox" name="get_id_spin_box">
       <property name="geometry">
        <rect>
         <x>260</x>
-        <y>90</y>
+        <y>120</y>
         <width>71</width>
         <height>21</height>
        </rect>
@@ -73,7 +73,7 @@
       <property name="geometry">
        <rect>
         <x>350</x>
-        <y>80</y>
+        <y>110</y>
         <width>71</width>
         <height>41</height>
        </rect>
@@ -94,7 +94,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>40</y>
+        <y>70</y>
         <width>81</width>
         <height>41</height>
        </rect>
@@ -115,7 +115,7 @@
       <property name="geometry">
        <rect>
         <x>110</x>
-        <y>50</y>
+        <y>80</y>
         <width>71</width>
         <height>21</height>
        </rect>
@@ -133,7 +133,7 @@
       <property name="geometry">
        <rect>
         <x>200</x>
-        <y>40</y>
+        <y>70</y>
         <width>81</width>
         <height>41</height>
        </rect>
@@ -154,13 +154,26 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>30</y>
+        <y>60</y>
         <width>421</width>
         <height>101</height>
        </rect>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(204, 255, 102);</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_15">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>311</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Remember to read a lager file before using these:</string>
       </property>
      </widget>
      <zorder>graphicsView_2</zorder>
@@ -170,6 +183,7 @@
      <zorder>label_12</zorder>
      <zorder>set_home_box</zorder>
      <zorder>set_home_button</zorder>
+     <zorder>label_15</zorder>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -669,7 +683,7 @@ p, li { white-space: pre-wrap; }
        <string>Rotate:</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="arm_ccw_button_2">
+     <widget class="QPushButton" name="arm_home_button">
       <property name="geometry">
        <rect>
         <x>40</x>
@@ -693,7 +707,7 @@ p, li { white-space: pre-wrap; }
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="set_drive_turn_speed">
       <property name="geometry">
        <rect>
         <x>580</x>
@@ -814,8 +828,8 @@ p, li { white-space: pre-wrap; }
      <zorder>arm_cw_button</zorder>
      <zorder>arm_ccw_button</zorder>
      <zorder>label_9</zorder>
-     <zorder>arm_ccw_button_2</zorder>
-     <zorder>pushButton</zorder>
+     <zorder>arm_home_button</zorder>
+     <zorder>set_drive_turn_speed</zorder>
      <zorder>turn_speed_value</zorder>
      <zorder>label_11</zorder>
      <zorder>label_10</zorder>
@@ -1025,7 +1039,7 @@ selection-background-color: rgb(253, 117, 207);</string>
     <property name="geometry">
      <rect>
       <x>750</x>
-      <y>700</y>
+      <y>720</y>
       <width>241</width>
       <height>16</height>
      </rect>
@@ -1096,24 +1110,11 @@ selection-background-color: rgb(253, 117, 207);</string>
      <string>-</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>113</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Refresh</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_14">
     <property name="geometry">
      <rect>
-      <x>570</x>
-      <y>120</y>
+      <x>740</x>
+      <y>690</y>
       <width>101</width>
       <height>16</height>
      </rect>
@@ -1125,8 +1126,8 @@ selection-background-color: rgb(253, 117, 207);</string>
    <widget class="QLabel" name="getting_id_label">
     <property name="geometry">
      <rect>
-      <x>670</x>
-      <y>120</y>
+      <x>840</x>
+      <y>690</y>
       <width>60</width>
       <height>16</height>
      </rect>
@@ -1187,6 +1188,54 @@ selection-background-color: rgb(253, 117, 207);</string>
     </property>
     <property name="text">
      <string>-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cal_ware_sensors">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>10</y>
+      <width>201</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(204, 204, 204);</string>
+    </property>
+    <property name="text">
+     <string>Calibrate ware sensors</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cal_line_sensors_line">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>50</y>
+      <width>201</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(204, 204, 204);</string>
+    </property>
+    <property name="text">
+     <string>Calibrate line sensors (line)</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cal_line_sensors_floor">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>90</y>
+      <width>201</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(204, 204, 204);</string>
+    </property>
+    <property name="text">
+     <string>Calibrate line sensors (floor)</string>
     </property>
    </widget>
   </widget>
