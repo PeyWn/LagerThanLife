@@ -29,7 +29,7 @@ public:
     void main_loop();
     
 private:
-    bool connected;
+    bool connected = false;
 
     const string disconnect_msg = "Disconnected!";
     const string connected_msg = "Connected!";

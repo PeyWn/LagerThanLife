@@ -11,8 +11,6 @@ using namespace std;
 
 ClientSocket::ClientSocket(InterThreadCom* inter_thread_com) {
     thread_com = inter_thread_com;
-
-    connected = new_connection();
 }
 
 bool ClientSocket::new_connection() {
@@ -65,10 +63,8 @@ void ClientSocket::main_loop() {
                 connected = false;
             }
         } else {
-            thread_com->write_to_queue(disconnect_msg, FROM_SOCKET);
             while(!new_connection()) {
             }
-            thread_com->write_to_queue(connected_msg, FROM_SOCKET);
         }
     }
 }
