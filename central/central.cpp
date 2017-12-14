@@ -101,32 +101,31 @@ void Central::pick_up(){
 
 	case(PickUpState::FIND_WARE):{
 	    if(center_ware(ware_seen, &motor) == 1){
-		motor.control_claw(false);
-		motor.perform_arm_macro(ARM_MACRO::PICK_UP);
-		cur_pick_up_state = PickUpState::PICK_UP;
+    		motor.control_claw(false);
+    		motor.perform_arm_macro(ARM_MACRO::PICK_UP);
+    		cur_pick_up_state = PickUpState::PICK_UP;
 	    }
-	    break;}
-
+	    break;
+    }
 	case(PickUpState::PICK_UP):{
-	    //if(!motor.arm_active()){cur_pick_up_state = PickUpState::REVERSE;}
 	    #ifdef DEBUG
 	    cout << "Pick up state: PICK_UP" << endl;
             #endif
 	    usleep(5000000);
 	    cur_pick_up_state = PickUpState::REVERSE;
-	    break;}
-
+	    break;
+    }
 	case(PickUpState::REVERSE):{
-            #ifdef DEBUG
-	    cout << "Pick up state: REVERSE" << endl;
-            #endif
+        #ifdef DEBUG
+        cout << "Pick up state: REVERSE" << endl;
+        #endif
 
 	    motor.turn(RIGHT, CORNER_TURN_SPEED);
 	    if (line_state != NONE_DOUBLE){
-		cur_pick_up_state = PickUpState::ON_LINE;
+		    cur_pick_up_state = PickUpState::ON_LINE;
 	    }
 	    else{
-		cur_pick_up_state = PickUpState::TURN;
+            cur_pick_up_state = PickUpState::TURN;
 	    }
 
 	    break;}
@@ -563,19 +562,20 @@ void Central::drive_state(){
             cout << "At home" << endl;
             #endif
 
-	    motor.turn(NONE, 0);
-	    motor.drive(IDLE, 0);
+	        motor.turn(NONE, 0);
+	        motor.drive(IDLE, 0);
+            cur_drop_off_state = DropOffState::PUT_DOWN;
             state = RobotState::DROP_OFF;
         }
         else{
-	    if(cur_path.empty()){
-		throw invalid_argument("Corner found when current path is empty");
-	    }
+    	    if(cur_path.empty()){
+    		    throw invalid_argument("Corner found when current path is empty");
+    	    }
 
             //Corner found
-	    #ifdef DEBUG
-	    cout << "Corner Found!" << endl;
-	    #endif
+    	    #ifdef DEBUG
+    	    cout << "Corner Found!" << endl;
+    	    #endif
 
             state = RobotState::TURN;
             cur_turn_state = TurnState::NEW_TURN;
@@ -601,6 +601,7 @@ void Central::drive_state(){
 
         motor.drive(IDLE, 0);
         motor.turn(NONE, 0);
+        cur_pick_up_state = PickUpState::FIND_WARE;
         state = RobotState::PICK_UP;
     }
 }
