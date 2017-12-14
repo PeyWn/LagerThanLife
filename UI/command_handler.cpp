@@ -92,8 +92,8 @@ bool CommandHandler::try_command(string line){
         ask_cmd == "getroute"
     ){
 
-        string param = read_msg();
-        state_handler->interpret_message(ask_cmd, param);
+        //string param = read_msg();
+        //state_handler->interpret_message(ask_cmd, param);
     }
 
         return true;
