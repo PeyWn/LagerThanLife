@@ -25,6 +25,12 @@ int main(int argc, char *argv[])
     MainWindow w(&cmd_handler, &state_handler, com_module, thread_com);
     w.show();
 
-    return a.exec();
+    int exit_value = a.exec();
+
+    com_module->set_stop();
+    com_child.join();
+
+    cout << "Exiting" << endl;
+    return exit_value;
 
 }

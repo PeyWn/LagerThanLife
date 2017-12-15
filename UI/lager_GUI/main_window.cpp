@@ -48,7 +48,6 @@ void MainWindow::update(){
 
         // Read and removes all messages buffered to send to socket
         while(thread_com_module->read_from_queue(TO_SOCKET) != "") {
-            cout << "Removed one message" << endl;
         }
 
     }
