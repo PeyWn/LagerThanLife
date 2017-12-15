@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     thread com_child([](){com_module->main_loop();});
 
     QApplication a(argc, argv);
-    MainWindow w(&cmd_handler, &state_handler, com_module);
+    MainWindow w(&cmd_handler, &state_handler, com_module, thread_com);
     w.show();
 
     return a.exec();

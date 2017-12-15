@@ -19,7 +19,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(CommandHandler* handler, StateHandler *state, ClientSocket* com_module, QWidget *parent = 0);
+    explicit MainWindow(CommandHandler* handler, StateHandler *state, ClientSocket* com_module, InterThreadCom* thread_com, QWidget *parent = 0);
     ~MainWindow();
 
 
@@ -105,6 +105,7 @@ private:
     CommandHandler* cmd_handler;
     StateHandler* state_handler;
     ClientSocket* communication_module;
+    InterThreadCom* thread_com_module;
     Ui::MainWindow *ui;
 
     string command; //saves the last command written to the command promt

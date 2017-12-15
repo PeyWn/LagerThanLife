@@ -5,7 +5,7 @@
 
 const string COMMAND_ERROR = "ERROR! There was an error executing your command: ";
 
-MainWindow::MainWindow(CommandHandler* handler, StateHandler* state, ClientSocket *com_module, QWidget *parent) :
+MainWindow::MainWindow(CommandHandler* handler, StateHandler* state, ClientSocket *com_module, InterThreadCom* thread_com, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
@@ -13,6 +13,7 @@ MainWindow::MainWindow(CommandHandler* handler, StateHandler* state, ClientSocke
     cmd_handler = handler;
     state_handler = state;
     communication_module = com_module;
+    thread_com_module = thread_com;
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -44,6 +45,12 @@ void MainWindow::update(){
         ui->line_sensor_value->setText(QString::fromStdString("NO CONNECTION"));
         ui->ware_one_value->setText(QString::fromStdString("NO CONNECTION"));
         ui->ware_two_value->setText(QString::fromStdString("NO CONNECTION"));
+
+        // Read and removes all messages buffered to send to socket
+        while(thread_com_module->read_from_queue(TO_SOCKET) != "") {
+            cout << "Removed one message" << endl;
+        }
+
     }
 
 }
