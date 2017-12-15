@@ -24,7 +24,7 @@ private:
     const string SENSOR_INTERFACE = "/dev/ttyUSB0";
     const string MOTOR_INTERFACE = "/dev/ttyUSB1";
     const double PICK_REVESE_TIME = 0.4;
-    
+
     enum class PickUpState{
 	FIND_WARE,
 	PICK_UP,
@@ -36,7 +36,7 @@ private:
     enum class DropOffState{
 	PUT_DOWN,
 	TURN_CORNER,
-	TURN_NONE    
+	TURN_NONE
     };
     //Delay in seconds between every iteration of mainloop
     const double MAIN_LOOP_DELAY = 0.01;
@@ -64,7 +64,7 @@ private:
     int turn_speed = 5; // 5 by default
     int drive_speed = 7; // 7 by default
     int center_flag = 0; // 0 by default
-    
+
     PickUpState cur_pick_up_state = PickUpState::FIND_WARE;
     int t_revese = 0;
 
@@ -185,11 +185,27 @@ private:
     void get_pos();
 
     /*
-    Send sensor information to UI
+    Function that picks up a ware infront of the robot and then turns the
+    robot around, calculates a rute to home node. Then goes to DRIVING.
     */
     void pick_up();
+
+    /*
+    Function that drops off a ware infront of the robot and then turns the
+    robot around. Then goes to STANDBY.
+    */
     void drop_off();
-	
+
+    /*
+    Sleep function utilizing clock()
+
+    mseconds: is the time in milliseconds that the functionf will sleep
+    */
+    void C_sleep(unsigned int mseconds);
+
+    /*
+    Send sensor information to UI
+    */
     void transmit_sensors();
 
     /*
