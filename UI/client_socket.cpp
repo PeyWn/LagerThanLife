@@ -56,19 +56,29 @@ bool ClientSocket::new_connection() {
 }
 
 void ClientSocket::main_loop() {
-    while(true) {
+    while(!stop) {
 
         if (connected) {
             if(!write_read_interpret()) {
                 connected = false;
             }
         } else {
-            while(!new_connection()) {
-            }
+            connected = new_connection();
         }
+
     }
+    close(sockfd);
 }
+
+
+void ClientSocket::set_stop() {
+    stop = true;
+}
+
 
 bool ClientSocket::is_connected() {
     return connected;
 }
+
+
+

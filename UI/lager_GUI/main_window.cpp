@@ -52,11 +52,8 @@ void MainWindow::update(){
         ui->scroll_area->hide(); //hide lager map
 
         // Read and removes all messages buffered to send to socket
-        while(thread_com_module->read_from_queue(TO_SOCKET) != "") {
-        }
-
+        while(thread_com_module->read_from_queue(TO_SOCKET) != "") {}
     }
-
 }
 
 /*
@@ -338,20 +335,35 @@ void MainWindow::on_arm_cw_button_released()
 
 void MainWindow::on_cal_ware_sensors_clicked()
 {
-    cmd_handler->try_command("calware");
-    write_to_terminal_window("Ware sensors calibrated!");
+    if (communication_module->is_connected()){
+        cmd_handler->try_command("calware");
+        write_to_terminal_window("Ware sensors calibrated!");
+    }
+    else {
+        write_to_terminal_window("Could not calibrate. Not connected.");
+    }
 }
 
 void MainWindow::on_cal_line_sensors_line_clicked()
 {
-    cmd_handler->try_command("calline");
-    write_to_terminal_window("Line sensors calibrated for line!");
+    if (communication_module->is_connected()){
+        cmd_handler->try_command("calline");
+        write_to_terminal_window("Line sensors calibrated for line!");
+    }
+    else {
+        write_to_terminal_window("Could not calibrate. Not connected.");
+    }
 }
 
 void MainWindow::on_cal_line_sensors_floor_clicked()
 {
-    cmd_handler->try_command("calfloor");
-    write_to_terminal_window("Line sensors calibrated for floor!");
+    if (communication_module->is_connected()){
+        cmd_handler->try_command("calfloor");
+        write_to_terminal_window("Line sensors calibrated for floor!");
+    }
+    else {
+        write_to_terminal_window("Could not calibrate. Not connected.");
+    }
 }
 
 void MainWindow::on_arm_home_button_clicked()

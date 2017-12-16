@@ -3,6 +3,7 @@
 #include "../lib/network/interthreadcom.h"
 #include "text_file_handler.h"
 #include "lager_GUI/state_handler.h"
+#include "client_socket.h"
 
 using namespace std;
 
@@ -13,6 +14,7 @@ private:
     InterThreadCom* robot_com; //Module to use to send messages to robot
     TextFileHandler text_file_handler;
     StateHandler* state_handler;
+    ClientSocket* com_socket;
 
     /* CMDS TO SEND
     First is name of command (string);
@@ -75,7 +77,7 @@ public:
 
     com - pointer to InterThreadCom module to use to send messages to robot
     */
-    CommandHandler(InterThreadCom* com, StateHandler *state);
+    CommandHandler(InterThreadCom* com, StateHandler* state, ClientSocket* socket);
 
     /*
     try to execute given string as a command. Return if it worked

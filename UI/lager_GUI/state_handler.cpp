@@ -30,9 +30,6 @@ void StateHandler::interpret_message(string cmd, string param){
     else if (cmd == "lager"){
         lager_file = param;
     }
-    else {
-        //do nothing
-    }
 
 }
 

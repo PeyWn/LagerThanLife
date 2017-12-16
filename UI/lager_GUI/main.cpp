@@ -11,13 +11,13 @@ StateHandler state_handler;
 
 int main(int argc, char *argv[])
 {
-
     cout << "Trying to connect to robot..." << endl;
     thread_com = new InterThreadCom();
-    CommandHandler cmd_handler(thread_com, &state_handler);
 
     // Create a new thread to handle communication
     com_module = new ClientSocket(thread_com);
+
+    CommandHandler cmd_handler(thread_com, &state_handler, com_module);
 
     thread com_child([](){com_module->main_loop();});
 
@@ -25,6 +25,12 @@ int main(int argc, char *argv[])
     MainWindow w(&cmd_handler, &state_handler, com_module, thread_com);
     w.show();
 
-    return a.exec();
+    int exit_value = a.exec();
+
+    com_module->set_stop();
+    com_child.join();
+
+    cout << "Exiting" << endl;
+    return exit_value;
 
 }
