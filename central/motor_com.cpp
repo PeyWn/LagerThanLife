@@ -14,17 +14,14 @@ pair<DRIVE_STATUS, int> MotorCom::get_drive_status(){
     int speed;
 
     if(status == 0) {
-        //0000, not driving
         direction = IDLE;
         speed = 0;
     }
     else if((status >> 3) == 0) {
-        //forward
         direction = FORWARD;
         speed = status;
     }
     else {
-        //backwards
         direction = BACKWARDS;
         speed = status - 7;
     }
