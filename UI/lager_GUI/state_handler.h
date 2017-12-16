@@ -10,11 +10,13 @@ class StateHandler
 public:
     StateHandler();
 
+    string const NO_VALUE_STRING = "none"; //constant to compare with if state-variables are not set
+
     string ware_one_value;      //stores the ware sensor 1 value
     string ware_two_value;      //stores the ware sensor 2 value
     string line_sensor_state;   //stores the sensor line state value
     string line_sensor_value;   //stores the line sensor value (between +-127)
-    string lager;               //stores the current lager string
+    string lager_file;          //stores the current lager string
     string drivespeed;          //stores drivespeed
     string turnspeed;           //stores turnspeed
     string curr_pos;            //stores the current positino (between which two nodes the robot is at)
@@ -29,6 +31,9 @@ public:
      * store locally
     */
     void interpret_message(string cmd, string param);
+
+    /*  sets all values of state to "none" */
+    void reset();
 
 private:
     /*

@@ -103,10 +103,10 @@ private slots:
 
 private:
     CommandHandler* cmd_handler;
-    StateHandler* state_handler;
-    ClientSocket* communication_module;
+    StateHandler*   state_handler;
+    ClientSocket*   communication_module;
     InterThreadCom* thread_com_module;
-    Ui::MainWindow *ui;
+    Ui::MainWindow* ui;
 
     string command; //saves the last command written to the command promt
     QString terminal_history; // saves the terminal history

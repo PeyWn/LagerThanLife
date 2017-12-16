@@ -28,10 +28,7 @@ void StateHandler::interpret_message(string cmd, string param){
         route = param;
     }
     else if (cmd == "lager"){
-        lager = param;
-    }
-    else {
-        //do nothing
+        lager_file = param;
     }
 
 }
@@ -62,3 +59,15 @@ void StateHandler::interpret_sensor_values(string values){
 
 }
 
+void StateHandler::reset(){
+    ware_one_value    = NO_VALUE_STRING;
+    ware_two_value    = NO_VALUE_STRING;
+    line_sensor_state = NO_VALUE_STRING;
+    line_sensor_value = NO_VALUE_STRING;
+    lager_file        = NO_VALUE_STRING;
+    drivespeed        = NO_VALUE_STRING;
+    turnspeed         = NO_VALUE_STRING;
+    curr_pos          = NO_VALUE_STRING;
+    route             = NO_VALUE_STRING;
+    getting_id        = NO_VALUE_STRING;
+}
