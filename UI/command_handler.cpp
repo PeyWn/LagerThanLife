@@ -48,6 +48,10 @@ bool CommandHandler::try_command(string line){
                 return false;
             }
 
+            if ((cmd == "turnspeed" || cmd == "drivespeed") && (n < 1 || n > 7)) {
+                return false;
+            }
+
 
             cmd.append(" ");
             cmd.append(to_string(n));
