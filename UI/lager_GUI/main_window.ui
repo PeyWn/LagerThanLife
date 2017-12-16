@@ -32,7 +32,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_1">
      <attribute name="title">
@@ -254,10 +254,10 @@
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>20</y>
-        <width>81</width>
-        <height>21</height>
+        <x>10</x>
+        <y>10</y>
+        <width>131</width>
+        <height>41</height>
        </rect>
       </property>
       <property name="font">
@@ -278,10 +278,10 @@
      <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>330</x>
-        <y>110</y>
-        <width>81</width>
-        <height>21</height>
+        <x>310</x>
+        <y>100</y>
+        <width>121</width>
+        <height>41</height>
        </rect>
       </property>
       <property name="font">
@@ -401,9 +401,9 @@
       <property name="geometry">
        <rect>
         <x>40</x>
-        <y>230</y>
-        <width>151</width>
-        <height>21</height>
+        <y>220</y>
+        <width>211</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
@@ -424,9 +424,9 @@
      <widget class="QLabel" name="label_4">
       <property name="geometry">
        <rect>
-        <x>320</x>
-        <y>170</y>
-        <width>401</width>
+        <x>260</x>
+        <y>180</y>
+        <width>441</width>
         <height>231</height>
        </rect>
       </property>
@@ -442,13 +442,12 @@
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.SF NS Text'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica Neue'; font-size:11pt; font-weight:600; color:#fd6666;&quot;&gt;                           _______________________ &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica Neue'; font-size:11pt; font-weight:600; color:#fd6666;&quot;&gt;                         /                                           \ &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica Neue'; font-size:11pt; font-weight:600; color:#fd6666;&quot;&gt;                     /                                                  \&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica Neue'; font-size:11pt; font-weight:600; color:#fd6666;&quot;&gt;                   /                                                       \&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica Neue'; font-size:11pt; font-weight:600; color:#fd6666;&quot;&gt;                /                                                        \——\&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica Neue'; font-size:11pt; font-weight:600; color:#fd6666;&quot;&gt;===============                                            \       \&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Arial'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica Neue'; font-size:11pt; font-weight:600; color:#fd6666;&quot;&gt;                           __________________ &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica Neue'; font-size:11pt; font-weight:600; color:#fd6666;&quot;&gt;                         /                           \ &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica Neue'; font-size:11pt; font-weight:600; color:#fd6666;&quot;&gt;                       /                               \&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica Neue'; font-size:11pt; font-weight:600; color:#fd6666;&quot;&gt;                     /                                   \&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica Neue'; font-size:11pt; font-weight:600; color:#fd6666;&quot;&gt;                   /                                    \——\ &lt;br /&gt;                  /                                      \       \&lt;br /&gt;    &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica Neue'; font-size:11pt; font-weight:600; color:#fd6666;&quot;&gt;============  &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QPushButton" name="left_button">
@@ -697,9 +696,9 @@ p, li { white-space: pre-wrap; }
       <property name="geometry">
        <rect>
         <x>160</x>
-        <y>270</y>
-        <width>60</width>
-        <height>16</height>
+        <y>265</y>
+        <width>71</width>
+        <height>21</height>
        </rect>
       </property>
       <property name="font">
@@ -1150,9 +1149,9 @@ selection-background-color: rgb(253, 117, 207);</string>
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>100</y>
-      <width>251</width>
-      <height>31</height>
+      <y>80</y>
+      <width>331</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -1399,7 +1398,7 @@ selection-background-color: rgb(253, 117, 207);</string>
      <x>0</x>
      <y>0</y>
      <width>1400</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
