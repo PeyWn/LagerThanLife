@@ -3,6 +3,9 @@
 #include "../lib/network/interthreadcom.h"
 #include "text_file_handler.h"
 #include "lager_GUI/state_handler.h"
+#include "../lib/abstract_stock/line_map.h"
+#include "../lib/abstract_stock/line_node.h"
+#include "../lib/abstract_stock/line.h"
 #include "client_socket.h"
 
 using namespace std;

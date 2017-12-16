@@ -74,6 +74,14 @@ bool CommandHandler::try_command(string line){
             }
 
             lager = text_file_handler.read_text_file(filename);
+
+            try {
+                LineMap* map = new LineMap(lager);
+            }
+            catch(...) {
+                return false;
+            }
+
             cmd.append(lager);
 
             // TODO: implement update state_handler <---------------------------

@@ -28,16 +28,21 @@ SOURCES += \
         main_window.cpp \
         ../../lib/network/interthreadcom.cpp \
         ../../lib/network/network_socket.cpp \
+        ../../lib/abstract_stock/line_map.cpp \
+        ../../lib/abstract_stock/line_node.cpp \
+        ../../lib/abstract_stock/line.cpp \
         ../client_socket.cpp \
         ../command_handler.cpp \
         ../text_file_handler.cpp \
         state_handler.cpp
 
-
 HEADERS += \
         main_window.h \
         ../../lib/network/interthreadcom.h \
         ../../lib/network/network_socket.h \
+        ../../lib/abstract_stock/line_map.h \
+        ../../lib/abstract_stock/line_node.h \
+        ../../lib/abstract_stock/line.h \
         ../client_socket.h \
         ../command_handler.h \
         ../text_file_handler.h \
