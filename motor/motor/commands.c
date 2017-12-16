@@ -40,12 +40,12 @@ void release_ware()
 
 void go_home()
 {
-	go_home_pos(); 
+	go_home_pos();
 }
 
 void pick_up_ware()
 {
-	pickup_standard(); 
+	pickup_standard();
 }
 
 void put_down_ware()
@@ -54,9 +54,9 @@ void put_down_ware()
 }
 
 void axis_fwd(int axis){
-    move_axis(axis, AXIS_POS_MIN[axis], SPEED_1);
+    move_axis(axis, AXIS_POS_MIN[axis], SPEED_MANUAL);
 }
 
 void axis_back(int axis){
-    move_axis(axis, AXIS_POS_MAX[axis], SPEED_1);
+    move_axis(axis, AXIS_POS_MAX[axis], SPEED_MANUAL);
 }
