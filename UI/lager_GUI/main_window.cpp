@@ -9,6 +9,7 @@ MainWindow::MainWindow(CommandHandler* handler, StateHandler* state, ClientSocke
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    this->setFixedSize(1400,800);
     ui->setupUi(this);
     cmd_handler = handler;
     state_handler = state;
@@ -161,6 +162,7 @@ void MainWindow::on_terminal_prompt_returnPressed()
 {
     command = ui->terminal_prompt->text().toStdString();
     ui->terminal_prompt->clear();
+
     bool cmd_accepted = cmd_handler->try_command(command);
 
     string write_terminal = "> " + command;
