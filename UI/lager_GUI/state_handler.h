@@ -2,6 +2,7 @@
 #define STATE_HANDLER_H
 
 #include <string>
+#include "../../lib/abstract_stock/line_map.h"
 
 using namespace std;
 
@@ -22,6 +23,8 @@ public:
     string curr_pos;            //stores the current positino (between which two nodes the robot is at)
     string route;               //stores the last calculated route for the robot to go
     string getting_id;          //the last ware that the robot went to get
+    LineMap* map;               //stores the map as a LineMap object
+    int home_id;                //stores the home id
 
     /*
      * Function that stores the value we recieve in it's correct variable.
@@ -35,6 +38,15 @@ public:
     /*  sets all values of state to "none" */
     void reset();
 
+    /*
+     * tries to create a lager out of the given file
+     *
+     * returns false if failed, true else
+     *
+     * string lager - the lager in string format
+    */
+    bool try_lager(string lager);
+
 private:
     /*
      * Function that splits up the string of sensor values in the case of the
@@ -43,6 +55,7 @@ private:
      * string values - the string with all four sensor values
     */
     void interpret_sensor_values(string values);
+
 
 };
 

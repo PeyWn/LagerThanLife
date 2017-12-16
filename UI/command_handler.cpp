@@ -53,12 +53,29 @@ bool CommandHandler::try_command(string line){
                 return false;
             }
 
+            if ((cmd == "sethome") &&
+                    ( state_handler->map == nullptr ||
+                      n >= state_handler->map->get_node_c() ||
+                      n < 0 ||
+                      !state_handler->map->get_node(n)->is_leaf()
+                      )
+            ){
+                return false;
+            }
+
+            if ((cmd == "get") &&
+                    ( state_handler->map == nullptr ||
+                      n >= state_handler->map->get_node_c() ||
+                      n < 0 ||
+                      !state_handler->map->get_node(n)->is_leaf() ||
+                      n == state_handler->home_id )
+            ){
+                return false;
+            }
 
             cmd.append(" ");
             cmd.append(to_string(n));
 
-            // TODO: implement update state_handler <---------------------------
-            // state_handler->interpret_result(ask_cmd, n); <---------------------------
             state_handler->interpret_message(ask_cmd, to_string(n));
         }
 
@@ -75,17 +92,12 @@ bool CommandHandler::try_command(string line){
 
             lager = text_file_handler.read_text_file(filename);
 
-            try {
-                LineMap* map = new LineMap(lager);
-            }
-            catch(...) {
+            if (!state_handler->try_lager(lager)){
                 return false;
             }
 
             cmd.append(lager);
 
-            // TODO: implement update state_handler <---------------------------
-            // state_handler->interpret_result(ask_cmd, lager); <---------------------------
             state_handler->interpret_message("lager", lager);
         }
     }
@@ -114,7 +126,7 @@ bool CommandHandler::try_command(string line){
 Read the last message recieved to the network module for communication to the robot
 */
 string CommandHandler::read_msg(){
-    //busy wait till det finns något att läsa ???? <<<<--------------- how!
+
     string answer = "";
 
     while(answer == "" && com_socket->is_connected()){

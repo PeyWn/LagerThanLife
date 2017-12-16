@@ -30,6 +30,9 @@ void StateHandler::interpret_message(string cmd, string param){
     else if (cmd == "lager"){
         lager_file = param;
     }
+    else if (cmd == "sethome"){
+        home_id = stoi(param);
+    }
 
 }
 
@@ -70,4 +73,23 @@ void StateHandler::reset(){
     curr_pos          = NO_VALUE_STRING;
     route             = NO_VALUE_STRING;
     getting_id        = NO_VALUE_STRING;
+    map               = nullptr;
+    home_id           = 0;
+}
+
+bool StateHandler::try_lager(string lager){
+    LineMap* temp_map;
+
+    try {
+        temp_map = new LineMap(lager);
+    }
+    catch(...) {
+        return false;
+    }
+
+    delete map;
+    map = temp_map;
+    home_id = 0;
+    return true;
+
 }
