@@ -27,7 +27,6 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::update(){
-
     if (communication_module->is_connected()){
         cmd_handler->try_command("getsensors");
         ui->line_sensor_state->setText(QString::fromStdString(state_handler->line_sensor_state));
@@ -47,11 +46,8 @@ void MainWindow::update(){
         ui->ware_two_value->setText(QString::fromStdString("NO CONNECTION"));
 
         // Read and removes all messages buffered to send to socket
-        while(thread_com_module->read_from_queue(TO_SOCKET) != "") {
-        }
-
+        while(thread_com_module->read_from_queue(TO_SOCKET) != "") {}
     }
-
 }
 
 /*

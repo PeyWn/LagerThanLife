@@ -5,9 +5,10 @@
 #include <unistd.h>
 
 
-CommandHandler::CommandHandler(InterThreadCom* com, StateHandler* state) : text_file_handler("") {
+CommandHandler::CommandHandler(InterThreadCom* com, StateHandler* state, ClientSocket* socket) : text_file_handler("") {
     robot_com = com;
     state_handler = state;
+    com_socket = socket;
 }
 
 /*
@@ -71,14 +72,9 @@ bool CommandHandler::try_command(string line){
             lager = text_file_handler.read_text_file(filename);
             cmd.append(lager);
 
-            //cout << cmd << endl;
-
             // TODO: implement update state_handler <---------------------------
             // state_handler->interpret_result(ask_cmd, lager); <---------------------------
             state_handler->interpret_message("lager", lager);
-
-            //cout << state_handler.lager << endl;
-
         }
     }
 
@@ -92,8 +88,11 @@ bool CommandHandler::try_command(string line){
         ask_cmd == "getroute"
     ){
 
-        //string param = read_msg();
-        //state_handler->interpret_message(ask_cmd, param);
+        string param = read_msg();
+
+        if(param != ""){
+            state_handler->interpret_message(ask_cmd, param);
+        }
     }
 
         return true;
@@ -104,21 +103,13 @@ Read the last message recieved to the network module for communication to the ro
 */
 string CommandHandler::read_msg(){
     //busy wait till det finns något att läsa ???? <<<<--------------- how!
-    string answer;
+    string answer = "";
 
-    while(answer == ""){
-
+    while(answer == "" && com_socket->is_connected()){
         answer = robot_com->read_from_queue(FROM_SOCKET);
     }
 
-    //cout << answer << endl;//for debugging
-
-    if (answer != ""){
-        return answer;
-    }
-
-    cout << "Did not get response from robot :( " << endl;
-    return "";
+    return answer;
 }
 
 
