@@ -1217,7 +1217,7 @@ selection-background-color: rgb(253, 117, 207);</string>
     <property name="geometry">
      <rect>
       <x>740</x>
-      <y>690</y>
+      <y>680</y>
       <width>101</width>
       <height>16</height>
      </rect>
@@ -1234,15 +1234,16 @@ selection-background-color: rgb(253, 117, 207);</string>
    <widget class="QLabel" name="getting_id_label">
     <property name="geometry">
      <rect>
-      <x>840</x>
-      <y>690</y>
+      <x>740</x>
+      <y>700</y>
       <width>60</width>
       <height>16</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
+      <family>Liberation Sans</family>
+      <pointsize>8</pointsize>
      </font>
     </property>
     <property name="text">
