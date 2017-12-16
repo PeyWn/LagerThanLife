@@ -14,6 +14,7 @@ MainWindow::MainWindow(CommandHandler* handler, StateHandler* state, ClientSocke
     state_handler = state;
     communication_module = com_module;
     thread_com_module = thread_com;
+    state_handler->reset();
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -28,27 +29,30 @@ MainWindow::~MainWindow()
 
 void MainWindow::update(){
 
+    /* update GUI */
+    ui->line_sensor_state->setText(QString::fromStdString(state_handler->line_sensor_state));
+    ui->line_sensor_value->setText(QString::fromStdString(state_handler->line_sensor_value));
+    ui->ware_one_value->setText(QString::fromStdString(state_handler->ware_one_value));
+    ui->ware_two_value->setText(QString::fromStdString(state_handler->ware_two_value));
+    ui->getting_id_label->setText(QString::fromStdString(state_handler->getting_id));
+    ui->current_lager_label->setText(QString::fromStdString(state_handler->lager_file));
+
     if (communication_module->is_connected()){
         cmd_handler->try_command("getsensors");
-        ui->line_sensor_state->setText(QString::fromStdString(state_handler->line_sensor_state));
-        ui->line_sensor_value->setText(QString::fromStdString(state_handler->line_sensor_value));
-        ui->ware_one_value->setText(QString::fromStdString(state_handler->ware_one_value));
-        ui->ware_two_value->setText(QString::fromStdString(state_handler->ware_two_value));
-
         ui->is_connected_label->setText(QString::fromStdString("YES"));
 
-        ui->getting_id_label->setText(QString::fromStdString(state_handler->getting_id));
+        /*  NOTE: "none" can be changed in state-handler */
+        if(state_handler->lager_file != state_handler->NO_VALUE_STRING){
+            ui->scroll_area->show(); //show lager map
+        }
     }
     else {
+        state_handler->reset();
         ui->is_connected_label->setText(QString::fromStdString("NO"));
-        ui->line_sensor_state->setText(QString::fromStdString("NO CONNECTION"));
-        ui->line_sensor_value->setText(QString::fromStdString("NO CONNECTION"));
-        ui->ware_one_value->setText(QString::fromStdString("NO CONNECTION"));
-        ui->ware_two_value->setText(QString::fromStdString("NO CONNECTION"));
+        ui->scroll_area->hide(); //hide lager map
 
         // Read and removes all messages buffered to send to socket
         while(thread_com_module->read_from_queue(TO_SOCKET) != "") {
-            cout << "Removed one message" << endl;
         }
 
     }
@@ -174,6 +178,7 @@ void MainWindow::on_update_sensors_button_clicked()
         ui->line_sensor_value->setText(QString::fromStdString(state_handler->line_sensor_value));
         ui->ware_one_value->setText(QString::fromStdString(state_handler->ware_one_value));
         ui->ware_two_value->setText(QString::fromStdString(state_handler->ware_two_value));
+        ui->current_lager_label->setText(QString::fromStdString(state_handler->lager_file));
     }
     else {
         string error_msg = COMMAND_ERROR + "No connection to Robot";
@@ -212,22 +217,26 @@ void MainWindow::on_go_get_ware_button_clicked()
 */
 void MainWindow::on_read_lager_file_button_clicked()
 {
-    string file = QFileDialog::getOpenFileName(this, tr("Open File"), "~/").toStdString();
-    string lager_command = "lager " + file;
+    if(communication_module->is_connected()){
+        string file = QFileDialog::getOpenFileName(this, tr("Open File"), "~/").toStdString();
+        string lager_command = "lager " + file;
 
-    bool cmd_accepted = cmd_handler->try_command(lager_command);
+        bool cmd_accepted = cmd_handler->try_command(lager_command);
 
-    if (!cmd_accepted){
-        string error_msg = COMMAND_ERROR + lager_command;
-        write_to_terminal_window(error_msg);
-    }
-    else {
-        ui->current_lager_label->setText(QString::fromStdString(file));
-
-        QPixmap lager(QString::fromStdString(file+".png"));
-        QLabel *label = new QLabel();
-        ui->scroll_area->setWidget(label);
-        label->setPixmap(lager);
+        if (!cmd_accepted){
+            string error_msg = COMMAND_ERROR + lager_command;
+            write_to_terminal_window(error_msg);
+        }
+        else {
+            state_handler->lager_file = file;
+            QPixmap lager(QString::fromStdString(file+".png"));
+            QLabel *label = new QLabel();
+            ui->scroll_area->setWidget(label);
+            label->setPixmap(lager);
+            ui->scroll_area->hide();
+        }
+    }else{
+        write_to_terminal_window("can't read lager when disconnected");
     }
 }
 
