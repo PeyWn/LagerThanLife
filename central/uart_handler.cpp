@@ -7,23 +7,22 @@
 #include <linux/serial.h>
 
 UARTHandler::UARTHandler(string interface){
-    
-    uart_fd = open(interface.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
 
-    if (uart_fd == -1)
-	{
+  uart_fd = open(interface.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
+
+  if (uart_fd == -1){
 		throw invalid_argument("ERROR creating uart connection for interface: " + interface + "\n");
-	}
+  }
 
-    //Set up UART option with termios
-    struct termios options;
+  //Set up UART option with termios
+  struct termios options;
 	tcgetattr(uart_fd, &options);
 	options.c_cflag = B19200 | CS8 | CLOCAL | CREAD; //Baudrate of 9600
 	options.c_oflag = 0;
 	options.c_lflag = 0;
-    options.c_iflag = IGNPAR;
+  options.c_iflag = IGNPAR;
 
-    tcflush(uart_fd, TCIFLUSH); //Flush input buffer
+  tcflush(uart_fd, TCIFLUSH); //Flush input buffer
 	tcsetattr(uart_fd, TCSANOW, &options);
 }
 
@@ -39,7 +38,8 @@ int UARTHandler::read_msg(){
     uart_msg buffer[1];
     int read_bytes = 0;
 
-    while(read_bytes < 1){ //read failed or nothing
+    // Reading failed or nothing got read. 
+    while(read_bytes < 1){
         read_bytes = read(uart_fd, (void*)buffer, 1);
     }
 
