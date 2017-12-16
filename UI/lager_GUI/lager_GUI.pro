@@ -57,3 +57,6 @@ unix:!macx {
 macx: {
     LIBS += -stdlib=libc++
 }
+
+RESOURCES += \
+    imgs.qrc
