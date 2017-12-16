@@ -110,6 +110,8 @@ private:
 
     string command; //saves the last command written to the command promt
     QString terminal_history; // saves the terminal history
+
+    bool has_reset = false;
 };
 
 #endif // MAIN_WINDOW_H

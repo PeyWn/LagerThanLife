@@ -38,6 +38,13 @@ void MainWindow::update(){
     ui->current_lager_label->setText(QString::fromStdString(state_handler->lager_file));
 
     if (communication_module->is_connected()){
+
+        if (has_reset){
+            cmd_handler->try_command("auto");
+            ui->tabWidget->setCurrentIndex(0); // change to auto-mode tab
+            has_reset = false;
+        }
+
         cmd_handler->try_command("getsensors");
         ui->is_connected_label->setText(QString::fromStdString("YES"));
 
@@ -47,6 +54,7 @@ void MainWindow::update(){
         }
     }
     else {
+        has_reset = true;
         state_handler->reset();
         ui->is_connected_label->setText(QString::fromStdString("NO"));
         ui->scroll_area->hide(); //hide lager map
