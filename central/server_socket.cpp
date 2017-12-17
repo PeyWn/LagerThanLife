@@ -20,7 +20,7 @@ ServerSocket::ServerSocket(InterThreadCom* inter_thread_com) {
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     serv_addr.sin_port = htons(PORT);
 
-    // Setting socket port reuseable
+    /* Setting socket port reuseable */
     int on = 1;
     setsockopt (sockfd_init, SOL_SOCKET, SO_REUSEADDR, &on, sizeof (on));
 
@@ -45,7 +45,7 @@ bool ServerSocket::new_connection() {
         return false;
     }
 
-    // Setting flag on socket to non-blocking mode
+    /* Setting flag on socket to non-blocking mode */
     if(fcntl(newsockfd_init, F_SETFL, fcntl(sockfd_init, F_GETFL) | O_NONBLOCK) < 0) {
         return false;
     }

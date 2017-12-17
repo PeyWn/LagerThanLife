@@ -14,7 +14,7 @@ UARTHandler::UARTHandler(string interface){
 		throw invalid_argument("ERROR creating uart connection for interface: " + interface + "\n");
   }
 
-  //Set up UART option with termios
+  /* Set up UART option with termios */
   struct termios options;
 	tcgetattr(uart_fd, &options);
 	options.c_cflag = B19200 | CS8 | CLOCAL | CREAD; //Baudrate of 9600
@@ -27,10 +27,10 @@ UARTHandler::UARTHandler(string interface){
 }
 
 void UARTHandler::send_msg(int msg){
-    //Cast to 8 bit data
+    /* Cast to 8 bit data */
     uart_msg to_send = (uart_msg) msg;
 
-    //Send
+    /* Send */
     int bytes_written = write(uart_fd, &to_send, 1);
 }
 
@@ -38,7 +38,7 @@ int UARTHandler::read_msg(){
     uart_msg buffer[1];
     int read_bytes = 0;
 
-    // Reading failed or nothing got read. 
+    /* Reading failed or nothing got read. */
     while(read_bytes < 1){
         read_bytes = read(uart_fd, (void*)buffer, 1);
     }

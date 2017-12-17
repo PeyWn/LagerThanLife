@@ -33,7 +33,7 @@ void Central::get_pos(){
     string send_string;
 
     if(cur_line == nullptr || next_node == nullptr){
-        //If autonoumus mode started return just 0 0
+        /* If autonoumus mode started return just 0 0 */
         send_string = "0 0";
     }
     else{
@@ -51,11 +51,11 @@ void Central::get_route(){
     vector<int> node_order;
 
     if(cur_path.size() == 0){
-        //Empty path, not on a route
+        /* Empty path, not on a route */
         node_order.push_back(0);
     }
     else{
-        //Copy path to not break navigation
+        /* Copy path to not break navigation */
         stack<Line*> path_copy = cur_path;
         LineNode* node_iter = next_node;
 

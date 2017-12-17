@@ -13,14 +13,14 @@
 #include <stack>
 #include <time.h>
 
-//Define to use debug prints
+/* Define to use debug prints */
 #define DEBUG
 
 using namespace std;
 
 class Central{
 private:
-    //UART interfaces for motor and sensor units
+    /* UART interfaces for motor and sensor units */
     const string SENSOR_INTERFACE = "/dev/ttyUSB0";
     const string MOTOR_INTERFACE = "/dev/ttyUSB1";
     const double PICK_REVESE_TIME = 0.4;
@@ -38,19 +38,19 @@ private:
 	TURN_CORNER,
 	TURN_NONE
     };
-    //Delay in seconds between every iteration of mainloop
+    /* Delay in seconds between every iteration of mainloop */
     const double MAIN_LOOP_DELAY = 0.01;
 
-    //Time to drive forward when on a corner
+    /* Time to drive forward when on a corner */
     const double TURN_FORWARD_TIME = 0.15;
 
-    //Turn speed when turning in a corner
+    /* Turn speed when turning in a corner */
     const int CORNER_TURN_SPEED = 6;
 
-    //Turn speed when turning in a corner
+    /* Turn speed when turning in a corner */
     const int AUTO_DRIVE_SPEED = 4;
 
-    //Allowed distance from line after turn to go back to driving
+    /* Allowed distance from line after turn to go back to driving */
     const int CORNER_LINE_THRESHOLD = 30;
 
     InterThreadCom* thread_com;
@@ -60,7 +60,7 @@ private:
 
     ControlSystem line_follower;
 
-    //Default speeds for manual driving
+    /* Default speeds for manual driving */
     int turn_speed = 5; // 5 by default
     int drive_speed = 7; // 7 by default
     int center_flag = 0; // 0 by default
@@ -70,7 +70,7 @@ private:
 
     DropOffState cur_drop_off_state = DropOffState::PUT_DOWN;
 
-    //Enum for determining the robots state in autonoumus mode
+    /* Enum for determining the robots state in autonoumus mode */
     enum class RobotState{
         TURN,
         DRIVING,
@@ -79,7 +79,7 @@ private:
         STANDBY
     };
 
-    //For clocking the main main_loop
+    /* For clocking the main main_loop */
     clock_t main_loop_clock;
 
     /*
@@ -109,29 +109,29 @@ private:
         BETWEEN_LINES
     };
 
-    //Current state of the robot
+    /* Current state of the robot */
     RobotState state = RobotState::STANDBY;
 
-    //Is robot in manual mode
+    /* Is robot in manual mode */
     bool manual = false;
 
-    //Map of the current area
+    /* Map of the current area */
     LineMap* map = nullptr;
 
-    //Id of the node to leave wares at
+    /* Id of the node to leave wares at */
     int home_id = 0;
 
-    //State while driving
+    /* State while driving */
     Line* cur_line = nullptr;
     LineNode* next_node = nullptr;
     stack<Line*> cur_path;
 
-    //Buffered sensor values
+    /* Buffered sensor values */
     int line_center;
     LINE_STATE line_state;
     pair<bool, bool> ware_seen;
 
-    //Information when performing a turn
+    /* Information when performing a turn */
     int turn_angle; //Angle for current turn, multiple of (pi/2)
     TurnState cur_turn_state;
     clock_t clock_start;
@@ -235,4 +235,4 @@ public:
     void main_loop();
 };
 
-#endif /* CENTRAL_H */
+#endif // CENTRAL_H

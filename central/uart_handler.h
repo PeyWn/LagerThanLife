@@ -35,4 +35,4 @@ public:
     int read_msg();
 };
 
-#endif /* UART_HANDLER_H */
+#endif // UART_HANDLER_H

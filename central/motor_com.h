@@ -7,7 +7,7 @@
 
 using namespace std;
 
-//Enums for motor status and commands
+/* Enums for motor status and commands */
 enum DRIVE_STATUS {
     IDLE = 0,
     FORWARD = 1,
@@ -31,7 +31,7 @@ class MotorCom{
 private:
     UARTHandler com;
 
-    //Part of messages for communnication with motor unit
+    /* Part of messages for communnication with motor unit */
     const int GET_TURN_STATUS = 0x01;
     const int GET_DRIVE_STATUS = 0x02;
     const int GET_ARM_STATUS = 0x0F;
@@ -125,4 +125,4 @@ public:
     void move_arm(int axis, bool fwd);
 };
 
-#endif /* MOTOR_COM_H */
+#endif // MOTOR_COM_H

@@ -7,14 +7,14 @@
 
 using namespace std;
 
-//States of the line sensor
+/* States of the line sensor */
 enum LINE_STATE {NONE_DOUBLE, SINGLE, CORNER};
 
 class SensorCom{
 private:
     UARTHandler com;
 
-    //Lookup for messages to send to sensor unit
+    /* Lookup for messages to send to sensor unit */
     enum SENSOR_MSG {
         GET_LINE_CENTER = 1,
         GET_LINE_STATE = 2,
@@ -74,4 +74,4 @@ public:
     void calibrate_floor();
 };
 
-#endif /* SENDOR_COM_H */
+#endif // SENDOR_COM_H

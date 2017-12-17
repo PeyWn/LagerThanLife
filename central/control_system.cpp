@@ -21,7 +21,7 @@ bool ControlSystem::is_sampling_time(){
 }
 
 int ControlSystem::turn_value(){
-		// round off to closest integer
+    /* round off to closest integer */
     int turn_value = round(-(K_P*p_error + K_I*i_error + K_D*d_error));
 
     turn_value = (int)saturate(turn_value, MAX_TURN);
