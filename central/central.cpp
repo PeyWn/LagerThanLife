@@ -336,7 +336,7 @@ void Central::handle_msg(string msg) {
         }
     }
 
-    //Commands allowed in both modes
+    /* Commands allowed in both modes */
     if (command == "getsensors") {
         transmit_sensors();
     }
@@ -398,17 +398,17 @@ void Central::handle_msg(string msg) {
 
 void Central::main_loop() {
     string msg_read;
-    //Move arm to home position when starting
+    /* Move arm to home position when starting */
     motor.perform_arm_macro(GO_HOME);
 
     while(true) {
-        //Start the main loop clock
+        /* Start the main loop clock */
         main_loop_clock = clock();
 
-        //Update all sensor values
+        /* Update all sensor values */
         update_sensors();
 
-        //Network read
+        /* Network read */
         msg_read = thread_com->read_from_queue(FROM_SOCKET);
 
         if (msg_read != "") {
@@ -445,8 +445,8 @@ void Central::main_loop() {
             }
         }
 
-    	  //Delay main loop slightly to not spam UART
-        //Delay is calculated based on time left to keep delay constant
+    	/* Delay main loop slightly to not spam UART */
+        /* Delay is calculated based on time left to keep delay constant */
         double elapsed_sec = (float)(clock() - main_loop_clock)/CLOCKS_PER_SEC;
 
         double sleep_time = (MAIN_LOOP_DELAY - elapsed_sec) * 1000000;
@@ -477,7 +477,7 @@ void Central::turn_state(){
                     state = RobotState::DRIVING;
                 }
                 else{
-                    //Stop driving
+                    /* Stop driving */
 		            motor.drive(IDLE, 0);
 
                     if(turn_angle == 1){
