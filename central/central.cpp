@@ -167,6 +167,7 @@ void Central::drop_off(){
 	case(DropOffState::START):{
 	    clock_set = clock();
 	    cur_drop_off_state = DropOffState::PUT_DOWN;
+            motor.perform_arm_macro(ARM_MACRO::PUT_DOWN);
 	    break;}
 
 
@@ -175,10 +176,9 @@ void Central::drop_off(){
             cout << "Drop off: put down" << endl;
             #endif
 
-            motor.perform_arm_macro(ARM_MACRO::PUT_DOWN);
 
 	    clock_diff = clock() - clock_set;
-            if( ( delay_time  < ((float)clock_diff)/CLOCKS_PER_SEC) ){
+            if(delay_time  < ((float)clock_diff)/CLOCKS_PER_SEC){
 		motor.turn(RIGHT, CORNER_TURN_SPEED);
 		cur_drop_off_state = DropOffState::TURN_CORNER;
 	    }
@@ -547,7 +547,7 @@ void Central::drive_state(){
 
             motor.turn(NONE, 0);
 	          motor.drive(IDLE, 0);
-            cur_drop_off_state = DropOffState::PUT_DOWN;
+            cur_drop_off_state = DropOffState::START;
             state = RobotState::DROP_OFF;
         }
         else{

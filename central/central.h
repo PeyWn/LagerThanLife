@@ -199,7 +199,7 @@ private:
 
     clock_t clock_set;
     clock_t clock_diff;
-    double delay_time = 5;
+    double delay_time = 8;
     
     /*
     Send sensor information to UI
