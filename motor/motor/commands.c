@@ -1,16 +1,19 @@
 ﻿#include "transmission.h"
 #include "globals.h"
-
-volatile int IS_WORKING; 
-volatile int pos_cords[2]; 
+#include "commands.h"
 
 /* Servo that contains position of entire axis
 NOTE that axis are 0-indexed */
 int AXIS_POS_SERVO[] = {1, 2, 4, 6, 7, 8};
+int AXIS_POS_MIN[] = {CW_LIMIT_1, CW_LIMIT_2, CW_LIMIT_4,
+CW_LIMIT_6, CW_LIMIT_7, CW_LIMIT_8};
+int AXIS_POS_MAX[] = {CCW_LIMIT_1, CCW_LIMIT_2, CCW_LIMIT_4,
+CCW_LIMIT_6, CCW_LIMIT_7, CCW_LIMIT_8};
 
 void stop_arm(){
     for(int i = 0; i < NUMBER_OF_AXIS; ++i){
         stop_axis(i);
+        _delay_ms(100);
     }
 }
 
@@ -25,11 +28,6 @@ void stop_axis(int id){
     move_axis(id, pos, SPEED_2);
 }
 
-int get_is_working()
-{
-	return IS_WORKING; 
-}
-
 void grab_ware()
 {
 	grab();
@@ -42,12 +40,12 @@ void release_ware()
 
 void go_home()
 {
-	go_home_pos(); 
+	go_home_pos();
 }
 
 void pick_up_ware()
 {
-	pickup_standard(); 
+	pickup_standard();
 }
 
 void put_down_ware()
@@ -56,9 +54,9 @@ void put_down_ware()
 }
 
 void axis_fwd(int axis){
-    move_axis(axis, 0, SPEED_1);
+    move_axis(axis, AXIS_POS_MIN[axis], SPEED_MANUAL);
 }
 
 void axis_back(int axis){
-    move_axis(axis, 0x3ff, SPEED_1);
+    move_axis(axis, AXIS_POS_MAX[axis], SPEED_MANUAL);
 }

@@ -9,7 +9,7 @@ void stop_arm();
 /*
 Stop the movement of the given axis
 
-id - id of the axis to stop moevement on, an integer between 0 and 5.
+id - id of the axis to stop movement on, an integer between 0 and 5.
 */
 void stop_axis(int id);
 

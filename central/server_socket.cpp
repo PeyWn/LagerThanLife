@@ -36,8 +36,7 @@ ServerSocket::ServerSocket(InterThreadCom* inter_thread_com) {
 
 bool ServerSocket::new_connection() {
     thread_com->write_to_queue("Listening for new connection...", FROM_SOCKET);
-    //std::cout << "Listening for new connection..." << std::endl;
-    
+
     listen(sockfd_init,5);
     clilen = sizeof(cli_addr);
     newsockfd_init = accept(sockfd_init, (struct sockaddr *) &cli_addr, &clilen);
@@ -46,14 +45,13 @@ bool ServerSocket::new_connection() {
         return false;
     }
 
-    // Setting flag on socket on non-blocking mode
+    // Setting flag on socket to non-blocking mode
     if(fcntl(newsockfd_init, F_SETFL, fcntl(sockfd_init, F_GETFL) | O_NONBLOCK) < 0) {
         return false;
     }
 
     sockfd = newsockfd_init;
 
-    //std::cout << "Connected" << std::endl;
     thread_com->write_to_queue("Connected", FROM_SOCKET);
     return true;
 }

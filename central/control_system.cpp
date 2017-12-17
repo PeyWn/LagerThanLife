@@ -3,8 +3,6 @@
 #include <iostream>
 #include <cmath>
 
-/*-----PRIVATE FUNCTIONS------------------------------------------------------------------------*/
-
 bool ControlSystem::is_sampling_time(){
 	if(initialized){
 		clock_t current_time = clock();
@@ -18,16 +16,16 @@ bool ControlSystem::is_sampling_time(){
 	else{
 		last_sample_time 	= clock();
 		initialized 		= true;
-		return true;	// do the first sampling
+		return true;
 	}
 }
 
 int ControlSystem::turn_value(){
-	// round off to closest integer
+		// round off to closest integer
     int turn_value = round(-(K_P*p_error + K_I*i_error + K_D*d_error));
-    
+
     turn_value = (int)saturate(turn_value, MAX_TURN);
-	
+
 	return turn_value;
 }
 
@@ -37,7 +35,7 @@ void ControlSystem::sample_line_position(float line_center){
 	   turn  									 */
 	old_line_pos = line_pos;
 	line_pos     = MAX_TURN * line_center / (float)SENSOR_MAX; //+7,-7
-	
+
 	/* PROPORTIONAL TERM */
 	p_error = line_pos;
 
@@ -57,7 +55,6 @@ void ControlSystem::set_turn_speed(int turn_speed){
 
 	turn    = (dir >  0) ? RIGHT : (dir == 0) ? NONE  : LEFT;
 
-	/* send a command to motor-unit */
 	motor->turn(turn, spd);
 }
 
@@ -75,17 +72,14 @@ double ControlSystem::saturate(double val, double max){
 	}
 }
 
-/*-----PUBLIC FUNCTIONS-------------------------------------------------------------------------*/
 
 ControlSystem::ControlSystem(MotorCom * motor_in){
 	motor  = motor_in;
 }
 
 bool ControlSystem::run(float line_center){
-
-	/* return false if it's not sampling time */
     if( !is_sampling_time() ){
-	return false;
+				return false;
     }
 
     sample_line_position(line_center);

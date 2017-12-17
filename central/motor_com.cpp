@@ -14,17 +14,14 @@ pair<DRIVE_STATUS, int> MotorCom::get_drive_status(){
     int speed;
 
     if(status == 0) {
-        //0000, not driving
         direction = IDLE;
         speed = 0;
     }
     else if((status >> 3) == 0) {
-        //forward
         direction = FORWARD;
         speed = status;
     }
     else {
-        //backwards
         direction = BACKWARDS;
         speed = status - 7;
     }
@@ -43,17 +40,14 @@ pair<TURN_STATUS, int> MotorCom::get_turn_status(){
     int speed;
 
     if(status == 0){
-        //0000, not turning
         direction = NONE;
         speed = 0;
     }
     else if((status >> 3) == 0){
-        //right
         direction = RIGHT;
         speed = status;
     }
     else{
-        //direction
         direction = LEFT;
         speed = status - 7;
     }
@@ -74,20 +68,17 @@ void MotorCom::drive(DRIVE_STATUS direction, int speed){
         throw invalid_argument("Speed not within bounds.");
     }
 
-    int msg = DRIVE; //ID, top 4 bits
+    int msg = DRIVE; //ID, top 4 bit
 
     int parameter;
 
     if(direction == IDLE || speed == 0){
-        //None
         parameter = 0;
     }
     else if(direction == FORWARD){
-        //Forward
         parameter = speed;
     }
     else{
-        //Back
         parameter = 7 + speed;
     }
 
@@ -106,15 +97,12 @@ void MotorCom::turn(TURN_STATUS direction, int speed){
     int parameter;
 
     if(direction == NONE || speed == 0){
-        //None
         parameter = 0;
     }
     else if(direction == RIGHT){
-        //Right
         parameter = speed;
     }
     else{
-        //Left
         parameter = 7 + speed;
     }
 
@@ -155,8 +143,7 @@ void MotorCom::move_arm(int axis, bool fwd){
     int parameter = (1 + (2*axis));
 
     if(!fwd){
-        //Back is one number over fwd
-        parameter++;
+      parameter++; //Back is one number over fwd
     }
 
     int msg = MANUAL_ARM_CONTROL + parameter;
