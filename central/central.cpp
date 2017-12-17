@@ -104,7 +104,7 @@ void Central::pick_up(){
         		    motor.perform_arm_macro(ARM_MACRO::PICK_UP);
 			    clock_set = clock();
 			    cur_pick_up_state = PickUpState::PICK_UP;
-	
+
             }
             break;}
 
@@ -168,7 +168,7 @@ void Central::drop_off(){
 	    clock_set = clock();
 	    cur_drop_off_state = DropOffState::PUT_DOWN;
 	    break;}
-	    
+
 
 	case(DropOffState::PUT_DOWN):{
             #ifdef DEBUG
@@ -329,12 +329,6 @@ void Central::handle_msg(string msg) {
                 motor.drive(FORWARD, AUTO_DRIVE_SPEED);
             }
         }
-        else if (command == "getpos") {
-            get_pos();
-        }
-        else if (command == "getroute") {
-            get_route();
-        }
         else if (command == "manual") {
             manual = true;
 
@@ -401,6 +395,12 @@ void Central::handle_msg(string msg) {
         #ifdef DEBUG
         cout << "Home set to node " << home_id << "." << endl;
         #endif
+    }
+    else if (command == "getpos") {
+        get_pos();
+    }
+    else if (command == "getroute") {
+        get_route();
     }
 }
 
