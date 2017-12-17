@@ -1199,8 +1199,8 @@ selection-background-color: rgb(253, 117, 207);</string>
     <property name="geometry">
      <rect>
       <x>740</x>
-      <y>690</y>
-      <width>101</width>
+      <y>710</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -1210,22 +1210,22 @@ selection-background-color: rgb(253, 117, 207);</string>
      </font>
     </property>
     <property name="text">
-     <string>Current ware: </string>
+     <string>Robot is driving to: </string>
     </property>
    </widget>
-   <widget class="QLabel" name="getting_id_label">
+   <widget class="QLabel" name="going_to_label">
     <property name="geometry">
      <rect>
-      <x>740</x>
+      <x>870</x>
       <y>710</y>
-      <width>60</width>
+      <width>121</width>
       <height>16</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Liberation Sans</family>
-      <pointsize>8</pointsize>
+      <pointsize>13</pointsize>
      </font>
     </property>
     <property name="text">

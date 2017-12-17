@@ -35,7 +35,7 @@ void MainWindow::update(){
     ui->line_sensor_value->setText(QString::fromStdString(state_handler->line_sensor_value));
     ui->ware_one_value->setText(QString::fromStdString(state_handler->ware_one_value));
     ui->ware_two_value->setText(QString::fromStdString(state_handler->ware_two_value));
-    ui->getting_id_label->setText(QString::fromStdString(state_handler->getting_id));
+    ui->going_to_label->setText(QString::fromStdString(state_handler->getting_id));
     ui->current_lager_label->setText(QString::fromStdString(state_handler->lager_file));
 
     if (communication_module->is_connected()){
@@ -47,6 +47,31 @@ void MainWindow::update(){
         }
 
         cmd_handler->try_command("getsensors");
+
+        if (ui->tabWidget->currentIndex() == 0) {
+
+            cmd_handler->try_command("getroute");
+
+            string route = state_handler->route;
+            string getting_id;
+
+            if ( route.length() < 3 ){
+                getting_id = route.substr(0, 1);
+            }
+            else {
+                //will not write the hundreds if node id is over 99
+                getting_id = route.substr(route.length()- 3, 2);
+            }
+
+            if (getting_id == "0") { getting_id = "-"; }
+            else if (stoi(getting_id) == state_handler->home_id) { getting_id = "Home"; }
+
+            ui->going_to_label->setText(QString::fromStdString(getting_id));
+        }
+        else {
+            ui->going_to_label->setText(QString::fromStdString("Manual controls"));
+        }
+
         ui->is_connected_label->setText(QString::fromStdString("YES"));
 
         /*  NOTE: "none" can be changed in state-handler */
@@ -213,6 +238,7 @@ void MainWindow::on_go_get_ware_button_clicked()
     else {
         state_handler->getting_id = id;
         write_to_terminal_window("Robot will get the ware at " + id + " for you!");
+
     }
 }
 
