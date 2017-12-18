@@ -1,11 +1,10 @@
 #include "interthreadcom.h"
-#include <iostream>
 
 using namespace std;
 
 InterThreadCom::InterThreadCom() {}
 
-queue<string>* InterThreadCom::get_queue(QueueDirection qd){
+queue<string>* InterThreadCom::get_queue(QUEUE_DIRECTION qd){
     if(qd == TO_SOCKET){
         return &queue_to_socket;
     } else {
@@ -13,7 +12,7 @@ queue<string>* InterThreadCom::get_queue(QueueDirection qd){
     }
 }
 
-mutex* InterThreadCom::get_mutex(QueueDirection qd) {
+mutex* InterThreadCom::get_mutex(QUEUE_DIRECTION qd) {
     if(qd == TO_SOCKET) {
         return &mtx_to_socket;
     } else {
@@ -21,7 +20,7 @@ mutex* InterThreadCom::get_mutex(QueueDirection qd) {
     }
 }
 
-void InterThreadCom::write_to_queue(string msg, QueueDirection direction) {
+void InterThreadCom::write_to_queue(string msg, QUEUE_DIRECTION direction) {
     queue<string>* q = get_queue(direction);
     mutex* mtx = get_mutex(direction);
 
@@ -30,7 +29,7 @@ void InterThreadCom::write_to_queue(string msg, QueueDirection direction) {
     mtx->unlock();
 }
 
-string InterThreadCom::read_from_queue(QueueDirection direction) {
+string InterThreadCom::read_from_queue(QUEUE_DIRECTION direction) {
     queue<string>* q = get_queue(direction);
     mutex* mtx = get_mutex(direction);
     string msg = "";

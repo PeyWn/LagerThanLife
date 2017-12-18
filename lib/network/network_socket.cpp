@@ -3,7 +3,6 @@
 #include <netdb.h>
 #include <unistd.h>
 #include "network_socket.h"
-#include <iostream>
 
 using namespace std;
 
@@ -13,7 +12,6 @@ bool NetworkSocket::socket_write(string msg) {
     }
     return true;
 }
-
 
 bool NetworkSocket::socket_read(string* msg) {
     char buffer[1024];
@@ -25,15 +23,12 @@ bool NetworkSocket::socket_read(string* msg) {
     if ((n == -1 && errno == EAGAIN)) {
 	    *msg = "";
         return true;
-
     } else if (n <= 0) { // n == 0 if socket has no connection
 	    *msg = "";
         return false;
-
     }
     return true;
 }
-
 
 void NetworkSocket::interpret_message(string msg_read) {
     string word;
@@ -44,7 +39,6 @@ void NetworkSocket::interpret_message(string msg_read) {
         thread_com->write_to_queue(word, FROM_SOCKET);
     }
 }
-
 
 bool NetworkSocket::write_read_interpret() {
     string msg_read;
@@ -57,7 +51,6 @@ bool NetworkSocket::write_read_interpret() {
             return false;
         }
     }
-
 
     if (!socket_read(&msg_read)) {
         return false;

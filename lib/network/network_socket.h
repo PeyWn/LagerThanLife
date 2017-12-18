@@ -4,7 +4,7 @@
 #ifndef NETWORK_SOCKET_H
 #define NETWORK_SOCKET_H
 
-#include "string"
+#include <string>
 #include "interthreadcom.h"
 
 class NetworkSocket {
@@ -15,7 +15,6 @@ class NetworkSocket {
 
         int sockfd;
         InterThreadCom* thread_com;
-
     public:
         /*
             Writes, reads and interprets a message.
@@ -49,10 +48,9 @@ class NetworkSocket {
             Split up a message using the delimiter and relay each word
             to the module
 
-            string msg_read - The message read that is to be splitted 
+            string msg_read - The message read that is to be splitted
             and relayed
         */
         void interpret_message(std::string msg_read);
 };
-
 #endif // NETWORK_SOCKET_H

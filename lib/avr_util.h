@@ -1,12 +1,6 @@
 #ifndef AVR_UTIL_H_
 #define AVR_UTIL_H_
 
-/*
-*
-*       DEFINES
-*
-*/
-
 #include <avr/io.h>
 
 //Define booleans for C

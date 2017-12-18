@@ -3,15 +3,14 @@
 
 #include <string>
 #include <stack>
-#include <iostream>
 #include <vector>
 
 #include "line.h"
 #include "line_node.h"
+
 using namespace std;
 
 class LineMap{
-
 public:
 	/*
 	Create a new LineMap based on the given string. Sets up all nodes and lines.
@@ -39,7 +38,6 @@ public:
 
 	/*
 	Get the max rectangular size the storage will take up in the physical world.
-
 	return - a pair of width and height that the storage will take up.
 	 		The width is max difference between two x-coordinates in the map.
 			The height is max difference between two y-coordinates in the map.

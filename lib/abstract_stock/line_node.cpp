@@ -1,10 +1,11 @@
 #include "line_node.h"
-#include <cmath>
 #include <stdexcept>
 #include <math.h>
 
 #include "line.h"
-LineNode::LineNode(double x_in, double y_in, int id_in) : x(x_in), y(y_in), id(id_in) {}
+
+LineNode::LineNode(double x_in, double y_in, int id_in) :
+    x(x_in), y(y_in), id(id_in) {}
 
 int LineNode::get_id(){
     return id;

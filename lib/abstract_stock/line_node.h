@@ -1,8 +1,6 @@
 #ifndef LINE_NODE_H
 #define LINE_NODE_H
 
-#include <string>
-#include <iostream>
 #include <vector>
 
 using namespace std;
