@@ -132,17 +132,17 @@ void Central::pick_up(){
 
         case(PickUpState::ON_LINE):{
         	#ifdef DEBUG
-          cout << "Pick up state: ON_LINE" << endl;
-          #endif
-          if(line_state == NONE_DOUBLE){
-        	    cur_pick_up_state = PickUpState::TURN;
-          }
-          break;}
+            cout << "Pick up state: ON_LINE" << endl;
+            #endif
+            if(line_state == NONE_DOUBLE){
+                cur_pick_up_state = PickUpState::TURN;
+            }
+            break;}
 
         case(PickUpState::TURN):{
             #ifdef DEBUG
             cout << "Pick up state: TURN" << endl;
-                #endif
+            #endif
             if( (line_state != NONE_DOUBLE) && (abs(line_center) < CORNER_LINE_THRESHOLD) ){
         	motor.turn(NONE, 0);
 

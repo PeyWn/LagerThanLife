@@ -13,8 +13,8 @@
 #include <stack>
 #include <time.h>
 
-/* Define to use debug prints */
-#define DEBUG
+/* Define DEBUG to use debug print statements */
+// #define DEBUG
 
 using namespace std;
 
