@@ -1,2 +1,2 @@
 # LagerThanLife
-TSEA29-RoboticsProjekt
+Automated storehouse robot
