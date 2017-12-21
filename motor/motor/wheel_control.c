@@ -177,7 +177,3 @@ void set_turn_speed(int turn_value)
     set_wheel_speeds(turn_value, trav_status);
     turn_status = turn_value;
 }
-
-void update_wheel_control(){
-
-}

@@ -1,10 +1,4 @@
-﻿/*
- * receive.h
- *
- * Created: 11/10/2017 9:42:40 AM
- *  Author: jesjo430
- */ 
-#ifndef RECEIVE_H_
+﻿#ifndef RECEIVE_H_
 #define RECEIVE_H_
 
 /* status packet */

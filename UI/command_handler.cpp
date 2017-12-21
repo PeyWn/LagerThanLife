@@ -68,6 +68,7 @@ bool CommandHandler::try_command(string line){
                       n >= state_handler->map->get_node_c() ||
                       n < 0 ||
                       !state_handler->map->get_node(n)->is_leaf() ||
+                      state_handler->home_id == 0 ||
                       n == state_handler->home_id )
             ){
                 return false;

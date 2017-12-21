@@ -1,9 +1,8 @@
 #ifndef LINE_H
 #define LINE_H
 
-#include <string>
-#include <iostream>
 #include "line_node.h"
+
 using namespace std;
 
 class Line{

@@ -1,9 +1,5 @@
-/*
- * init_arm.h
- *
- * Created: 2017-11-04 17:23:08
- *  Author: Jesper
- */ 
+#ifndef INIT_ARM_H
+#define INIT_ARM_H
 
 /* Initializes input and output of avr, sets direction of IO ports. */ 
 void init_IO();
@@ -19,3 +15,5 @@ void set_status_return_level(void);
 
 /* Sets control table for return delay time to 10us (2*transmission) for all servos */ 
 void set_return_delay_time(void);
+
+#endif /* INIT_ARM_H */

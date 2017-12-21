@@ -3,7 +3,6 @@
 #include "wheel_control.h"
 #include "commands.h"
 
-
 /*
 Define interrupt vector for UART data received.
 */
@@ -63,11 +62,6 @@ ISR(USART0_RX_vect){
 				UDR0 = data_write; 
 				
 			}
-
-			else if (parameter == 0b1111){
-				//ask for armstatus
-				//TODO: implement
-			}
 			
 			break; 
 		
@@ -104,12 +98,6 @@ ISR(USART0_RX_vect){
 			}
 			
 			break;
-		
-		case 0b1100  :
-			//Set motor speed for arm
-			//TODO implement
-
-			break; 
 		
 		case 0b1101  :
 			// control claw

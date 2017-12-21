@@ -21,10 +21,10 @@ public:
     string drivespeed;          //stores drivespeed
     string turnspeed;           //stores turnspeed
     string curr_pos;            //stores the current positino (between which two nodes the robot is at)
-    string route;               //stores the last calculated route for the robot to go
+    string route = "0";         //stores the last calculated route for the robot to go
     string getting_id;          //the last ware that the robot went to get
     LineMap* map;               //stores the map as a LineMap object
-    int home_id;                //stores the home id
+    int home_id = 0;            //stores the home id
 
     /*
      * Function that stores the value we recieve in it's correct variable.

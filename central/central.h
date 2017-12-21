@@ -28,12 +28,13 @@ private:
     enum class PickUpState{
 	FIND_WARE,
 	PICK_UP,
-	REVERSE,
+	START_TURN,
 	ON_LINE,
 	TURN
     };
 
     enum class DropOffState{
+	START,
 	PUT_DOWN,
 	TURN_CORNER,
 	TURN_NONE
@@ -68,7 +69,7 @@ private:
     PickUpState cur_pick_up_state = PickUpState::FIND_WARE;
     int t_revese = 0;
 
-    DropOffState cur_drop_off_state = DropOffState::PUT_DOWN;
+    DropOffState cur_drop_off_state = DropOffState::START;
 
     /* Enum for determining the robots state in autonoumus mode */
     enum class RobotState{
@@ -196,13 +197,10 @@ private:
     */
     void drop_off();
 
-    /*
-    Sleep function utilizing clock()
-
-    mseconds: is the time in milliseconds that the functionf will sleep
-    */
-    void C_sleep(unsigned int mseconds);
-
+    clock_t clock_set;
+    clock_t clock_diff;
+    double delay_time = 8;
+    
     /*
     Send sensor information to UI
     */

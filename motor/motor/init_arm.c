@@ -1,11 +1,4 @@
-﻿/*/*
- * init_arm.c
- *
- * Created: 11/3/2017 11:54:22 AM
- *  Author: jesjo430
- */ 
-
-#include <avr/io.h>
+﻿#include <avr/io.h>
 #include "init_arm.h"
 #include "globals.h"
 #include "transmission.h"

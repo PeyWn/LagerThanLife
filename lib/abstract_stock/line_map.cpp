@@ -1,7 +1,5 @@
 #include <stdexcept>
 #include <sstream>
-#include <iostream>
-#include <functional>
 #include <set>
 
 #include "line_map.h"
@@ -22,8 +20,8 @@ LineMap::LineMap(string desc){
     ss >> node_c;
     ss >> line_c;
 
-    double x_in, y_in;
     //Read nodes
+    double x_in, y_in;
     for(int i = 0; i < node_c; ++i){
         ss >> x_in;
         ss >> y_in;
@@ -64,8 +62,8 @@ pair<double, double> LineMap::max_size(){
     //Empty graph or 1 node
     if(node_c < 2){
         return make_pair(0,0);
-
     }
+
     LineNode* node_one = nodes.at(0);
 
     double min_x = node_one->x;
@@ -101,13 +99,13 @@ int LineMap::get_line_c(){
 string LineMap::make_string(){
     stringstream ss;
 
-    //Add nde and line count
+    //Add node and line count
     ss << get_node_c() << " ";
     ss << get_line_c() << " ";
 
     //Add nodes
     for(LineNode* node : nodes){
-        ss << node-> x << " " << node->y << " ";
+        ss << node->x << " " << node->y << " ";
     }
 
     //Add edges
