@@ -33,8 +33,8 @@ private:
 
     /* idea is for 1 to be max correction of 7 in turn setting */
     const double    K_P = 1,
-	            K_I = 0 * (SAMPLE_TIME/50), // scales by time
-	            K_D = 0 / (SAMPLE_TIME*50); // scales by time
+	                K_I = 0 * (SAMPLE_TIME/50), // scales by time
+	                K_D = 0 / (SAMPLE_TIME*50); // scales by time
 
     /*-----FUNCTIONS----------------------------------------------------------------------------*/
 
