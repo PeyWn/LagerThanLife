@@ -26,15 +26,15 @@ private:
     clock_t last_sample_time;   // time since last sampling
 
     /*-----CONSTANTS----------------------------------------------------------------------------*/
-    const float  SAMPLE_TIME = 50;          // time [ms] between samplings
+    const float  SAMPLE_TIME = 50;          // time [ms] between samplings (can't be zero)
     const float  MAX_TURN    = 7;           // maximum turn-speed possible in motor-unit
     const float  MAX_I_ERROR = MAX_TURN;    // integral anti-windup constant
     const float  SENSOR_MAX  = 127;
 
-    /* idea is for 1 to be max correction of 7 in turn setting */
+    /* parameters for tuning with ziegler nichols */
     const double    K_P = 1,
-	            K_I = 0 * (SAMPLE_TIME/50), // scales by time
-	            K_D = 0 / (SAMPLE_TIME*50); // scales by time
+	                K_I = 0,   // K_I = 1/T_I [1/s]
+	                T_D = 0;   // T_D [s]
 
     /*-----FUNCTIONS----------------------------------------------------------------------------*/
 
