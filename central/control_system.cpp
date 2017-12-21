@@ -22,7 +22,9 @@ bool ControlSystem::is_sampling_time(){
 
 int ControlSystem::turn_value(){
     /* round off to closest integer */
-    int turn_value = round(-(K_P*p_error + K_I*i_error + K_D*d_error));
+    int turn_value = round( - (K_P*p_error
+                            + (K_I/(SAMPLE_TIME/1000))*i_error
+                            + (T_D/(SAMPLE_TIME/1000))*d_error));
 
     turn_value = (int)saturate(turn_value, MAX_TURN);
 
@@ -49,7 +51,8 @@ void ControlSystem::sample_line_position(float line_center){
 }
 
 void ControlSystem::set_turn_speed(int turn_speed){
-	int dir = normalize(turn_speed);
+	int dir = normalize(turn_speed);if(K_I)
+    double T_I = 1/K_I
 	int spd = fabs(turn_speed);
 	TURN_STATUS turn = NONE;
 
