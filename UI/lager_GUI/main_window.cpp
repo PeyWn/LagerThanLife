@@ -20,7 +20,6 @@ MainWindow::MainWindow(CommandHandler* handler, StateHandler* state, ClientSocke
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(100);
-
 }
 
 MainWindow::~MainWindow()
@@ -29,7 +28,6 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::update(){
-
     /* update GUI */
     ui->line_sensor_state->setText(QString::fromStdString(state_handler->line_sensor_state));
     ui->line_sensor_value->setText(QString::fromStdString(state_handler->line_sensor_value));
@@ -90,12 +88,6 @@ void MainWindow::update(){
     }
 }
 
-/*
-    Adds a new line and the string msg to string terminal_history and then writes
-    terminal_history to the terminal window widget
-
-    string msg - the text that will be written to the terminal window widget
-*/
 void MainWindow::write_to_terminal_window(string msg){
     string tmp = terminal_history.QString::toStdString() + "\n" + msg;
     terminal_history = QString::fromStdString(tmp);
@@ -157,7 +149,6 @@ void MainWindow::on_right_button_released()
     cmd_handler->try_command("noturn");
 }
 
-
 void MainWindow::on_pick_up_button_clicked()
 {
     cmd_handler->try_command("pickup");
@@ -197,8 +188,6 @@ void MainWindow::on_terminal_prompt_returnPressed()
         string error_msg = COMMAND_ERROR + command;
         write_to_terminal_window(error_msg);
     }
-
-
 }
 
 void MainWindow::on_update_sensors_button_clicked()
@@ -286,7 +275,6 @@ void MainWindow::on_set_home_button_clicked()
     else {
         write_to_terminal_window(("Home set to " + home_id + "!"));
     }
-
 }
 
 void MainWindow::on_arm_2_back_button_pressed()

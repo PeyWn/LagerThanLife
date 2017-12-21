@@ -22,7 +22,6 @@ public:
     explicit MainWindow(CommandHandler* handler, StateHandler *state, ClientSocket* com_module, InterThreadCom* thread_com, QWidget *parent = 0);
     ~MainWindow();
 
-
 private slots:
 
     /*
