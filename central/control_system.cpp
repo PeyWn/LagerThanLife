@@ -51,8 +51,7 @@ void ControlSystem::sample_line_position(float line_center){
 }
 
 void ControlSystem::set_turn_speed(int turn_speed){
-	int dir = normalize(turn_speed);if(K_I)
-    double T_I = 1/K_I
+	int dir = normalize(turn_speed);
 	int spd = fabs(turn_speed);
 	TURN_STATUS turn = NONE;
 
