@@ -13,7 +13,6 @@ queue<string>* InterThreadCom::get_queue(QueueDirection qd){
     }
 }
 
-
 mutex* InterThreadCom::get_mutex(QueueDirection qd) {
     if(qd == TO_SOCKET) {
         return &mtx_to_socket;
@@ -21,7 +20,6 @@ mutex* InterThreadCom::get_mutex(QueueDirection qd) {
         return &mtx_from_socket;
     }
 }
-
 
 void InterThreadCom::write_to_queue(string msg, QueueDirection direction) {
     queue<string>* q = get_queue(direction);

@@ -2,6 +2,11 @@
 #include <string>
 #include "../lib/network/interthreadcom.h"
 #include "text_file_handler.h"
+#include "lager_GUI/state_handler.h"
+#include "../lib/abstract_stock/line_map.h"
+#include "../lib/abstract_stock/line_node.h"
+#include "../lib/abstract_stock/line.h"
+#include "client_socket.h"
 
 using namespace std;
 
@@ -11,10 +16,12 @@ private:
 
     InterThreadCom* robot_com; //Module to use to send messages to robot
     TextFileHandler text_file_handler;
+    StateHandler* state_handler;
+    ClientSocket* com_socket;
 
-    /*
-    First is name of command; second (booleans) is if command
-    requires parameters after the command itself.
+    /* CMDS TO SEND
+    First is name of command (string);
+    Second is if command requires parameters after the command itself (boolean)
     */
     const map<string, bool> acc_cmd = {
         {"fwd", false},
@@ -62,13 +69,18 @@ private:
     msg - the string to be sent
     */
     void send_msg(string msg);
+
+    /*
+    Read a message from the robot using robot_com
+    */
+    string read_msg();
 public:
     /*
     Construct a CommandHandler Objext
 
     com - pointer to InterThreadCom module to use to send messages to robot
     */
-    CommandHandler(InterThreadCom* com);
+    CommandHandler(InterThreadCom* com, StateHandler* state, ClientSocket* socket);
 
     /*
     try to execute given string as a command. Return if it worked

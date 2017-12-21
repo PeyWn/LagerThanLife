@@ -11,8 +11,6 @@ using namespace std;
 
 ClientSocket::ClientSocket(InterThreadCom* inter_thread_com) {
     thread_com = inter_thread_com;
-
-    connected = new_connection();
 }
 
 bool ClientSocket::new_connection() {
@@ -37,10 +35,12 @@ bool ClientSocket::new_connection() {
     bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(PORT);
 
+
     if (connect(sockfd_init,(struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
         close(sockfd_init);
         return false;
     }
+
 
     // Signal SIGPIPE will be ignored and handled manually
 	signal(SIGPIPE, SIG_IGN);
@@ -56,21 +56,29 @@ bool ClientSocket::new_connection() {
 }
 
 void ClientSocket::main_loop() {
-    while(true) {
+    while(!stop) {
 
         if (connected) {
             if(!write_read_interpret()) {
                 connected = false;
             }
         } else {
-            thread_com->write_to_queue(disconnect_msg, FROM_SOCKET);
-            while(!new_connection()) {
-            }
-            thread_com->write_to_queue(connected_msg, FROM_SOCKET);
+            connected = new_connection();
         }
+
     }
+    close(sockfd);
 }
+
+
+void ClientSocket::set_stop() {
+    stop = true;
+}
+
 
 bool ClientSocket::is_connected() {
     return connected;
 }
+
+
+

@@ -7,6 +7,7 @@ TextFileHandler::TextFileHandler(string map_folder_path):
 
 string TextFileHandler::read_text_file(string filename){
 
+
     string str;
     string strTotal = " ";
     string myfile = (map_folder + filename);

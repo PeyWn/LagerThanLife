@@ -2,9 +2,13 @@
 #include <iostream>
 #include <string>
 #include "command_handler.h"
+#include <unistd.h>
 
-CommandHandler::CommandHandler(InterThreadCom* com) : text_file_handler(map_path) {
+
+CommandHandler::CommandHandler(InterThreadCom* com, StateHandler* state, ClientSocket* socket) : text_file_handler("") {
     robot_com = com;
+    state_handler = state;
+    com_socket = socket;
 }
 
 /*
@@ -17,6 +21,9 @@ bool CommandHandler::try_command(string line){
 
     //Load first word into cmd
     ss >> cmd;
+
+    //saves the command-part to later see if the command get answers back from robot
+    string ask_cmd = cmd;
 
     auto cmd_info = acc_cmd.find(cmd);
 
@@ -42,33 +49,93 @@ bool CommandHandler::try_command(string line){
                 return false;
             }
 
-            cmd.append(" ");
-            cmd.append(to_string(n));
-        }
-        //TODO implement rest of commands with parameters
-
-        if ( cmd == "lager"){
-            //TODO implement read from textfile
-            string n;
-            ss >> n;
-            string filename;
-            string lager;
-
-            if(ss.fail()){
-                //Coukd not read a string
+            if ((cmd == "turnspeed" || cmd == "drivespeed") && (n < 1 || n > 7)) {
                 return false;
             }
 
-            lager = text_file_handler.read_text_file(n);
+            if ((cmd == "sethome") &&
+                    ( state_handler->map == nullptr ||
+                      n >= state_handler->map->get_node_c() ||
+                      n < 0 ||
+                      !state_handler->map->get_node(n)->is_leaf()
+                      )
+            ){
+                return false;
+            }
+
+            if ((cmd == "get") &&
+                    ( state_handler->map == nullptr ||
+                      n >= state_handler->map->get_node_c() ||
+                      n < 0 ||
+                      !state_handler->map->get_node(n)->is_leaf() ||
+                      n == state_handler->home_id )
+            ){
+                return false;
+            }
+
+            cmd.append(" ");
+            cmd.append(to_string(n));
+
+            state_handler->interpret_message(ask_cmd, to_string(n));
+        }
+
+        if ( cmd == "lager"){
+            string filename;
+            ss >> filename;
+            //string filename;
+            string lager;
+
+            if(ss.fail()){
+                //Could not read a string
+                return false;
+            }
+
+            lager = text_file_handler.read_text_file(filename);
+
+            if (!state_handler->try_lager(lager)){
+                return false;
+            }
+
             cmd.append(lager);
 
+            state_handler->interpret_message("lager", lager);
         }
     }
 
     //send command to robot
     send_msg(cmd);
-    return true;
+
+    //if there is a command where we expect to get an answer, read it and send to state_handler
+    if(  //cmd == updateall ????? tar emot 3 meddelanden
+        ask_cmd == "getsensors" ||
+        ask_cmd == "getpos" ||
+        ask_cmd == "getroute"
+    ){
+
+        string param = read_msg();
+
+        if(param != ""){
+            state_handler->interpret_message(ask_cmd, param);
+        }
+    }
+
+        return true;
 }
+
+/*
+Read the last message recieved to the network module for communication to the robot
+*/
+string CommandHandler::read_msg(){
+
+    string answer = "";
+
+    while(answer == "" && com_socket->is_connected()){
+        answer = robot_com->read_from_queue(FROM_SOCKET);
+    }
+
+    return answer;
+}
+
 
 /*
 Send the given string to the network module for communication to the robot

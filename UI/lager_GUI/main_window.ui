@@ -1,0 +1,1387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1400</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>10</y>
+      <width>661</width>
+      <height>411</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab_1">
+     <attribute name="title">
+      <string>Automatic control</string>
+     </attribute>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>110</y>
+        <width>231</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+      </property>
+      <property name="text">
+       <string>Tell Robot to go get the ware at id:</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="get_id_spin_box">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>120</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="go_get_ware_button">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>110</y>
+        <width>71</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(102, 255, 102);</string>
+      </property>
+      <property name="text">
+       <string>GO!</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_12">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>70</y>
+        <width>81</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+      </property>
+      <property name="text">
+       <string>Set home:</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="set_home_box">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>80</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="maximum">
+       <number>999</number>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="set_home_button">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>70</y>
+        <width>81</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(102, 255, 102);</string>
+      </property>
+      <property name="text">
+       <string>SET!</string>
+      </property>
+     </widget>
+     <widget class="QGraphicsView" name="graphicsView_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>421</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(204, 255, 102);</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_15">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>311</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>Remember to read a lager file before using these:</string>
+      </property>
+     </widget>
+     <zorder>graphicsView_2</zorder>
+     <zorder>label_5</zorder>
+     <zorder>get_id_spin_box</zorder>
+     <zorder>go_get_ware_button</zorder>
+     <zorder>label_12</zorder>
+     <zorder>set_home_box</zorder>
+     <zorder>set_home_button</zorder>
+     <zorder>label_15</zorder>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>Manual Control</string>
+     </attribute>
+     <widget class="QPushButton" name="right_button">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>60</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>26</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(102, 204, 255);</string>
+      </property>
+      <property name="text">
+       <string>➡︎</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="fwd_button">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>10</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>26</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(102, 204, 255);</string>
+      </property>
+      <property name="text">
+       <string>⬆︎</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>131</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>21</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(102, 204, 255);</string>
+      </property>
+      <property name="text">
+       <string>ROBOT:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>100</y>
+        <width>121</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>21</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(88, 254, 165);</string>
+      </property>
+      <property name="text">
+       <string>CLAW:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="open_claw_button">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>100</y>
+        <width>81</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>26</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(88, 254, 165);</string>
+      </property>
+      <property name="text">
+       <string>⬅︎➡︎</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="close_claw_button">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>100</y>
+        <width>81</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>26</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(88, 254, 165);</string>
+      </property>
+      <property name="text">
+       <string>➡︎⬅︎</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pick_up_button">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>160</y>
+        <width>91</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(102, 204, 255);</string>
+      </property>
+      <property name="text">
+       <string>PICK UP</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="put_down_button">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>160</y>
+        <width>91</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(102, 204, 255);</string>
+      </property>
+      <property name="text">
+       <string>PUT DOWN</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>220</y>
+        <width>211</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>21</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(253, 102, 102);</string>
+      </property>
+      <property name="text">
+       <string>ROBOT ARM:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="left_button">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>60</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>26</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(102, 204, 255);</string>
+      </property>
+      <property name="text">
+       <string>⬅︎</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="back_button">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>110</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>26</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(102, 204, 255);</string>
+      </property>
+      <property name="text">
+       <string>⬇︎</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="arm_2_back_button">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>180</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>26</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(253, 102, 102);</string>
+      </property>
+      <property name="text">
+       <string>⬆︎</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="arm_2_fwd_button">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>240</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>26</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(253, 102, 102);</string>
+      </property>
+      <property name="text">
+       <string>⬇︎</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="arm_1_back_button">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>300</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>26</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(253, 102, 102);</string>
+      </property>
+      <property name="text">
+       <string>⬅︎</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="arm_3_back_button">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>270</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>26</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(253, 102, 102);</string>
+      </property>
+      <property name="text">
+       <string>➡︎</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="arm_1_fwd_button">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>300</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>26</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(253, 102, 102);</string>
+      </property>
+      <property name="text">
+       <string>➡︎</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="arm_3_fwd_button">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>270</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>26</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(253, 102, 102);</string>
+      </property>
+      <property name="text">
+       <string>⬅︎</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="arm_cw_button">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>290</y>
+        <width>51</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(253, 102, 102);</string>
+      </property>
+      <property name="text">
+       <string>CW</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="arm_ccw_button">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>290</y>
+        <width>51</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(253, 102, 102);</string>
+      </property>
+      <property name="text">
+       <string>CCW</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_9">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>265</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(253, 102, 102);</string>
+      </property>
+      <property name="text">
+       <string>Rotate:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="arm_home_button">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>290</y>
+        <width>81</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(253, 102, 102);</string>
+      </property>
+      <property name="text">
+       <string>GO HOME</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="set_drive_turn_speed">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>30</y>
+        <width>51</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(254, 204, 102);</string>
+      </property>
+      <property name="text">
+       <string>SET</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="turn_speed_value">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>40</y>
+        <width>48</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>7</number>
+      </property>
+      <property name="value">
+       <number>5</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>40</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 102);</string>
+      </property>
+      <property name="text">
+       <string>Set turn speed:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>20</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 102);</string>
+      </property>
+      <property name="text">
+       <string>Set drive speed:</string>
+      </property>
+     </widget>
+     <widget class="QGraphicsView" name="graphicsView">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>10</y>
+        <width>241</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 102);</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="drive_speed_value">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>20</y>
+        <width>48</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>7</number>
+      </property>
+      <property name="value">
+       <number>7</number>
+      </property>
+     </widget>
+     <widget class="QGraphicsView" name="graphicsView_3">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>180</y>
+        <width>351</width>
+        <height>221</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-image: url(:/imgs/arm.png);</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
+     </widget>
+     <zorder>graphicsView_3</zorder>
+     <zorder>graphicsView</zorder>
+     <zorder>right_button</zorder>
+     <zorder>fwd_button</zorder>
+     <zorder>label</zorder>
+     <zorder>label_2</zorder>
+     <zorder>open_claw_button</zorder>
+     <zorder>close_claw_button</zorder>
+     <zorder>pick_up_button</zorder>
+     <zorder>put_down_button</zorder>
+     <zorder>label_3</zorder>
+     <zorder>left_button</zorder>
+     <zorder>back_button</zorder>
+     <zorder>arm_2_back_button</zorder>
+     <zorder>arm_2_fwd_button</zorder>
+     <zorder>arm_1_back_button</zorder>
+     <zorder>arm_3_back_button</zorder>
+     <zorder>arm_1_fwd_button</zorder>
+     <zorder>arm_3_fwd_button</zorder>
+     <zorder>arm_cw_button</zorder>
+     <zorder>arm_ccw_button</zorder>
+     <zorder>label_9</zorder>
+     <zorder>arm_home_button</zorder>
+     <zorder>set_drive_turn_speed</zorder>
+     <zorder>turn_speed_value</zorder>
+     <zorder>label_11</zorder>
+     <zorder>label_10</zorder>
+     <zorder>drive_speed_value</zorder>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="emergency_stop_button">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>670</y>
+      <width>681</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>19</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(252, 68, 68);
+selection-background-color: rgb(253, 117, 207);</string>
+    </property>
+    <property name="text">
+     <string>EMERGENCY STOP</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="terminal_prompt">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>680</y>
+      <width>361</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ware_sensor_one_label">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>430</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Ware sensor 1: </string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ware_one_value">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>430</y>
+      <width>161</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ware_sensor_two_label">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>460</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Ware sensor 2: </string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ware_two_value">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>460</y>
+      <width>161</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="line_sensor_state_label">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>490</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Line sensor state: </string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="line_sensor_state">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>490</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="line_sensor_value_label">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>520</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Line sensor value: </string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="line_sensor_value">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>520</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="update_sensors_button">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>550</y>
+      <width>141</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(204, 204, 204);</string>
+    </property>
+    <property name="text">
+     <string>Update all sensors</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>590</y>
+      <width>241</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="read_lager_file_button">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>610</y>
+      <width>141</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(204, 204, 204);</string>
+    </property>
+    <property name="text">
+     <string>Browse lager file</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line_2">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>730</y>
+      <width>241</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>80</y>
+      <width>331</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>26</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(253, 102, 255);</string>
+    </property>
+    <property name="text">
+     <string>Current Lager : </string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="terminal_window">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>430</y>
+      <width>361</width>
+      <height>241</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOn</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Connected:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="is_connected_label">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>20</y>
+      <width>60</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_14">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>690</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Current ware: </string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="getting_id_label">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>710</y>
+      <width>60</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Liberation Sans</family>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>none</string>
+    </property>
+   </widget>
+   <widget class="QScrollArea" name="scroll_area">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>150</y>
+      <width>691</width>
+      <height>491</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>689</width>
+       <height>489</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>650</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Current lager: </string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="current_lager_label">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>670</y>
+      <width>251</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cal_ware_sensors">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>10</y>
+      <width>201</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(204, 204, 204);</string>
+    </property>
+    <property name="text">
+     <string>Calibrate ware sensors</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cal_line_sensors_line">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>50</y>
+      <width>201</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(204, 204, 204);</string>
+    </property>
+    <property name="text">
+     <string>Calibrate line sensors (line)</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cal_line_sensors_floor">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>90</y>
+      <width>201</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(204, 204, 204);</string>
+    </property>
+    <property name="text">
+     <string>Calibrate line sensors (floor)</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1400</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <action name="actionExit_progam">
+   <property name="text">
+    <string>Exit progam</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

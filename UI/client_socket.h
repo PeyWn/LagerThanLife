@@ -24,12 +24,19 @@ public:
     /*
         Main loop for server_socket. Read, writes and interpret
         messages using function write_read_interpret. Sets
-        variable connected to false if this fails.
+        variable connected to false if this fails. Main loop will
+        stop running if bool stop is has been set.
     */
     void main_loop();
+
+    /*
+     * Setter for bool stop
+     */
+    void set_stop();
     
 private:
-    bool connected;
+    bool connected = false;
+    bool stop = false;
 
     const string disconnect_msg = "Disconnected!";
     const string connected_msg = "Connected!";
@@ -40,6 +47,8 @@ private:
         Returns true if success, else false
     */
     bool new_connection();
+
+
 };
 
 #endif // CLIENT_SOCKETS_H

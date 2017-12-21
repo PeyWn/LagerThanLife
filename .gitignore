@@ -26,3 +26,38 @@
 
 #mac directory files
 *.DS_Store
+
+
+# ------ Qt project files -------
+
+# user settings
+*.pro.user
+*.pro.user*
+
+# Generated MOC, resource and UI files
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+
+# Debug and Release directories (created under Windows, not Linux)
+Debug/
+Release/
+
+# .log files (usually created by QtTest)
+*.log
+
+# Built windows .exe and linux binaries
+*.exe
+*.dll
+lager_GUI.app*
+build-lager_GUI*
+
+# Windows-specific files
+Thumbs.db
+desktop.ini
+# Mac-specific things
+.DS_Store
+
+# Editors temporary files
+*~
+*.autosave
