@@ -3,7 +3,6 @@
 #include <iostream>
 #include <signal.h>
 #include "main_window.h"
-//#include "../command_handler.h"
 
 InterThreadCom* thread_com;
 ClientSocket* com_module;
@@ -11,7 +10,6 @@ StateHandler state_handler;
 
 int main(int argc, char *argv[])
 {
-    cout << "Trying to connect to robot..." << endl;
     thread_com = new InterThreadCom();
 
     // Create a new thread to handle communication
@@ -30,7 +28,6 @@ int main(int argc, char *argv[])
     com_module->set_stop();
     com_child.join();
 
-    cout << "Exiting" << endl;
     return exit_value;
 
 }
