@@ -118,7 +118,7 @@ bool CommandHandler::try_command(string line){
         if(param != ""){
             state_handler->interpret_message(ask_cmd, param);
         }
-    }
+x    }
 
         return true;
 }

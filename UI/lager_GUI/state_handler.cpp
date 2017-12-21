@@ -8,8 +8,6 @@ StateHandler::StateHandler(){}
 
 void StateHandler::interpret_message(string cmd, string param){
 
-    //TODO: implement so that when one of these variables change, it updates the value shown in main_window
-
     if (cmd == "drivespeed" ) {
         drivespeed = stoi(param);
     }
