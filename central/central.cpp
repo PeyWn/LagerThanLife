@@ -26,7 +26,7 @@ void Central::update_sensors(){
       line_state = sensor.get_line_state();
       line_center = sensor.get_line_center();
 
-	    ware_seen = sensor.get_ware_seen();
+	  ware_seen = sensor.get_ware_seen();
 }
 
 void Central::get_pos(){
